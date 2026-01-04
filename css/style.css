@@ -1,0 +1,90 @@
+body {
+  font-family: system-ui, sans-serif;
+  background: #fafafa;
+  margin: 0;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.page-wrapper {
+  flex: 1;
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.ad-sidebar {
+  width: 160px;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ad-banner-vertical {
+  width: 160px;
+  min-height: 600px;
+  position: sticky;
+  top: 2rem;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 1rem;
+  min-width: 0;
+}
+
+.app-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.app-card {
+  text-decoration: none;
+  color: #333;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.1s ease-in;
+}
+.app-card:hover {
+  transform: translateY(-3px);
+}
+.app-card.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Hide sidebars on mobile */
+@media (max-width: 1200px) {
+  .ad-sidebar {
+    display: none;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  background: #fff;
+  border-top: 1px solid #eee;
+}
