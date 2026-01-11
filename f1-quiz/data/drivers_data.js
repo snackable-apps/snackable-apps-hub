@@ -106,7 +106,7 @@ const DRIVERS_DATA = [
     "wins": 10,
     "podiums": 67,
     "careerPoints": 1797.0,
-    "currentTeam": "Retired",
+    "currentTeam": "Without Seat",
     "teamsHistory": [
       "Sauber",
       "Mercedes",
@@ -167,7 +167,7 @@ const DRIVERS_DATA = [
     "wins": 6,
     "podiums": 39,
     "careerPoints": 1638.0,
-    "currentTeam": "Retired",
+    "currentTeam": "Without Seat",
     "teamsHistory": [
       "Red Bull",
       "Racing Point",
@@ -188,7 +188,7 @@ const DRIVERS_DATA = [
     "wins": 8,
     "podiums": 32,
     "careerPoints": 1329.0,
-    "currentTeam": "Retired",
+    "currentTeam": "Without Seat",
     "teamsHistory": [
       "Racing Bulls",
       "McLaren",
