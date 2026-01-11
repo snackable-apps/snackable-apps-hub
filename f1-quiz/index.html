@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F1 Quiz: Guess the Driver | Snackable Apps</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏎️</text></svg>">
+  <link rel="stylesheet" href="css/f1quiz.css" />
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DC68HTMMT2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DC68HTMMT2');
+  </script>
+
+</head>
+<body>
+  <header>
+    <h1>🏎️ F1 Quiz: Guess the Driver</h1>
+    <p>Guess the F1 driver using logical clues!</p>
+    <a href="https://snackable-apps.github.io/snackable-apps-hub/">← Back to menu</a>
+  </header>
+
+  <main>
+    <!-- Header Ad (Desktop Only) -->
+    <div class="ad-container ad-header" id="ad-header">
+      <div class="ad-placeholder">
+        <span>Advertisement</span>
+      </div>
+    </div>
+
+    <!-- Difficulty Selection -->
+    <div class="difficulty-section" id="difficulty-section" style="display: none;">
+      <h3>Select Difficulty</h3>
+      <div class="difficulty-buttons">
+        <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+        <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+        <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+      </div>
+    </div>
+
+    <!-- Game Info -->
+    <div class="game-info" id="game-info" style="display: none;">
+      <p>Each day, a secret driver is selected. Make guesses and use the clues to find them!</p>
+      <div class="game-stats">
+        <span>Difficulty: <strong id="current-difficulty">Easy</strong></span>
+        <span>Guesses: <strong id="guess-count">0</strong></span>
+        <span id="game-status"></span>
+      </div>
+      <div class="data-update-info">
+        <small>Data updated: <span id="data-update-date"></span></small>
+      </div>
+    </div>
+
+    <!-- Guess Input -->
+    <div class="guess-section" id="guess-section">
+      <label for="driver-input">Make a guess:</label>
+      <div class="autocomplete-wrapper">
+        <input type="text" id="driver-input" placeholder="Type a driver name..." autocomplete="off" />
+        <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
+      </div>
+      <div class="button-group">
+        <button id="submit-guess" class="submit-btn">Submit Guess</button>
+        <button id="give-up-btn" class="submit-btn secondary">Give Up</button>
+      </div>
+    </div>
+
+    <!-- Share Results -->
+    <div class="share-section" id="share-section" style="display: none;">
+      <button id="share-results-btn" class="submit-btn">Share Results</button>
+    </div>
+
+    <!-- Guesses History -->
+    <div class="guesses-container" id="guesses-container">
+      <!-- Guesses will be displayed here -->
+    </div>
+
+    <!-- In-Content Ad -->
+    <div class="ad-container ad-in-content" id="ad-in-content">
+      <div class="ad-placeholder">
+        <span>Advertisement</span>
+      </div>
+    </div>
+
+    <!-- How to Play -->
+    <div class="how-to-play">
+      <h3>How to Play</h3>
+      <ul>
+        <li><strong>✅ Match:</strong> The attribute matches the secret driver</li>
+        <li><strong>🔼 Higher:</strong> The secret driver has a higher value</li>
+        <li><strong>🔽 Lower:</strong> The secret driver has a lower value</li>
+        <li><strong>❌ Different:</strong> The attribute doesn't match</li>
+      </ul>
+    </div>
+  </main>
+
+  <script src="data/drivers_data.js"></script>
+  <script src="js/f1quiz.js"></script>
+</body>
+</html>
+

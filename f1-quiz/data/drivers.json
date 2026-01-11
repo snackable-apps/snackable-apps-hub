@@ -1,0 +1,1055 @@
+{
+  "metadata": {
+    "source": "API-Sports F1 API + Manual additions",
+    "fetched_date": "2026-01-10",
+    "method": "hybrid",
+    "notes": "Updated to end of 2025 season. Modern era from API, legendary drivers (pre-2010) added manually."
+  },
+  "drivers": [
+    {
+      "id": 1,
+      "name": "Nico Rosberg",
+      "abbr": "ROS",
+      "nationality": "German",
+      "country_code": "DE",
+      "birthdate": "1985-06-27",
+      "world_championships": 1,
+      "wins": 23,
+      "podiums": 57,
+      "career_points": "1594.5",
+      "current_team": "Retired",
+      "teams_history": [
+        "Mercedes",
+        "Williams"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 2,
+      "name": "Kevin Magnussen",
+      "abbr": "MAG",
+      "nationality": "Danish",
+      "country_code": "DK",
+      "birthdate": "1992-10-05",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 1,
+      "career_points": "189",
+      "current_team": "Retired",
+      "teams_history": [
+        "Haas",
+        "Renault",
+        "McLaren"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 3,
+      "name": "Jenson Button",
+      "abbr": "BUT",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1980-01-19",
+      "world_championships": 1,
+      "wins": 15,
+      "podiums": 50,
+      "career_points": "1235",
+      "current_team": "Retired",
+      "teams_history": [
+        "McLaren",
+        "Brawn",
+        "Honda",
+        "BAR",
+        "Williams",
+        "Benetton"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 4,
+      "name": "Fernando Alonso",
+      "abbr": "ALO",
+      "nationality": "Spanish",
+      "country_code": "ES",
+      "birthdate": "1981-07-29",
+      "world_championships": 2,
+      "wins": 32,
+      "podiums": 106,
+      "career_points": "2385",
+      "current_team": "Aston Martin F1 Team",
+      "teams_history": [
+        "Aston Martin",
+        "Alpine",
+        "McLaren",
+        "Ferrari",
+        "Renault",
+        "Minardi"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 5,
+      "name": "Valtteri Bottas",
+      "abbr": "BOT",
+      "nationality": "Finnish",
+      "country_code": "FI",
+      "birthdate": "1989-08-28",
+      "world_championships": 0,
+      "wins": 10,
+      "podiums": 67,
+      "career_points": "1797",
+      "current_team": "Retired",
+      "teams_history": [
+        "Sauber",
+        "Mercedes",
+        "Williams"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 6,
+      "name": "Nico Hulkenberg",
+      "abbr": "HUL",
+      "nationality": "German",
+      "country_code": "DE",
+      "birthdate": "1987-08-19",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 1,
+      "career_points": "620",
+      "current_team": "Stake F1 Team Kick Sauber",
+      "teams_history": [
+        "Sauber",
+        "Haas",
+        "Renault",
+        "Force India",
+        "Williams"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 7,
+      "name": "Kimi Raikkonen",
+      "abbr": "RAI",
+      "nationality": "Finnish",
+      "country_code": "FI",
+      "birthdate": "1979-10-17",
+      "world_championships": 1,
+      "wins": 21,
+      "podiums": 103,
+      "career_points": "1873",
+      "current_team": "Retired",
+      "teams_history": [
+        "Alfa Romeo",
+        "Ferrari",
+        "Lotus",
+        "McLaren",
+        "Sauber"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 10,
+      "name": "Sergio Perez",
+      "abbr": "PER",
+      "nationality": "Mexican",
+      "country_code": "MX",
+      "birthdate": "1990-01-26",
+      "world_championships": 0,
+      "wins": 6,
+      "podiums": 39,
+      "career_points": "1638",
+      "current_team": "Retired",
+      "teams_history": [
+        "Red Bull",
+        "Racing Point",
+        "Force India",
+        "McLaren",
+        "Sauber"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 14,
+      "name": "Daniel Ricciardo",
+      "abbr": "RIC",
+      "nationality": "Australian",
+      "country_code": "AU",
+      "birthdate": "1989-07-01",
+      "world_championships": 0,
+      "wins": 8,
+      "podiums": 32,
+      "career_points": "1329",
+      "current_team": "Retired",
+      "teams_history": [
+        "Racing Bulls",
+        "McLaren",
+        "Renault",
+        "Red Bull",
+        "Toro Rosso",
+        "HRT"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 19,
+      "name": "Sebastian Vettel",
+      "abbr": "VET",
+      "nationality": "German",
+      "country_code": "DE",
+      "birthdate": "1987-07-03",
+      "world_championships": 4,
+      "wins": 53,
+      "podiums": 122,
+      "career_points": "3098",
+      "current_team": "Retired",
+      "teams_history": [
+        "Aston Martin",
+        "Ferrari",
+        "Red Bull",
+        "Toro Rosso",
+        "BMW Sauber"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 20,
+      "name": "Lewis Hamilton",
+      "abbr": "HAM",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1985-01-07",
+      "world_championships": 7,
+      "wins": 105,
+      "podiums": 202,
+      "career_points": "5014.5",
+      "current_team": "Scuderia Ferrari",
+      "teams_history": [
+        "Ferrari",
+        "Mercedes",
+        "McLaren"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 24,
+      "name": "Carlos Sainz Jr",
+      "abbr": "SAI",
+      "nationality": "Spanish",
+      "country_code": "ES",
+      "birthdate": "1994-09-01",
+      "world_championships": 0,
+      "wins": 4,
+      "podiums": 29,
+      "career_points": "1336.5",
+      "current_team": "Williams F1 Team",
+      "teams_history": [
+        "Williams",
+        "Ferrari",
+        "McLaren",
+        "Renault",
+        "Toro Rosso"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 25,
+      "name": "Max Verstappen",
+      "abbr": "VER",
+      "nationality": "Dutch",
+      "country_code": "NL",
+      "birthdate": "1997-09-30",
+      "world_championships": 4,
+      "wins": 70,
+      "podiums": 126,
+      "career_points": "3419.5",
+      "current_team": "Red Bull Racing",
+      "teams_history": [
+        "Red Bull",
+        "Toro Rosso"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 28,
+      "name": "Esteban Ocon",
+      "abbr": "OCO",
+      "nationality": "French",
+      "country_code": "FR",
+      "birthdate": "1996-09-17",
+      "world_championships": 0,
+      "wins": 1,
+      "podiums": 4,
+      "career_points": "477",
+      "current_team": "Haas F1 Team",
+      "teams_history": [
+        "Haas",
+        "Alpine",
+        "Renault",
+        "Racing Point",
+        "Force India",
+        "Manor"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 31,
+      "name": "Lance Stroll",
+      "abbr": "STR",
+      "nationality": "Canadian",
+      "country_code": "CA",
+      "birthdate": "1998-10-29",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 3,
+      "career_points": "324",
+      "current_team": "Aston Martin F1 Team",
+      "teams_history": [
+        "Aston Martin",
+        "Racing Point",
+        "Williams"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 34,
+      "name": "Charles Leclerc",
+      "abbr": "LEC",
+      "nationality": "Monegasque",
+      "country_code": "MC",
+      "birthdate": "1997-10-16",
+      "world_championships": 0,
+      "wins": 8,
+      "podiums": 50,
+      "career_points": "1660",
+      "current_team": "Scuderia Ferrari",
+      "teams_history": [
+        "Ferrari",
+        "Sauber"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 36,
+      "name": "Pierre Gasly",
+      "abbr": "GAS",
+      "nationality": "French",
+      "country_code": "FR",
+      "birthdate": "1996-02-07",
+      "world_championships": 0,
+      "wins": 1,
+      "podiums": 5,
+      "career_points": "458",
+      "current_team": "Alpine F1 Team",
+      "teams_history": [
+        "Alpine",
+        "AlphaTauri",
+        "Red Bull",
+        "Toro Rosso"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 46,
+      "name": "Michael Schumacher",
+      "abbr": "MSC",
+      "nationality": "German",
+      "country_code": "DE",
+      "birthdate": "1969-01-03",
+      "world_championships": 7,
+      "wins": 91,
+      "podiums": 155,
+      "career_points": "1566",
+      "current_team": "Retired",
+      "teams_history": [
+        "Mercedes",
+        "Ferrari",
+        "Benetton",
+        "Jordan"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 49,
+      "name": "Lando Norris",
+      "abbr": "NOR",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1999-11-13",
+      "world_championships": 1,
+      "wins": 11,
+      "podiums": 43,
+      "career_points": "1415",
+      "current_team": "McLaren Racing",
+      "teams_history": [
+        "McLaren"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 50,
+      "name": "Alexander Albon",
+      "abbr": "ALB",
+      "nationality": "Thai",
+      "country_code": "TH",
+      "birthdate": "1996-03-23",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 2,
+      "career_points": "313",
+      "current_team": "Williams F1 Team",
+      "teams_history": [
+        "Williams",
+        "Red Bull",
+        "Toro Rosso"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 51,
+      "name": "George Russell",
+      "abbr": "RUS",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1998-02-15",
+      "world_championships": 0,
+      "wins": 5,
+      "podiums": 24,
+      "career_points": "1023",
+      "current_team": "Mercedes-AMG Petronas",
+      "teams_history": [
+        "Mercedes",
+        "Williams"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 80,
+      "name": "Mick Schumacher",
+      "abbr": "MSC",
+      "nationality": "German",
+      "country_code": "DE",
+      "birthdate": "1999-03-22",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 0,
+      "career_points": "12",
+      "current_team": "Reserve Driver",
+      "teams_history": [
+        "Haas"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 82,
+      "name": "Yuki Tsunoda",
+      "abbr": "TSU",
+      "nationality": "Japanese",
+      "country_code": "JP",
+      "birthdate": "2000-05-11",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 0,
+      "career_points": "124",
+      "current_team": "Red Bull Racing",
+      "teams_history": [
+        "Red Bull",
+        "Racing Bulls",
+        "AlphaTauri"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 83,
+      "name": "Guanyu Zhou",
+      "abbr": "ZHO",
+      "nationality": "Chinese",
+      "country_code": "CN",
+      "birthdate": "1999-05-30",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 0,
+      "career_points": "12",
+      "current_team": "Retired",
+      "teams_history": [
+        "Sauber"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 97,
+      "name": "Oscar Piastri",
+      "abbr": "PIA",
+      "nationality": "Australian",
+      "country_code": "AU",
+      "birthdate": "2001-04-06",
+      "world_championships": 0,
+      "wins": 9,
+      "podiums": 25,
+      "career_points": "781",
+      "current_team": "McLaren Racing",
+      "teams_history": [
+        "McLaren"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 101,
+      "name": "Oliver Bearman",
+      "abbr": "BEA",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "2005-05-08",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 0,
+      "career_points": "48",
+      "current_team": "Haas F1 Team",
+      "teams_history": [
+        "Haas",
+        "Ferrari"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 94,
+      "name": "Jack Doohan",
+      "abbr": "DOO",
+      "nationality": "Australian",
+      "country_code": "AU",
+      "birthdate": "2003-01-20",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 0,
+      "career_points": "0",
+      "current_team": "Alpine F1 Team",
+      "teams_history": [
+        "Alpine"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": 105,
+      "name": "Franco Colapinto",
+      "abbr": "COL",
+      "nationality": "Argentine",
+      "country_code": "AR",
+      "birthdate": "2003-05-27",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 0,
+      "career_points": "5",
+      "current_team": "Alpine F1 Team",
+      "teams_history": [
+        "Williams",
+        "Alpine"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": 89,
+      "name": "Liam Lawson",
+      "abbr": "LAW",
+      "nationality": "New Zealander",
+      "country_code": "NZ",
+      "birthdate": "2002-02-11",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 0,
+      "career_points": "44",
+      "current_team": "Racing Bulls",
+      "teams_history": [
+        "Racing Bulls"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 16,
+      "name": "Romain Grosjean",
+      "abbr": "GRO",
+      "nationality": "French",
+      "country_code": "FR",
+      "birthdate": "1986-04-17",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 10,
+      "career_points": "391",
+      "current_team": "Retired",
+      "teams_history": [
+        "Haas",
+        "Lotus",
+        "Renault"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 9,
+      "name": "Daniil Kvyat",
+      "abbr": "KVY",
+      "nationality": "Russian",
+      "country_code": "RU",
+      "birthdate": "1994-04-26",
+      "world_championships": 0,
+      "wins": 0,
+      "podiums": 3,
+      "career_points": "202",
+      "current_team": "Retired",
+      "teams_history": [
+        "AlphaTauri",
+        "Toro Rosso",
+        "Red Bull"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 75,
+      "name": "Rubens Barrichello",
+      "abbr": "BAR",
+      "nationality": "Brazilian",
+      "country_code": "BR",
+      "birthdate": "1972-05-23",
+      "world_championships": 0,
+      "wins": 11,
+      "podiums": 68,
+      "career_points": "658",
+      "current_team": "Retired",
+      "teams_history": [
+        "Williams",
+        "Brawn",
+        "Honda",
+        "Ferrari",
+        "Stewart",
+        "Jordan"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 22,
+      "name": "Felipe Massa",
+      "abbr": "MAS",
+      "nationality": "Brazilian",
+      "country_code": "BR",
+      "birthdate": "1981-04-25",
+      "world_championships": 0,
+      "wins": 11,
+      "podiums": 41,
+      "career_points": "1167",
+      "current_team": "Retired",
+      "teams_history": [
+        "Williams",
+        "Ferrari",
+        "Sauber"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 38,
+      "name": "Mark Webber",
+      "abbr": "WEB",
+      "nationality": "Australian",
+      "country_code": "AU",
+      "birthdate": "1976-08-27",
+      "world_championships": 0,
+      "wins": 9,
+      "podiums": 42,
+      "career_points": "1047.5",
+      "current_team": "Retired",
+      "teams_history": [
+        "Red Bull",
+        "Williams",
+        "Jaguar",
+        "Minardi"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1001,
+      "name": "Ayrton Senna",
+      "abbr": "SEN",
+      "nationality": "Brazilian",
+      "country_code": "BR",
+      "birthdate": "1960-03-21",
+      "world_championships": 3,
+      "wins": 41,
+      "podiums": 80,
+      "career_points": "614",
+      "current_team": "Deceased",
+      "teams_history": [
+        "McLaren",
+        "Lotus",
+        "Toleman"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 1002,
+      "name": "Alain Prost",
+      "abbr": "PRO",
+      "nationality": "French",
+      "country_code": "FR",
+      "birthdate": "1955-02-24",
+      "world_championships": 4,
+      "wins": 51,
+      "podiums": 106,
+      "career_points": "798.5",
+      "current_team": "Retired",
+      "teams_history": [
+        "Williams",
+        "Ferrari",
+        "McLaren",
+        "Renault"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 1003,
+      "name": "Niki Lauda",
+      "abbr": "LAU",
+      "nationality": "Austrian",
+      "country_code": "AT",
+      "birthdate": "1949-02-22",
+      "world_championships": 3,
+      "wins": 25,
+      "podiums": 54,
+      "career_points": "420.5",
+      "current_team": "Deceased",
+      "teams_history": [
+        "McLaren",
+        "Ferrari",
+        "Brabham",
+        "March",
+        "BRM"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 1004,
+      "name": "Nelson Piquet",
+      "abbr": "PIQ",
+      "nationality": "Brazilian",
+      "country_code": "BR",
+      "birthdate": "1952-08-17",
+      "world_championships": 3,
+      "wins": 23,
+      "podiums": 60,
+      "career_points": "485.5",
+      "current_team": "Retired",
+      "teams_history": [
+        "Benetton",
+        "Lotus",
+        "Williams",
+        "Brabham",
+        "Ensign"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1005,
+      "name": "Jackie Stewart",
+      "abbr": "STE",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1939-06-11",
+      "world_championships": 3,
+      "wins": 27,
+      "podiums": 43,
+      "career_points": "360",
+      "current_team": "Retired",
+      "teams_history": [
+        "Tyrrell",
+        "March",
+        "Matra",
+        "BRM"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1006,
+      "name": "Jim Clark",
+      "abbr": "CLA",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1936-03-04",
+      "world_championships": 2,
+      "wins": 25,
+      "podiums": 32,
+      "career_points": "274",
+      "current_team": "Deceased",
+      "teams_history": [
+        "Lotus"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1007,
+      "name": "Juan Manuel Fangio",
+      "abbr": "FAN",
+      "nationality": "Argentine",
+      "country_code": "AR",
+      "birthdate": "1911-06-24",
+      "world_championships": 5,
+      "wins": 24,
+      "podiums": 35,
+      "career_points": "277.14",
+      "current_team": "Deceased",
+      "teams_history": [
+        "Maserati",
+        "Ferrari",
+        "Mercedes",
+        "Alfa Romeo"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1008,
+      "name": "Mika Hakkinen",
+      "abbr": "HAK",
+      "nationality": "Finnish",
+      "country_code": "FI",
+      "birthdate": "1968-09-28",
+      "world_championships": 2,
+      "wins": 20,
+      "podiums": 51,
+      "career_points": "420",
+      "current_team": "Retired",
+      "teams_history": [
+        "McLaren",
+        "Lotus"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": 1009,
+      "name": "Damon Hill",
+      "abbr": "HIL",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1960-09-17",
+      "world_championships": 1,
+      "wins": 22,
+      "podiums": 42,
+      "career_points": "360",
+      "current_team": "Retired",
+      "teams_history": [
+        "Williams",
+        "Arrows",
+        "Jordan",
+        "Brabham"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1010,
+      "name": "Nigel Mansell",
+      "abbr": "MAN",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1953-08-08",
+      "world_championships": 1,
+      "wins": 31,
+      "podiums": 59,
+      "career_points": "482",
+      "current_team": "Retired",
+      "teams_history": [
+        "Williams",
+        "Ferrari",
+        "Lotus"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1011,
+      "name": "David Coulthard",
+      "abbr": "COU",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1971-03-27",
+      "world_championships": 0,
+      "wins": 13,
+      "podiums": 62,
+      "career_points": "535",
+      "current_team": "Retired",
+      "teams_history": [
+        "Red Bull",
+        "McLaren",
+        "Williams"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1012,
+      "name": "Gerhard Berger",
+      "abbr": "BER",
+      "nationality": "Austrian",
+      "country_code": "AT",
+      "birthdate": "1959-08-27",
+      "world_championships": 0,
+      "wins": 10,
+      "podiums": 48,
+      "career_points": "385",
+      "current_team": "Retired",
+      "teams_history": [
+        "McLaren",
+        "Ferrari",
+        "Benetton"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": 1013,
+      "name": "Emerson Fittipaldi",
+      "abbr": "FIT",
+      "nationality": "Brazilian",
+      "country_code": "BR",
+      "birthdate": "1946-12-12",
+      "world_championships": 2,
+      "wins": 14,
+      "podiums": 35,
+      "career_points": "281",
+      "current_team": "Retired",
+      "teams_history": [
+        "McLaren",
+        "Lotus",
+        "Fittipaldi",
+        "Brabham"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1014,
+      "name": "Graham Hill",
+      "abbr": "GHI",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1929-02-15",
+      "world_championships": 2,
+      "wins": 14,
+      "podiums": 36,
+      "career_points": "289",
+      "current_team": "Deceased",
+      "teams_history": [
+        "Lotus",
+        "BRM",
+        "Brabham"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": 1015,
+      "name": "Jody Scheckter",
+      "abbr": "SCH",
+      "nationality": "South African",
+      "country_code": "ZA",
+      "birthdate": "1950-01-29",
+      "world_championships": 1,
+      "wins": 10,
+      "podiums": 33,
+      "career_points": "255",
+      "current_team": "Retired",
+      "teams_history": [
+        "Ferrari",
+        "Wolf",
+        "Tyrrell",
+        "McLaren"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": 1016,
+      "name": "James Hunt",
+      "abbr": "HUN",
+      "nationality": "British",
+      "country_code": "GB",
+      "birthdate": "1947-08-29",
+      "world_championships": 1,
+      "wins": 10,
+      "podiums": 23,
+      "career_points": "179",
+      "current_team": "Deceased",
+      "teams_history": [
+        "McLaren",
+        "Hesketh",
+        "Wolf"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1017,
+      "name": "Jochen Rindt",
+      "abbr": "RIN",
+      "nationality": "Austrian",
+      "country_code": "AT",
+      "birthdate": "1942-04-18",
+      "world_championships": 1,
+      "wins": 6,
+      "podiums": 13,
+      "career_points": "109",
+      "current_team": "Deceased",
+      "teams_history": [
+        "Lotus",
+        "Brabham",
+        "Cooper"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": 1018,
+      "name": "Alan Jones",
+      "abbr": "JON",
+      "nationality": "Australian",
+      "country_code": "AU",
+      "birthdate": "1946-11-02",
+      "world_championships": 1,
+      "wins": 12,
+      "podiums": 24,
+      "career_points": "206",
+      "current_team": "Retired",
+      "teams_history": [
+        "Williams",
+        "Arrows",
+        "Shadow",
+        "Surtees",
+        "Hesketh"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": 1019,
+      "name": "Jacques Villeneuve",
+      "abbr": "VIL",
+      "nationality": "Canadian",
+      "country_code": "CA",
+      "birthdate": "1971-04-09",
+      "world_championships": 1,
+      "wins": 11,
+      "podiums": 23,
+      "career_points": "235",
+      "current_team": "Retired",
+      "teams_history": [
+        "Williams",
+        "BAR",
+        "Sauber",
+        "Renault"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": 1020,
+      "name": "Gilles Villeneuve",
+      "abbr": "GVI",
+      "nationality": "Canadian",
+      "country_code": "CA",
+      "birthdate": "1950-01-18",
+      "world_championships": 0,
+      "wins": 6,
+      "podiums": 13,
+      "career_points": "107",
+      "current_team": "Deceased",
+      "teams_history": [
+        "Ferrari",
+        "McLaren"
+      ],
+      "difficulty": "medium"
+    }
+  ]
+}
