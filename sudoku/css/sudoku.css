@@ -1,0 +1,457 @@
+/* CSS Variables for theming */
+:root {
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-color: #1f2937;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --border-focus: #4f46e5;
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --cell-size: 50px;
+  --cell-size-mobile: 40px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  min-height: 100vh;
+  line-height: 1.5;
+  justify-content: flex-start;
+}
+
+header {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background: var(--card-bg);
+  width: 100%;
+  box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+header a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+header a:hover {
+  color: var(--primary-color);
+}
+
+.page-wrapper {
+  flex: 1;
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  justify-content: center;
+}
+
+.ad-sidebar {
+  width: 160px;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ad-banner-vertical {
+  width: 160px;
+  min-height: 600px;
+  position: sticky;
+  top: 2rem;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 600px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+
+.help-text {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Game Stats */
+.game-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--text-color);
+  background: var(--card-bg);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+/* Sudoku Board */
+#sudoku-board {
+  display: grid;
+  grid-template-rows: repeat(9, 1fr);
+  grid-template-columns: repeat(9, 1fr);
+  gap: 2px;
+  background: var(--text-color);
+  border: 3px solid var(--text-color);
+  border-radius: 12px;
+  padding: 4px;
+  box-shadow: var(--shadow-lg);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+#sudoku-board:focus {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cell[contenteditable="true"] {
+  outline: none;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.cell[contenteditable="true"]:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
+  background: #f0f9ff;
+}
+
+.cell[contenteditable="true"]:empty::before {
+  content: '';
+}
+
+.cell:hover {
+  background: #f3f4f6;
+}
+
+.cell:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
+  background: #f0f9ff;
+}
+
+.cell.fixed {
+  background: #f1f5f9;
+  color: var(--text-color);
+  font-weight: 700;
+  cursor: default;
+}
+
+.cell.fixed:hover {
+  background: #f1f5f9;
+}
+
+.cell.hinted {
+  background: #fef3c7;
+  color: var(--warning-color);
+  animation: hintPulse 0.6s ease-in-out;
+}
+
+.cell.error {
+  background: #fef2f2;
+  color: var(--error-color);
+  animation: errorShake 0.5s ease-in-out;
+}
+
+.cell.correct {
+  background: #f0fdf4;
+  color: var(--success-color);
+  animation: correctPulse 0.4s ease-in-out;
+}
+
+.cell.selected {
+  background: #dbeafe;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+/* 3x3 block borders */
+.cell:nth-child(3n) {
+  border-right: 2px solid var(--text-color);
+}
+
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54) {
+  border-bottom: 2px solid var(--text-color);
+}
+
+/* Button Bar */
+.button-bar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Status Message */
+.status-message {
+  text-align: center;
+  font-weight: 600;
+  padding: 0;
+  border-radius: 8px;
+  min-height: 0;
+  transition: all 0.3s ease;
+  margin: 0;
+}
+
+.status-message:empty {
+  display: none;
+}
+
+.status-message.success {
+  background: #f0fdf4;
+  color: var(--success-color);
+  border: 1px solid #bbf7d0;
+  padding: 1rem;
+  min-height: 1.5rem;
+}
+
+.status-message.error {
+  background: #fef2f2;
+  color: var(--error-color);
+  border: 1px solid #fecaca;
+  padding: 1rem;
+  min-height: 1.5rem;
+}
+
+.status-message.info {
+  background: #f0f9ff;
+  color: var(--primary-color);
+  border: 1px solid #bfdbfe;
+  padding: 1rem;
+  min-height: 1.5rem;
+}
+
+/* Hide sidebars on mobile */
+@media (max-width: 1200px) {
+  .ad-sidebar {
+    display: none;
+  }
+}
+
+/* Animations */
+@keyframes hintPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes correctPulse {
+  0%, 100% { 
+    transform: scale(1); 
+    background: #f0fdf4;
+  }
+  50% { 
+    transform: scale(1.1); 
+    background: #dcfce7;
+  }
+}
+
+@keyframes confetti {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Party Animation */
+.party-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--primary-color);
+  animation: confetti 3s linear forwards;
+}
+
+.confetti:nth-child(odd) {
+  background: var(--success-color);
+}
+
+.confetti:nth-child(3n) {
+  background: var(--warning-color);
+}
+
+.confetti:nth-child(4n) {
+  background: var(--error-color);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  :root {
+    --cell-size: var(--cell-size-mobile);
+  }
+  
+  main {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+  
+  header {
+    padding: 1rem 0.75rem;
+  }
+  
+  header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .difficulty-selector {
+    padding: 0.75rem;
+  }
+  
+  .difficulty-selector select {
+    min-width: 180px;
+    font-size: 0.9rem;
+  }
+  
+  .game-stats {
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .button-bar {
+    gap: 0.5rem;
+  }
+  
+  button {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+    min-width: 80px;
+  }
+  
+  .cell {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --cell-size: 35px;
+  }
+  
+  .button-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  button {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .game-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}

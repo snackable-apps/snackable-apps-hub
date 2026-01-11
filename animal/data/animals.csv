@@ -1,0 +1,135 @@
+name,class,diet,continent,habitat,weight,lifespan,activity,domesticated,emoji,difficulty
+Lion,Mammal,Carnivore,Africa,Savanna,190,12,Crepuscular,No,🦁,easy
+Tiger,Mammal,Carnivore,Asia,Forest,220,10,Nocturnal,No,🐾,easy
+Elephant,Mammal,Herbivore,Africa,Savanna,5000,60,Diurnal,No,🐾,easy
+Giraffe,Mammal,Herbivore,Africa,Savanna,1200,25,Diurnal,No,🐾,easy
+Zebra,Mammal,Herbivore,Africa,Savanna,350,25,Diurnal,No,🐾,easy
+Hippopotamus,Mammal,Herbivore,Africa,Water,2500,40,Nocturnal,No,🦛,easy
+Rhinoceros,Mammal,Herbivore,Africa,Savanna,2300,40,Diurnal,No,🐾,easy
+Cheetah,Mammal,Carnivore,Africa,Savanna,55,12,Diurnal,No,🐾,easy
+Leopard,Mammal,Carnivore,Africa,Forest,60,12,Nocturnal,No,🐾,easy
+Gorilla,Mammal,Herbivore,Africa,Forest,180,35,Diurnal,No,🦍,easy
+Chimpanzee,Mammal,Omnivore,Africa,Forest,50,40,Diurnal,No,🐾,easy
+Polar Bear,Mammal,Carnivore,North America,Arctic,450,25,Diurnal,No,🐾,easy
+Brown Bear,Mammal,Omnivore,North America,Forest,300,25,Diurnal,No,🐾,easy
+Wolf,Mammal,Carnivore,North America,Forest,40,13,Nocturnal,No,🐺,easy
+Bison,Mammal,Herbivore,North America,Grassland,900,20,Diurnal,No,🐾,easy
+Moose,Mammal,Herbivore,North America,Forest,500,20,Diurnal,No,🐾,easy
+Eagle,Bird,Carnivore,North America,Mountain,5,20,Diurnal,No,🐾,easy
+Penguin,Bird,Carnivore,Antarctica,Arctic,30,20,Diurnal,No,🐾,easy
+Ostrich,Bird,Omnivore,Africa,Savanna,150,40,Diurnal,No,🦃,easy
+Flamingo,Bird,Omnivore,Africa,Water,3,30,Diurnal,No,🐾,easy
+Parrot,Bird,Herbivore,South America,Forest,0.5,50,Diurnal,Yes,🐾,easy
+Owl,Bird,Carnivore,North America,Forest,1.5,15,Nocturnal,No,🐾,easy
+Crocodile,Reptile,Carnivore,Africa,Water,500,70,Nocturnal,No,🐾,easy
+Snake,Reptile,Carnivore,Asia,Forest,5,20,Diurnal,No,🐍,easy
+Turtle,Reptile,Omnivore,North America,Water,200,80,Diurnal,No,🐾,easy
+Lizard,Reptile,Omnivore,Asia,Desert,0.1,10,Diurnal,No,🐾,easy
+Dog,Mammal,Omnivore,Asia,Various,25,13,Diurnal,Yes,🐾,easy
+Cat,Mammal,Carnivore,Africa,Various,4,15,Crepuscular,Yes,🐾,easy
+Horse,Mammal,Herbivore,Asia,Grassland,500,25,Diurnal,Yes,🐴,easy
+Cow,Mammal,Herbivore,Asia,Grassland,600,20,Diurnal,Yes,🐾,easy
+Pig,Mammal,Omnivore,Asia,Various,150,15,Diurnal,Yes,🐾,easy
+Sheep,Mammal,Herbivore,Asia,Grassland,80,12,Diurnal,Yes,🐾,easy
+Goat,Mammal,Herbivore,Asia,Mountain,50,15,Diurnal,Yes,🐾,easy
+Chicken,Bird,Omnivore,Asia,Various,2,8,Diurnal,Yes,🐔,easy
+Duck,Bird,Omnivore,North America,Water,1.5,10,Diurnal,Yes,🐾,easy
+Rabbit,Mammal,Herbivore,Europe,Grassland,2,9,Crepuscular,Yes,🐾,easy
+Hamster,Mammal,Herbivore,Asia,Desert,0.1,3,Nocturnal,Yes,🐾,easy
+Kangaroo,Mammal,Herbivore,Australia,Grassland,50,12,Crepuscular,No,🐾,easy
+Koala,Mammal,Herbivore,Australia,Forest,12,13,Nocturnal,No,🐨,easy
+Platypus,Mammal,Carnivore,Australia,Water,1.5,17,Nocturnal,No,🐾,easy
+Panda,Mammal,Herbivore,Asia,Forest,100,20,Diurnal,No,🐾,easy
+Red Panda,Mammal,Herbivore,Asia,Forest,5,12,Crepuscular,No,🐾,easy
+Fox,Mammal,Omnivore,North America,Forest,8,5,Nocturnal,No,🐾,easy
+Deer,Mammal,Herbivore,North America,Forest,100,15,Crepuscular,No,🦌,easy
+Squirrel,Mammal,Omnivore,North America,Forest,0.5,6,Diurnal,No,🐾,easy
+Raccoon,Mammal,Omnivore,North America,Forest,8,3,Nocturnal,No,🐾,easy
+Beaver,Mammal,Herbivore,North America,Water,20,20,Nocturnal,No,🐾,easy
+Dolphin,Mammal,Carnivore,Ocean,Ocean,200,40,Diurnal,No,🐾,easy
+Whale,Mammal,Carnivore,Ocean,Ocean,50000,80,Diurnal,No,🐋,easy
+Shark,Fish,Carnivore,Ocean,Ocean,1000,30,Diurnal,No,🐾,easy
+Octopus,Cephalopod,Carnivore,Ocean,Ocean,10,3,Nocturnal,No,🐾,easy
+Jellyfish,Cnidarian,Carnivore,Ocean,Ocean,0.2,1,Diurnal,No,🐾,easy
+Jaguar,Mammal,Carnivore,South America,Forest,100,12,Nocturnal,No,🐆,easy
+Cougar,Mammal,Carnivore,North America,Mountain,70,13,Crepuscular,No,🐾,easy
+Seal,Mammal,Carnivore,Ocean,Ocean,150,25,Diurnal,No,🐾,easy
+Walrus,Mammal,Carnivore,Arctic,Ocean,1200,40,Diurnal,No,🐾,easy
+Mouse,Mammal,Omnivore,Europe,Various,0.02,2,Nocturnal,Yes,🐭,easy
+Rat,Mammal,Omnivore,Asia,Various,0.3,2,Nocturnal,Yes,🐾,easy
+Guinea Pig,Mammal,Herbivore,South America,Grassland,1,6,Crepuscular,Yes,🐾,easy
+Camel,Mammal,Herbivore,Asia,Desert,600,40,Diurnal,Yes,🐾,easy
+Donkey,Mammal,Herbivore,Africa,Grassland,200,30,Diurnal,Yes,🫏,easy
+Otter,Mammal,Carnivore,North America,Water,10,15,Diurnal,No,🐾,easy
+Sloth,Mammal,Herbivore,South America,Forest,5,20,Nocturnal,No,🐾,easy
+Swan,Bird,Omnivore,Europe,Water,10,20,Diurnal,No,🐾,easy
+Goose,Bird,Herbivore,Europe,Water,4,20,Diurnal,Yes,🪿,easy
+Peacock,Bird,Omnivore,Asia,Forest,5,20,Diurnal,Yes,🐾,easy
+Turkey,Bird,Omnivore,North America,Forest,10,10,Diurnal,Yes,🐾,easy
+Crow,Bird,Omnivore,North America,Various,0.5,20,Diurnal,No,🐾,easy
+Hawk,Bird,Carnivore,North America,Forest,1,20,Diurnal,No,🦅,easy
+Pelican,Bird,Carnivore,North America,Water,10,25,Diurnal,No,🐾,easy
+Pigeon,Bird,Herbivore,Europe,Various,0.3,6,Diurnal,Yes,🐾,easy
+Alligator,Reptile,Carnivore,North America,Water,400,50,Nocturnal,No,🐊,easy
+Iguana,Reptile,Herbivore,South America,Forest,5,15,Diurnal,Yes,🐾,easy
+Python,Reptile,Carnivore,Asia,Forest,100,30,Nocturnal,No,🐾,easy
+Frog,Amphibian,Carnivore,North America,Water,0.03,10,Nocturnal,No,🐾,easy
+Tuna,Fish,Carnivore,Ocean,Ocean,200,15,Diurnal,No,🐟,easy
+Salmon,Fish,Carnivore,North America,Ocean,5,5,Diurnal,No,🐾,easy
+Goldfish,Fish,Omnivore,Asia,Water,0.3,10,Diurnal,Yes,🐾,easy
+Crab,Crustacean,Omnivore,Ocean,Ocean,1,3,Nocturnal,No,🦀,easy
+Lobster,Crustacean,Carnivore,Ocean,Ocean,5,50,Nocturnal,No,🐾,easy
+Bee,Insect,Herbivore,Europe,Grassland,0.0001,0.1,Diurnal,Yes,🐾,easy
+Butterfly,Insect,Herbivore,North America,Grassland,0.0005,0.1,Diurnal,No,🐾,easy
+Spider,Arachnid,Carnivore,North America,Forest,0.001,2,Nocturnal,No,🕷️,easy
+Ant,Insect,Omnivore,Africa,Forest,0.00001,1,Diurnal,No,🐾,easy
+Snail,Mollusk,Herbivore,Europe,Forest,0.05,3,Nocturnal,No,🐾,easy
+Shrimp,Crustacean,Omnivore,Ocean,Ocean,0.02,2,Nocturnal,No,🐾,easy
+Scorpion,Arachnid,Carnivore,Asia,Desert,0.03,5,Nocturnal,No,🦂,easy
+Grasshopper,Insect,Herbivore,North America,Grassland,0.003,1,Diurnal,No,🐾,easy
+Ladybug,Insect,Carnivore,Europe,Grassland,0.0001,1,Diurnal,No,🐾,easy
+Capybara,Mammal,Herbivore,South America,Water,50,8,Crepuscular,No,🐾,easy
+Pangolin,Mammal,Carnivore,Africa,Forest,10,20,Nocturnal,No,🦎,easy
+Chameleon,Reptile,Carnivore,Africa,Forest,0.2,5,Diurnal,Yes,🐾,easy
+Falcon,Bird,Carnivore,North America,Mountain,0.8,15,Diurnal,No,🐾,easy
+Vulture,Bird,Carnivore,Africa,Savanna,7,25,Diurnal,No,🐾,easy
+Aardvark,Mammal,Omnivore,Africa,Savanna,60,23,Nocturnal,No,🐾,medium
+Wombat,Mammal,Herbivore,Australia,Forest,30,15,Nocturnal,No,🐾,medium
+Tasmanian Devil,Mammal,Carnivore,Australia,Forest,8,6,Nocturnal,No,🐾,medium
+Meerkat,Mammal,Omnivore,Africa,Desert,0.7,12,Diurnal,No,🐾,medium
+Lemur,Mammal,Omnivore,Africa,Forest,3,16,Diurnal,No,🐾,medium
+Tapir,Mammal,Herbivore,South America,Forest,300,30,Nocturnal,No,🐾,medium
+Okapi,Mammal,Herbivore,Africa,Forest,250,20,Diurnal,No,🦒,medium
+Mongoose,Mammal,Carnivore,Africa,Savanna,1.5,12,Diurnal,No,🐾,medium
+Hyena,Mammal,Carnivore,Africa,Savanna,60,12,Nocturnal,No,🐾,medium
+Wolverine,Mammal,Carnivore,North America,Forest,20,10,Nocturnal,No,🐾,medium
+Badger,Mammal,Omnivore,Europe,Forest,12,14,Nocturnal,No,🐾,medium
+Marmot,Mammal,Herbivore,North America,Mountain,5,15,Diurnal,No,🐾,medium
+Porcupine,Mammal,Herbivore,North America,Forest,12,20,Nocturnal,No,🐾,medium
+Armadillo,Mammal,Omnivore,South America,Grassland,6,12,Nocturnal,No,🐾,medium
+Aye-Aye,Mammal,Omnivore,Africa,Forest,2,20,Nocturnal,No,🐾,medium
+Fossa,Mammal,Carnivore,Africa,Forest,10,15,Nocturnal,No,🐾,medium
+Serval,Mammal,Carnivore,Africa,Savanna,12,13,Crepuscular,No,🐾,medium
+Caracal,Mammal,Carnivore,Africa,Savanna,12,12,Nocturnal,No,🐾,medium
+Manatee,Mammal,Herbivore,North America,Water,500,60,Diurnal,No,🐾,medium
+Narwhal,Mammal,Carnivore,Arctic,Ocean,1600,50,Diurnal,No,🐋,medium
+Quokka,Mammal,Herbivore,Australia,Forest,3,10,Nocturnal,No,🐾,hard
+Pangolin,Mammal,Carnivore,Africa,Forest,10,20,Nocturnal,No,🦎,hard
+Tarsier,Mammal,Carnivore,Asia,Forest,0.1,12,Nocturnal,No,🐾,hard
+Shoebill,Bird,Carnivore,Africa,Water,7,35,Diurnal,No,🐾,hard
+Kakapo,Bird,Herbivore,New Zealand,Forest,2,60,Nocturnal,No,🐾,hard
+Aardwolf,Mammal,Carnivore,Africa,Savanna,10,15,Nocturnal,No,🐾,hard
+Binturong,Mammal,Omnivore,Asia,Forest,20,18,Nocturnal,No,🐾,hard
+Fennec Fox,Mammal,Omnivore,Africa,Desert,1.5,14,Nocturnal,No,🦊,hard
+Saiga,Mammal,Herbivore,Asia,Grassland,40,10,Diurnal,No,🐾,hard
+Markhor,Mammal,Herbivore,Asia,Mountain,90,12,Diurnal,No,🐾,hard
+Gerenuk,Mammal,Herbivore,Africa,Savanna,50,13,Diurnal,No,🐾,hard
+Dik-Dik,Mammal,Herbivore,Africa,Savanna,5,10,Diurnal,No,🐾,hard
+Jerboa,Mammal,Herbivore,Asia,Desert,0.1,6,Nocturnal,No,🐾,hard
+Numbat,Mammal,Carnivore,Australia,Forest,0.5,5,Diurnal,No,🐾,hard
+Bilby,Mammal,Omnivore,Australia,Desert,1,7,Nocturnal,No,🐾,hard
+Quoll,Mammal,Carnivore,Australia,Forest,1.5,4,Nocturnal,No,🐾,hard
+Thylacine,Mammal,Carnivore,Australia,Forest,30,7,Nocturnal,No,🐾,hard
+Proboscis Monkey,Mammal,Herbivore,Asia,Forest,20,20,Diurnal,No,🐾,hard
+Axolotl,Amphibian,Carnivore,North America,Water,0.3,15,Nocturnal,No,🐾,hard
+Gharial,Reptile,Carnivore,Asia,Water,200,50,Nocturnal,No,🐊,hard

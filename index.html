@@ -3,18 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Snackable Apps 🍿</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍿</text></svg>">
+  <title>Snackable Games 🎮</title>
+  <meta name="description" content="Quick, fun browser games you can play in minutes. F1 Quiz, Sudoku, and more!" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MKPC7JY0E7"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-MKPC7JY0E7');
-  </script>
+  <!-- GA4 - TODO: Add hub-specific property -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> -->
 
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
@@ -22,8 +17,8 @@
 </head>
 <body>
   <header>
-    <h1>Snackable Apps 🍿</h1>
-    <p>Quick, fun, and simple mini-apps for everyone.</p>
+    <h1>Snackable Games</h1>
+    <p>Quick, fun games you can play in minutes</p>
   </header>
 
   <div class="page-wrapper">
@@ -40,27 +35,36 @@
     </aside>
 
     <main>
-      <div class="app-list">
-        <a href="/f1-quiz/" class="app-card featured" onclick="trackGameClick('f1-quiz')">
-          <span class="badge">🆕 NEW</span>
-          <h2>🏎️ F1 Quiz</h2>
-          <p>Guess the Formula 1 driver! Test your knowledge of the grid.</p>
+      <div class="game-grid">
+        <a href="/f1-quiz/" class="game-card f1" onclick="trackGameClick('f1-quiz')">
+          <span class="badge">New</span>
+          <span class="emoji">🏎️</span>
+          <h2>F1 Quiz</h2>
+          <p>Guess the Formula 1 driver using clues about their career stats.</p>
         </a>
-        <a href="https://snackable-apps.github.io/snackable-apps-music/" class="app-card" onclick="trackGameClick('music')">
-          <h2>🎵 Music of the Day</h2>
-          <p>Guess the song using logical clues!</p>
+
+        <a href="/sudoku/" class="game-card sudoku" onclick="trackGameClick('sudoku')">
+          <span class="emoji">🧩</span>
+          <h2>Sudoku</h2>
+          <p>Classic number puzzle. Clean design, no distractions.</p>
         </a>
-        <a href="https://snackable-apps.github.io/snackable-apps-animal/" class="app-card" onclick="trackGameClick('animal')">
-          <h2>🐾 Animal of the Day</h2>
-          <p>Guess the animal using logical clues!</p>
+
+        <a href="/animal/" class="game-card animal" onclick="trackGameClick('animal')">
+          <span class="emoji">🦁</span>
+          <h2>Animal Quiz</h2>
+          <p>Guess the mystery animal from habitat, diet, and trait clues.</p>
         </a>
-        <a href="https://snackable-apps.github.io/snackable-apps-sudoku/" class="app-card" onclick="trackGameClick('sudoku')">
-          <h2>🧠 Sudoku</h2>
-          <p>Challenge your logic with a clean Sudoku experience.</p>
+
+        <a href="https://snackable-apps.github.io/snackable-apps-music/" class="game-card music" onclick="trackGameClick('music')">
+          <span class="emoji">🎵</span>
+          <h2>Music Quiz</h2>
+          <p>Guess the song using hints about artist, genre, and era.</p>
         </a>
-        <a href="https://snackable-apps.github.io/snackable-apps-pomodoro/" class="app-card" onclick="trackGameClick('pomodoro')">
-          <h2>⏱️ Pomodoro</h2>
-          <p>Focus with a simple timer to boost productivity.</p>
+
+        <a href="https://snackable-apps.github.io/snackable-apps-pomodoro/" class="game-card pomodoro" onclick="trackGameClick('pomodoro')">
+          <span class="emoji">⏱️</span>
+          <h2>Pomodoro</h2>
+          <p>Focus timer to boost your productivity. Work in sprints.</p>
         </a>
       </div>
     </main>
@@ -80,17 +84,17 @@
 
   <footer>
     <p>
-      <a href="about.html">About</a> |
+      <a href="about.html">About</a> · 
       <a href="privacy.html">Privacy</a>
     </p>
   </footer>
 
   <script>
+    // Initialize ads
     (adsbygoogle = window.adsbygoogle || []).push({});
     (adsbygoogle = window.adsbygoogle || []).push({});
-    if(typeof gtag === 'function') gtag('event','ad_impression',{location:'menu_sides'});
 
-    // Track game clicks for analytics
+    // Track game clicks
     function trackGameClick(gameName) {
       if (typeof gtag === 'function') {
         gtag('event', 'game_selected', {
@@ -102,5 +106,3 @@
   </script>
 </body>
 </html>
-
-
