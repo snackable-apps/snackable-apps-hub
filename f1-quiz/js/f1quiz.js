@@ -10,10 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const guessCountEl = document.getElementById("guess-count");
   const gameStatusEl = document.getElementById("game-status");
   const guessSection = document.getElementById("guess-section");
-  const difficultySection = document.getElementById("difficulty-section");
   const gameInfo = document.getElementById("game-info");
-  const currentDifficultyEl = document.getElementById("current-difficulty");
-  const difficultyButtons = document.querySelectorAll(".difficulty-btn");
   const dataSeasonInfoEl = document.getElementById("data-season-info");
   
   // Autocomplete state
@@ -24,9 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Data storage
-  let ALL_DRIVERS_LIST = [];
-  let DRIVERS = []; // Filtered by difficulty
-  let currentDifficulty = 'easy';
+  let ALL_DRIVERS_LIST = []; // All drivers (for guessing)
+  let SECRET_POOL = []; // Easy + Medium drivers (for daily secret selection)
 
   // Load embedded data
   function loadDriversData() {
@@ -35,15 +31,15 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error('Driver data not loaded. Please check if data/drivers_data.js is included.');
       }
       
+      // All drivers available for guessing
       ALL_DRIVERS_LIST = DRIVERS_DATA;
-      console.log('Drivers loaded:', ALL_DRIVERS_LIST.length);
+      console.log('Total drivers loaded:', ALL_DRIVERS_LIST.length);
       
-      filterByDifficulty('easy');
-      console.log('Drivers filtered for easy:', DRIVERS.length);
-      
-      if (difficultySection) {
-        difficultySection.style.display = 'block';
-      }
+      // Secret pool: only easy + medium drivers
+      SECRET_POOL = ALL_DRIVERS_LIST.filter(driver => 
+        driver.difficulty === 'easy' || driver.difficulty === 'medium'
+      );
+      console.log('Secret pool (easy+medium):', SECRET_POOL.length);
       
       // Set data freshness info
       if (dataSeasonInfoEl) {
@@ -60,41 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
       
-      if (DRIVERS.length > 0) {
+      if (SECRET_POOL.length > 0) {
         initializeGame();
         console.log('Game initialized');
       } else {
-        console.error('No drivers available for easy difficulty');
-        alert('No drivers available. Please try a different difficulty.');
+        console.error('No drivers available in secret pool');
+        alert('No drivers available.');
       }
     } catch (error) {
       console.error('Error loading driver data:', error);
       alert('Failed to load driver data: ' + error.message);
     }
-  }
-
-  // Filter drivers by difficulty
-  function filterByDifficulty(difficulty) {
-    currentDifficulty = difficulty;
-    DRIVERS = ALL_DRIVERS_LIST.filter(driver => {
-      if (difficulty === 'easy') {
-        return driver.difficulty === 'easy';
-      } else if (difficulty === 'medium') {
-        return driver.difficulty === 'easy' || driver.difficulty === 'medium';
-      } else {
-        return true; // All drivers
-      }
-    });
-    
-    const difficultyText = {
-      'easy': 'Easy',
-      'medium': 'Medium',
-      'hard': 'Hard'
-    };
-    currentDifficultyEl.textContent = difficultyText[difficulty] || difficulty;
-    difficultyButtons.forEach(btn => {
-      btn.classList.toggle('selected', btn.dataset.difficulty === difficulty);
-    });
   }
 
   // Game State
@@ -105,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
     isGameOver: false,
     gaveUp: false,
     currentDate: null,
-    difficulty: 'easy',
     // Timing tracking
     sessionStartTime: null,
     firstGuessTime: null
@@ -128,17 +99,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return age;
   }
 
-  function getDailyDriver(difficulty) {
+  function getDailyDriver() {
     const dateString = getDateString();
     const date = new Date(dateString);
     const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
     
-    let difficultyOffset = 0;
-    if (difficulty === 'medium') difficultyOffset = 1000;
-    else if (difficulty === 'hard') difficultyOffset = 2000;
-    
-    const index = (dayOfYear + difficultyOffset) % DRIVERS.length;
-    return DRIVERS[index];
+    const index = dayOfYear % SECRET_POOL.length;
+    return SECRET_POOL[index];
   }
 
   function compareProperties(secret, guess) {
@@ -381,8 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof gtag === 'function') {
       gtag('event', 'guess', {
         driver: guess.name,
-        guess_number: gameState.guesses.length,
-        difficulty: currentDifficulty
+        guess_number: gameState.guesses.length
       });
     }
     
@@ -431,7 +397,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gtag('event', 'game_gave_up', {
         guesses: gameState.guesses.length,
         date: gameState.currentDate,
-        difficulty: currentDifficulty,
         time_to_give_up_seconds: timeToGiveUp,
         session_duration_seconds: sessionDuration
       });
@@ -463,7 +428,6 @@ document.addEventListener("DOMContentLoaded", () => {
         gtag('event', 'game_solved', {
           guesses: gameState.guesses.length,
           date: gameState.currentDate,
-          difficulty: currentDifficulty,
           time_to_solve_seconds: timeToSolve,
           session_duration_seconds: sessionDuration
         });
@@ -484,22 +448,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function shareResults() {
     const gameUrl = window.location.origin + window.location.pathname;
-    const difficultyText = { 'easy': 'Easy', 'medium': 'Medium', 'hard': 'Hard' }[currentDifficulty];
     const guessText = gameState.guesses.length === 1 ? 'guess' : 'guesses';
     
     let shareText;
     if (gameState.isSolved) {
-      shareText = `🏎️ F1 Quiz: Guess the Driver\n🏆 Solved in ${gameState.guesses.length} ${guessText}! (${difficultyText})\n\nPlay: ${gameUrl}`;
+      shareText = `🏎️ F1 Quiz: Guess the Driver\n🏆 Solved in ${gameState.guesses.length} ${guessText}!\n\nPlay: ${gameUrl}`;
     } else {
-      shareText = `🏎️ F1 Quiz: Guess the Driver\n😔 Gave up after ${gameState.guesses.length} ${guessText} (${difficultyText})\n\nPlay: ${gameUrl}`;
+      shareText = `🏎️ F1 Quiz: Guess the Driver\n😔 Gave up after ${gameState.guesses.length} ${guessText}\n\nPlay: ${gameUrl}`;
     }
     
     // Track share click
     if (typeof gtag === 'function') {
       gtag('event', 'share_clicked', {
         solved: gameState.isSolved,
-        guesses: gameState.guesses.length,
-        difficulty: currentDifficulty
+        guesses: gameState.guesses.length
       });
     }
     
@@ -534,12 +496,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initializeGame() {
     gameState.currentDate = getDateString();
-    gameState.secretDriver = getDailyDriver(currentDifficulty);
+    gameState.secretDriver = getDailyDriver();
     gameState.guesses = [];
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
-    gameState.difficulty = currentDifficulty;
     gameState.sessionStartTime = Date.now();
     gameState.firstGuessTime = null;
     
@@ -555,25 +516,15 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (typeof gtag === 'function') {
       gtag('event', 'game_started', {
-        date: gameState.currentDate,
-        difficulty: currentDifficulty
+        date: gameState.currentDate
       });
     }
-  }
-
-  function handleDifficultySelection(difficulty) {
-    filterByDifficulty(difficulty);
-    initializeGame();
   }
 
   // Event Listeners
   submitBtn.addEventListener('click', submitGuess);
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
-  
-  difficultyButtons.forEach(btn => {
-    btn.addEventListener('click', () => handleDifficultySelection(btn.dataset.difficulty));
-  });
   
   driverInput.addEventListener('input', (e) => {
     const results = filterDrivers(e.target.value);

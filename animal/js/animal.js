@@ -13,10 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const guessCountEl = document.getElementById("guess-count");
   const gameStatusEl = document.getElementById("game-status");
   const guessSection = document.getElementById("guess-section");
-  const difficultySection = document.getElementById("difficulty-section");
   const gameInfo = document.getElementById("game-info");
-  const currentDifficultyEl = document.getElementById("current-difficulty");
-  const difficultyButtons = document.querySelectorAll(".difficulty-btn");
   
   // Autocomplete state
   let autocompleteState = {
@@ -26,9 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Data storage
-  let ALL_ANIMALS = [];
-  let ANIMALS = []; // Filtered by difficulty
-  let currentDifficulty = 'easy';
+  let ALL_ANIMALS = []; // All animals (for guessing)
+  let SECRET_POOL = []; // Easy + Medium animals (for daily secret selection)
 
   // Load embedded data
   function loadAnimalsData() {
@@ -38,54 +34,28 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error('Animals data not loaded. Please ensure data/animals_data.js is included.');
       }
       
+      // All animals available for guessing
       ALL_ANIMALS = ANIMALS_DATA;
-      console.log('Loaded animals:', ALL_ANIMALS.length);
+      console.log('Total animals loaded:', ALL_ANIMALS.length);
       
-      // Set default difficulty and initialize game
-      filterByDifficulty('easy');
-      console.log('Filtered animals for easy:', ANIMALS.length);
+      // Secret pool: only easy + medium animals
+      SECRET_POOL = ALL_ANIMALS.filter(animal => 
+        animal.difficulty === 'easy' || animal.difficulty === 'medium'
+      );
+      console.log('Secret pool (easy+medium):', SECRET_POOL.length);
       
-      // Show difficulty selector
-      if (difficultySection) {
-        difficultySection.style.display = 'block';
-      }
-      
-      // Auto-initialize game with easy difficulty
-      if (ANIMALS.length > 0) {
+      // Auto-initialize game
+      if (SECRET_POOL.length > 0) {
         initializeGame();
         console.log('Game initialized');
       } else {
-        console.error('No animals available for easy difficulty');
-        alert('No animals available. Please try a different difficulty.');
+        console.error('No animals available in secret pool');
+        alert('No animals available.');
       }
     } catch (error) {
       console.error('Error loading animals data:', error);
       alert('Failed to load animals data: ' + error.message + '. Please refresh the page.');
     }
-  }
-
-  // Filter animals by difficulty
-  function filterByDifficulty(difficulty) {
-    currentDifficulty = difficulty;
-    ANIMALS = ALL_ANIMALS.filter(animal => {
-      if (difficulty === 'easy') {
-        return animal.difficulty === 'easy';
-      } else if (difficulty === 'medium') {
-        return animal.difficulty === 'easy' || animal.difficulty === 'medium';
-      } else { // hard
-        return true; // All animals
-      }
-    });
-    
-    // Update UI
-    currentDifficultyEl.textContent = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
-    difficultyButtons.forEach(btn => {
-      if (btn.dataset.difficulty === difficulty) {
-        btn.classList.add('selected');
-      } else {
-        btn.classList.remove('selected');
-      }
-    });
   }
 
   // Game State
@@ -95,8 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isSolved: false,
     isGameOver: false,
     gaveUp: false,
-    currentDate: null,
-    difficulty: 'easy'
+    currentDate: null
   };
 
   // Helper function to get image path
@@ -139,22 +108,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   }
 
-  function getDailyAnimal(difficulty) {
+  function getDailyAnimal() {
     const dateString = getDateString();
     const date = new Date(dateString);
     const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
     
-    // Add difficulty offset to ensure different difficulties get different animals on the same day
-    // but same difficulty always gets the same animal on the same day
-    let difficultyOffset = 0;
-    if (difficulty === 'medium') {
-      difficultyOffset = 1000; // Large offset to ensure different selection
-    } else if (difficulty === 'hard') {
-      difficultyOffset = 2000; // Different offset for hard
-    }
-    
-    const index = (dayOfYear + difficultyOffset) % ANIMALS.length;
-    return ANIMALS[index];
+    const index = dayOfYear % SECRET_POOL.length;
+    return SECRET_POOL[index];
   }
 
   // Helper function to normalize property value (handle both string and array)
@@ -449,8 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof gtag === 'function') {
       gtag('event', 'animal_guess', {
         animal: guess.name,
-        guess_number: gameState.guesses.length,
-        difficulty: currentDifficulty
+        guess_number: gameState.guesses.length
       });
     }
     
@@ -520,8 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof gtag === 'function') {
       gtag('event', 'animal_gave_up', {
         guesses: gameState.guesses.length,
-        date: gameState.currentDate,
-        difficulty: currentDifficulty
+        date: gameState.currentDate
       });
     }
   }
@@ -538,8 +496,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof gtag === 'function') {
         gtag('event', 'animal_solved', {
           guesses: gameState.guesses.length,
-          date: gameState.currentDate,
-          difficulty: currentDifficulty
+          date: gameState.currentDate
         });
       }
     } else {
@@ -558,8 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gtag('event', 'animal_game_over', {
           guesses: gameState.guesses.length,
           gave_up: gameState.gaveUp,
-          date: gameState.currentDate,
-          difficulty: currentDifficulty
+          date: gameState.currentDate
         });
       }
     }
@@ -570,18 +526,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function shareResults() {
     const gameUrl = window.location.origin + window.location.pathname;
-    const difficultyText = currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1);
     let shareText;
     
     if (gameState.isSolved) {
       const status = `Solved in ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}!`;
-      shareText = `🎉 Animal of the Day 🐾\n${status} (${difficultyText})\n\nPlay at: ${gameUrl}`;
+      shareText = `🎉 Animal of the Day 🐾\n${status}\n\nPlay at: ${gameUrl}`;
     } else if (gameState.gaveUp) {
       const status = `Gave up after ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}`;
-      shareText = `😞 Animal of the Day 🐾\n${status} (${difficultyText})\n\nPlay at: ${gameUrl}`;
+      shareText = `😞 Animal of the Day 🐾\n${status}\n\nPlay at: ${gameUrl}`;
     } else {
       const status = `Game Over after ${MAX_GUESSES} guesses`;
-      shareText = `❌ Animal of the Day 🐾\n${status} (${difficultyText})\n\nPlay at: ${gameUrl}`;
+      shareText = `❌ Animal of the Day 🐾\n${status}\n\nPlay at: ${gameUrl}`;
     }
     
     // Try to use Web Share API if available
@@ -646,12 +601,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initializeGame() {
     gameState.currentDate = getDateString();
-    gameState.secretAnimal = getDailyAnimal(currentDifficulty);
+    gameState.secretAnimal = getDailyAnimal();
     gameState.guesses = [];
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
-    gameState.difficulty = currentDifficulty;
     
     // Clear previous guesses
     guessesContainer.innerHTML = '';
@@ -667,29 +621,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Track game start
     if (typeof gtag === 'function') {
       gtag('event', 'animal_game_started', {
-        date: gameState.currentDate,
-        difficulty: currentDifficulty
+        date: gameState.currentDate
       });
     }
-  }
-
-  // Difficulty selection handler
-  function handleDifficultySelection(difficulty) {
-    filterByDifficulty(difficulty);
-    initializeGame();
   }
 
   // Event Listeners
   submitBtn.addEventListener('click', submitGuess);
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
-  
-  // Difficulty button listeners
-  difficultyButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      handleDifficultySelection(btn.dataset.difficulty);
-    });
-  });
   
   animalInput.addEventListener('input', (e) => {
     const query = e.target.value;
