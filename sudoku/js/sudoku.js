@@ -677,7 +677,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Event Listeners
-  newGameBtn.addEventListener('click', newGame);
+  newGameBtn.addEventListener('click', () => newGame(false));
   tipBtn.addEventListener('click', getTip);
   checkBtn.addEventListener('click', checkSolution);
   undoBtn.addEventListener('click', undoMove);
