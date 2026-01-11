@@ -8,8 +8,17 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- GA4 - TODO: Add hub-specific property -->
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> -->
+  <!-- GA4 - Hub Property -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9BWP9G3HS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Z9BWP9G3HS');
+
+    // Track session start time
+    const sessionStartTime = Date.now();
+  </script>
 
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
@@ -43,10 +52,10 @@
           <p>Guess the Formula 1 driver using clues about their career stats.</p>
         </a>
 
-        <a href="/sudoku/" class="game-card sudoku" onclick="trackGameClick('sudoku')">
-          <span class="emoji">🧩</span>
-          <h2>Sudoku</h2>
-          <p>Classic number puzzle. Clean design, no distractions.</p>
+        <a href="/music/" class="game-card music" onclick="trackGameClick('music')">
+          <span class="emoji">🎵</span>
+          <h2>Music Quiz</h2>
+          <p>Guess the song using hints about artist, genre, and era.</p>
         </a>
 
         <a href="/animal/" class="game-card animal" onclick="trackGameClick('animal')">
@@ -55,16 +64,10 @@
           <p>Guess the mystery animal from habitat, diet, and trait clues.</p>
         </a>
 
-        <a href="https://snackable-apps.github.io/snackable-apps-music/" class="game-card music" onclick="trackGameClick('music')">
-          <span class="emoji">🎵</span>
-          <h2>Music Quiz</h2>
-          <p>Guess the song using hints about artist, genre, and era.</p>
-        </a>
-
-        <a href="https://snackable-apps.github.io/snackable-apps-pomodoro/" class="game-card pomodoro" onclick="trackGameClick('pomodoro')">
-          <span class="emoji">⏱️</span>
-          <h2>Pomodoro</h2>
-          <p>Focus timer to boost your productivity. Work in sprints.</p>
+        <a href="/sudoku/" class="game-card sudoku" onclick="trackGameClick('sudoku')">
+          <span class="emoji">🧩</span>
+          <h2>Sudoku</h2>
+          <p>Classic number puzzle. Clean design, no distractions.</p>
         </a>
       </div>
     </main>
@@ -94,15 +97,46 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
     (adsbygoogle = window.adsbygoogle || []).push({});
 
-    // Track game clicks
+    // Track game card clicks
     function trackGameClick(gameName) {
       if (typeof gtag === 'function') {
+        const timeOnPage = Math.round((Date.now() - sessionStartTime) / 1000);
         gtag('event', 'game_selected', {
           game_name: gameName,
-          event_category: 'navigation'
+          time_to_select_seconds: timeOnPage
         });
       }
     }
+
+    // Track scroll depth
+    let maxScroll = 0;
+    window.addEventListener('scroll', function() {
+      const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+      if (scrollPercent > maxScroll) {
+        maxScroll = scrollPercent;
+      }
+    });
+
+    // Track engagement before leaving
+    window.addEventListener('beforeunload', function() {
+      if (typeof gtag === 'function') {
+        const sessionDuration = Math.round((Date.now() - sessionStartTime) / 1000);
+        gtag('event', 'hub_engagement', {
+          session_duration_seconds: sessionDuration,
+          max_scroll_percent: maxScroll,
+          games_visible: document.querySelectorAll('.game-card').length
+        });
+      }
+    });
+
+    // Track page visibility changes (user switches tabs)
+    document.addEventListener('visibilitychange', function() {
+      if (typeof gtag === 'function') {
+        gtag('event', 'visibility_change', {
+          visibility_state: document.visibilityState
+        });
+      }
+    });
   </script>
 </body>
 </html>
