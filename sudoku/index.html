@@ -115,6 +115,11 @@
     function openFeedback(){document.getElementById('feedback-overlay').classList.add('open');document.getElementById('feedback-modal').classList.add('open');document.getElementById('feedback-page').value=window.location.pathname}
     function closeFeedback(){document.getElementById('feedback-overlay').classList.remove('open');document.getElementById('feedback-modal').classList.remove('open')}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeFeedback()});
+    // Update page field when "General / Website" is selected
+    document.querySelector('.feedback-modal select[name="about"]').addEventListener('change', function() {
+      var pageField = document.getElementById('feedback-page');
+      pageField.value = this.value === 'General / Website' ? '/general' : window.location.pathname;
+    });
   </script>
 
   <script src="js/sudoku.js"></script>

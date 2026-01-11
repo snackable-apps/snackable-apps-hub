@@ -276,11 +276,20 @@
     function openFeedback() {
       document.getElementById('feedback-overlay').classList.add('open');
       document.getElementById('feedback-modal').classList.add('open');
-      document.getElementById('feedback-page').value = window.location.pathname;
+      document.getElementById('feedback-page').value = window.location.pathname || '/';
       if (typeof gtag === 'function') {
         gtag('event', 'feedback_opened', { page: window.location.pathname });
       }
     }
+    // Update page field when "General / Website" is selected
+    document.getElementById('feedback-about').addEventListener('change', function() {
+      const pageField = document.getElementById('feedback-page');
+      if (this.value === 'General / Website') {
+        pageField.value = '/general';
+      } else {
+        pageField.value = window.location.pathname || '/';
+      }
+    });
     function closeFeedback() {
       document.getElementById('feedback-overlay').classList.remove('open');
       document.getElementById('feedback-modal').classList.remove('open');
