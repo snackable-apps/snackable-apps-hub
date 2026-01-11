@@ -1,55 +1,55 @@
-id,name,abbr,nationality,country_code,birthdate,world_championships,wins,podiums,career_points,current_team,teams_history,difficulty
-1,Nico Rosberg,ROS,German,DE,1985-06-27,1,23,57,1594.5,Retired,Mercedes|Williams,medium
-2,Kevin Magnussen,MAG,Danish,DK,1992-10-05,0,0,1,189,Retired,Haas|Renault|McLaren,medium
-3,Jenson Button,BUT,British,GB,1980-01-19,1,15,50,1235,Retired,McLaren|Brawn|Honda|BAR|Williams|Benetton,medium
-4,Fernando Alonso,ALO,Spanish,ES,1981-07-29,2,32,106,2385,Aston Martin F1 Team,Aston Martin|Alpine|McLaren|Ferrari|Renault|Minardi,easy
-5,Valtteri Bottas,BOT,Finnish,FI,1989-08-28,0,10,67,1797,Without Seat,Sauber|Mercedes|Williams,easy
-6,Nico Hulkenberg,HUL,German,DE,1987-08-19,0,0,1,620,Stake F1 Team Kick Sauber,Sauber|Haas|Renault|Force India|Williams,medium
-7,Kimi Raikkonen,RAI,Finnish,FI,1979-10-17,1,21,103,1873,Retired,Alfa Romeo|Ferrari|Lotus|McLaren|Sauber,easy
-10,Sergio Perez,PER,Mexican,MX,1990-01-26,0,6,39,1638,Without Seat,Red Bull|Racing Point|Force India|McLaren|Sauber,easy
-14,Daniel Ricciardo,RIC,Australian,AU,1989-07-01,0,8,32,1329,Without Seat,Racing Bulls|McLaren|Renault|Red Bull|Toro Rosso|HRT,easy
-19,Sebastian Vettel,VET,German,DE,1987-07-03,4,53,122,3098,Retired,Aston Martin|Ferrari|Red Bull|Toro Rosso|BMW Sauber,easy
-20,Lewis Hamilton,HAM,British,GB,1985-01-07,7,105,202,5014.5,Scuderia Ferrari,Ferrari|Mercedes|McLaren,easy
-24,Carlos Sainz Jr,SAI,Spanish,ES,1994-09-01,0,4,29,1336.5,Williams F1 Team,Williams|Ferrari|McLaren|Renault|Toro Rosso,easy
-25,Max Verstappen,VER,Dutch,NL,1997-09-30,4,70,126,3419.5,Red Bull Racing,Red Bull|Toro Rosso,easy
-28,Esteban Ocon,OCO,French,FR,1996-09-17,0,1,4,477,Haas F1 Team,Haas|Alpine|Renault|Racing Point|Force India|Manor,medium
-31,Lance Stroll,STR,Canadian,CA,1998-10-29,0,0,3,324,Aston Martin F1 Team,Aston Martin|Racing Point|Williams,easy
-34,Charles Leclerc,LEC,Monegasque,MC,1997-10-16,0,8,50,1660,Scuderia Ferrari,Ferrari|Sauber,easy
-36,Pierre Gasly,GAS,French,FR,1996-02-07,0,1,5,458,Alpine F1 Team,Alpine|AlphaTauri|Red Bull|Toro Rosso,easy
-46,Michael Schumacher,MSC,German,DE,1969-01-03,7,91,155,1566,Retired,Mercedes|Ferrari|Benetton|Jordan,easy
-49,Lando Norris,NOR,British,GB,1999-11-13,1,11,43,1415,McLaren Racing,McLaren,easy
-50,Alexander Albon,ALB,Thai,TH,1996-03-23,0,0,2,313,Williams F1 Team,Williams|Red Bull|Toro Rosso,easy
-51,George Russell,RUS,British,GB,1998-02-15,0,5,24,1023,Mercedes-AMG Petronas,Mercedes|Williams,easy
-80,Mick Schumacher,MSC,German,DE,1999-03-22,0,0,0,12,Reserve Driver,Haas,medium
-82,Yuki Tsunoda,TSU,Japanese,JP,2000-05-11,0,0,0,124,Red Bull Racing,Red Bull|Racing Bulls|AlphaTauri,easy
-83,Guanyu Zhou,ZHO,Chinese,CN,1999-05-30,0,0,0,12,Retired,Sauber,medium
-97,Oscar Piastri,PIA,Australian,AU,2001-04-06,0,9,25,781,McLaren Racing,McLaren,easy
-101,Oliver Bearman,BEA,British,GB,2005-05-08,0,0,0,48,Haas F1 Team,Haas|Ferrari,medium
-94,Jack Doohan,DOO,Australian,AU,2003-01-20,0,0,0,0,Alpine F1 Team,Alpine,hard
-105,Franco Colapinto,COL,Argentine,AR,2003-05-27,0,0,0,5,Alpine F1 Team,Williams|Alpine,hard
-89,Liam Lawson,LAW,New Zealander,NZ,2002-02-11,0,0,0,44,Racing Bulls,Racing Bulls,medium
-16,Romain Grosjean,GRO,French,FR,1986-04-17,0,0,10,391,Retired,Haas|Lotus|Renault,medium
-9,Daniil Kvyat,KVY,Russian,RU,1994-04-26,0,0,3,202,Retired,AlphaTauri|Toro Rosso|Red Bull,medium
-75,Rubens Barrichello,BAR,Brazilian,BR,1972-05-23,0,11,68,658,Retired,Williams|Brawn|Honda|Ferrari|Stewart|Jordan,medium
-22,Felipe Massa,MAS,Brazilian,BR,1981-04-25,0,11,41,1167,Retired,Williams|Ferrari|Sauber,medium
-38,Mark Webber,WEB,Australian,AU,1976-08-27,0,9,42,1047.5,Retired,Red Bull|Williams|Jaguar|Minardi,medium
-1001,Ayrton Senna,SEN,Brazilian,BR,1960-03-21,3,41,80,614,Deceased,McLaren|Lotus|Toleman,easy
-1002,Alain Prost,PRO,French,FR,1955-02-24,4,51,106,798.5,Retired,Williams|Ferrari|McLaren|Renault,easy
-1003,Niki Lauda,LAU,Austrian,AT,1949-02-22,3,25,54,420.5,Deceased,McLaren|Ferrari|Brabham|March|BRM,easy
-1004,Nelson Piquet,PIQ,Brazilian,BR,1952-08-17,3,23,60,485.5,Retired,Benetton|Lotus|Williams|Brabham|Ensign,medium
-1005,Jackie Stewart,STE,British,GB,1939-06-11,3,27,43,360,Retired,Tyrrell|March|Matra|BRM,medium
-1006,Jim Clark,CLA,British,GB,1936-03-04,2,25,32,274,Deceased,Lotus,medium
-1007,Juan Manuel Fangio,FAN,Argentine,AR,1911-06-24,5,24,35,277.14,Deceased,Maserati|Ferrari|Mercedes|Alfa Romeo,medium
-1008,Mika Hakkinen,HAK,Finnish,FI,1968-09-28,2,20,51,420,Retired,McLaren|Lotus,easy
-1009,Damon Hill,HIL,British,GB,1960-09-17,1,22,42,360,Retired,Williams|Arrows|Jordan|Brabham,medium
-1010,Nigel Mansell,MAN,British,GB,1953-08-08,1,31,59,482,Retired,Williams|Ferrari|Lotus,medium
-1011,David Coulthard,COU,British,GB,1971-03-27,0,13,62,535,Retired,Red Bull|McLaren|Williams,medium
-1012,Gerhard Berger,BER,Austrian,AT,1959-08-27,0,10,48,385,Retired,McLaren|Ferrari|Benetton,hard
-1013,Emerson Fittipaldi,FIT,Brazilian,BR,1946-12-12,2,14,35,281,Retired,McLaren|Lotus|Fittipaldi|Brabham,medium
-1014,Graham Hill,GHI,British,GB,1929-02-15,2,14,36,289,Deceased,Lotus|BRM|Brabham,hard
-1015,Jody Scheckter,SCH,South African,ZA,1950-01-29,1,10,33,255,Retired,Ferrari|Wolf|Tyrrell|McLaren,hard
-1016,James Hunt,HUN,British,GB,1947-08-29,1,10,23,179,Deceased,McLaren|Hesketh|Wolf,medium
-1017,Jochen Rindt,RIN,Austrian,AT,1942-04-18,1,6,13,109,Deceased,Lotus|Brabham|Cooper,hard
-1018,Alan Jones,JON,Australian,AU,1946-11-02,1,12,24,206,Retired,Williams|Arrows|Shadow|Surtees|Hesketh,hard
-1019,Jacques Villeneuve,VIL,Canadian,CA,1971-04-09,1,11,23,235,Retired,Williams|BAR|Sauber|Renault,medium
-1020,Gilles Villeneuve,GVI,Canadian,CA,1950-01-18,0,6,13,107,Deceased,Ferrari|McLaren,medium
+id,name,abbr,nationality,country_code,birthdate,death_date,world_championships,wins,podiums,career_points,current_team,teams_history,difficulty
+1,Nico Rosberg,ROS,German,DE,1985-06-27,,1,23,57,1594.5,Retired,Mercedes|Williams,medium
+2,Kevin Magnussen,MAG,Danish,DK,1992-10-05,,0,0,1,189,Retired,Haas|Renault|McLaren,medium
+3,Jenson Button,BUT,British,GB,1980-01-19,,1,15,50,1235,Retired,McLaren|Brawn|Honda|BAR|Williams|Benetton,medium
+4,Fernando Alonso,ALO,Spanish,ES,1981-07-29,,2,32,106,2385,Aston Martin F1 Team,Aston Martin|Alpine|McLaren|Ferrari|Renault|Minardi,easy
+5,Valtteri Bottas,BOT,Finnish,FI,1989-08-28,,0,10,67,1797,Without Seat,Sauber|Mercedes|Williams,easy
+6,Nico Hulkenberg,HUL,German,DE,1987-08-19,,0,0,1,620,Stake F1 Team Kick Sauber,Sauber|Haas|Renault|Force India|Williams,medium
+7,Kimi Raikkonen,RAI,Finnish,FI,1979-10-17,,1,21,103,1873,Retired,Alfa Romeo|Ferrari|Lotus|McLaren|Sauber,easy
+10,Sergio Perez,PER,Mexican,MX,1990-01-26,,0,6,39,1638,Without Seat,Red Bull|Racing Point|Force India|McLaren|Sauber,easy
+14,Daniel Ricciardo,RIC,Australian,AU,1989-07-01,,0,8,32,1329,Without Seat,Racing Bulls|McLaren|Renault|Red Bull|Toro Rosso|HRT,easy
+19,Sebastian Vettel,VET,German,DE,1987-07-03,,4,53,122,3098,Retired,Aston Martin|Ferrari|Red Bull|Toro Rosso|BMW Sauber,easy
+20,Lewis Hamilton,HAM,British,GB,1985-01-07,,7,105,202,5014.5,Scuderia Ferrari,Ferrari|Mercedes|McLaren,easy
+24,Carlos Sainz Jr,SAI,Spanish,ES,1994-09-01,,0,4,29,1336.5,Williams F1 Team,Williams|Ferrari|McLaren|Renault|Toro Rosso,easy
+25,Max Verstappen,VER,Dutch,NL,1997-09-30,,4,70,126,3419.5,Red Bull Racing,Red Bull|Toro Rosso,easy
+28,Esteban Ocon,OCO,French,FR,1996-09-17,,0,1,4,477,Haas F1 Team,Haas|Alpine|Renault|Racing Point|Force India|Manor,medium
+31,Lance Stroll,STR,Canadian,CA,1998-10-29,,0,0,3,324,Aston Martin F1 Team,Aston Martin|Racing Point|Williams,easy
+34,Charles Leclerc,LEC,Monegasque,MC,1997-10-16,,0,8,50,1660,Scuderia Ferrari,Ferrari|Sauber,easy
+36,Pierre Gasly,GAS,French,FR,1996-02-07,,0,1,5,458,Alpine F1 Team,Alpine|AlphaTauri|Red Bull|Toro Rosso,easy
+46,Michael Schumacher,MSC,German,DE,1969-01-03,,7,91,155,1566,Retired,Mercedes|Ferrari|Benetton|Jordan,easy
+49,Lando Norris,NOR,British,GB,1999-11-13,,1,11,43,1415,McLaren Racing,McLaren,easy
+50,Alexander Albon,ALB,Thai,TH,1996-03-23,,0,0,2,313,Williams F1 Team,Williams|Red Bull|Toro Rosso,easy
+51,George Russell,RUS,British,GB,1998-02-15,,0,5,24,1023,Mercedes-AMG Petronas,Mercedes|Williams,easy
+80,Mick Schumacher,MSC,German,DE,1999-03-22,,0,0,0,12,Reserve Driver,Haas,medium
+82,Yuki Tsunoda,TSU,Japanese,JP,2000-05-11,,0,0,0,124,Red Bull Racing,Red Bull|Racing Bulls|AlphaTauri,easy
+83,Guanyu Zhou,ZHO,Chinese,CN,1999-05-30,,0,0,0,12,Retired,Sauber,medium
+97,Oscar Piastri,PIA,Australian,AU,2001-04-06,,0,9,25,781,McLaren Racing,McLaren,easy
+101,Oliver Bearman,BEA,British,GB,2005-05-08,,0,0,0,48,Haas F1 Team,Haas|Ferrari,medium
+94,Jack Doohan,DOO,Australian,AU,2003-01-20,,0,0,0,0,Alpine F1 Team,Alpine,hard
+105,Franco Colapinto,COL,Argentine,AR,2003-05-27,,0,0,0,5,Alpine F1 Team,Williams|Alpine,hard
+89,Liam Lawson,LAW,New Zealander,NZ,2002-02-11,,0,0,0,44,Racing Bulls,Racing Bulls,medium
+16,Romain Grosjean,GRO,French,FR,1986-04-17,,0,0,10,391,Retired,Haas|Lotus|Renault,medium
+9,Daniil Kvyat,KVY,Russian,RU,1994-04-26,,0,0,3,202,Retired,AlphaTauri|Toro Rosso|Red Bull,medium
+75,Rubens Barrichello,BAR,Brazilian,BR,1972-05-23,,0,11,68,658,Retired,Williams|Brawn|Honda|Ferrari|Stewart|Jordan,medium
+22,Felipe Massa,MAS,Brazilian,BR,1981-04-25,,0,11,41,1167,Retired,Williams|Ferrari|Sauber,medium
+38,Mark Webber,WEB,Australian,AU,1976-08-27,,0,9,42,1047.5,Retired,Red Bull|Williams|Jaguar|Minardi,medium
+1001,Ayrton Senna,SEN,Brazilian,BR,1960-03-21,1994-05-01,3,41,80,614,Deceased,McLaren|Lotus|Toleman,easy
+1002,Alain Prost,PRO,French,FR,1955-02-24,,4,51,106,798.5,Retired,Williams|Ferrari|McLaren|Renault,easy
+1003,Niki Lauda,LAU,Austrian,AT,1949-02-22,2019-05-20,3,25,54,420.5,Deceased,McLaren|Ferrari|Brabham|March|BRM,easy
+1004,Nelson Piquet,PIQ,Brazilian,BR,1952-08-17,,3,23,60,485.5,Retired,Benetton|Lotus|Williams|Brabham|Ensign,medium
+1005,Jackie Stewart,STE,British,GB,1939-06-11,,3,27,43,360,Retired,Tyrrell|March|Matra|BRM,medium
+1006,Jim Clark,CLA,British,GB,1936-03-04,1968-04-07,2,25,32,274,Deceased,Lotus,medium
+1007,Juan Manuel Fangio,FAN,Argentine,AR,1911-06-24,1995-07-17,5,24,35,277.14,Deceased,Maserati|Ferrari|Mercedes|Alfa Romeo,medium
+1008,Mika Hakkinen,HAK,Finnish,FI,1968-09-28,,2,20,51,420,Retired,McLaren|Lotus,easy
+1009,Damon Hill,HIL,British,GB,1960-09-17,,1,22,42,360,Retired,Williams|Arrows|Jordan|Brabham,medium
+1010,Nigel Mansell,MAN,British,GB,1953-08-08,,1,31,59,482,Retired,Williams|Ferrari|Lotus,medium
+1011,David Coulthard,COU,British,GB,1971-03-27,,0,13,62,535,Retired,Red Bull|McLaren|Williams,medium
+1012,Gerhard Berger,BER,Austrian,AT,1959-08-27,,0,10,48,385,Retired,McLaren|Ferrari|Benetton,hard
+1013,Emerson Fittipaldi,FIT,Brazilian,BR,1946-12-12,,2,14,35,281,Retired,McLaren|Lotus|Fittipaldi|Brabham,medium
+1014,Graham Hill,GHI,British,GB,1929-02-15,1975-11-29,2,14,36,289,Deceased,Lotus|BRM|Brabham,hard
+1015,Jody Scheckter,SCH,South African,ZA,1950-01-29,,1,10,33,255,Retired,Ferrari|Wolf|Tyrrell|McLaren,hard
+1016,James Hunt,HUN,British,GB,1947-08-29,1993-06-15,1,10,23,179,Deceased,McLaren|Hesketh|Wolf,medium
+1017,Jochen Rindt,RIN,Austrian,AT,1942-04-18,1970-09-05,1,6,13,109,Deceased,Lotus|Brabham|Cooper,hard
+1018,Alan Jones,JON,Australian,AU,1946-11-02,,1,12,24,206,Retired,Williams|Arrows|Shadow|Surtees|Hesketh,hard
+1019,Jacques Villeneuve,VIL,Canadian,CA,1971-04-09,,1,11,23,235,Retired,Williams|BAR|Sauber|Renault,medium
+1020,Gilles Villeneuve,GVI,Canadian,CA,1950-01-18,1982-05-08,0,6,13,107,Deceased,Ferrari|McLaren,medium

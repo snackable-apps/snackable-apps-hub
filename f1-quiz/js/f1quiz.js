@@ -117,12 +117,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   }
 
-  function calculateAge(birthdate) {
-    const today = new Date();
+  function calculateAge(birthdate, deathDate = null) {
+    const endDate = deathDate ? new Date(deathDate) : new Date();
     const birth = new Date(birthdate);
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    let age = endDate.getFullYear() - birth.getFullYear();
+    const monthDiff = endDate.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && endDate.getDate() < birth.getDate())) {
       age--;
     }
     return age;
@@ -177,9 +177,9 @@ document.addEventListener("DOMContentLoaded", () => {
       comparisons.podiums = 'higher';
     }
     
-    // Age
-    const secretAge = calculateAge(secret.birthdate);
-    const guessAge = calculateAge(guess.birthdate);
+    // Age (use death date for deceased drivers)
+    const secretAge = calculateAge(secret.birthdate, secret.deathDate);
+    const guessAge = calculateAge(guess.birthdate, guess.deathDate);
     if (secretAge === guessAge) {
       comparisons.age = 'match';
     } else if (guessAge > secretAge) {
@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
       { key: 'worldChampionships', value: guess.worldChampionships, comparison: comparisons.worldChampionships },
       { key: 'wins', value: guess.wins, comparison: comparisons.wins },
       { key: 'podiums', value: guess.podiums, comparison: comparisons.podiums },
-      { key: 'age', value: calculateAge(guess.birthdate), comparison: comparisons.age },
+      { key: 'age', value: calculateAge(guess.birthdate, guess.deathDate) + (guess.deathDate ? ' †' : ''), comparison: comparisons.age },
       { key: 'teamsHistory', value: guess.teamsHistory, comparison: comparisons.teamsHistory }
     ];
     
@@ -408,7 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <span class="property-feedback answer-reveal-feedback">WDC: ${secret.worldChampionships}</span>
         <span class="property-feedback answer-reveal-feedback">Wins: ${secret.wins}</span>
         <span class="property-feedback answer-reveal-feedback">Podiums: ${secret.podiums}</span>
-        <span class="property-feedback answer-reveal-feedback">Age: ${calculateAge(secret.birthdate)}</span>
+        <span class="property-feedback answer-reveal-feedback">Age: ${calculateAge(secret.birthdate, secret.deathDate)}${secret.deathDate ? ' †' : ''}</span>
       </div>
     `;
     guessesContainer.insertBefore(answerCard, guessesContainer.firstChild);

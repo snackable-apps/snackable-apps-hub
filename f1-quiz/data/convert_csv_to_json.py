@@ -49,6 +49,11 @@ def parse_csv_to_json(csv_file_path, output_file_path='drivers_data.js'):
                 'difficulty': row['difficulty'].strip()
             }
             
+            # Add deathDate for deceased drivers
+            death_date = row.get('death_date', '').strip()
+            if death_date:
+                driver['deathDate'] = death_date
+            
             drivers.append(driver)
     
     # Generate output file
