@@ -152,12 +152,12 @@ document.addEventListener("DOMContentLoaded", () => {
           cell.setAttribute('inputmode', 'numeric');
         }
         
-        // Add 3x3 block borders
+        // Add 3x3 block border classes
         if (j % 3 === 2 && j < 8) {
-          cell.style.borderRight = '2px solid var(--text-color)';
+          cell.classList.add('block-border-right');
         }
         if (i % 3 === 2 && i < 8) {
-          cell.style.borderBottom = '2px solid var(--text-color)';
+          cell.classList.add('block-border-bottom');
         }
         
         cell.addEventListener('click', () => selectCell(cell, i, j));
