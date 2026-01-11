@@ -168,7 +168,7 @@ main {
   width: 100%;
 }
 
-#song-input {
+#music-input {
   width: 100%;
   padding: 0.875rem 1rem;
   border: 2px solid var(--border-color);
@@ -180,11 +180,11 @@ main {
   box-sizing: border-box;
 }
 
-#song-input::placeholder {
+#music-input::placeholder {
   color: var(--text-muted);
 }
 
-#song-input:focus {
+#music-input:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2);

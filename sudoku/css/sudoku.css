@@ -1,4 +1,4 @@
-/* Sudoku - Sleek Cyan Theme */
+/* Sudoku - Classic Board with Modern UI */
 :root {
   --primary-color: #00d4ff;
   --primary-hover: #22d3ee;
@@ -15,6 +15,13 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
   --cell-size: 50px;
   --cell-size-mobile: 40px;
+  /* Classic board colors */
+  --cell-bg: #ffffff;
+  --cell-bg-fixed: #f1f5f9;
+  --cell-text: #1f2937;
+  --cell-text-fixed: #0f172a;
+  --cell-border: #cbd5e1;
+  --cell-border-block: #334155;
 }
 
 * {
@@ -126,19 +133,17 @@ main {
   border: 1px solid var(--border-color);
 }
 
-/* Sudoku Board */
+/* Sudoku Board - Classic White/Gray Style */
 #sudoku-board {
   display: grid;
   grid-template-rows: repeat(9, 1fr);
   grid-template-columns: repeat(9, 1fr);
-  gap: 2px;
-  background: var(--primary-color);
-  border: 3px solid var(--primary-color);
-  border-radius: 12px;
-  padding: 4px;
-  box-shadow: 
-    0 0 30px rgba(0, 212, 255, 0.2),
-    var(--shadow-lg);
+  gap: 1px;
+  background: var(--cell-border-block);
+  border: 3px solid var(--cell-border-block);
+  border-radius: 8px;
+  padding: 0;
+  box-shadow: var(--shadow-lg);
   width: fit-content;
   margin: 0 auto;
 }
@@ -154,11 +159,11 @@ main {
   text-align: center;
   font-size: 1.25rem;
   font-weight: 600;
-  border: 1px solid var(--border-color);
-  background: var(--card-bg);
-  color: var(--text-color);
+  border: 1px solid var(--cell-border);
+  background: var(--cell-bg);
+  color: var(--cell-text);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -172,9 +177,9 @@ main {
 }
 
 .cell[contenteditable="true"]:focus {
-  outline: 2px solid var(--primary-color);
-  outline-offset: -2px;
-  background: rgba(0, 212, 255, 0.1);
+  outline: none;
+  background: #dbeafe;
+  box-shadow: inset 0 0 0 2px #3b82f6;
 }
 
 .cell[contenteditable="true"]:empty::before {
@@ -182,58 +187,57 @@ main {
 }
 
 .cell:hover {
-  background: rgba(0, 212, 255, 0.1);
+  background: #f0f9ff;
 }
 
 .cell:focus {
-  outline: 2px solid var(--primary-color);
-  outline-offset: -2px;
-  background: rgba(0, 212, 255, 0.15);
+  outline: none;
+  background: #dbeafe;
+  box-shadow: inset 0 0 0 2px #3b82f6;
 }
 
 .cell.fixed {
-  background: rgba(0, 212, 255, 0.08);
-  color: var(--primary-color);
+  background: var(--cell-bg-fixed);
+  color: var(--cell-text-fixed);
   font-weight: 700;
   cursor: default;
 }
 
 .cell.fixed:hover {
-  background: rgba(0, 212, 255, 0.08);
+  background: var(--cell-bg-fixed);
 }
 
 .cell.hinted {
-  background: rgba(234, 179, 8, 0.2);
-  color: var(--warning-color);
+  background: #fef3c7 !important;
+  color: #92400e !important;
   animation: hintPulse 0.6s ease-in-out;
 }
 
 .cell.error {
-  background: rgba(239, 68, 68, 0.2);
-  color: var(--error-color);
+  background: #fee2e2 !important;
+  color: #dc2626 !important;
   animation: errorShake 0.5s ease-in-out;
 }
 
 .cell.correct {
-  background: rgba(34, 197, 94, 0.2);
-  color: var(--success-color);
+  background: #dcfce7 !important;
+  color: #16a34a !important;
   animation: correctPulse 0.4s ease-in-out;
 }
 
 .cell.selected {
-  background: rgba(0, 212, 255, 0.2);
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.3);
+  background: #dbeafe;
+  box-shadow: inset 0 0 0 2px #3b82f6;
 }
 
 /* 3x3 block borders */
 .cell:nth-child(3n) {
-  border-right: 2px solid var(--primary-color);
+  border-right: 2px solid var(--cell-border-block);
 }
 
 .cell:nth-child(n+19):nth-child(-n+27),
 .cell:nth-child(n+46):nth-child(-n+54) {
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--cell-border-block);
 }
 
 /* Button Bar */
@@ -343,11 +347,9 @@ button:disabled {
 @keyframes correctPulse {
   0%, 100% { 
     transform: scale(1); 
-    background: rgba(34, 197, 94, 0.2);
   }
   50% { 
     transform: scale(1.1); 
-    background: rgba(34, 197, 94, 0.3);
   }
 }
 
