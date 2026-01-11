@@ -1,6 +1,6 @@
-# Snackable Apps Hub 🍿
+# Snackable Games Hub 🎮
 
-The main hub for all Snackable Apps mini-games and tools.
+The main hub for all Snackable Games.
 
 ## Apps
 
