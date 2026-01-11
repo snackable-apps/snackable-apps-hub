@@ -628,3 +628,13 @@ main {
   }
 }
 
+/* Data freshness indicator */
+.data-freshness {
+  margin-top: 0.75rem;
+  text-align: center;
+}
+.data-freshness small {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+

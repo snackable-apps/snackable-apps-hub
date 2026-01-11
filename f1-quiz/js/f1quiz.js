@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameInfo = document.getElementById("game-info");
   const currentDifficultyEl = document.getElementById("current-difficulty");
   const difficultyButtons = document.querySelectorAll(".difficulty-btn");
-  const dataUpdateDateEl = document.getElementById("data-update-date");
+  const dataSeasonInfoEl = document.getElementById("data-season-info");
   
   // Autocomplete state
   let autocompleteState = {
@@ -45,8 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
         difficultySection.style.display = 'block';
       }
       
-      if (typeof DATA_UPDATE_DATE !== 'undefined' && dataUpdateDateEl) {
-        dataUpdateDateEl.textContent = DATA_UPDATE_DATE;
+      if (typeof DATA_SEASON !== 'undefined' && dataSeasonInfoEl) {
+        const raceDate = new Date(DATA_LAST_RACE_DATE).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        dataSeasonInfoEl.textContent = `${DATA_SEASON} season (${DATA_LAST_RACE}, ${raceDate})`;
       }
       
       if (DRIVERS.length > 0) {

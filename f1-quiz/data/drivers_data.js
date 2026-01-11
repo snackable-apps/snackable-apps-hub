@@ -1,11 +1,15 @@
 // F1 Quiz - Embedded drivers data
 // =================================
-// Last updated: 2026-01-10
+// Data reflects the 2025 season (through Abu Dhabi GP)
 // Source: API-Sports F1 API + Manual additions
 // Method: hybrid (api + manual_csv)
 // Notes: Modern era from API (2010+), legendary drivers added manually
 
-const DATA_UPDATE_DATE = "2026-01-10";
+// Data freshness info
+const DATA_SEASON = "2025";
+const DATA_LAST_RACE = "Abu Dhabi GP";
+const DATA_LAST_RACE_DATE = "2025-12-08";
+const DATA_SCRIPT_DATE = "2026-01-10";
 const DATA_SOURCE = "API-Sports F1 API + Manual";
 const DATA_UPDATE_METHOD = "hybrid";
 
