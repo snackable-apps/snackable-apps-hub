@@ -26,3 +26,4 @@ Each app has its own repository:
 - [snackable-apps-sudoku](https://github.com/snackable-apps/snackable-apps-sudoku)
 - [snackable-apps-pomodoro](https://github.com/snackable-apps/snackable-apps-pomodoro)
 
+
