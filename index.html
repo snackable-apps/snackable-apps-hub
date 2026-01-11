@@ -41,19 +41,24 @@
 
     <main>
       <div class="app-list">
-        <a href="https://snackable-apps.github.io/snackable-apps-music/" class="app-card">
+        <a href="https://snackable-apps.github.io/f1-quiz/" class="app-card featured" onclick="trackGameClick('f1-quiz')">
+          <span class="badge">🆕 NEW</span>
+          <h2>🏎️ F1 Quiz</h2>
+          <p>Guess the Formula 1 driver! Test your knowledge of the grid.</p>
+        </a>
+        <a href="https://snackable-apps.github.io/snackable-apps-music/" class="app-card" onclick="trackGameClick('music')">
           <h2>🎵 Music of the Day</h2>
           <p>Guess the song using logical clues!</p>
         </a>
-        <a href="https://snackable-apps.github.io/snackable-apps-animal/" class="app-card">
+        <a href="https://snackable-apps.github.io/snackable-apps-animal/" class="app-card" onclick="trackGameClick('animal')">
           <h2>🐾 Animal of the Day</h2>
           <p>Guess the animal using logical clues!</p>
         </a>
-        <a href="https://snackable-apps.github.io/snackable-apps-sudoku/" class="app-card">
+        <a href="https://snackable-apps.github.io/snackable-apps-sudoku/" class="app-card" onclick="trackGameClick('sudoku')">
           <h2>🧠 Sudoku</h2>
           <p>Challenge your logic with a clean Sudoku experience.</p>
         </a>
-        <a href="https://snackable-apps.github.io/snackable-apps-pomodoro/" class="app-card">
+        <a href="https://snackable-apps.github.io/snackable-apps-pomodoro/" class="app-card" onclick="trackGameClick('pomodoro')">
           <h2>⏱️ Pomodoro</h2>
           <p>Focus with a simple timer to boost productivity.</p>
         </a>
@@ -84,6 +89,16 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
     (adsbygoogle = window.adsbygoogle || []).push({});
     if(typeof gtag === 'function') gtag('event','ad_impression',{location:'menu_sides'});
+
+    // Track game clicks for analytics
+    function trackGameClick(gameName) {
+      if (typeof gtag === 'function') {
+        gtag('event', 'game_selected', {
+          game_name: gameName,
+          event_category: 'navigation'
+        });
+      }
+    }
   </script>
 </body>
 </html>
