@@ -1,26 +1,26 @@
-/* Music Quiz - Vibrant Purple Theme */
+/* CSS Variables for theming */
 :root {
-  --primary-color: #9b59b6;
-  --primary-hover: #a855f7;
-  --success-color: #22c55e;
-  --warning-color: #eab308;
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
   --error-color: #ef4444;
-  --bg-color: #150f1e;
-  --card-bg: #231a30;
-  --text-color: #ffffff;
-  --text-muted: #9ca3af;
-  --border-color: #3d2a52;
-  --border-focus: #9b59b6;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-  --match-bg: #064e3b;
-  --match-color: #10b981;
-  --higher-bg: #78350f;
-  --higher-color: #fbbf24;
-  --lower-bg: #78350f;
-  --lower-color: #fbbf24;
-  --different-bg: #7f1d1d;
-  --different-color: #f87171;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-color: #1f2937;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --border-focus: #4f46e5;
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --match-bg: #d1fae5;
+  --match-color: #065f46;
+  --higher-bg: #fef3c7;
+  --higher-color: #92400e;
+  --lower-bg: #fef3c7;
+  --lower-color: #92400e;
+  --different-bg: #fee2e2;
+  --different-color: #991b1b;
 }
 
 * {
@@ -28,11 +28,8 @@
 }
 
 body {
-  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg-color);
-  background-image: 
-    radial-gradient(ellipse at top, rgba(155, 89, 182, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
   color: var(--text-color);
   display: flex;
   flex-direction: column;
@@ -45,19 +42,17 @@ body {
 header {
   text-align: center;
   padding: 1.5rem 1rem;
-  background: linear-gradient(180deg, var(--card-bg) 0%, transparent 100%);
+  background: var(--card-bg);
   width: 100%;
-  border-bottom: 2px solid var(--primary-color);
+  box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--border-color);
 }
 
 header h1 {
   margin: 0 0 0.5rem 0;
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(90deg, var(--primary-color), #d946ef);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary-color);
 }
 
 header p {
@@ -90,15 +85,78 @@ main {
   align-items: center;
 }
 
-/* Game Info */
-.game-info {
+/* Difficulty Selection */
+.difficulty-section {
   background: var(--card-bg);
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   width: 100%;
   box-sizing: border-box;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.difficulty-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  color: var(--text-color);
+}
+
+.difficulty-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.difficulty-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.difficulty-btn:hover {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+}
+
+.difficulty-btn.selected {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Game Info */
+.game-info {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.data-update-info {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.data-update-info small {
+  color: var(--text-muted);
+  font-size: 0.875rem;
 }
 
 .game-info p {
@@ -120,35 +178,43 @@ main {
 
 #game-status.solved {
   color: var(--success-color);
+  font-weight: 600;
 }
 
 #game-status.game-over {
   color: var(--error-color);
+  font-weight: 600;
 }
 
 #game-status.warning {
   color: var(--warning-color);
+  font-weight: 600;
 }
 
 .answer-reveal {
-  background: linear-gradient(135deg, rgba(127, 29, 29, 0.8) 0%, rgba(185, 28, 28, 0.6) 100%);
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
   border: 2px solid var(--error-color);
 }
 
 .answer-reveal-header {
-  color: #fff !important;
+  color: #000 !important;
 }
 
 .answer-reveal-feedback {
-  color: #fff !important;
-  background: rgba(0,0,0,0.2) !important;
+  color: #000 !important;
+}
+
+.answer-label {
+  font-weight: 600;
+  color: var(--error-color);
+  margin: 0 0.5rem;
 }
 
 /* Guess Section */
 .guess-section {
   background: var(--card-bg);
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   display: flex;
@@ -168,26 +234,22 @@ main {
   width: 100%;
 }
 
-#song-input {
+#player-input {
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 0.75rem;
   border: 2px solid var(--border-color);
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 1rem;
-  background: rgba(0,0,0,0.3);
+  background: var(--card-bg);
   color: var(--text-color);
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, border-radius 0.2s ease;
   box-sizing: border-box;
 }
 
-#song-input::placeholder {
-  color: var(--text-muted);
-}
-
-#song-input:focus {
+#player-input:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2);
+  border-color: var(--border-focus);
+  border-radius: 8px 8px 0 0;
 }
 
 .autocomplete-dropdown {
@@ -198,7 +260,7 @@ main {
   background: var(--card-bg);
   border: 2px solid var(--border-color);
   border-top: none;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 8px 8px;
   max-height: 300px;
   overflow-y: auto;
   box-shadow: var(--shadow-lg);
@@ -208,11 +270,10 @@ main {
 }
 
 .autocomplete-item {
-  padding: 0.75rem 1rem;
+  padding: 0.75rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
   border-bottom: 1px solid var(--border-color);
-  color: var(--text-color);
 }
 
 .autocomplete-item:last-child {
@@ -221,24 +282,25 @@ main {
 
 .autocomplete-item:hover,
 .autocomplete-item.selected {
-  background: rgba(155, 89, 182, 0.15);
+  background: #f3f4f6;
 }
 
 .submit-btn {
-  padding: 0.875rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   border: none;
-  background: linear-gradient(135deg, var(--primary-color), #d946ef);
+  background: var(--primary-color);
   color: white;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   transition: all 0.2s ease;
 }
 
 .submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.3);
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
 }
 
 .submit-btn:active {
@@ -251,12 +313,17 @@ main {
   transform: none;
 }
 
+.submit-btn:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
 .submit-btn.secondary {
   background: var(--text-muted);
 }
 
 .submit-btn.secondary:hover {
-  background: #6b7280;
+  background: #52525b;
 }
 
 .button-group {
@@ -273,6 +340,7 @@ main {
   margin-top: 1.5rem;
   text-align: center;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .share-section .submit-btn {
@@ -286,12 +354,13 @@ main {
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .guess-card {
   background: var(--card-bg);
-  padding: 0.875rem 1rem;
-  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   margin-bottom: 0.5rem;
@@ -309,7 +378,7 @@ main {
   align-items: center;
   gap: 0.5rem;
   font-weight: 700;
-  min-width: 160px;
+  min-width: 140px;
   flex-shrink: 0;
 }
 
@@ -343,8 +412,8 @@ main {
 .property-feedback {
   font-size: 0.9rem;
   line-height: 1.4;
-  padding: 0.4rem 0.7rem;
-  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
   white-space: normal;
   display: inline-flex;
   align-items: center;
@@ -374,26 +443,26 @@ main {
 }
 
 .feedback-partial-match {
-  background: rgba(234, 179, 8, 0.2);
-  color: #fbbf24;
+  background: #fef3c7;
+  color: #92400e;
 }
 
-/* Multi-value highlighting */
+/* Multi-value highlighting within property feedback */
 .property-feedback .value-match {
   color: var(--success-color);
   font-weight: 600;
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(16, 185, 129, 0.1);
   padding: 0.1rem 0.3rem;
-  border-radius: 4px;
+  border-radius: 3px;
   margin: 0 0.1rem;
 }
 
 .property-feedback .value-nomatch {
   color: var(--error-color);
   font-weight: 500;
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.1);
   padding: 0.1rem 0.3rem;
-  border-radius: 4px;
+  border-radius: 3px;
   margin: 0 0.1rem;
   text-decoration: line-through;
   opacity: 0.7;
@@ -403,10 +472,11 @@ main {
 .how-to-play {
   background: var(--card-bg);
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   width: 100%;
+  box-sizing: border-box;
 }
 
 .how-to-play h3 {
@@ -431,7 +501,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.02);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -458,7 +528,10 @@ main {
     max-width: 320px;
     min-height: 250px;
   }
-  
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
   main {
     padding: 1rem;
     gap: 1rem;
@@ -484,7 +557,7 @@ main {
   }
   
   .guess-animal-header {
-    min-width: 130px;
+    min-width: 120px;
     font-size: 0.9rem;
   }
   
@@ -502,9 +575,3 @@ main {
   }
 }
 
-/* Desktop: Show header ad */
-@media (min-width: 769px) {
-  .ad-header {
-    display: flex;
-  }
-}

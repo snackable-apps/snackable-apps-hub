@@ -46,10 +46,16 @@
     <main>
       <div class="game-grid">
         <a href="/f1-quiz/" class="game-card f1" onclick="trackGameClick('f1-quiz')">
-          <span class="badge">New</span>
           <span class="emoji">🏎️</span>
           <h2>F1 Quiz</h2>
           <p>Guess the Formula 1 driver using clues about their career stats.</p>
+        </a>
+
+        <a href="/fut-quiz/" class="game-card fut" onclick="trackGameClick('fut-quiz')">
+          <span class="badge">New</span>
+          <span class="emoji">⚽</span>
+          <h2>FutQuiz</h2>
+          <p>Adivinhe o jogador de futebol usando pistas sobre sua carreira.</p>
         </a>
 
         <a href="/music/" class="game-card music" onclick="trackGameClick('music')">
@@ -107,6 +113,7 @@
       <select name="about" id="feedback-about" required>
         <option value="">Select...</option>
         <option value="F1 Quiz">F1 Quiz</option>
+        <option value="FutQuiz">FutQuiz</option>
         <option value="Music Quiz">Music Quiz</option>
         <option value="Animal Quiz">Animal Quiz</option>
         <option value="Sudoku">Sudoku</option>

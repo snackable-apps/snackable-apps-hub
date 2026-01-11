@@ -1,0 +1,399 @@
+name,nationality,currentClub,leaguesPlayed,primaryPosition,dateOfBirth,preferredFoot,height,individualTitles,teamTitles,playedWorldCup,difficulty
+Lionel Messi,Argentina,Inter Miami,La Liga|Ligue 1|MLS,Atacante,1987-06-24,Esquerdo,170,Bola de Ouro|FIFA The Best|Chuteira de Ouro,Copa do Mundo|Champions League|La Liga|Ligue 1,Yes,easy
+Cristiano Ronaldo,Portugal,Al Nassr,Premier League|La Liga|Serie A|Liga Saudita,Atacante,1985-02-05,Direito,187,Bola de Ouro|FIFA The Best|Chuteira de Ouro,Champions League|Premier League|La Liga|Serie A|Eurocopa,Yes,easy
+Neymar,Brasil,Santos,Brasileirão|La Liga|Ligue 1|Liga Saudita,Atacante,1992-02-05,Direito,175,Chuteira de Ouro,Champions League|La Liga|Ligue 1|Copa Libertadores,Yes,easy
+Kylian Mbappé,França,Real Madrid,Ligue 1|La Liga,Atacante,1998-12-20,Direito,178,Chuteira de Ouro,Copa do Mundo|Ligue 1|La Liga,Yes,easy
+Erling Haaland,Noruega,Manchester City,Bundesliga|Premier League,Atacante,2000-07-21,Esquerdo,194,Chuteira de Ouro,Champions League|Premier League|Bundesliga,No,easy
+Robert Lewandowski,Polônia,Barcelona,Bundesliga|La Liga,Atacante,1988-08-21,Direito,185,Chuteira de Ouro|FIFA The Best,Champions League|Bundesliga|La Liga,Yes,easy
+Karim Benzema,França,Al Ittihad,Ligue 1|La Liga|Liga Saudita,Atacante,1987-12-19,Direito,185,Bola de Ouro|Chuteira de Ouro,Champions League|La Liga|Ligue 1,Yes,easy
+Mohamed Salah,Egito,Liverpool,Premier League|Serie A|Liga Suíça,Atacante,1992-06-15,Esquerdo,175,Chuteira de Ouro,Champions League|Premier League,Yes,easy
+Harry Kane,Inglaterra,Bayern Munich,Premier League|Bundesliga,Atacante,1993-07-28,Direito,188,Chuteira de Ouro,,Yes,easy
+Kevin De Bruyne,Bélgica,Manchester City,Premier League|Bundesliga,Meio-campo,1991-06-28,Direito,181,,Champions League|Premier League|Bundesliga,Yes,easy
+Luka Modrić,Croácia,Real Madrid,Premier League|La Liga,Meio-campo,1985-09-09,Direito,172,Bola de Ouro,Champions League|La Liga,Yes,easy
+Toni Kroos,Alemanha,Real Madrid,Bundesliga|La Liga,Meio-campo,1990-01-04,Esquerdo,183,,Copa do Mundo|Champions League|Bundesliga|La Liga,Yes,easy
+Virgil van Dijk,Holanda,Liverpool,Premier League|Liga Escocesa,Defensor,1991-07-08,Direito,193,,Champions League|Premier League,Yes,easy
+Sergio Ramos,Espanha,Sevilla,La Liga|Ligue 1,Defensor,1986-03-30,Direito,184,,Copa do Mundo|Eurocopa|Champions League|La Liga|Ligue 1,Yes,easy
+Manuel Neuer,Alemanha,Bayern Munich,Bundesliga,Goleiro,1986-03-27,Direito,193,,Copa do Mundo|Champions League|Bundesliga,Yes,easy
+Thibaut Courtois,Bélgica,Real Madrid,Premier League|La Liga,Goleiro,1992-05-11,Esquerdo,199,,Champions League|La Liga|Premier League,Yes,easy
+Alisson,Brasil,Liverpool,Brasileirão|Serie A|Premier League,Goleiro,1992-10-02,Direito,191,,Copa América|Champions League|Premier League,Yes,easy
+Vinicius Jr,Brasil,Real Madrid,La Liga,Atacante,2000-07-12,Direito,176,,Champions League|La Liga,No,easy
+Jude Bellingham,Inglaterra,Real Madrid,Bundesliga|La Liga,Meio-campo,2003-06-29,Direito,186,,La Liga,Yes,easy
+Phil Foden,Inglaterra,Manchester City,Premier League,Meio-campo,2000-05-28,Esquerdo,171,,Champions League|Premier League,Yes,easy
+Bukayo Saka,Inglaterra,Arsenal,Premier League,Atacante,2001-09-05,Esquerdo,178,,,Yes,easy
+Rodri,Espanha,Manchester City,La Liga|Premier League,Meio-campo,1996-06-22,Direito,191,,Copa do Mundo|Champions League|Premier League|La Liga,Yes,easy
+Antoine Griezmann,França,Atlético Madrid,La Liga,Atacante,1991-03-21,Esquerdo,176,,Copa do Mundo|Eurocopa|La Liga|Europa League,Yes,easy
+Lautaro Martínez,Argentina,Inter Milan,Brasileirão|Serie A,Atacante,1997-08-22,Direito,174,,Copa do Mundo|Copa América|Serie A,Yes,easy
+Rafael Leão,Portugal,AC Milan,Ligue 1|Serie A,Atacante,1999-06-10,Direito,188,,Serie A,Yes,easy
+Federico Valverde,Uruguai,Real Madrid,La Liga,Meio-campo,1998-07-22,Direito,182,,Champions League|La Liga,Yes,easy
+Ronaldinho,Brasil,Aposentado,Brasileirão|Ligue 1|La Liga|Serie A,Meio-campo,1980-03-21,Direito,181,Bola de Ouro|FIFA The Best,Copa do Mundo|Copa América|Champions League|La Liga,Yes,medium
+Zinedine Zidane,França,Aposentado,Ligue 1|Serie A|La Liga,Meio-campo,1972-06-23,Ambidestro,185,Bola de Ouro,Copa do Mundo|Eurocopa|Champions League|La Liga|Serie A,Yes,medium
+Ronaldo Fenômeno,Brasil,Aposentado,Brasileirão|Eredivisie|La Liga|Serie A,Atacante,1976-09-18,Direito,183,Bola de Ouro|FIFA The Best,Copa do Mundo|Copa América|Champions League|La Liga|Serie A,Yes,medium
+Pelé,Brasil,Aposentado,Brasileirão|NASL,Atacante,1940-10-23,Direito,173,,Copa do Mundo|Copa Libertadores|Brasileirão,Yes,hard
+Diego Maradona,Argentina,Aposentado,Primera División|Serie A|La Liga,Atacante,1960-10-30,Esquerdo,165,,Copa do Mundo|Serie A|Copa da UEFA,Yes,hard
+Johan Cruyff,Holanda,Aposentado,Eredivisie|La Liga,Atacante,1947-04-25,Direito,178,Bola de Ouro,Champions League|La Liga|Eredivisie,Yes,hard
+Franz Beckenbauer,Alemanha,Aposentado,Bundesliga|NASL,Defensor,1945-09-11,Direito,181,Bola de Ouro,Copa do Mundo|Eurocopa|Champions League|Bundesliga,Yes,hard
+Alfredo Di Stéfano,Argentina|Espanha,Aposentado,Primera División|La Liga,Atacante,1926-07-04,Direito,178,Bola de Ouro,Champions League|La Liga|Primera División,No,hard
+Romário,Brasil,Aposentado,Brasileirão|Eredivisie|La Liga|Liga Mexicana,Atacante,1966-01-29,Esquerdo,167,Bola de Ouro|FIFA The Best,Copa do Mundo|Copa América|Champions League|Eredivisie,Yes,medium
+Rivaldo,Brasil,Aposentado,Brasileirão|La Liga|Serie A|Liga Grega,Meio-campo,1972-04-19,Esquerdo,186,Bola de Ouro|FIFA The Best,Copa do Mundo|Copa América|Champions League|La Liga,Yes,medium
+Kaká,Brasil,Aposentado,Brasileirão|Serie A|La Liga|MLS,Meio-campo,1982-04-22,Direito,186,Bola de Ouro|FIFA The Best,Champions League|Serie A|Copa do Mundo,Yes,medium
+Andrés Iniesta,Espanha,Vissel Kobe,La Liga|J-League,Meio-campo,1984-05-11,Direito,171,,Copa do Mundo|Eurocopa|Champions League|La Liga,Yes,medium
+Xavi,Espanha,Aposentado,La Liga|Liga do Catar,Meio-campo,1980-01-25,Direito,170,,Copa do Mundo|Eurocopa|Champions League|La Liga,Yes,medium
+Iker Casillas,Espanha,Aposentado,La Liga|Liga Portuguesa,Goleiro,1981-05-20,Direito,185,,Copa do Mundo|Eurocopa|Champions League|La Liga,Yes,medium
+Gianluigi Buffon,Itália,Aposentado,Serie A|Ligue 1|Serie B,Goleiro,1978-01-28,Direito,192,,Copa do Mundo|Serie A|Ligue 1,Yes,medium
+Paolo Maldini,Itália,Aposentado,Serie A,Defensor,1968-06-26,Esquerdo,187,,Champions League|Serie A,Yes,medium
+Fabio Cannavaro,Itália,Aposentado,Serie A|La Liga,Defensor,1973-09-13,Direito,176,Bola de Ouro,Copa do Mundo|Champions League|Serie A|La Liga,Yes,medium
+Alessandro Del Piero,Itália,Aposentado,Serie A|A-League,Atacante,1974-11-09,Esquerdo,173,,Copa do Mundo|Champions League|Serie A,Yes,medium
+Francesco Totti,Itália,Aposentado,Serie A,Atacante,1976-09-27,Direito,180,,Copa do Mundo|Serie A,Yes,medium
+Thierry Henry,França,Aposentado,Ligue 1|Premier League|La Liga|MLS,Atacante,1977-08-17,Direito,188,,Copa do Mundo|Eurocopa|Champions League|Premier League|La Liga,Yes,medium
+Patrick Vieira,França,Aposentado,Ligue 1|Premier League|Serie A|MLS,Meio-campo,1976-06-23,Direito,193,,Copa do Mundo|Eurocopa|Champions League|Premier League|Serie A,Yes,medium
+Zico,Brasil,Aposentado,Brasileirão|Serie A|Liga Japonesa,Meio-campo,1953-03-03,Esquerdo,172,,Copa Libertadores|Brasileirão,Yes,hard
+Garrincha,Brasil,Aposentado,Brasileirão,Atacante,1933-10-28,Esquerdo,169,,Copa do Mundo|Brasileirão,Yes,hard
+Gerd Müller,Alemanha,Aposentado,Bundesliga|NASL,Atacante,1945-11-03,Direito,176,Bola de Ouro|Chuteira de Ouro,Copa do Mundo|Eurocopa|Champions League|Bundesliga,Yes,hard
+Ferenc Puskás,Hungria,Aposentado,Liga Húngara|La Liga,Atacante,1927-04-02,Esquerdo,172,,Champions League|La Liga|Liga Húngara,Yes,hard
+Eusébio,Portugal,Aposentado,Liga Portuguesa|NASL|Liga Mexicana,Atacante,1942-01-25,Direito,175,Bola de Ouro|Chuteira de Ouro,Champions League|Liga Portuguesa,Yes,hard
+Bobby Charlton,Inglaterra,Aposentado,First Division,Meio-campo,1937-10-11,Direito,173,Bola de Ouro,Copa do Mundo|Champions League|First Division,Yes,hard
+George Best,Irlanda do Norte,Aposentado,First Division|NASL|Liga Irlandesa,Atacante,1946-05-22,Direito,175,Bola de Ouro,Champions League|First Division,No,hard
+Lev Yashin,Rússia,Aposentado,Liga Soviética,Goleiro,1929-10-22,Direito,189,Bola de Ouro,Eurocopa|Liga Soviética,Yes,hard
+Son Heung-min,Coreia do Sul,Tottenham,Bundesliga|Premier League,Atacante,1992-07-08,Direito,183,,,Yes,easy
+Sadio Mané,Senegal,Al Nassr,Ligue 1|Premier League|Bundesliga|Liga Saudita,Atacante,1992-04-10,Direito,175,,Champions League|Premier League|Bundesliga|Copa da África,Yes,easy
+Bernardo Silva,Portugal,Manchester City,Liga Portuguesa|Ligue 1|Premier League,Meio-campo,1994-08-10,Esquerdo,173,,Champions League|Premier League|Ligue 1|Liga das Nações,Yes,easy
+Bruno Fernandes,Portugal,Manchester United,Liga Portuguesa|Serie A|Premier League,Meio-campo,1994-09-08,Direito,179,,Liga das Nações|Europa League,Yes,easy
+Jamal Musiala,Alemanha,Bayern Munich,Premier League|Bundesliga,Meio-campo,2003-02-26,Direito,184,,Bundesliga,Yes,easy
+Pedri,Espanha,Barcelona,La Liga,Meio-campo,2002-11-25,Direito,174,,La Liga,Yes,easy
+Gavi,Espanha,Barcelona,La Liga,Meio-campo,2004-08-05,Direito,173,,La Liga,Yes,easy
+Florian Wirtz,Alemanha,Bayer Leverkusen,Bundesliga,Meio-campo,2003-05-03,Direito,177,,Bundesliga,No,easy
+Rafael Leão,Portugal,AC Milan,Ligue 1|Serie A,Atacante,1999-06-10,Direito,188,,Serie A,Yes,easy
+Victor Osimhen,Nigéria,Napoli,Ligue 1|Serie A,Atacante,1998-12-29,Direito,186,Chuteira de Ouro,Serie A,No,easy
+Khvicha Kvaratskhelia,Geórgia,Napoli,Liga Russa|Serie A,Atacante,2001-02-12,Direito,183,,Serie A,No,easy
+Marcus Rashford,Inglaterra,Manchester United,Premier League,Atacante,1997-10-31,Direito,180,,Europa League,Yes,easy
+Mason Mount,Inglaterra,Manchester United,Premier League,Meio-campo,1999-01-10,Direito,178,,Champions League|Premier League,Yes,easy
+Declan Rice,Inglaterra,Arsenal,Premier League,Meio-campo,1999-01-14,Direito,185,,Europa Conference League,Yes,easy
+João Cancelo,Portugal,Barcelona,Liga Portuguesa|Serie A|Premier League|Bundesliga|La Liga,Defensor,1994-05-27,Direito,182,,Champions League|Premier League|Bundesliga|La Liga|Liga das Nações,Yes,easy
+Rúben Dias,Portugal,Manchester City,Liga Portuguesa|Premier League,Defensor,1997-05-14,Direito,187,,Champions League|Premier League|Liga das Nações,Yes,easy
+Marquinhos,Brasil,Paris Saint-Germain,Brasileirão|Ligue 1,Defensor,1994-05-14,Direito,183,,Copa América|Ligue 1,Yes,easy
+Achraf Hakimi,Marrocos,Paris Saint-Germain,La Liga|Bundesliga|Serie A|Ligue 1,Defensor,1998-11-04,Direito,181,,Champions League|Serie A|Ligue 1,Yes,easy
+Ederson,Brasil,Manchester City,Brasileirão|Primeira Liga|Premier League,Goleiro,1993-08-17,Esquerdo,188,,Copa América|Champions League|Premier League,Yes,easy
+Marc-André ter Stegen,Alemanha,Barcelona,Bundesliga|La Liga,Goleiro,1992-04-30,Direito,187,,Champions League|La Liga,No,easy
+Jan Oblak,Eslovênia,Atlético Madrid,Liga Portuguesa|La Liga,Goleiro,1993-01-07,Direito,188,,La Liga|Europa League,No,easy
+Wayne Rooney,Inglaterra,Aposentado,Premier League|MLS,Atacante,1985-10-24,Direito,176,,Champions League|Premier League,Yes,medium
+Frank Lampard,Inglaterra,Aposentado,Premier League|MLS,Meio-campo,1978-06-20,Direito,184,,Champions League|Premier League|Europa League,Yes,medium
+Steven Gerrard,Inglaterra,Aposentado,Premier League|MLS,Meio-campo,1980-05-30,Direito,183,,Champions League|Europa League,Yes,medium
+John Terry,Inglaterra,Aposentado,Premier League,Defensor,1980-12-07,Direito,187,,Champions League|Premier League|Europa League,Yes,medium
+Rio Ferdinand,Inglaterra,Aposentado,Premier League,Defensor,1978-11-07,Direito,189,,Champions League|Premier League,Yes,medium
+David Beckham,Inglaterra,Aposentado,Premier League|La Liga|Serie A|Ligue 1|MLS,Meio-campo,1975-05-02,Direito,183,,Champions League|Premier League|La Liga|MLS,Yes,medium
+Michael Owen,Inglaterra,Aposentado,Premier League|La Liga,Atacante,1979-12-14,Direito,173,Bola de Ouro,Premier League,Yes,medium
+Raúl,Espanha,Aposentado,La Liga|Liga Alemã|Liga do Catar,Atacante,1977-06-27,Esquerdo,180,,Champions League|La Liga,Yes,medium
+Fernando Hierro,Espanha,Aposentado,La Liga|Premier League,Defensor,1968-03-23,Direito,188,,Champions League|La Liga,Yes,medium
+Carles Puyol,Espanha,Aposentado,La Liga,Defensor,1978-04-13,Direito,178,,Copa do Mundo|Eurocopa|Champions League|La Liga,Yes,medium
+David Villa,Espanha,Aposentado,La Liga|MLS|J-League,Atacante,1981-12-03,Esquerdo,175,,Copa do Mundo|Eurocopa|Champions League|La Liga,Yes,medium
+Fernando Torres,Espanha,Aposentado,La Liga|Premier League|Serie A|J-League,Atacante,1984-03-20,Direito,186,,Copa do Mundo|Eurocopa|Champions League|Premier League,Yes,medium
+Andrea Pirlo,Itália,Aposentado,Serie A|MLS,Meio-campo,1979-05-19,Direito,177,,Copa do Mundo|Champions League|Serie A,Yes,medium
+Gennaro Gattuso,Itália,Aposentado,Serie A|Liga Suíça,Meio-campo,1978-01-09,Direito,177,,Copa do Mundo|Champions League|Serie A,Yes,medium
+Clarence Seedorf,Holanda,Aposentado,Eredivisie|La Liga|Serie A,Meio-campo,1976-04-01,Direito,177,,Champions League|La Liga|Serie A,Yes,medium
+Edgar Davids,Holanda,Aposentado,Eredivisie|Serie A|Premier League|La Liga,Meio-campo,1973-03-13,Esquerdo,169,,Champions League|Serie A,Yes,medium
+Ruud van Nistelrooy,Holanda,Aposentado,Eredivisie|Premier League|La Liga,Atacante,1976-07-01,Direito,188,Chuteira de Ouro,Premier League|La Liga,Yes,medium
+Dennis Bergkamp,Holanda,Aposentado,Eredivisie|Serie A|Premier League,Atacante,1969-05-10,Direito,183,,Premier League,Yes,medium
+Marcelo,Brasil,Fluminense,Brasileirão|La Liga,Defensor,1988-05-12,Esquerdo,174,,Champions League|La Liga,No,medium
+Casemiro,Brasil,Manchester United,Brasileirão|La Liga|Premier League,Meio-campo,1992-02-23,Direito,185,,Champions League|La Liga|Copa América,Yes,medium
+Roberto Carlos,Brasil,Aposentado,Brasileirão|Serie A|La Liga|Liga Turca,Defensor,1973-04-10,Esquerdo,168,,Copa do Mundo|Copa América|Champions League|La Liga,Yes,medium
+Cafu,Brasil,Aposentado,Brasileirão|Serie A,Defensor,1970-06-07,Direito,176,,Copa do Mundo|Copa América|Champions League|Serie A,Yes,medium
+Dida,Brasil,Aposentado,Brasileirão|Serie A,Goleiro,1973-10-07,Direito,195,,Copa do Mundo|Copa América|Champions League|Serie A,Yes,medium
+Luís Figo,Portugal,Aposentado,Liga Portuguesa|La Liga|Serie A,Meio-campo,1972-11-04,Direito,180,Bola de Ouro,Champions League|La Liga|Serie A,Yes,medium
+Ricardo Carvalho,Portugal,Aposentado,Liga Portuguesa|Premier League|La Liga|Liga Chinesa,Defensor,1978-05-18,Direito,183,,Champions League|Premier League|La Liga|Eurocopa,Yes,medium
+Paulo Maldini,Itália,Aposentado,Serie A,Defensor,1968-06-26,Esquerdo,187,,Champions League|Serie A,Yes,medium
+Alessandro Nesta,Itália,Aposentado,Serie A|MLS,Defensor,1976-03-19,Direito,187,,Copa do Mundo|Champions League|Serie A,Yes,medium
+Gianfranco Zola,Itália,Aposentado,Serie A|Premier League,Atacante,1966-07-05,Esquerdo,168,,Premier League|Europa League,Yes,medium
+Roberto Baggio,Itália,Aposentado,Serie A,Atacante,1967-02-18,Direito,174,Bola de Ouro|FIFA The Best,Serie A,Yes,hard
+Marco van Basten,Holanda,Aposentado,Eredivisie|Serie A,Atacante,1964-10-31,Direito,188,Bola de Ouro,Eurocopa|Champions League|Serie A|Eredivisie,No,hard
+Ruud Gullit,Holanda,Aposentado,Eredivisie|Serie A|Premier League,Meio-campo,1962-09-01,Direito,191,Bola de Ouro,Eurocopa|Champions League|Serie A,Yes,hard
+Frank Rijkaard,Holanda,Aposentado,Eredivisie|Serie A|La Liga,Meio-campo,1962-09-30,Direito,190,,Eurocopa|Champions League|Serie A|La Liga,Yes,hard
+Michel Platini,França,Aposentado,Ligue 1|Serie A,Meio-campo,1955-06-21,Direito,178,Bola de Ouro,Eurocopa|Champions League|Serie A,Yes,hard
+Raymond Kopa,França,Aposentado,Ligue 1|La Liga,Meio-campo,1931-10-13,Direito,169,Bola de Ouro,Champions League|La Liga,Yes,hard
+Just Fontaine,França,Aposentado,Ligue 1,Atacante,1933-08-18,Direito,174,Chuteira de Ouro,,Yes,hard
+Bobby Moore,Inglaterra,Aposentado,First Division,Defensor,1941-04-12,Direito,175,,Copa do Mundo|First Division,Yes,hard
+Gordon Banks,Inglaterra,Aposentado,First Division|NASL,Goleiro,1937-12-30,Direito,183,,Copa do Mundo|First Division,Yes,hard
+Stanley Matthews,Inglaterra,Aposentado,First Division,Atacante,1915-02-01,Direito,170,Bola de Ouro,First Division,No,hard
+Alfredo Di Stéfano,Argentina|Espanha,Aposentado,Primera División|La Liga,Atacante,1926-07-04,Direito,178,Bola de Ouro,Champions League|La Liga|Primera División,No,hard
+Ladislao Kubala,Hungria|Espanha,Aposentado,Liga Húngara|La Liga,Atacante,1927-06-10,Direito,176,,La Liga,No,hard
+Sándor Kocsis,Hungria,Aposentado,Liga Húngara|La Liga,Atacante,1929-09-21,Direito,177,,La Liga,Yes,hard
+József Bozsik,Hungria,Aposentado,Liga Húngara,Meio-campo,1925-11-28,Direito,172,,,Yes,hard
+Giacinto Facchetti,Itália,Aposentado,Serie A,Defensor,1942-07-18,Esquerdo,191,,Copa do Mundo|Eurocopa|Champions League|Serie A,Yes,hard
+Gianni Rivera,Itália,Aposentado,Serie A,Meio-campo,1943-08-18,Direito,175,Bola de Ouro,Copa do Mundo|Eurocopa|Champions League|Serie A,Yes,hard
+Dino Zoff,Itália,Aposentado,Serie A,Goleiro,1942-02-28,Direito,182,,Copa do Mundo|Eurocopa|Serie A,Yes,hard
+Gaetano Scirea,Itália,Aposentado,Serie A,Defensor,1953-05-25,Direito,178,,Copa do Mundo|Champions League|Serie A,Yes,hard
+Karl-Heinz Rummenigge,Alemanha,Aposentado,Bundesliga|Serie A,Atacante,1955-09-25,Direito,182,Bola de Ouro,Eurocopa|Champions League|Bundesliga,Yes,hard
+Lothar Matthäus,Alemanha,Aposentado,Bundesliga|Serie A|MLS,Meio-campo,1961-03-21,Direito,174,Bola de Ouro|FIFA The Best,Copa do Mundo|Eurocopa|Champions League|Bundesliga|Serie A,Yes,hard
+Jürgen Klinsmann,Alemanha,Aposentado,Bundesliga|Serie A|Premier League,Atacante,1964-07-30,Direito,181,,Copa do Mundo|Eurocopa|Champions League|Bundesliga,Yes,hard
+Matthias Sammer,Alemanha,Aposentado,Bundesliga|Serie A,Defensor,1967-09-05,Direito,180,Bola de Ouro,Eurocopa|Champions League|Bundesliga,Yes,hard
+Oliver Kahn,Alemanha,Aposentado,Bundesliga,Goleiro,1969-06-15,Direito,188,,Champions League|Bundesliga,Yes,hard
+Gabriel Jesus,Brasil,Arsenal,Brasileirão|Premier League,Atacante,1997-04-03,Direito,175,,Copa América|Premier League,Yes,easy
+Gabriel Martinelli,Brasil,Arsenal,Brasileirão|Premier League,Atacante,2001-06-18,Direito,178,,,No,easy
+Martin Ødegaard,Noruega,Arsenal,La Liga|Eredivisie|Premier League,Meio-campo,1998-12-17,Esquerdo,178,,,No,easy
+William Saliba,França,Arsenal,Ligue 1|Premier League,Defensor,2001-03-24,Direito,192,,,No,easy
+Ollie Watkins,Inglaterra,Aston Villa,Premier League,Atacante,1995-12-30,Direito,180,,,No,easy
+Douglas Luiz,Brasil,Aston Villa,Brasileirão|La Liga|Premier League,Meio-campo,1998-05-09,Esquerdo,178,,Copa América,No,easy
+Yamal,Espanha,Barcelona,La Liga,Atacante,2007-07-13,Esquerdo,170,,La Liga,No,easy
+Frenkie de Jong,Holanda,Barcelona,Eredivisie|La Liga,Meio-campo,1997-05-12,Direito,180,,La Liga,Yes,easy
+Ronald Araújo,Uruguai,Barcelona,La Liga,Defensor,1999-03-07,Direito,188,,La Liga,Yes,easy
+Jules Koundé,França,Barcelona,Ligue 1|La Liga,Defensor,1998-11-12,Direito,178,,La Liga|Liga das Nações,Yes,easy
+Federico Chiesa,Itália,Juventus,Serie A,Atacante,1997-10-25,Direito,175,,Eurocopa|Serie A,No,easy
+Dusan Vlahovic,Sérvia,Juventus,Serie A,Atacante,2000-01-28,Esquerdo,190,,,Yes,easy
+Wojciech Szczęsny,Polônia,Juventus,Premier League|Serie A,Goleiro,1990-04-18,Direito,196,,Serie A,Yes,easy
+Nicolò Barella,Itália,Inter Milan,Serie A,Meio-campo,1997-02-07,Direito,172,,Eurocopa|Serie A,No,easy
+Alessandro Bastoni,Itália,Inter Milan,Serie A,Defensor,1999-04-13,Esquerdo,190,,Eurocopa|Serie A,No,easy
+Mike Maignan,França,AC Milan,Ligue 1|Serie A,Goleiro,1995-07-03,Direito,191,,Serie A|Ligue 1,Yes,easy
+Theo Hernández,França,AC Milan,La Liga|Serie A,Defensor,1997-10-06,Esquerdo,184,,Liga das Nações|Serie A,Yes,easy
+Sandro Tonali,Itália,Newcastle,Serie A|Premier League,Meio-campo,2000-05-08,Direito,181,,Serie A,No,easy
+Alexander Isak,Suécia,Newcastle,Eredivisie|La Liga|Premier League,Atacante,1999-09-21,Direito,192,,,No,easy
+Bruno Guimarães,Brasil,Newcastle,Brasileirão|Ligue 1|Premier League,Meio-campo,1997-11-16,Direito,182,,Copa América,No,easy
+Dominik Szoboszlai,Hungria,Liverpool,Liga Austríaca|Bundesliga|Premier League,Meio-campo,2000-10-25,Esquerdo,186,,,No,easy
+Darwin Núñez,Uruguai,Liverpool,Liga Espanhola|Premier League,Atacante,1999-06-24,Direito,187,,,Yes,easy
+Luis Díaz,Colômbia,Liverpool,Liga Colombiana|Primeira Liga|Premier League,Atacante,1997-01-13,Direito,178,,,No,easy
+Ibrahima Konaté,França,Liverpool,Ligue 1|Premier League,Defensor,1999-05-25,Direito,194,,Premier League,Yes,easy
+Christopher Nkunku,França,Chelsea,Ligue 1|Bundesliga|Premier League,Atacante,1997-11-14,Direito,175,,,No,easy
+Enzo Fernández,Argentina,Chelsea,Primera División|Primeira Liga|Premier League,Meio-campo,2001-01-17,Direito,178,,Copa do Mundo,Yes,easy
+Cole Palmer,Inglaterra,Chelsea,Premier League,Atacante,2002-05-06,Esquerdo,189,,Champions League|Premier League,No,easy
+Moises Caicedo,Equador,Chelsea,Liga Equatoriana|Premier League,Meio-campo,2001-11-02,Direito,178,,,Yes,easy
+Rasmus Højlund,Dinamarca,Manchester United,Liga Austríaca|Serie A|Premier League,Atacante,2003-02-04,Direito,191,,,No,easy
+André Onana,Camarões,Manchester United,Eredivisie|Serie A|Premier League,Goleiro,1996-04-02,Direito,190,,Serie A,Yes,easy
+Lisandro Martínez,Argentina,Manchester United,Primera División|Eredivisie|Premier League,Defensor,1998-01-18,Esquerdo,175,,Copa do Mundo|Copa América,Yes,easy
+Rafael Varane,França,Manchester United,La Liga|Premier League,Defensor,1993-04-25,Direito,191,,Copa do Mundo|Champions League|La Liga,Yes,easy
+Jack Grealish,Inglaterra,Manchester City,Premier League,Atacante,1995-09-10,Esquerdo,180,,Champions League|Premier League,Yes,easy
+John Stones,Inglaterra,Manchester City,Premier League,Defensor,1994-05-28,Direito,188,,Champions League|Premier League,Yes,easy
+Kyle Walker,Inglaterra,Manchester City,Premier League,Defensor,1990-05-28,Direito,183,,Champions League|Premier League,Yes,easy
+İlkay Gündoğan,Alemanha,Barcelona,Bundesliga|Premier League|La Liga,Meio-campo,1990-10-24,Direito,180,,Champions League|Premier League|La Liga,Yes,easy
+Aurélien Tchouaméni,França,Real Madrid,Ligue 1|La Liga,Meio-campo,2000-01-27,Direito,187,,Liga das Nações|Champions League|La Liga,Yes,easy
+Eduardo Camavinga,França,Real Madrid,Ligue 1|La Liga,Meio-campo,2002-11-10,Esquerdo,182,,Liga das Nações|Champions League|La Liga,Yes,easy
+David Alaba,Áustria,Real Madrid,Bundesliga|La Liga,Defensor,1992-06-24,Esquerdo,180,,Champions League|Bundesliga|La Liga,No,easy
+Antonio Rüdiger,Alemanha,Real Madrid,Bundesliga|Premier League|La Liga,Defensor,1993-03-03,Direito,190,,Champions League|La Liga,Yes,easy
+Kingsley Coman,França,Bayern Munich,Ligue 1|Serie A|Bundesliga,Atacante,1996-06-13,Direito,180,,Copa do Mundo|Champions League|Bundesliga|Serie A,Yes,easy
+Leroy Sané,Alemanha,Bayern Munich,Bundesliga|Premier League,Atacante,1996-01-11,Direito,183,,Bundesliga|Premier League,Yes,easy
+Joshua Kimmich,Alemanha,Bayern Munich,Bundesliga,Meio-campo,1995-02-08,Direito,176,,Champions League|Bundesliga,Yes,easy
+Leon Goretzka,Alemanha,Bayern Munich,Bundesliga,Meio-campo,1995-02-06,Direito,189,,Champions League|Bundesliga,Yes,easy
+Dayot Upamecano,França,Bayern Munich,Ligue 1|Bundesliga,Defensor,1998-10-27,Direito,186,,Liga das Nações|Bundesliga,Yes,easy
+Moussa Diaby,França,Aston Villa,Ligue 1|Bundesliga|Premier League,Atacante,1999-07-07,Direito,171,,,No,easy
+Mikel Oyarzabal,Espanha,Real Sociedad,La Liga,Atacante,1997-04-21,Esquerdo,181,,Liga das Nações,Yes,easy
+Takefusa Kubo,Japão,Real Sociedad,J-League|La Liga,Atacante,2001-06-04,Esquerdo,173,,,Yes,easy
+Alexis Mac Allister,Argentina,Liverpool,Primera División|Premier League,Meio-campo,1998-12-24,Esquerdo,176,,Copa do Mundo|Copa América,Yes,easy
+Wataru Endo,Japão,Liverpool,J-League|Bundesliga|Premier League,Meio-campo,1993-02-09,Direito,178,,,Yes,easy
+Cody Gakpo,Holanda,Liverpool,Eredivisie|Premier League,Atacante,1999-05-07,Direito,193,,,Yes,easy
+João Félix,Portugal,Barcelona,Primeira Liga|La Liga|Premier League,Atacante,1999-11-10,Direito,181,,La Liga|Liga das Nações,Yes,easy
+Rafael Leão,Portugal,AC Milan,Ligue 1|Serie A,Atacante,1999-06-10,Direito,188,,Serie A,Yes,easy
+Randal Kolo Muani,França,Paris Saint-Germain,Ligue 1|Bundesliga,Atacante,1998-12-05,Direito,187,,Liga das Nações|Ligue 1,Yes,easy
+Ousmane Dembélé,França,Paris Saint-Germain,Bundesliga|La Liga|Ligue 1,Atacante,1997-05-15,Esquerdo,178,,Copa do Mundo|La Liga|Ligue 1,Yes,easy
+Warren Zaïre-Emery,França,Paris Saint-Germain,Ligue 1,Meio-campo,2006-03-08,Direito,178,,Ligue 1,No,easy
+Achraf Hakimi,Marrocos,Paris Saint-Germain,La Liga|Bundesliga|Serie A|Ligue 1,Defensor,1998-11-04,Direito,181,,Champions League|Serie A|Ligue 1,Yes,easy
+Gianluigi Donnarumma,Itália,Paris Saint-Germain,Serie A|Ligue 1,Goleiro,1999-02-25,Direito,196,,Eurocopa|Ligue 1,No,easy
+Serge Gnabry,Alemanha,Bayern Munich,Premier League|Bundesliga,Atacante,1995-07-14,Direito,175,,Champions League|Bundesliga,Yes,easy
+Thomas Müller,Alemanha,Bayern Munich,Bundesliga,Atacante,1989-09-13,Direito,186,,Copa do Mundo|Champions League|Bundesliga,Yes,easy
+Benjamin Pavard,França,Inter Milan,Ligue 1|Bundesliga|Serie A,Defensor,1996-03-28,Direito,186,,Copa do Mundo|Bundesliga|Serie A,Yes,easy
+Nicolás Otamendi,Argentina,Benfica,Primera División|Premier League|Liga Portuguesa,Defensor,1988-02-12,Direito,183,,Copa do Mundo|Copa América|Premier League|Liga Portuguesa,Yes,easy
+Ángel Di María,Argentina,Benfica,Primera División|La Liga|Premier League|Ligue 1|Liga Portuguesa,Atacante,1988-02-14,Esquerdo,180,,Copa do Mundo|Copa América|Champions League|La Liga|Ligue 1,Yes,medium
+Sergio Agüero,Argentina,Aposentado,Primera División|Premier League|La Liga,Atacante,1988-06-02,Direito,173,,Copa América|Premier League|La Liga,Yes,medium
+Carlos Tevez,Argentina,Aposentado,Primera División|Premier League|Serie A|Liga Chinesa,Atacante,1984-02-05,Direito,170,,Champions League|Premier League|Serie A,Yes,medium
+Javier Mascherano,Argentina,Aposentado,Primera División|Premier League|La Liga,Meio-campo,1984-06-08,Direito,174,,Copa do Mundo|Copa América|Champions League|La Liga,Yes,medium
+Pablo Zabaleta,Argentina,Aposentado,Primera División|Premier League,Defensor,1985-01-16,Direito,178,,Premier League,Yes,medium
+Fernando Torres,Espanha,Aposentado,La Liga|Premier League|Serie A|J-League,Atacante,1984-03-20,Direito,186,,Copa do Mundo|Eurocopa|Champions League|Premier League,Yes,medium
+David Silva,Espanha,Aposentado,La Liga|Premier League,Meio-campo,1986-01-08,Esquerdo,170,,Copa do Mundo|Eurocopa|Champions League|Premier League|La Liga,Yes,medium
+Juan Mata,Espanha,Aposentado,La Liga|Premier League,Meio-campo,1988-04-28,Esquerdo,170,,Copa do Mundo|Eurocopa|Champions League|Premier League|Europa League,Yes,medium
+Cesc Fàbregas,Espanha,Aposentado,Premier League|La Liga|Serie A|Ligue 1,Meio-campo,1987-05-04,Direito,175,,Copa do Mundo|Eurocopa|Premier League|La Liga,Yes,medium
+Sergio Busquets,Espanha,Inter Miami,La Liga|MLS,Meio-campo,1988-07-16,Direito,189,,Copa do Mundo|Eurocopa|Champions League|La Liga,Yes,medium
+Jordi Alba,Espanha,Inter Miami,La Liga|MLS,Defensor,1989-03-21,Esquerdo,170,,Copa do Mundo|Eurocopa|Champions League|La Liga,Yes,medium
+Gerard Piqué,Espanha,Aposentado,Premier League|La Liga,Defensor,1987-02-02,Direito,194,,Copa do Mundo|Eurocopa|Champions League|La Liga,Yes,medium
+Fernando Morientes,Espanha,Aposentado,La Liga|Premier League|Liga Francesa,Atacante,1976-04-05,Direito,186,,Champions League|La Liga,Yes,medium
+Fernando Redondo,Argentina,Aposentado,Primera División|La Liga|Serie A,Meio-campo,1969-06-27,Direito,186,,Champions League|La Liga|Serie A,Yes,medium
+Claudio Caniggia,Argentina,Aposentado,Primera División|Serie A|Liga Escocesa|Liga Árabe,Atacante,1967-01-09,Direito,175,,Copa do Mundo|Copa América|Serie A,Yes,medium
+Gabriel Batistuta,Argentina,Aposentado,Primera División|Serie A|Liga Árabe,Atacante,1969-02-01,Direito,185,,Copa América|Serie A,Yes,medium
+Hernán Crespo,Argentina,Aposentado,Primera División|Serie A|Premier League|Liga Árabe,Atacante,1975-07-05,Direito,184,,Copa América|Champions League|Serie A|Premier League,Yes,medium
+Esteban Cambiasso,Argentina,Aposentado,Primera División|La Liga|Serie A|Premier League,Meio-campo,1980-08-18,Esquerdo,177,,Champions League|Serie A,Yes,medium
+Walter Samuel,Argentina,Aposentado,Primera División|Serie A|La Liga,Defensor,1978-03-23,Direito,183,,Copa América|Champions League|Serie A|La Liga,Yes,medium
+Javier Zanetti,Argentina,Aposentado,Primera División|Serie A,Defensor,1973-08-10,Direito,178,,Copa América|Champions League|Serie A,Yes,medium
+Juan Sebastián Verón,Argentina,Aposentado,Primera División|Serie A|Premier League,Meio-campo,1975-03-09,Direito,186,,Copa América|Champions League|Serie A,Yes,medium
+Ariel Ortega,Argentina,Aposentado,Primera División|Serie A|Liga Turca,Meio-campo,1974-03-04,Esquerdo,170,,Copa América|Serie A,Yes,medium
+Pablo Aimar,Argentina,Aposentado,Primera División|La Liga|Liga Portuguesa,Meio-campo,1979-11-03,Esquerdo,170,,Copa América|La Liga|Liga Portuguesa,Yes,medium
+Claudio López,Argentina,Aposentado,Primera División|La Liga|Serie A|Liga Mexicana,Atacante,1974-07-17,Esquerdo,178,,Copa América|La Liga,Yes,medium
+Mario Kempes,Argentina,Aposentado,Primera División|La Liga|Liga Austríaca,Atacante,1954-07-15,Direito,184,Chuteira de Ouro,Copa do Mundo|Copa América|La Liga,Yes,hard
+Daniel Passarella,Argentina,Aposentado,Primera División|Serie A,Defensor,1953-05-25,Direito,174,,Copa do Mundo|Copa América|Serie A,Yes,hard
+Oswaldo Ardiles,Argentina,Aposentado,Primera División|Premier League|Liga Japonesa,Meio-campo,1952-08-03,Direito,169,,Copa do Mundo|Premier League,Yes,hard
+Ricardo Bochini,Argentina,Aposentado,Primera División,Meio-campo,1954-01-25,Esquerdo,168,,Copa do Mundo|Copa Libertadores|Primera División,Yes,hard
+Ubaldo Fillol,Argentina,Aposentado,Primera División|Liga Brasileira,Goleiro,1950-07-21,Direito,180,,Copa do Mundo|Copa América|Primera División,Yes,hard
+Jairzinho,Brasil,Aposentado,Brasileirão|Liga Francesa,Atacante,1944-12-25,Direito,173,,Copa do Mundo|Brasileirão,Yes,hard
+Tostão,Brasil,Aposentado,Brasileirão,Atacante,1947-01-25,Esquerdo,172,,Copa do Mundo|Brasileirão,Yes,hard
+Carlos Alberto,Brasil,Aposentado,Brasileirão|NASL,Defensor,1944-07-17,Direito,180,,Copa do Mundo|Brasileirão,Yes,hard
+Falcão,Brasil,Aposentado,Brasileirão|Serie A,Meio-campo,1953-10-16,Direito,183,,Serie A,Yes,hard
+Sócrates,Brasil,Aposentado,Brasileirão|Serie A,Meio-campo,1954-02-19,Direito,192,,Brasileirão,Yes,hard
+Taffarel,Brasil,Aposentado,Brasileirão|Serie A|Liga Turca,Goleiro,1966-05-08,Direito,188,,Copa do Mundo|Copa América|Serie A,Yes,hard
+Dunga,Brasil,Aposentado,Brasileirão|Serie A|Liga Alemã,Meio-campo,1963-10-31,Direito,177,,Copa do Mundo|Copa América|Serie A,Yes,hard
+Youssoufa Moukoko,Alemanha,Borussia Dortmund,Bundesliga,Atacante,2004-11-20,Direito,179,,,No,easy
+Jamal Musiala,Alemanha,Bayern Munich,Premier League|Bundesliga,Meio-campo,2003-02-26,Direito,184,,Bundesliga,Yes,easy
+Florian Wirtz,Alemanha,Bayer Leverkusen,Bundesliga,Meio-campo,2003-05-03,Direito,177,,Bundesliga,No,easy
+Evan Ferguson,Irlanda,Brighton,Premier League,Atacante,2004-10-19,Direito,188,,,No,easy
+Kaoru Mitoma,Japão,Brighton,J-League|Premier League,Atacante,1997-05-20,Esquerdo,178,,,Yes,easy
+Pascal Groß,Alemanha,Brighton,Bundesliga|Premier League,Meio-campo,1991-06-15,Direito,181,,,No,easy
+Alexis Sánchez,Chile,Inter Milan,Primera División|Premier League|Serie A,Atacante,1988-12-19,Direito,169,,Copa América|Premier League|Serie A,Yes,easy
+Arturo Vidal,Chile,Colo-Colo,Primera División|Serie A|Bundesliga|La Liga,Meio-campo,1987-05-22,Direito,180,,Copa América|Serie A|Bundesliga|La Liga,Yes,medium
+Gary Medel,Chile,Vasco,Primera División|Premier League|Serie A|Brasileirão,Defensor,1987-08-03,Direito,171,,Copa América,Yes,medium
+Claudio Bravo,Chile,Real Betis,Primera División|La Liga|Premier League,Goleiro,1983-04-13,Direito,184,,Copa América|La Liga|Premier League,Yes,medium
+Eduardo Vargas,Chile,Atlético Mineiro,Primera División|La Liga|Premier League|Brasileirão,Atacante,1989-11-20,Direito,175,,Copa América,Yes,medium
+James Rodríguez,Colômbia,São Paulo,Liga Colombiana|Primeira Liga|La Liga|Premier League|Bundesliga|Brasileirão,Meio-campo,1991-07-12,Esquerdo,180,Chuteira de Ouro,Champions League|La Liga|Bundesliga,Yes,medium
+Radamel Falcao,Colômbia,Millonarios,Liga Colombiana|Primeira Liga|La Liga|Premier League|Monaco,Atacante,1986-02-10,Direito,177,,Primeira Liga|La Liga|Europa League,Yes,medium
+Juan Cuadrado,Colômbia,Inter Miami,Liga Colombiana|Serie A|Premier League|MLS,Defensor,1988-05-26,Direito,176,,Serie A,Yes,medium
+David Ospina,Colômbia,Al Nassr,Liga Colombiana|Premier League|Serie A|Liga Saudita,Goleiro,1988-08-31,Direito,183,,,Yes,medium
+Carlos Bacca,Colômbia,Aposentado,Liga Colombiana|La Liga|Serie A,Atacante,1986-09-08,Direito,181,,Europa League|Serie A,Yes,medium
+Edinson Cavani,Uruguai,Boca Juniors,Primera División|Serie A|Premier League|Ligue 1,Atacante,1987-02-14,Direito,184,,Copa América|Premier League|Ligue 1,Yes,medium
+Luis Suárez,Uruguai,Inter Miami,Primera División|Eredivisie|Premier League|La Liga|Serie A|MLS,Atacante,1987-01-24,Direito,182,Chuteira de Ouro,Copa América|Champions League|La Liga|Serie A,Yes,easy
+Diego Godín,Uruguai,Aposentado,Primera División|La Liga|Serie A,Defensor,1986-02-16,Direito,187,,Copa América|La Liga|Serie A|Europa League,Yes,medium
+Fernando Muslera,Uruguai,Galatasaray,Primera División|Ligue 1|Liga Turca,Goleiro,1986-06-16,Direito,190,,Copa América|Liga Turca,Yes,medium
+Álvaro Recoba,Uruguai,Aposentado,Primera División|Serie A|Liga Grega,Atacante,1976-03-17,Esquerdo,177,,Serie A|UEFA Cup,Yes,medium
+Enzo Francescoli,Uruguai,Aposentado,Primera División|Ligue 1|Serie A,Atacante,1961-11-12,Direito,181,,Copa América|Ligue 1,Yes,hard
+Rubén Sosa,Uruguai,Aposentado,Primera División|La Liga|Serie A,Atacante,1966-04-25,Esquerdo,175,,Copa América|La Liga|Serie A,Yes,hard
+Radja Nainggolan,Bélgica,Aposentado,Serie A|La Liga,Meio-campo,1988-05-04,Direito,176,,Serie A,Yes,medium
+Eden Hazard,Bélgica,Aposentado,Ligue 1|Premier League|La Liga,Atacante,1991-01-07,Esquerdo,175,,Premier League|La Liga,Yes,medium
+Dries Mertens,Bélgica,Galatasaray,Eredivisie|Serie A|Liga Turca,Atacante,1987-05-06,Direito,169,,Serie A,Yes,medium
+Jan Vertonghen,Bélgica,Anderlecht,Liga Belga|Premier League|Liga Portuguesa,Defensor,1987-04-24,Esquerdo,189,,Premier League,Yes,medium
+Toby Alderweireld,Bélgica,Royal Antwerp,Liga Belga|Premier League|La Liga,Defensor,1989-03-02,Direito,186,,Premier League,Yes,medium
+Axel Witsel,Bélgica,Atlético Madrid,Liga Belga|Liga Russa|Bundesliga|La Liga,Meio-campo,1989-01-12,Direito,186,,Bundesliga|La Liga,Yes,medium
+Youri Tielemans,Bélgica,Aston Villa,Liga Belga|Premier League,Meio-campo,1997-05-07,Direito,176,,FA Cup,Yes,easy
+Romelu Lukaku,Bélgica,Roma,Liga Belga|Premier League|Serie A,Atacante,1993-05-13,Direito,191,,Serie A,Yes,easy
+Domenico Berardi,Itália,Sassuolo,Serie A,Atacante,1994-08-01,Esquerdo,183,,Eurocopa,No,easy
+Giacomo Raspadori,Itália,Napoli,Serie A,Atacante,2000-02-18,Direito,172,,Serie A,No,easy
+Manuel Locatelli,Itália,Juventus,Serie A,Meio-campo,1998-01-08,Direito,186,,Eurocopa|Serie A,No,easy
+Nicolò Zaniolo,Itália,Aston Villa,Serie A|Premier League,Atacante,1999-07-02,Direito,190,,,No,easy
+Gianluca Scamacca,Itália,Atalanta,Serie A|Premier League,Atacante,1999-01-01,Direito,195,,,No,easy
+Davide Calabria,Itália,AC Milan,Serie A,Defensor,1996-12-06,Direito,177,,Serie A,No,easy
+Alessandro Florenzi,Itália,AC Milan,Serie A|La Liga|Ligue 1,Defensor,1991-03-11,Direito,173,,Serie A,No,easy
+Gianluigi Donnarumma,Itália,Paris Saint-Germain,Serie A|Ligue 1,Goleiro,1999-02-25,Direito,196,,Eurocopa|Ligue 1,No,easy
+Lorenzo Insigne,Itália,Toronto FC,Serie A|MLS,Atacante,1991-06-04,Direito,163,,Eurocopa|Serie A,No,medium
+Ciro Immobile,Itália,Lazio,Serie A|Bundesliga|La Liga,Atacante,1990-02-20,Direito,185,Chuteira de Ouro,Serie A,No,medium
+Marco Verratti,Itália,Al Arabi,Serie A|Ligue 1|Liga do Catar,Meio-campo,1992-11-05,Direito,165,,Eurocopa|Ligue 1,No,medium
+Jorginho,Itália,Arsenal,Serie A|Premier League,Meio-campo,1991-12-20,Direito,180,,Eurocopa|Champions League|Premier League,No,medium
+Leonardo Bonucci,Itália,Fenerbahçe,Serie A|Liga Turca,Defensor,1987-05-01,Direito,190,,Eurocopa|Serie A,No,medium
+Giorgio Chiellini,Itália,Aposentado,Serie A|MLS,Defensor,1984-08-14,Esquerdo,187,,Eurocopa|Serie A,No,medium
+Gianluca Vialli,Itália,Aposentado,Serie A|Premier League,Atacante,1964-07-09,Direito,180,,Champions League|Serie A|Premier League,Yes,medium
+Roberto Mancini,Itália,Aposentado,Serie A|Premier League,Atacante,1964-11-27,Esquerdo,179,,Serie A|Premier League,Yes,medium
+Gianluca Pagliuca,Itália,Aposentado,Serie A,Goleiro,1966-12-18,Direito,190,,Serie A,Yes,medium
+Walter Zenga,Itália,Aposentado,Serie A|Premier League,Goleiro,1960-04-28,Direito,188,,Serie A,Yes,hard
+Roberto Donadoni,Itália,Aposentado,Serie A|MLS,Meio-campo,1963-09-09,Direito,173,,Copa do Mundo|Champions League|Serie A,Yes,hard
+Demetrio Albertini,Itália,Aposentado,Serie A|La Liga,Meio-campo,1971-08-23,Direito,180,,Champions League|Serie A,Yes,medium
+Christian Vieri,Itália,Aposentado,Serie A|La Liga|Ligue 1,Atacante,1973-07-12,Direito,185,,Serie A,Yes,medium
+Filippo Inzaghi,Itália,Aposentado,Serie A,Atacante,1973-08-09,Direito,181,,Copa do Mundo|Champions League|Serie A,Yes,medium
+Alessandro Costacurta,Itália,Aposentado,Serie A,Defensor,1966-04-24,Direito,183,,Copa do Mundo|Champions League|Serie A,Yes,medium
+Franco Baresi,Itália,Aposentado,Serie A,Defensor,1960-05-08,Direito,176,,Copa do Mundo|Champions League|Serie A,Yes,hard
+Mauro Tassotti,Itália,Aposentado,Serie A,Defensor,1960-01-19,Direito,177,,Champions League|Serie A,Yes,hard
+Roberto Baggio,Itália,Aposentado,Serie A,Atacante,1967-02-18,Direito,174,Bola de Ouro|FIFA The Best,Serie A,Yes,hard
+Salvatore Schillaci,Itália,Aposentado,Serie A,Atacante,1964-12-01,Direito,175,Chuteira de Ouro,Serie A,Yes,hard
+Paolo Rossi,Itália,Aposentado,Serie A,Atacante,1956-09-23,Direito,175,Chuteira de Ouro|Bola de Ouro,Copa do Mundo|Champions League|Serie A,Yes,hard
+Tarcisio Burgnich,Itália,Aposentado,Serie A,Defensor,1939-04-25,Direito,175,,Copa do Mundo|Eurocopa|Champions League|Serie A,Yes,hard
+Giancarlo Antognoni,Itália,Aposentado,Serie A,Meio-campo,1954-04-01,Direito,177,,Serie A,Yes,hard
+Bruno Conti,Itália,Aposentado,Serie A,Meio-campo,1955-03-13,Esquerdo,169,,Copa do Mundo|Serie A,Yes,hard
+Marco Tardelli,Itália,Aposentado,Serie A,Meio-campo,1954-09-24,Direito,178,,Copa do Mundo|Champions League|Serie A,Yes,hard
+Antonio Cabrini,Itália,Aposentado,Serie A,Defensor,1957-10-08,Esquerdo,178,,Copa do Mundo|Champions League|Serie A,Yes,hard
+Claudio Gentile,Itália,Aposentado,Serie A,Defensor,1953-09-27,Direito,178,,Copa do Mundo|Serie A,Yes,hard
+Sandro Mazzola,Itália,Aposentado,Serie A,Atacante,1942-11-08,Direito,179,,Eurocopa|Champions League|Serie A,Yes,hard
+Luigi Riva,Itália,Aposentado,Serie A,Atacante,1944-11-07,Esquerdo,180,,Eurocopa|Serie A,Yes,hard
+Giancarlo De Sisti,Itália,Aposentado,Serie A,Meio-campo,1943-03-13,Direito,175,,Eurocopa|Serie A,Yes,hard
+Gianni Rivera,Itália,Aposentado,Serie A,Meio-campo,1943-08-18,Direito,175,Bola de Ouro,Copa do Mundo|Eurocopa|Champions League|Serie A,Yes,hard
+Giacinto Facchetti,Itália,Aposentado,Serie A,Defensor,1942-07-18,Esquerdo,191,,Copa do Mundo|Eurocopa|Champions League|Serie A,Yes,hard
+Sandro Salvadore,Itália,Aposentado,Serie A,Defensor,1939-11-29,Direito,178,,Eurocopa|Serie A,Yes,hard
+Enrico Albertosi,Itália,Aposentado,Serie A,Goleiro,1939-11-02,Direito,182,,Eurocopa|Serie A,Yes,hard
+Gianni Rivera,Itália,Aposentado,Serie A,Meio-campo,1943-08-18,Direito,175,Bola de Ouro,Copa do Mundo|Eurocopa|Champions League|Serie A,Yes,hard
+Valentino Mazzola,Itália,Aposentado,Serie A,Atacante,1919-01-26,Direito,175,,Serie A,No,hard
+Silvio Piola,Itália,Aposentado,Serie A,Atacante,1913-09-29,Direito,178,Chuteira de Ouro,Copa do Mundo|Serie A,Yes,hard
+Gabigol,Brasil,Flamengo,Brasileirão|Serie A|Primeira Liga,Atacante,1996-08-30,Direito,178,,Copa Libertadores|Brasileirão,No,easy
+Bruno Henrique,Brasil,Flamengo,Brasileirão|Bundesliga,Atacante,1990-12-30,Direito,178,,Copa Libertadores|Brasileirão,No,easy
+Arrascaeta,Uruguai,Flamengo,Primera División|Brasileirão,Meio-campo,1994-06-01,Esquerdo,172,,Copa Libertadores|Brasileirão|Copa América,Yes,easy
+Pedro,Brasil,Flamengo,Brasileirão|Serie A,Atacante,1997-06-20,Direito,185,,Copa Libertadores|Brasileirão,No,easy
+Gerson,Brasil,Flamengo,Brasileirão|Serie A|Ligue 1,Meio-campo,1997-05-20,Esquerdo,176,,Copa Libertadores|Brasileirão|Ligue 1,No,easy
+Everton Ribeiro,Brasil,Flamengo,Brasileirão,Meio-campo,1989-04-10,Esquerdo,174,,Copa Libertadores|Brasileirão,No,easy
+Hulk,Brasil,Atlético Mineiro,Brasileirão|Primeira Liga|Liga Russa|Liga Chinesa,Atacante,1986-07-25,Esquerdo,180,,Brasileirão|Primeira Liga|Liga Russa,Yes,easy
+Paulinho,Brasil,Atlético Mineiro,Brasileirão|Liga Chinesa,Meio-campo,1988-07-25,Direito,181,,Brasileirão|Liga Chinesa,Yes,easy
+Raphael Veiga,Brasil,Palmeiras,Brasileirão,Meio-campo,1995-06-19,Esquerdo,176,,Copa Libertadores|Brasileirão,No,easy
+Endrick,Brasil,Palmeiras,Brasileirão,Atacante,2006-07-21,Direito,173,,Brasileirão,No,easy
+Dudu,Brasil,Palmeiras,Brasileirão|Liga Ucraniana,Atacante,1992-01-07,Esquerdo,166,,Copa Libertadores|Brasileirão,No,easy
+Weverton,Brasil,Palmeiras,Brasileirão,Goleiro,1987-12-13,Direito,189,,Copa Libertadores|Brasileirão,No,easy
+Yuri Alberto,Brasil,Corinthians,Brasileirão|Liga Russa,Atacante,2001-03-18,Direito,183,,Brasileirão,No,easy
+Renato Augusto,Brasil,Corinthians,Brasileirão|Liga Chinesa,Meio-campo,1988-02-08,Direito,186,,Brasileirão,Yes,easy
+Cássio,Brasil,Corinthians,Brasileirão,Goleiro,1987-06-06,Direito,195,,Copa Libertadores|Brasileirão,No,easy
+Calleri,Argentina,São Paulo,Primera División|Premier League|Brasileirão,Atacante,1993-02-14,Direito,186,,Brasileirão,No,easy
+Lucas Moura,Brasil,São Paulo,Brasileirão|Ligue 1|Premier League,Atacante,1992-08-13,Direito,172,,Premier League,Yes,easy
+Rafinha,Brasil,São Paulo,Brasileirão|Bundesliga,Meio-campo,1993-09-12,Direito,176,,Brasileirão,No,easy
+Andreas Pereira,Brasil,Fulham,Premier League|La Liga|Brasileirão,Meio-campo,1996-01-01,Direito,178,,,No,easy
+Pavel Nedvěd,República Tcheca,Aposentado,Liga Tcheca|Serie A,Meio-campo,1972-08-30,Esquerdo,177,Bola de Ouro,Serie A,Yes,medium
+Andriy Shevchenko,Ucrânia,Aposentado,Liga Ucraniana|Serie A|Premier League,Atacante,1976-09-29,Direito,183,Bola de Ouro|Chuteira de Ouro,Champions League|Serie A,Yes,medium
+Rivaldo,Brasil,Aposentado,Brasileirão|La Liga|Serie A|Liga Grega,Meio-campo,1972-04-19,Esquerdo,186,Bola de Ouro|FIFA The Best,Copa do Mundo|Copa América|Champions League|La Liga,Yes,medium
+Luis Figo,Portugal,Aposentado,Liga Portuguesa|La Liga|Serie A,Meio-campo,1972-11-04,Direito,180,Bola de Ouro,Champions League|La Liga|Serie A,Yes,medium
+Thiago Silva,Brasil,Fluminense,Brasileirão|Serie A|Ligue 1|Premier League,Defensor,1984-09-22,Direito,183,,Copa América|Champions League|Ligue 1|Serie A,Yes,easy
+Marquinhos,Brasil,Paris Saint-Germain,Brasileirão|Ligue 1,Defensor,1994-05-14,Direito,183,,Copa América|Ligue 1,Yes,easy
+Vinícius Júnior,Brasil,Real Madrid,Brasileirão|La Liga,Atacante,2000-07-12,Esquerdo,176,,Champions League|La Liga,No,easy
+Rodrygo,Brasil,Real Madrid,Brasileirão|La Liga,Atacante,2001-01-09,Esquerdo,174,,Champions League|La Liga,No,easy
+Eder Militão,Brasil,Real Madrid,Brasileirão|La Liga,Defensor,1998-01-18,Direito,186,,Champions League|La Liga,Yes,easy
+Alisson,Brasil,Liverpool,Brasileirão|Serie A|Premier League,Goleiro,1992-10-02,Direito,193,,Copa América|Champions League|Premier League,Yes,easy
+Ederson,Brasil,Manchester City,Brasileirão|Primeira Liga|Premier League,Goleiro,1993-08-17,Esquerdo,188,,Copa América|Champions League|Premier League,Yes,easy
+Fabinho,Brasil,Al Ittihad,Brasileirão|Ligue 1|Premier League|Liga Saudita,Meio-campo,1993-10-23,Direito,188,,Champions League|Premier League|Ligue 1,Yes,easy
+Roberto Firmino,Brasil,Al Ahli,Brasileirão|Bundesliga|Premier League|Liga Saudita,Atacante,1991-10-02,Direito,181,,Copa América|Champions League|Premier League,Yes,easy
+Philippe Coutinho,Brasil,Al Duhail,Brasileirão|La Liga|Premier League|Bundesliga|Liga do Catar,Meio-campo,1992-06-12,Direito,172,,Copa América|La Liga|Bundesliga,Yes,easy
+Gabriel Jesus,Brasil,Arsenal,Brasileirão|Premier League,Atacante,1997-04-03,Direito,175,,Copa América|Premier League,Yes,easy
+Richarlison,Brasil,Tottenham,Brasileirão|Premier League,Atacante,1997-05-10,Direito,184,,Copa América,Yes,easy
+Raphinha,Brasil,Barcelona,Brasileirão|Ligue 1|Premier League|La Liga,Atacante,1996-12-14,Esquerdo,176,,Copa América|La Liga,Yes,easy
+Antony,Brasil,Manchester United,Brasileirão|Eredivisie|Premier League,Atacante,2000-02-24,Esquerdo,172,,Copa América|Eredivisie,Yes,easy
+Bruno Guimarães,Brasil,Newcastle,Brasileirão|Ligue 1|Premier League,Meio-campo,1997-11-16,Direito,182,,Copa América,Yes,easy
+Joelinton,Brasil,Newcastle,Brasileirão|Bundesliga|Premier League,Meio-campo,1996-08-14,Direito,186,,,No,easy
+Douglas Luiz,Brasil,Aston Villa,Brasileirão|Premier League,Meio-campo,1998-05-09,Esquerdo,178,,Copa América,No,easy
+Lucas Paquetá,Brasil,West Ham,Brasileirão|Serie A|Ligue 1|Premier League,Meio-campo,1997-08-27,Esquerdo,180,,Copa América|Serie A,Yes,easy
+Danilo,Brasil,Juventus,Brasileirão|Primeira Liga|Serie A,Defensor,1991-07-15,Direito,184,,Copa América|Serie A,Yes,easy
+Alex Sandro,Brasil,Juventus,Brasileirão|Serie A,Defensor,1991-01-26,Esquerdo,181,,Copa América|Serie A,Yes,easy
+Bremer,Brasil,Juventus,Brasileirão|Serie A,Defensor,1997-03-18,Esquerdo,188,,Serie A,No,easy
+Gustavo Scarpa,Brasil,Atlético Mineiro,Brasileirão,Meio-campo,1994-01-05,Esquerdo,178,,Brasileirão,No,easy
+Zé Rafael,Brasil,Palmeiras,Brasileirão,Meio-campo,1993-05-16,Direito,175,,Copa Libertadores|Brasileirão,No,easy
+Gustavo Gómez,Paraguai,Palmeiras,Primera División|Serie A|Brasileirão,Defensor,1993-05-06,Direito,185,,Copa Libertadores|Brasileirão,Yes,easy
+Felipe Melo,Brasil,Fluminense,Brasileirão|Serie A|La Liga|Liga Turca,Meio-campo,1983-06-26,Direito,183,,Copa Libertadores|Brasileirão|Serie A,Yes,easy
+Germán Cano,Argentina,Fluminense,Primera División|Liga Colombiana|Brasileirão,Atacante,1988-02-02,Direito,180,,Copa Libertadores|Brasileirão,No,easy
+John Kennedy,Brasil,Flamengo,Brasileirão,Atacante,2003-05-10,Direito,180,,Copa Libertadores|Brasileirão,No,easy
+Ayrton Lucas,Brasil,Flamengo,Brasileirão,Defensor,1997-06-19,Esquerdo,178,,Copa Libertadores|Brasileirão,No,easy
+Fabricio Bruno,Brasil,Flamengo,Brasileirão,Defensor,1996-02-12,Direito,192,,Copa Libertadores|Brasileirão,No,easy
+Wesley,Brasil,Palmeiras,Brasileirão,Defensor,1999-03-26,Esquerdo,185,,Copa Libertadores|Brasileirão,No,easy
+Murilo,Brasil,Palmeiras,Brasileirão,Defensor,1997-03-27,Direito,188,,Copa Libertadores|Brasileirão,No,easy
+Rony,Brasil,Palmeiras,Brasileirão,Atacante,1995-05-11,Direito,170,,Copa Libertadores|Brasileirão,No,easy
+Mayke,Brasil,Palmeiras,Brasileirão,Defensor,1992-11-10,Direito,175,,Copa Libertadores|Brasileirão,No,easy
+Fagner,Brasil,Corinthians,Brasileirão|Bundesliga,Defensor,1989-06-11,Direito,168,,Brasileirão,Yes,easy
+Gil,Brasil,Corinthians,Brasileirão,Defensor,1987-06-12,Direito,192,,Brasileirão,No,easy
+Rafael,Brasil,São Paulo,Brasileirão,Goleiro,1990-05-08,Direito,190,,Brasileirão,No,easy
+Arboleda,Equador,São Paulo,Primera División|Brasileirão,Defensor,1991-10-28,Direito,187,,Brasileirão,Yes,easy
+Igor Vinicius,Brasil,São Paulo,Brasileirão,Defensor,1997-02-27,Direito,175,,Brasileirão,No,easy
+Lucas,Brasil,São Paulo,Brasileirão|Serie A,Meio-campo,1994-08-13,Direito,178,,Brasileirão,No,easy
+James Rodríguez,Colômbia,São Paulo,Liga Colombiana|Primeira Liga|La Liga|Bundesliga|Premier League|Liga do Catar|Brasileirão,Meio-campo,1991-07-12,Esquerdo,180,Chuteira de Ouro,Champions League|La Liga|Bundesliga,Yes,easy
+Eden Hazard,Bélgica,Aposentado,Ligue 1|Premier League|La Liga,Atacante,1991-01-07,Direito,175,,Premier League|La Liga,Yes,medium
+Kevin De Bruyne,Bélgica,Manchester City,Bundesliga|Premier League,Meio-campo,1991-06-28,Direito,181,,Champions League|Premier League,Yes,easy
+Romelu Lukaku,Bélgica,Roma,Premier League|Serie A,Atacante,1993-05-13,Direito,191,,Serie A,Yes,easy
+Thibaut Courtois,Bélgica,Real Madrid,Liga Belga|Premier League|La Liga,Goleiro,1992-05-11,Direito,199,,Champions League|Premier League|La Liga,Yes,easy
+Jan Vertonghen,Bélgica,Anderlecht,Liga Belga|Premier League|Liga Portuguesa,Defensor,1987-04-24,Esquerdo,189,,Premier League,Yes,easy
+Toby Alderweireld,Bélgica,Royal Antwerp,Liga Belga|Premier League|Liga Saudita,Defensor,1989-03-02,Direito,186,,,Yes,easy
+Axel Witsel,Bélgica,Atlético Madrid,Liga Belga|Liga Russa|Bundesliga|Liga Chinesa|La Liga,Meio-campo,1989-01-12,Direito,186,,La Liga,Yes,easy
+Dries Mertens,Bélgica,Galatasaray,Liga Belga|Eredivisie|Serie A|Liga Turca,Atacante,1987-05-06,Direito,169,,Serie A,Yes,easy
+Yannick Carrasco,Bélgica,Al Shabab,Liga Belga|La Liga|Liga Chinesa|Liga Saudita,Atacante,1993-09-04,Esquerdo,180,,La Liga,Yes,easy
+Youri Tielemans,Bélgica,Aston Villa,Liga Belga|Premier League,Meio-campo,1997-05-07,Direito,176,,,Yes,easy
+Leander Dendoncker,Bélgica,Napoli,Liga Belga|Premier League|Serie A,Meio-campo,1995-04-15,Direito,188,,,Yes,easy
+Charles De Ketelaere,Bélgica,Atalanta,Liga Belga|Serie A,Meio-campo,2001-03-10,Direito,192,,,No,easy
+Amadou Onana,Bélgica,Everton,Liga Belga|Ligue 1|Premier League,Meio-campo,2001-08-16,Direito,195,,,Yes,easy
+Jérémy Doku,Bélgica,Manchester City,Liga Belga|Ligue 1|Premier League,Atacante,2002-05-27,Esquerdo,173,,Premier League,Yes,easy
+Lois Openda,Bélgica,RB Leipzig,Liga Belga|Ligue 1|Bundesliga,Atacante,2000-02-16,Direito,175,,,No,easy
+Johan Bakayoko,Bélgica,PSV,Liga Belga|Eredivisie,Atacante,2003-04-20,Esquerdo,180,,,No,easy
+Arthur Vermeeren,Bélgica,Atlético Madrid,Liga Belga|La Liga,Meio-campo,2005-02-07,Direito,180,,,No,easy
+Antoine Griezmann,França,Atlético Madrid,Ligue 1|La Liga,Atacante,1991-03-21,Esquerdo,176,,Copa do Mundo|Eurocopa|La Liga,Yes,easy
+Olivier Giroud,França,AC Milan,Ligue 1|Premier League|Serie A|MLS,Atacante,1986-09-30,Direito,193,,Copa do Mundo|Champions League|Serie A,Yes,easy
+Paul Pogba,França,Aposentado,Premier League|Serie A,Meio-campo,1993-03-15,Direito,191,,Copa do Mundo|Serie A,Yes,easy
+N'Golo Kanté,França,Al Ittihad,Ligue 1|Premier League|Liga Saudita,Meio-campo,1991-03-29,Direito,171,,Copa do Mundo|Premier League|Ligue 1,Yes,easy
+Hugo Lloris,França,Los Angeles FC,Ligue 1|Premier League|MLS,Goleiro,1986-12-26,Direito,188,,Copa do Mundo|Premier League,Yes,easy
+Raphaël Varane,França,Manchester United,Ligue 1|La Liga|Premier League,Defensor,1993-04-25,Direito,191,,Copa do Mundo|Champions League|La Liga,Yes,easy
+Benjamin Pavard,França,Inter Milan,Ligue 1|Bundesliga|Serie A,Defensor,1996-03-28,Direito,186,,Copa do Mundo|Bundesliga|Serie A,Yes,easy
+Lucas Hernandez,França,Paris Saint-Germain,La Liga|Bundesliga|Ligue 1,Defensor,1996-02-14,Esquerdo,184,,Copa do Mundo|Bundesliga|Ligue 1,Yes,easy
+Theo Hernandez,França,AC Milan,La Liga|Serie A,Defensor,1997-10-06,Esquerdo,184,,Serie A,Yes,easy
+Aurélien Tchouaméni,França,Real Madrid,Ligue 1|La Liga,Meio-campo,2000-01-27,Direito,187,,La Liga,Yes,easy
+Eduardo Camavinga,França,Real Madrid,Ligue 1|La Liga,Meio-campo,2002-11-10,Esquerdo,182,,Champions League|La Liga,Yes,easy
+Jules Koundé,França,Barcelona,Ligue 1|La Liga,Defensor,1998-11-12,Direito,178,,La Liga,Yes,easy
+Ousmane Dembélé,França,Paris Saint-Germain,Ligue 1|La Liga,Atacante,1997-05-15,Esquerdo,178,,La Liga|Ligue 1,Yes,easy
+Marcus Thuram,França,Inter Milan,Ligue 1|Bundesliga|Serie A,Atacante,1997-08-06,Direito,192,,Serie A,Yes,easy
+Randal Kolo Muani,França,Paris Saint-Germain,Ligue 1|Bundesliga,Atacante,1998-12-05,Direito,187,,Ligue 1,Yes,easy
+Bradley Barcola,França,Paris Saint-Germain,Ligue 1,Atacante,2002-09-02,Direito,178,,Ligue 1,No,easy
+Warren Zaïre-Emery,França,Paris Saint-Germain,Ligue 1,Meio-campo,2006-03-08,Direito,178,,Ligue 1,No,easy
+Leny Yoro,França,Lille,Ligue 1,Defensor,2005-11-13,Direito,190,,,No,easy

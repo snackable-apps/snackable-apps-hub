@@ -168,6 +168,7 @@ main {
 
 /* Card Accent Colors */
 .game-card.f1 { --card-accent: #ff1e1e; --card-accent-rgb: 255,30,30; }
+.game-card.fut { --card-accent: #00a651; --card-accent-rgb: 0,166,81; }
 .game-card.music { --card-accent: #9b59b6; --card-accent-rgb: 155,89,182; }
 .game-card.animal { --card-accent: #6bcb77; --card-accent-rgb: 107,203,119; }
 .game-card.sudoku { --card-accent: #00d4ff; --card-accent-rgb: 0,212,255; }

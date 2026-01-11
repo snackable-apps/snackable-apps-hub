@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Music Quiz | Snackable Games</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
-  <link rel="stylesheet" href="css/music.css" />
+  <title>FutQuiz: o quiz diário da bola | Snackable Games</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
+  <link rel="stylesheet" href="css/futquiz.css" />
 
-  <!-- GA4 - Music Quiz Property -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DCKR2HQ4K8"></script>
+  <!-- GA4 - FutQuiz Property -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z5XCYGGR6Y"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-DCKR2HQ4K8');
+    gtag('config', 'G-Z5XCYGGR6Y');
   </script>
 
   <!-- AdSense -->
@@ -22,9 +22,9 @@
 </head>
 <body>
   <header>
-    <h1>🎵 Music of the Day</h1>
-    <p>Guess the song using logical clues!</p>
-    <a href="/">← Back to menu</a>
+    <h1>⚽ FutQuiz: o quiz diário da bola</h1>
+    <p>Adivinhe o jogador usando pistas lógicas!</p>
+    <a href="/">← Voltar ao menu</a>
   </header>
 
   <main>
@@ -40,29 +40,32 @@
 
     <!-- Game Info -->
     <div class="game-info" id="game-info" style="display: none;">
-      <p>Each day, a secret song is selected. Make guesses and use the clues to find it!</p>
+      <p>Cada dia, um jogador secreto é selecionado. Faça palpites e use as pistas para encontrá-lo!</p>
       <div class="game-stats">
-        <span>Guesses: <strong id="guess-count">0</strong></span>
+        <span>Palpites: <strong id="guess-count">0</strong></span>
         <span id="game-status"></span>
+      </div>
+      <div class="data-update-info">
+        <small>Dados atualizados em: <span id="data-update-date"></span></small>
       </div>
     </div>
 
     <!-- Guess Input -->
-    <div class="guess-section" id="guess-section" style="display: none;">
-      <label for="music-input">Make a guess:</label>
+    <div class="guess-section" id="guess-section">
+      <label for="player-input">Faça um palpite:</label>
       <div class="autocomplete-wrapper">
-        <input type="text" id="music-input" placeholder="Type a song name..." autocomplete="off" />
+        <input type="text" id="player-input" placeholder="Digite o nome de um jogador..." autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
       </div>
       <div class="button-group">
-        <button id="submit-guess" class="submit-btn">Submit Guess</button>
-        <button id="give-up-btn" class="submit-btn secondary">Give Up</button>
+        <button id="submit-guess" class="submit-btn">Enviar Palpite</button>
+        <button id="give-up-btn" class="submit-btn secondary">Desistir</button>
       </div>
     </div>
 
     <!-- Share Results -->
     <div class="share-section" id="share-section" style="display: none;">
-      <button id="share-results-btn" class="submit-btn">Share Results</button>
+      <button id="share-results-btn" class="submit-btn">Compartilhar Resultados</button>
     </div>
 
     <!-- Guesses History -->
@@ -82,39 +85,39 @@
 
     <!-- How to Play -->
     <div class="how-to-play">
-      <h3>How to Play</h3>
+      <h3>Como Jogar</h3>
       <ul>
-        <li><strong>✅ Match:</strong> Property matches the secret song</li>
-        <li><strong>🔼 Higher:</strong> The secret song has a higher value (guess higher)</li>
-        <li><strong>🔽 Lower:</strong> The secret song has a lower value (guess lower)</li>
-        <li><strong>❌ Different:</strong> Property doesn't match</li>
+        <li><strong>✅ Igual:</strong> A característica corresponde ao jogador secreto</li>
+        <li><strong>🔼 Maior:</strong> O jogador secreto tem um valor maior (chute maior)</li>
+        <li><strong>🔽 Menor:</strong> O jogador secreto tem um valor menor (chute menor)</li>
+        <li><strong>❌ Diferente:</strong> A característica não corresponde</li>
       </ul>
     </div>
   </main>
 
   <!-- Feedback Button & Modal -->
-  <button class="feedback-btn" onclick="openFeedback()" aria-label="Send Feedback">💬 Feedback</button>
+  <button class="feedback-btn" onclick="openFeedback()" aria-label="Enviar Feedback">💬 Feedback</button>
   <div class="feedback-overlay" id="feedback-overlay" onclick="closeFeedback()"></div>
   <div class="feedback-modal" id="feedback-modal">
     <button class="feedback-close" onclick="closeFeedback()">✕</button>
-    <h3>📬 Send Feedback</h3>
+    <h3>📬 Enviar Feedback</h3>
     <form action="https://formspree.io/f/xkoowdlo" method="POST">
       <input type="hidden" name="_subject" value="User Feedback - Snackable Games">
       <input type="hidden" name="_page" id="feedback-page">
-      <label>About:</label>
+      <label>Sobre:</label>
       <select name="about" required>
         <option value="F1 Quiz">F1 Quiz</option>
-        <option value="FutQuiz">FutQuiz</option>
-        <option value="Music Quiz" selected>Music Quiz</option>
+        <option value="FutQuiz" selected>FutQuiz</option>
+        <option value="Music Quiz">Music Quiz</option>
         <option value="Animal Quiz">Animal Quiz</option>
         <option value="Sudoku">Sudoku</option>
-        <option value="General / Website">General / Website</option>
+        <option value="General / Website">Geral / Website</option>
       </select>
-      <label>Your feedback:</label>
-      <textarea name="message" rows="4" required placeholder="Tell us what you think..."></textarea>
-      <label>Email (optional):</label>
-      <input type="email" name="email" placeholder="your@email.com">
-      <button type="submit">Send Feedback</button>
+      <label>Seu feedback:</label>
+      <textarea name="message" rows="4" required placeholder="Diga o que você pensa..."></textarea>
+      <label>Email (opcional):</label>
+      <input type="email" name="email" placeholder="seu@email.com">
+      <button type="submit">Enviar Feedback</button>
     </form>
   </div>
   <style>
@@ -141,8 +144,8 @@
     });
   </script>
 
-  <script src="data/music_data.js"></script>
-  <script src="js/music.js"></script>
+  <script src="data/players_data.js"></script>
+  <script src="js/futquiz.js"></script>
   
   <!-- Initialize Ads -->
   <script>
@@ -151,4 +154,3 @@
   </script>
 </body>
 </html>
-

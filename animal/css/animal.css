@@ -1,26 +1,26 @@
-/* CSS Variables for theming */
+/* Animal Quiz - Nature Theme */
 :root {
-  --primary-color: #4f46e5;
-  --primary-hover: #4338ca;
-  --success-color: #10b981;
-  --warning-color: #f59e0b;
+  --primary-color: #6bcb77;
+  --primary-hover: #4ade80;
+  --success-color: #22c55e;
+  --warning-color: #eab308;
   --error-color: #ef4444;
-  --bg-color: #f8fafc;
-  --card-bg: #ffffff;
-  --text-color: #1f2937;
-  --text-muted: #6b7280;
-  --border-color: #e5e7eb;
-  --border-focus: #4f46e5;
-  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --match-bg: #d1fae5;
-  --match-color: #065f46;
-  --higher-bg: #fef3c7;
-  --higher-color: #92400e;
-  --lower-bg: #fef3c7;
-  --lower-color: #92400e;
-  --different-bg: #fee2e2;
-  --different-color: #991b1b;
+  --bg-color: #0f1a14;
+  --card-bg: #1a2e22;
+  --text-color: #ffffff;
+  --text-muted: #9ca3af;
+  --border-color: #2d4a38;
+  --border-focus: #6bcb77;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --match-bg: #064e3b;
+  --match-color: #10b981;
+  --higher-bg: #78350f;
+  --higher-color: #fbbf24;
+  --lower-bg: #78350f;
+  --lower-color: #fbbf24;
+  --different-bg: #7f1d1d;
+  --different-color: #f87171;
 }
 
 * {
@@ -28,8 +28,11 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
   background: var(--bg-color);
+  background-image: 
+    radial-gradient(ellipse at top, rgba(107, 203, 119, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
   color: var(--text-color);
   display: flex;
   flex-direction: column;
@@ -42,17 +45,19 @@ body {
 header {
   text-align: center;
   padding: 1.5rem 1rem;
-  background: var(--card-bg);
+  background: linear-gradient(180deg, var(--card-bg) 0%, transparent 100%);
   width: 100%;
-  box-shadow: var(--shadow);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid var(--primary-color);
 }
 
 header h1 {
   margin: 0 0 0.5rem 0;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--primary-color);
+  background: linear-gradient(90deg, var(--primary-color), #86efac);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 header p {
@@ -85,62 +90,11 @@ main {
   align-items: center;
 }
 
-/* Difficulty Selection */
-.difficulty-section {
-  background: var(--card-bg);
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border-color);
-  width: 100%;
-  box-sizing: border-box;
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.difficulty-section h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1.25rem;
-  color: var(--text-color);
-}
-
-.difficulty-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.difficulty-btn {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid var(--border-color);
-  background: var(--card-bg);
-  color: var(--text-color);
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  min-width: 100px;
-}
-
-.difficulty-btn:hover {
-  border-color: var(--primary-color);
-  background: var(--primary-color);
-  color: white;
-}
-
-.difficulty-btn.selected {
-  background: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-}
-
 /* Game Info */
 .game-info {
   background: var(--card-bg);
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   width: 100%;
@@ -166,43 +120,35 @@ main {
 
 #game-status.solved {
   color: var(--success-color);
-  font-weight: 600;
 }
 
 #game-status.game-over {
   color: var(--error-color);
-  font-weight: 600;
 }
 
 #game-status.warning {
   color: var(--warning-color);
-  font-weight: 600;
 }
 
 .answer-reveal {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  background: linear-gradient(135deg, rgba(127, 29, 29, 0.8) 0%, rgba(185, 28, 28, 0.6) 100%);
   border: 2px solid var(--error-color);
 }
 
 .answer-reveal-header {
-  color: #000 !important;
+  color: #fff !important;
 }
 
 .answer-reveal-feedback {
-  color: #000 !important;
-}
-
-.answer-label {
-  font-weight: 600;
-  color: var(--error-color);
-  margin: 0 0.5rem;
+  color: #fff !important;
+  background: rgba(0,0,0,0.2) !important;
 }
 
 /* Guess Section */
 .guess-section {
   background: var(--card-bg);
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   display: flex;
@@ -224,20 +170,24 @@ main {
 
 #animal-input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.875rem 1rem;
   border: 2px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
-  background: var(--card-bg);
+  background: rgba(0,0,0,0.3);
   color: var(--text-color);
-  transition: border-color 0.2s ease, border-radius 0.2s ease;
+  transition: all 0.2s ease;
   box-sizing: border-box;
+}
+
+#animal-input::placeholder {
+  color: var(--text-muted);
 }
 
 #animal-input:focus {
   outline: none;
-  border-color: var(--border-focus);
-  border-radius: 8px 8px 0 0;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(107, 203, 119, 0.2);
 }
 
 .autocomplete-dropdown {
@@ -248,7 +198,7 @@ main {
   background: var(--card-bg);
   border: 2px solid var(--border-color);
   border-top: none;
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 0 10px 10px;
   max-height: 300px;
   overflow-y: auto;
   box-shadow: var(--shadow-lg);
@@ -258,10 +208,11 @@ main {
 }
 
 .autocomplete-item {
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
   border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
 }
 
 .autocomplete-item:last-child {
@@ -270,25 +221,24 @@ main {
 
 .autocomplete-item:hover,
 .autocomplete-item.selected {
-  background: #f3f4f6;
+  background: rgba(107, 203, 119, 0.15);
 }
 
 .submit-btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 1.5rem;
   border: none;
-  background: var(--primary-color);
-  color: white;
-  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary-color), #4ade80);
+  color: #0f1a14;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.2s ease;
 }
 
 .submit-btn:hover {
-  background: var(--primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 203, 119, 0.3);
 }
 
 .submit-btn:active {
@@ -301,17 +251,13 @@ main {
   transform: none;
 }
 
-.submit-btn:focus {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
-}
-
 .submit-btn.secondary {
   background: var(--text-muted);
+  color: white;
 }
 
 .submit-btn.secondary:hover {
-  background: #52525b;
+  background: #6b7280;
 }
 
 .button-group {
@@ -328,7 +274,6 @@ main {
   margin-top: 1.5rem;
   text-align: center;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .share-section .submit-btn {
@@ -342,13 +287,12 @@ main {
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .guess-card {
   background: var(--card-bg);
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
+  padding: 0.875rem 1rem;
+  border-radius: 12px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   margin-bottom: 0.5rem;
@@ -400,8 +344,8 @@ main {
 .property-feedback {
   font-size: 0.9rem;
   line-height: 1.4;
-  padding: 0.35rem 0.6rem;
-  border-radius: 4px;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
   white-space: normal;
   display: inline-flex;
   align-items: center;
@@ -431,26 +375,26 @@ main {
 }
 
 .feedback-partial-match {
-  background: #fef3c7;
-  color: #92400e;
+  background: rgba(234, 179, 8, 0.2);
+  color: #fbbf24;
 }
 
-/* Multi-value highlighting within property feedback */
+/* Multi-value highlighting */
 .property-feedback .value-match {
   color: var(--success-color);
   font-weight: 600;
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(16, 185, 129, 0.15);
   padding: 0.1rem 0.3rem;
-  border-radius: 3px;
+  border-radius: 4px;
   margin: 0 0.1rem;
 }
 
 .property-feedback .value-nomatch {
   color: var(--error-color);
   font-weight: 500;
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.15);
   padding: 0.1rem 0.3rem;
-  border-radius: 3px;
+  border-radius: 4px;
   margin: 0 0.1rem;
   text-decoration: line-through;
   opacity: 0.7;
@@ -460,11 +404,10 @@ main {
 .how-to-play {
   background: var(--card-bg);
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   width: 100%;
-  box-sizing: border-box;
 }
 
 .how-to-play h3 {
@@ -483,9 +426,40 @@ main {
   margin-bottom: 0.5rem;
 }
 
-/* Hide sidebars on mobile */
-/* Mobile Responsiveness */
+/* Ad Containers */
+.ad-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ad-header {
+  min-height: 90px;
+  max-width: 728px;
+  margin: 0 auto 1rem;
+}
+
+.ad-in-content {
+  min-height: 250px;
+  max-width: 336px;
+  margin: 1rem auto;
+}
+
+/* Hide header ad on mobile */
 @media (max-width: 768px) {
+  .ad-header {
+    display: none;
+  }
+  
+  .ad-in-content {
+    max-width: 320px;
+    min-height: 250px;
+  }
+  
   main {
     padding: 1rem;
     gap: 1rem;
@@ -529,40 +503,9 @@ main {
   }
 }
 
-/* Ad Containers */
-.ad-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem 0;
-  min-height: 50px;
-}
-
-.ad-header {
-  display: none;
-  margin-top: 0;
-}
-
-.ad-in-content {
-  min-height: 100px;
-  max-width: 336px;
-  margin: 1rem auto;
-}
-
-/* Mobile Ad Adjustments */
-@media (max-width: 768px) {
-  .ad-in-content {
-    max-width: 320px;
-    min-height: 50px;
-  }
-}
-
 /* Desktop: Show header ad */
 @media (min-width: 769px) {
   .ad-header {
     display: flex;
-    min-height: 90px;
   }
 }
-
