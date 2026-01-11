@@ -45,9 +45,19 @@ document.addEventListener("DOMContentLoaded", () => {
         difficultySection.style.display = 'block';
       }
       
-      if (typeof DATA_SEASON !== 'undefined' && dataSeasonInfoEl) {
-        const raceDate = new Date(DATA_LAST_RACE_DATE).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        dataSeasonInfoEl.textContent = `${DATA_SEASON} season (${DATA_LAST_RACE}, ${raceDate})`;
+      // Set data freshness info
+      if (dataSeasonInfoEl) {
+        try {
+          if (typeof DATA_SEASON !== 'undefined' && typeof DATA_LAST_RACE !== 'undefined' && typeof DATA_LAST_RACE_DATE !== 'undefined') {
+            const raceDate = new Date(DATA_LAST_RACE_DATE).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            dataSeasonInfoEl.textContent = `${DATA_SEASON} season (${DATA_LAST_RACE}, ${raceDate})`;
+          } else {
+            dataSeasonInfoEl.textContent = '2025 season';
+          }
+        } catch (e) {
+          console.error('Error setting data freshness:', e);
+          dataSeasonInfoEl.textContent = '2025 season';
+        }
       }
       
       if (DRIVERS.length > 0) {
