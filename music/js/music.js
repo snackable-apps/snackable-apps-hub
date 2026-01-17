@@ -196,6 +196,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const propertyName = propertyNames[property] || property;
     const formattedValue = formatPropertyValue(property, value);
     
+    // Handle array comparison objects (for artistCountry, language)
+    if (typeof comparison === 'object' && comparison.hasMatch !== undefined) {
+      if (comparison.allMatch) {
+        return '✅ ' + propertyName + ': ' + formattedValue;
+      } else if (comparison.hasMatch) {
+        return '🔶 ' + propertyName + ': ' + formattedValue; // Partial match
+      } else {
+        return '❌ ' + propertyName + ': ' + formattedValue;
+      }
+    }
+    
     if (comparison === 'match') {
       return '✅ ' + propertyName + ': ' + formattedValue;
     } else if (comparison === 'higher') {
