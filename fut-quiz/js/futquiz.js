@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'height': 'Altura',
       'individualTitles': 'Prêmios Individuais',
       'teamTitles': 'Títulos Coletivos',
-      'playedWorldCup': 'Jogou Copa?'
+      'playedWorldCup': 'Copa do Mundo'
     };
     const propertyName = propertyNames[property] || property;
     
@@ -437,7 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'height': 'Altura',
       'individualTitles': 'Prêmios Individuais',
       'teamTitles': 'Títulos Coletivos',
-      'playedWorldCup': 'Jogou Copa?'
+      'playedWorldCup': 'Copa do Mundo'
     };
     const propertyName = propertyNames[property] || property;
     
