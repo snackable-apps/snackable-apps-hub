@@ -64,6 +64,34 @@ const PLAYERS_DATA = [
     "difficulty": "easy"
   },
   {
+    "name": "Lorenzo Musetti",
+    "nationality": "Italy",
+    "birthdate": "2002-03-03",
+    "hand": "Right",
+    "backhand": "One-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 1,
+    "highestRanking": 15,
+    "currentRanking": 5,
+    "turnedPro": 2019,
+    "deathDate": null,
+    "difficulty": "medium"
+  },
+  {
+    "name": "Alex de Minaur",
+    "nationality": "Australia",
+    "birthdate": "1999-02-17",
+    "hand": "Right",
+    "backhand": "Two-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 9,
+    "highestRanking": 6,
+    "currentRanking": 6,
+    "turnedPro": 2017,
+    "deathDate": null,
+    "difficulty": "medium"
+  },
+  {
     "name": "Felix Auger-Aliassime",
     "nationality": "Canada",
     "birthdate": "2000-08-08",
@@ -76,6 +104,20 @@ const PLAYERS_DATA = [
     "turnedPro": 2017,
     "deathDate": null,
     "difficulty": "hard"
+  },
+  {
+    "name": "Ben Shelton",
+    "nationality": "USA",
+    "birthdate": "2002-10-09",
+    "hand": "Left",
+    "backhand": "Two-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 1,
+    "highestRanking": 13,
+    "currentRanking": 8,
+    "turnedPro": 2022,
+    "deathDate": null,
+    "difficulty": "medium"
   },
   {
     "name": "Taylor Fritz",
@@ -148,6 +190,34 @@ const PLAYERS_DATA = [
     "difficulty": "medium"
   },
   {
+    "name": "Jakub Mensik",
+    "nationality": "Czech Republic",
+    "birthdate": "2005-09-18",
+    "hand": "Right",
+    "backhand": "Two-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 0,
+    "highestRanking": 18,
+    "currentRanking": 18,
+    "turnedPro": 2023,
+    "deathDate": null,
+    "difficulty": "medium"
+  },
+  {
+    "name": "Tommy Paul",
+    "nationality": "USA",
+    "birthdate": "1997-05-17",
+    "hand": "Right",
+    "backhand": "Two-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 3,
+    "highestRanking": 11,
+    "currentRanking": 21,
+    "turnedPro": 2015,
+    "deathDate": null,
+    "difficulty": "medium"
+  },
+  {
     "name": "Denis Shapovalov",
     "nationality": "Canada",
     "birthdate": "1999-04-15",
@@ -158,6 +228,34 @@ const PLAYERS_DATA = [
     "highestRanking": 10,
     "currentRanking": 23,
     "turnedPro": 2017,
+    "deathDate": null,
+    "difficulty": "medium"
+  },
+  {
+    "name": "João Fonseca",
+    "nationality": "Brazil",
+    "birthdate": "2006-08-15",
+    "hand": "Right",
+    "backhand": "Two-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 0,
+    "highestRanking": 112,
+    "currentRanking": 30,
+    "turnedPro": 2024,
+    "deathDate": null,
+    "difficulty": "medium"
+  },
+  {
+    "name": "Frances Tiafoe",
+    "nationality": "USA",
+    "birthdate": "1998-01-20",
+    "hand": "Right",
+    "backhand": "Two-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 2,
+    "highestRanking": 10,
+    "currentRanking": 31,
+    "turnedPro": 2015,
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -176,6 +274,34 @@ const PLAYERS_DATA = [
     "difficulty": "easy"
   },
   {
+    "name": "Ugo Humbert",
+    "nationality": "France",
+    "birthdate": "1998-06-26",
+    "hand": "Left",
+    "backhand": "Two-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 5,
+    "highestRanking": 13,
+    "currentRanking": 36,
+    "turnedPro": 2016,
+    "deathDate": null,
+    "difficulty": "medium"
+  },
+  {
+    "name": "Arthur Fils",
+    "nationality": "France",
+    "birthdate": "2004-03-12",
+    "hand": "Right",
+    "backhand": "Two-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 2,
+    "highestRanking": 20,
+    "currentRanking": 42,
+    "turnedPro": 2022,
+    "deathDate": null,
+    "difficulty": "medium"
+  },
+  {
     "name": "Grigor Dimitrov",
     "nationality": "Bulgaria",
     "birthdate": "1991-05-16",
@@ -186,6 +312,20 @@ const PLAYERS_DATA = [
     "highestRanking": 3,
     "currentRanking": 45,
     "turnedPro": 2008,
+    "deathDate": null,
+    "difficulty": "medium"
+  },
+  {
+    "name": "Sebastian Korda",
+    "nationality": "USA",
+    "birthdate": "2000-07-05",
+    "hand": "Right",
+    "backhand": "One-handed",
+    "grandSlamTitles": 0,
+    "careerTitles": 2,
+    "highestRanking": 15,
+    "currentRanking": 51,
+    "turnedPro": 2018,
     "deathDate": null,
     "difficulty": "medium"
   },
