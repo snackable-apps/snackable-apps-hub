@@ -199,5 +199,145 @@ const BOOKS_DATA = [
     "pageCount": 1276,
     "originalLanguage": "French",
     "difficulty": "medium"
+  },
+  {
+    "title": "Wuthering Heights",
+    "author": "Emily Brontë",
+    "authorNationality": "UK",
+    "genre": "Gothic Fiction",
+    "publicationYear": 1847,
+    "pageCount": 416,
+    "originalLanguage": "English",
+    "difficulty": "medium"
+  },
+  {
+    "title": "Jane Eyre",
+    "author": "Charlotte Brontë",
+    "authorNationality": "UK",
+    "genre": "Romance",
+    "publicationYear": 1847,
+    "pageCount": 500,
+    "originalLanguage": "English",
+    "difficulty": "medium"
+  },
+  {
+    "title": "The Kite Runner",
+    "author": "Khaled Hosseini",
+    "authorNationality": "Afghanistan",
+    "genre": "Fiction",
+    "publicationYear": 2003,
+    "pageCount": 371,
+    "originalLanguage": "English",
+    "difficulty": "easy"
+  },
+  {
+    "title": "Life of Pi",
+    "author": "Yann Martel",
+    "authorNationality": "Canada",
+    "genre": "Adventure",
+    "publicationYear": 2001,
+    "pageCount": 319,
+    "originalLanguage": "English",
+    "difficulty": "easy"
+  },
+  {
+    "title": "Dune",
+    "author": "Frank Herbert",
+    "authorNationality": "USA",
+    "genre": "Science Fiction",
+    "publicationYear": 1965,
+    "pageCount": 412,
+    "originalLanguage": "English",
+    "difficulty": "medium"
+  },
+  {
+    "title": "The Hitchhiker's Guide to the Galaxy",
+    "author": "Douglas Adams",
+    "authorNationality": "UK",
+    "genre": "Science Fiction",
+    "publicationYear": 1979,
+    "pageCount": 193,
+    "originalLanguage": "English",
+    "difficulty": "easy"
+  },
+  {
+    "title": "Fahrenheit 451",
+    "author": "Ray Bradbury",
+    "authorNationality": "USA",
+    "genre": "Dystopian",
+    "publicationYear": 1953,
+    "pageCount": 249,
+    "originalLanguage": "English",
+    "difficulty": "easy"
+  },
+  {
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins",
+    "authorNationality": "USA",
+    "genre": "Dystopian",
+    "publicationYear": 2008,
+    "pageCount": 374,
+    "originalLanguage": "English",
+    "difficulty": "easy"
+  },
+  {
+    "title": "Anna Karenina",
+    "author": "Leo Tolstoy",
+    "authorNationality": "Russia",
+    "genre": "Fiction",
+    "publicationYear": 1878,
+    "pageCount": 864,
+    "originalLanguage": "Russian",
+    "difficulty": "hard"
+  },
+  {
+    "title": "The Brothers Karamazov",
+    "author": "Fyodor Dostoevsky",
+    "authorNationality": "Russia",
+    "genre": "Philosophical Fiction",
+    "publicationYear": 1880,
+    "pageCount": 796,
+    "originalLanguage": "Russian",
+    "difficulty": "hard"
+  },
+  {
+    "title": "Gone Girl",
+    "author": "Gillian Flynn",
+    "authorNationality": "USA",
+    "genre": "Thriller",
+    "publicationYear": 2012,
+    "pageCount": 415,
+    "originalLanguage": "English",
+    "difficulty": "easy"
+  },
+  {
+    "title": "The Da Vinci Code",
+    "author": "Dan Brown",
+    "authorNationality": "USA",
+    "genre": "Thriller",
+    "publicationYear": 2003,
+    "pageCount": 489,
+    "originalLanguage": "English",
+    "difficulty": "easy"
+  },
+  {
+    "title": "The Road",
+    "author": "Cormac McCarthy",
+    "authorNationality": "USA",
+    "genre": "Post-Apocalyptic",
+    "publicationYear": 2006,
+    "pageCount": 287,
+    "originalLanguage": "English",
+    "difficulty": "medium"
+  },
+  {
+    "title": "Never Let Me Go",
+    "author": "Kazuo Ishiguro",
+    "authorNationality": "UK",
+    "genre": "Dystopian",
+    "publicationYear": 2005,
+    "pageCount": 288,
+    "originalLanguage": "English",
+    "difficulty": "medium"
   }
 ];
