@@ -275,11 +275,11 @@ main {
 
 .guess-properties {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 6px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
   .guess-properties {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -310,28 +310,6 @@ main {
   font-size: 0.75rem;
 }
 
-.property-value.genres-list {
-  font-size: 0.65rem;
-  flex-wrap: wrap;
-  gap: 3px;
-}
-
-.genres-property {
-  grid-column: span 2;
-}
-
-@media (max-width: 600px) {
-  .genres-property {
-    grid-column: span 2;
-  }
-}
-
-.genre {
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-size: 0.65rem;
-  font-weight: 500;
-}
 
 .genre-match {
   background: rgba(46, 204, 113, 0.25);
@@ -370,8 +348,8 @@ main {
   border: 1px solid var(--accent);
 }
 
-/* Cast Section */
-.cast-section {
+/* Details Row (Genres + Cast) */
+.details-row {
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px solid var(--border);
@@ -379,28 +357,27 @@ main {
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
+  font-size: 0.7rem;
 }
 
-.cast-label {
+.details-label {
   color: var(--text-secondary);
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  flex-shrink: 0;
 }
 
-.cast-actors {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  flex: 1;
+.details-divider {
+  color: var(--border);
+  margin: 0 4px;
 }
 
-.actor {
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 0.7rem;
+.actor, .genre {
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.65rem;
   font-weight: 500;
+  display: inline-block;
 }
 
 .actor-match {

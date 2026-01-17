@@ -321,6 +321,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(actor => `<span class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${actor.name}</span>`)
       .join(' ');
     
+    // Build genres HTML
+    const genresHtml = guess.comparisons.genreDetails
+      .map(g => `<span class="genre ${g.match ? 'genre-match' : 'genre-different'}">${g.name}</span>`)
+      .join('');
+    
     card.innerHTML = `
       <div class="guess-title">🎬 ${guess.title}</div>
       <div class="guess-properties">
@@ -328,14 +333,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="property-label">Director</div>
           <div class="property-value">
             ${getFeedbackText(guess.comparisons.director)} ${guess.director.split(' ').pop()}
-          </div>
-        </div>
-        <div class="property genres-property">
-          <div class="property-label">Genres</div>
-          <div class="property-value genres-list">
-            ${guess.comparisons.genreDetails.map(g => 
-              `<span class="genre ${g.match ? 'genre-match' : 'genre-different'}">${g.name}</span>`
-            ).join('')}
           </div>
         </div>
         <div class="property ${guess.comparisons.releaseYear}">
@@ -363,9 +360,10 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       </div>
-      <div class="cast-section">
-        <div class="cast-label">Cast:</div>
-        <div class="cast-actors">${castHtml}</div>
+      <div class="details-row">
+        <span class="details-label">Genres:</span> ${genresHtml}
+        <span class="details-divider">•</span>
+        <span class="details-label">Cast:</span> ${castHtml}
       </div>
     `;
     
