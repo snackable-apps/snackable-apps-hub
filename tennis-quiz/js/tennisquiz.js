@@ -33,6 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
       ALL_PLAYERS = PLAYERS_DATA;
       console.log('Total players loaded:', ALL_PLAYERS.length);
       
+      // Display data update date
+      const updateDateEl = document.getElementById('data-update-date');
+      if (updateDateEl && typeof DATA_UPDATE_DATE !== 'undefined') {
+        updateDateEl.textContent = DATA_UPDATE_DATE;
+      }
+      
       // Secret pool: only easy + medium players
       SECRET_POOL = ALL_PLAYERS.filter(player => 
         player.difficulty === 'easy' || player.difficulty === 'medium'
@@ -80,8 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formatRanking(ranking) {
-    if (typeof ranking === 'string') {
-      return ranking; // "Retired" or "Deceased"
+    // 9999 = Retired (from RETIRED_RANKING constant in data file)
+    if (ranking >= 9999) {
+      return 'Retired';
     }
     return '#' + ranking;
   }
@@ -101,16 +108,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Nationality
     comparisons.nationality = secret.nationality === guess.nationality ? 'match' : 'different';
     
-    // Current Ranking (number for active, "Retired"/"Deceased" for others)
+    // Current Ranking (number for all players, 9999 = Retired)
+    // Lower number = better ranking, so 9999 (Retired) is always "lower" than active players
     const secretRank = secret.currentRanking;
     const guessRank = guess.currentRanking;
     if (secretRank === guessRank) {
       comparisons.currentRanking = 'match';
-    } else if (typeof secretRank === 'string' || typeof guessRank === 'string') {
-      // One or both are "Retired" or "Deceased" - they're different
-      comparisons.currentRanking = 'different';
     } else {
       // Both are numbers - lower number = better ranking
+      // If guess rank is higher (worse), secret is "lower" (better)
       comparisons.currentRanking = guessRank > secretRank ? 'lower' : 'higher';
     }
     
@@ -174,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function getFeedbackText(property, comparison, value) {
     const propertyNames = {
       'nationality': 'Country',
-      'currentRanking': 'Ranking',
+      'currentRanking': 'Current Rank',
       'hand': 'Hand',
       'backhand': 'Backhand',
       'grandSlamTitles': 'Grand Slams',

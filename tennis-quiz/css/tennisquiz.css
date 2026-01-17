@@ -488,3 +488,19 @@ main {
     display: flex;
   }
 }
+
+/* Data Freshness */
+.data-freshness {
+  text-align: center;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.data-freshness strong {
+  color: var(--primary-color);
+}
