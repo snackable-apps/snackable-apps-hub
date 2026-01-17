@@ -609,3 +609,51 @@ footer a:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+
+/* Ad Containers */
+.ad-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+  min-height: 50px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+.ad-container::before {
+  content: "Ad";
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+
+/* Header Ad - Desktop Only */
+.ad-header {
+  display: none;
+  margin-top: 0;
+}
+
+@media (min-width: 728px) {
+  .ad-header {
+    display: flex;
+    min-height: 90px;
+  }
+}
+
+/* In-Content Ad */
+.ad-in-content {
+  min-height: 100px;
+  max-width: 336px;
+  margin: 1rem auto;
+}
+
+@media (max-width: 400px) {
+  .ad-in-content {
+    max-width: 320px;
+  }
+}
