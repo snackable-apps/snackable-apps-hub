@@ -303,6 +303,11 @@ main {
   gap: 4px;
 }
 
+.property-value.genres-list {
+  font-size: 0.75rem;
+  flex-wrap: wrap;
+}
+
 .property.match {
   background: rgba(46, 204, 113, 0.2);
   border: 1px solid var(--success);

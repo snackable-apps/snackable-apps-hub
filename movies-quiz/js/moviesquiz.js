@@ -324,9 +324,9 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
         <div class="property ${guess.comparisons.genres}">
-          <div class="property-label">Genre</div>
-          <div class="property-value">
-            ${getFeedbackText(guess.comparisons.genres)} ${guess.genres[0]}
+          <div class="property-label">Genres</div>
+          <div class="property-value genres-list">
+            ${getFeedbackText(guess.comparisons.genres)} ${guess.genres.join(' / ')}
           </div>
         </div>
         <div class="property ${guess.comparisons.releaseYear}">
