@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'height': 'Altura',
       'individualTitles': 'Prêmios Individuais',
       'teamTitles': 'Títulos Coletivos',
-      'playedWorldCup': 'Copa do Mundo'
+      'playedWorldCup': 'Jogou Copa?'
     };
     const propertyName = propertyNames[property] || property;
     
@@ -226,14 +226,17 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const formattedValue = formatPropertyValue(property, value);
     
+    // Use space instead of colon if property name ends with ?
+    const separator = propertyName.endsWith('?') ? ' ' : ': ';
+    
     if (comparison === 'match') {
-      return '✅ ' + propertyName + ': ' + formattedValue;
+      return '✅ ' + propertyName + separator + formattedValue;
     } else if (comparison === 'higher') {
-      return '🔼 ' + propertyName + ': ' + formattedValue;
+      return '🔼 ' + propertyName + separator + formattedValue;
     } else if (comparison === 'lower') {
-      return '🔽 ' + propertyName + ': ' + formattedValue;
+      return '🔽 ' + propertyName + separator + formattedValue;
     } else {
-      return '❌ ' + propertyName + ': ' + formattedValue;
+      return '❌ ' + propertyName + separator + formattedValue;
     }
   }
 
@@ -437,7 +440,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'height': 'Altura',
       'individualTitles': 'Prêmios Individuais',
       'teamTitles': 'Títulos Coletivos',
-      'playedWorldCup': 'Copa do Mundo'
+      'playedWorldCup': 'Jogou Copa?'
     };
     const propertyName = propertyNames[property] || property;
     
