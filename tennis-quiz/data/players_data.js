@@ -1,8 +1,8 @@
 // Tennis Players Database
-// status: "Active" or "Retired"
+// currentRanking: number for active players, "Retired" for retired, "Deceased" for deceased
 // deathDate: for deceased players (age shown at death with †)
 const PLAYERS_DATA = [
-  // Current Top Players
+  // Current Top Players (ATP Rankings as of Jan 2026)
   {
     "name": "Novak Djokovic",
     "nationality": "Serbia",
@@ -12,8 +12,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 24,
     "careerTitles": 99,
     "highestRanking": 1,
+    "currentRanking": 7,
     "turnedPro": 2003,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -26,8 +26,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 4,
     "careerTitles": 16,
     "highestRanking": 1,
+    "currentRanking": 3,
     "turnedPro": 2018,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -40,8 +40,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 3,
     "careerTitles": 19,
     "highestRanking": 1,
+    "currentRanking": 1,
     "turnedPro": 2018,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -54,8 +54,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 1,
     "careerTitles": 20,
     "highestRanking": 1,
+    "currentRanking": 5,
     "turnedPro": 2014,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -68,8 +68,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 23,
     "highestRanking": 2,
+    "currentRanking": 2,
     "turnedPro": 2013,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -82,8 +82,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 13,
     "highestRanking": 3,
+    "currentRanking": 11,
     "turnedPro": 2016,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -96,8 +96,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 11,
     "highestRanking": 2,
+    "currentRanking": 6,
     "turnedPro": 2015,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -110,8 +110,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 5,
     "highestRanking": 4,
+    "currentRanking": 13,
     "turnedPro": 2019,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -124,8 +124,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 9,
     "highestRanking": 4,
+    "currentRanking": 4,
     "turnedPro": 2015,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -138,8 +138,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 16,
     "highestRanking": 5,
+    "currentRanking": 9,
     "turnedPro": 2014,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -152,8 +152,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 7,
     "highestRanking": 6,
+    "currentRanking": 16,
     "turnedPro": 2015,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -166,8 +166,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 7,
     "highestRanking": 13,
+    "currentRanking": 95,
     "turnedPro": 2013,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -180,10 +180,10 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 4,
     "highestRanking": 6,
+    "currentRanking": 27,
     "turnedPro": 2017,
-    "status": "Active",
     "deathDate": null,
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "name": "Denis Shapovalov",
@@ -194,8 +194,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 1,
     "highestRanking": 10,
+    "currentRanking": 56,
     "turnedPro": 2017,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -208,8 +208,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 10,
     "highestRanking": 3,
+    "currentRanking": 10,
     "turnedPro": 2008,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -222,8 +222,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 12,
     "highestRanking": 4,
+    "currentRanking": 74,
     "turnedPro": 2007,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -237,8 +237,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 22,
     "careerTitles": 92,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 2001,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -251,8 +251,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 20,
     "careerTitles": 103,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1998,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -265,8 +265,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 3,
     "careerTitles": 46,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 2005,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -279,8 +279,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 3,
     "careerTitles": 16,
     "highestRanking": 3,
+    "currentRanking": 158,
     "turnedPro": 2002,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -293,8 +293,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 1,
     "careerTitles": 17,
     "highestRanking": 3,
+    "currentRanking": "Retired",
     "turnedPro": 2011,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -307,8 +307,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 1,
     "careerTitles": 20,
     "highestRanking": 3,
+    "currentRanking": 87,
     "turnedPro": 2005,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -321,8 +321,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 1,
     "careerTitles": 22,
     "highestRanking": 3,
+    "currentRanking": "Retired",
     "turnedPro": 2005,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -335,8 +335,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 11,
     "highestRanking": 6,
+    "currentRanking": 41,
     "turnedPro": 2004,
-    "status": "Active",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -350,8 +350,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 14,
     "careerTitles": 64,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1988,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -364,8 +364,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 8,
     "careerTitles": 60,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1986,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -378,8 +378,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 11,
     "careerTitles": 66,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1973,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -392,8 +392,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 7,
     "careerTitles": 77,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1978,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "easy"
   },
@@ -406,8 +406,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 8,
     "careerTitles": 109,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1972,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -420,8 +420,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 8,
     "careerTitles": 94,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1978,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -434,8 +434,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 6,
     "careerTitles": 49,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1984,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -448,8 +448,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 6,
     "careerTitles": 42,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1983,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -462,8 +462,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 7,
     "careerTitles": 33,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1981,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "hard"
   },
@@ -476,8 +476,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 4,
     "careerTitles": 23,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1988,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "hard"
   },
@@ -490,8 +490,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 2,
     "careerTitles": 30,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1998,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -504,8 +504,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 3,
     "careerTitles": 20,
     "highestRanking": 1,
+    "currentRanking": "Retired",
     "turnedPro": 1995,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "medium"
   },
@@ -518,8 +518,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 27,
     "highestRanking": 3,
+    "currentRanking": "Retired",
     "turnedPro": 2000,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "hard"
   },
@@ -532,8 +532,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 18,
     "highestRanking": 5,
+    "currentRanking": "Retired",
     "turnedPro": 2004,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "hard"
   },
@@ -546,8 +546,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 15,
     "highestRanking": 2,
+    "currentRanking": "Retired",
     "turnedPro": 1996,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "hard"
   },
@@ -560,8 +560,8 @@ const PLAYERS_DATA = [
     "grandSlamTitles": 0,
     "careerTitles": 15,
     "highestRanking": 7,
+    "currentRanking": "Retired",
     "turnedPro": 2002,
-    "status": "Retired",
     "deathDate": null,
     "difficulty": "hard"
   }

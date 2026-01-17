@@ -79,6 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return age;
   }
 
+  function formatRanking(ranking) {
+    if (typeof ranking === 'string') {
+      return ranking; // "Retired" or "Deceased"
+    }
+    return '#' + ranking;
+  }
+
   function getDailyPlayer() {
     const dateString = getDateString();
     const date = new Date(dateString);
@@ -94,8 +101,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Nationality
     comparisons.nationality = secret.nationality === guess.nationality ? 'match' : 'different';
     
-    // Status (Active/Retired)
-    comparisons.status = secret.status === guess.status ? 'match' : 'different';
+    // Current Ranking (number for active, "Retired"/"Deceased" for others)
+    const secretRank = secret.currentRanking;
+    const guessRank = guess.currentRanking;
+    if (secretRank === guessRank) {
+      comparisons.currentRanking = 'match';
+    } else if (typeof secretRank === 'string' || typeof guessRank === 'string') {
+      // One or both are "Retired" or "Deceased" - they're different
+      comparisons.currentRanking = 'different';
+    } else {
+      // Both are numbers - lower number = better ranking
+      comparisons.currentRanking = guessRank > secretRank ? 'lower' : 'higher';
+    }
     
     // Hand
     comparisons.hand = secret.hand === guess.hand ? 'match' : 'different';
@@ -157,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function getFeedbackText(property, comparison, value) {
     const propertyNames = {
       'nationality': 'Country',
-      'status': 'Status',
+      'currentRanking': 'Ranking',
       'hand': 'Hand',
       'backhand': 'Backhand',
       'grandSlamTitles': 'Grand Slams',
@@ -209,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ${isCorrect ? '<span class="correct-badge">🎉</span>' : '<span class="wrong-badge">❌</span>'}
         </span>
         <span class="property-feedback ${getFeedbackClass(comparisons.nationality)}">${getFeedbackText('nationality', comparisons.nationality, guess.nationality)}</span>
-        <span class="property-feedback ${getFeedbackClass(comparisons.status)}">${getFeedbackText('status', comparisons.status, guess.status)}</span>
+        <span class="property-feedback ${getFeedbackClass(comparisons.currentRanking)}">${getFeedbackText('currentRanking', comparisons.currentRanking, formatRanking(guess.currentRanking))}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.age)}">${getFeedbackText('age', comparisons.age, ageDisplay)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.hand)}">${getFeedbackText('hand', comparisons.hand, guess.hand)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.backhand)}">${getFeedbackText('backhand', comparisons.backhand, guess.backhand)}</span>
