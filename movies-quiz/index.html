@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Quiz - Guess the Film | Snackable Games</title>
+  <meta name="description" content="Guess the secret movie! Compare director, genre, rating, and more. A daily movie guessing game.">
+  <link rel="stylesheet" href="css/moviesquiz.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PLACEHOLDER');
+  </script>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="../" class="back-link">← Back to Games</a>
+      <h1>🎬 Movie Quiz</h1>
+      <p class="subtitle">Guess the secret film!</p>
+    </header>
+
+    <main>
+      <!-- Game Info -->
+      <div id="game-info" class="game-info">
+        <div class="info-row">
+          <span>Guesses: <strong id="guess-count">0</strong></span>
+          <span id="game-status"></span>
+        </div>
+      </div>
+
+      <!-- Guess Input Section -->
+      <div id="guess-section" class="guess-section">
+        <div class="input-wrapper">
+          <input 
+            type="text" 
+            id="movie-input" 
+            placeholder="Type a movie title..." 
+            autocomplete="off"
+          >
+          <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
+        </div>
+        <button id="submit-guess" class="btn-primary">Guess</button>
+        <button id="give-up-btn" class="btn-secondary">Give Up</button>
+      </div>
+
+      <!-- Guesses Display -->
+      <div id="guesses-container" class="guesses-container">
+        <!-- Guesses will be inserted here -->
+      </div>
+
+      <!-- Share Section (hidden until game ends) -->
+      <div id="share-section" class="share-section" style="display: none;">
+        <button id="share-results-btn" class="btn-share">📋 Share Results</button>
+      </div>
+    </main>
+
+    <!-- Feedback Button -->
+    <button class="feedback-btn" onclick="openFeedback()">💬 Feedback</button>
+    
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeFeedback()">&times;</span>
+        <h2>Send Feedback</h2>
+        <form action="https://formspree.io/f/xwpvgalr" method="POST">
+          <input type="hidden" name="_page" id="feedback-page" value="/movies-quiz">
+          <div class="form-group">
+            <label for="feedback-about">About:</label>
+            <select name="about" id="feedback-about" required>
+              <option value="Movies Quiz">Movies Quiz</option>
+              <option value="General / Website">General / Website</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="feedback-type">Type:</label>
+            <select name="type" id="feedback-type" required>
+              <option value="bug">Bug Report</option>
+              <option value="suggestion">Suggestion</option>
+              <option value="content">Content Issue</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="feedback-message">Message:</label>
+            <textarea name="message" id="feedback-message" rows="4" required placeholder="Describe your feedback..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Send Feedback</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <p>A new movie every day! 🎬</p>
+      <p><a href="../about.html">About</a> | <a href="../privacy.html">Privacy</a></p>
+    </footer>
+  </div>
+
+  <script src="data/movies_data.js"></script>
+  <script src="js/moviesquiz.js"></script>
+  <script>
+    function openFeedback() {
+      document.getElementById('feedback-modal').style.display = 'flex';
+      if (typeof gtag === 'function') {
+        gtag('event', 'feedback_opened', { page: '/movies-quiz' });
+      }
+    }
+    function closeFeedback() {
+      document.getElementById('feedback-modal').style.display = 'none';
+    }
+    document.getElementById('feedback-about').addEventListener('change', function() {
+      const pageField = document.getElementById('feedback-page');
+      pageField.value = this.value === 'General / Website' ? '/general' : '/movies-quiz';
+    });
+    window.onclick = function(event) {
+      const modal = document.getElementById('feedback-modal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

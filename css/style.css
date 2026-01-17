@@ -175,6 +175,7 @@ main {
 .game-card.pomodoro { --card-accent: #ff6b6b; --card-accent-rgb: 255,107,107; }
 .game-card.tennis { --card-accent: #c4a000; --card-accent-rgb: 196,160,0; }
 .game-card.books { --card-accent: #8b4513; --card-accent-rgb: 139,69,19; }
+.game-card.movies { --card-accent: #e50914; --card-accent-rgb: 229,9,20; }
 
 /* Featured Badge */
 .badge {
