@@ -90,10 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }));
     
     // Overall genre comparison
-    const matchCount = comparisons.genreDetails.filter(g => g.match).length;
-    if (matchCount === guessGenres.length && matchCount === secretGenres.size) {
+    const genreMatchCount = comparisons.genreDetails.filter(g => g.match).length;
+    if (genreMatchCount === guessGenres.length && genreMatchCount === secretGenres.size) {
       comparisons.genres = 'match';
-    } else if (matchCount > 0) {
+    } else if (genreMatchCount > 0) {
       comparisons.genres = 'partial';
     } else {
       comparisons.genres = 'different';
@@ -141,10 +141,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }));
     
     // Overall cast comparison
-    const matchCount = comparisons.castDetails.filter(a => a.match).length;
-    if (matchCount === guessCast.length && matchCount === secretCast.size) {
+    const castMatchCount = comparisons.castDetails.filter(a => a.match).length;
+    if (castMatchCount === guessCast.length && castMatchCount === secretCast.size) {
       comparisons.cast = 'match';
-    } else if (matchCount > 0) {
+    } else if (castMatchCount > 0) {
       comparisons.cast = 'partial';
     } else {
       comparisons.cast = 'different';
