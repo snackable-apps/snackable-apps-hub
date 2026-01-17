@@ -244,8 +244,8 @@ main {
 /* Guess Card */
 .guess-card {
   background: var(--bg-card);
-  border-radius: 12px;
-  padding: 15px;
+  border-radius: 10px;
+  padding: 12px;
   border: 1px solid var(--border);
   animation: slideIn 0.3s ease;
 }
@@ -267,32 +267,38 @@ main {
 }
 
 .guess-title {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   color: var(--accent-gold);
 }
 
 .guess-properties {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+
+@media (max-width: 600px) {
+  .guess-properties {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .property {
   background: var(--bg-secondary);
-  padding: 10px;
-  border-radius: 8px;
+  padding: 6px 4px;
+  border-radius: 6px;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
 }
 
 .property-label {
   color: var(--text-secondary);
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+  margin-bottom: 2px;
 }
 
 .property-value {
@@ -300,23 +306,30 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 2px;
+  font-size: 0.75rem;
 }
 
 .property-value.genres-list {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 3px;
 }
 
 .genres-property {
-  grid-column: span 2;
+  grid-column: span 3;
+}
+
+@media (max-width: 600px) {
+  .genres-property {
+    grid-column: span 3;
+  }
 }
 
 .genre {
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.65rem;
   font-weight: 500;
 }
 
@@ -359,37 +372,35 @@ main {
 
 /* Cast Section */
 .cast-section {
-  margin-top: 12px;
-  padding-top: 12px;
+  margin-top: 8px;
+  padding-top: 8px;
   border-top: 1px solid var(--border);
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 .cast-label {
   color: var(--text-secondary);
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding-top: 5px;
+  letter-spacing: 0.3px;
   flex-shrink: 0;
 }
 
 .cast-actors {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
   flex: 1;
 }
 
 .actor {
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
   font-weight: 500;
-  transition: transform 0.2s;
 }
 
 .actor-match {
