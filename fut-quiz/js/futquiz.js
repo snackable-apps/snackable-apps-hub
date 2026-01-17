@@ -85,12 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   }
 
-  function calculateAge(dateOfBirth) {
-    const today = new Date();
+  function calculateAge(dateOfBirth, deathDate = null) {
+    const endDate = deathDate ? new Date(deathDate) : new Date();
     const birthDate = new Date(dateOfBirth);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    let age = endDate.getFullYear() - birthDate.getFullYear();
+    const monthDiff = endDate.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && endDate.getDate() < birthDate.getDate())) {
       age--;
     }
     return age;
@@ -154,8 +154,9 @@ document.addEventListener("DOMContentLoaded", () => {
     comparisons.primaryPosition = secret.primaryPosition === guess.primaryPosition ? 'match' : 'different';
     
     // Age - calculate from dateOfBirth and compare (numeric)
-    const secretAge = calculateAge(secret.dateOfBirth);
-    const guessAge = calculateAge(guess.dateOfBirth);
+    // Use deathDate for deceased players to show age at death
+    const secretAge = calculateAge(secret.dateOfBirth, secret.deathDate);
+    const guessAge = calculateAge(guess.dateOfBirth, guess.deathDate);
     if (secretAge === guessAge) {
       comparisons.age = 'match';
     } else if (guessAge > secretAge) {
@@ -293,12 +294,16 @@ document.addEventListener("DOMContentLoaded", () => {
     guessLine.appendChild(playerHeader);
     
     // Add all property feedbacks
+    // Calculate age with deathDate for deceased players, add † symbol
+    const guessAge = calculateAge(guess.dateOfBirth, guess.deathDate);
+    const ageDisplay = guess.deathDate ? `${guessAge}†` : guessAge;
+    
     const properties = [
       { key: 'nationality', value: guess.nationality, comparison: comparisons.nationality },
       { key: 'currentClub', value: guess.currentClub, comparison: comparisons.currentClub },
       { key: 'leaguesPlayed', value: guess.leaguesPlayed, comparison: comparisons.leaguesPlayed },
       { key: 'primaryPosition', value: guess.primaryPosition, comparison: comparisons.primaryPosition },
-      { key: 'age', value: calculateAge(guess.dateOfBirth), comparison: comparisons.age },
+      { key: 'age', value: ageDisplay, comparison: comparisons.age },
       { key: 'preferredFoot', value: guess.preferredFoot, comparison: comparisons.preferredFoot },
       { key: 'height', value: guess.height, comparison: comparisons.height },
       { key: 'individualTitles', value: guess.individualTitles, comparison: comparisons.individualTitles },
@@ -463,7 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('currentClub', secret.currentClub)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('leaguesPlayed', secret.leaguesPlayed)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('primaryPosition', secret.primaryPosition)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('age', calculateAge(secret.dateOfBirth))}</span>
+        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('age', secret.deathDate ? calculateAge(secret.dateOfBirth, secret.deathDate) + '†' : calculateAge(secret.dateOfBirth))}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('preferredFoot', secret.preferredFoot)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('height', secret.height)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('individualTitles', secret.individualTitles)}</span>
