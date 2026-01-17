@@ -508,3 +508,181 @@ main {
     display: flex;
   }
 }
+/* Mode Toggle */
+.mode-toggle {
+  background: var(--card-bg);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border-color);
+  transition: 0.3s;
+  border-radius: 28px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: linear-gradient(135deg, var(--primary-color), #d946ef);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+}
+
+.toggle-label {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.toggle-hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-left: auto;
+}
+
+.toggle-hint.easy-active {
+  color: var(--primary-color);
+}
+
+/* Autocomplete with artist info */
+.autocomplete-item .song-name {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.autocomplete-item .artist-name {
+  color: var(--text-muted);
+  font-size: 0.9em;
+  margin-left: 0.5rem;
+}
+
+.autocomplete-item .artist-name::before {
+  content: "by ";
+  font-style: italic;
+}
+
+@media (max-width: 500px) {
+  .toggle-hint {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+  
+  .mode-toggle {
+    padding: 1rem;
+  }
+}
+
+/* Toggle description styling */
+.toggle-description {
+  margin: 0.75rem 0 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.toggle-description .current-mode {
+  color: var(--text-color);
+}
+
+.toggle-description .current-mode strong {
+  color: var(--primary-color);
+}
+
+.toggle-description .mode-action {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.toggle-description.easy-active .current-mode strong {
+  color: var(--success-color);
+}
+
+/* Toggle description - positioned to the right */
+.toggle-description {
+  margin: 0 0 0 auto;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  gap: 0.15rem;
+}
+
+.toggle-description .current-mode {
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.toggle-description .current-mode strong {
+  color: var(--primary-color);
+}
+
+.toggle-description .mode-action {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.toggle-description.easy-active .current-mode strong {
+  color: var(--success-color);
+}
+
+@media (max-width: 480px) {
+  .toggle-container {
+    flex-wrap: wrap;
+  }
+  
+  .toggle-description {
+    width: 100%;
+    margin: 0.5rem 0 0 0;
+    align-items: flex-start;
+    text-align: left;
+  }
+}

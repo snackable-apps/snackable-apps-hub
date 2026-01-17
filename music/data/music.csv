@@ -16,7 +16,7 @@ Wonderwall,Oasis,UK,5,1995,1990s,Rock,English,4.18,easy
 Shape of You,Ed Sheeran,UK,1,2017,2010s,Pop,English,3.53,easy
 Blinding Lights,The Weeknd,Canada,1,2019,2010s,Pop,English,3.20,easy
 Watermelon Sugar,Harry Styles,UK,1,2020,2020s,Pop,English,2.54,easy
-Bad Guy,Billie Eilish,USA,2,2019,2010s,Pop,English,3.14,easy
+Bad Guy,Billie Eilish,USA,1,2019,2010s,Pop,English,3.14,easy
 Old Town Road,Lil Nas X,USA,1,2019,2010s,Hip-Hop,English,2.37,easy
 God's Plan,Drake,Canada,1,2018,2010s,Hip-Hop,English,3.18,easy
 Lose Yourself,Eminem,USA,1,2002,2000s,Hip-Hop,English,5.26,easy
@@ -379,3 +379,38 @@ The Numbers,Radiohead,UK,5,2016,2010s,Rock,English,5.52,hard
 Present Tense,Radiohead,UK,5,2016,2010s,Rock,English,5.06,hard
 Tinker Tailor Soldier Sailor Rich Man Poor Man Beggar Man Thief,Radiohead,UK,5,2016,2010s,Rock,English,5.03,hard
 Glass Eyes,Radiohead,UK,5,2016,2010s,Rock,English,2.52,hard
+Californication,Red Hot Chili Peppers,USA,4,1999,1990s,Rock,English,5.21,easy
+Under the Bridge,Red Hot Chili Peppers,USA,4,1992,1990s,Rock,English,4.24,easy
+Give It Away,Red Hot Chili Peppers,USA,4,1991,1990s,Rock,English,4.43,medium
+Can't Stop,Red Hot Chili Peppers,USA,4,2002,2000s,Rock,English,4.29,medium
+Snow (Hey Oh),Red Hot Chili Peppers,USA,4,2006,2000s,Rock,English,5.34,medium
+Scar Tissue,Red Hot Chili Peppers,USA,4,1999,1990s,Rock,English,3.37,medium
+Beautiful Things,Benson Boone,USA,1,2024,2020s,Pop,English,3.00,easy
+What's Up,4 Non Blondes,USA,4,1993,1990s,Rock,English,4.55,easy
+Zombie,The Cranberries,Ireland,4,1994,1990s,Rock,English,5.06,easy
+I Follow Rivers,Lykke Li,Sweden,1,2011,2010s,Pop,English,3.41,medium
+Dance Monkey,Tones and I,Australia,1,2019,2010s,Pop,English,3.29,easy
+Let Her Go,Passenger,UK,1,2012,2010s,Folk,English,4.12,easy
+Get Lucky,Daft Punk,France,2,2013,2010s,Electronic,English,6.09,easy
+Garota de Ipanema,Tom Jobim,Brazil,1,1964,1960s,Bossa Nova,Portuguese,5.24,medium
+Budapest,George Ezra,UK,1,2014,2010s,Folk,English,3.20,easy
+Royals,Lorde,New Zealand,1,2013,2010s,Pop,English,3.10,easy
+Nightcall,Kavinsky,France,1,2010,2010s,Electronic,English,4.16,medium
+Do I Wanna Know?,Arctic Monkeys,UK,4,2013,2010s,Rock,English,4.32,easy
+I Bet You Look Good on the Dancefloor,Arctic Monkeys,UK,4,2005,2000s,Rock,English,2.53,medium
+R U Mine?,Arctic Monkeys,UK,4,2012,2010s,Rock,English,3.21,medium
+505,Arctic Monkeys,UK,4,2007,2000s,Rock,English,4.13,medium
+Alors on danse,Stromae,Belgium,1,2009,2000s,Electronic,French,4.31,easy
+Papaoutai,Stromae,Belgium,1,2013,2010s,Electronic,French,3.51,easy
+Formidable,Stromae,Belgium,1,2013,2010s,Electronic,French,4.04,medium
+Don't Look Back in Anger,Oasis,UK,5,1996,1990s,Rock,English,4.48,easy
+Champagne Supernova,Oasis,UK,5,1996,1990s,Rock,English,7.27,medium
+Live Forever,Oasis,UK,5,1994,1990s,Rock,English,4.36,medium
+Basket Case,Green Day,USA,3,1994,1990s,Rock,English,3.01,easy
+American Idiot,Green Day,USA,3,2004,2000s,Rock,English,2.54,easy
+Boulevard of Broken Dreams,Green Day,USA,3,2004,2000s,Rock,English,4.20,easy
+Wake Me Up When September Ends,Green Day,USA,3,2005,2000s,Rock,English,4.45,easy
+In the End,Linkin Park,USA,6,2001,2000s,Rock,English,3.36,easy
+Numb,Linkin Park,USA,6,2003,2000s,Rock,English,3.07,easy
+Crawling,Linkin Park,USA,6,2000,2000s,Rock,English,3.29,medium
+What I've Done,Linkin Park,USA,6,2007,2000s,Rock,English,3.25,medium

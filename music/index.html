@@ -47,9 +47,24 @@
       </div>
     </div>
 
+    <!-- Easy Mode Toggle -->
+    <div class="mode-toggle" id="mode-toggle" style="display: none;">
+      <div class="toggle-container">
+        <label class="toggle-switch">
+          <input type="checkbox" id="easy-mode-toggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-label">Easy Mode</span>
+        <p class="toggle-description" id="toggle-description">
+          <span class="current-mode">🎯 <strong>Song name</strong> search only</span>
+          <span class="mode-action">Enable to also search by artist</span>
+        </p>
+      </div>
+    </div>
+
     <!-- Guess Input -->
     <div class="guess-section" id="guess-section" style="display: none;">
-      <label for="music-input">Make a guess:</label>
+      <label for="music-input" id="input-label">Make a guess:</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="music-input" placeholder="Type a song name..." autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>

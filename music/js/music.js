@@ -14,6 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameStatusEl = document.getElementById("game-status");
   const guessSection = document.getElementById("guess-section");
   const gameInfo = document.getElementById("game-info");
+  const easyModeToggle = document.getElementById("easy-mode-toggle");
+  const toggleDescription = document.getElementById("toggle-description");
+  const modeToggle = document.getElementById("mode-toggle");
+  
+  // Easy mode state
+  let easyModeEnabled = false;
   
   // Autocomplete state
   let autocompleteState = {
@@ -286,11 +292,26 @@ document.addEventListener("DOMContentLoaded", () => {
       return [];
     }
     const lowerQuery = query.toLowerCase().trim();
-    // Allow guessing any song from the entire database
-    return ALL_SONGS.filter(song => 
-      song.name.toLowerCase().startsWith(lowerQuery) &&
-      !gameState.guesses.some(g => g.name === song.name)
-    ).slice(0, 10); // Limit to 10 results
+    
+    // Filter songs - in easy mode, also match by artist name
+    return ALL_SONGS.filter(song => {
+      // Skip already guessed songs
+      if (gameState.guesses.some(g => g.name === song.name)) {
+        return false;
+      }
+      
+      // Match by song name (always)
+      if (song.name.toLowerCase().startsWith(lowerQuery)) {
+        return true;
+      }
+      
+      // In easy mode, also match by artist name
+      if (easyModeEnabled && song.artist.toLowerCase().startsWith(lowerQuery)) {
+        return true;
+      }
+      
+      return false;
+    }).slice(0, 10); // Limit to 10 results
   }
 
   function displayAutocomplete(results) {
@@ -315,7 +336,14 @@ document.addEventListener("DOMContentLoaded", () => {
     results.forEach((song, index) => {
       const item = document.createElement('div');
       item.className = 'autocomplete-item';
+      
+      // In easy mode, show artist info alongside song name
+      if (easyModeEnabled) {
+        item.innerHTML = `<span class="song-name">${song.name}</span><span class="artist-name">${song.artist}</span>`;
+      } else {
       item.textContent = song.name;
+      }
+      
       item.addEventListener('click', () => {
         selectSong(song.name);
       });
@@ -493,6 +521,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
     guessSection.style.display = 'none';
     shareSection.style.display = 'block';
+    
+    // Hide mode toggle when game ends
+    if (modeToggle) {
+      modeToggle.style.display = 'none';
+    }
   }
 
   function shareResults() {
@@ -589,6 +622,11 @@ document.addEventListener("DOMContentLoaded", () => {
     musicInput.value = '';
     autocompleteDropdown.style.display = 'none';
     
+    // Show mode toggle
+    if (modeToggle) {
+      modeToggle.style.display = 'block';
+    }
+    
     // Track game start
     if (typeof gtag === 'function') {
       gtag('event', 'music_game_started', {
@@ -601,6 +639,45 @@ document.addEventListener("DOMContentLoaded", () => {
   submitBtn.addEventListener('click', submitGuess);
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
+  
+  // Easy mode toggle
+  if (easyModeToggle) {
+    easyModeToggle.addEventListener('change', (e) => {
+      easyModeEnabled = e.target.checked;
+      
+      // Update UI description and placeholder
+      if (toggleDescription) {
+        if (easyModeEnabled) {
+          toggleDescription.innerHTML = `
+            <span class="current-mode">🎤 <strong>Song + Artist</strong> search</span>
+            <span class="mode-action">Disable to search by song name only</span>
+          `;
+          toggleDescription.classList.add('easy-active');
+          musicInput.placeholder = 'Type a song or artist name...';
+        } else {
+          toggleDescription.innerHTML = `
+            <span class="current-mode">🎯 <strong>Song name</strong> search only</span>
+            <span class="mode-action">Enable to also search by artist</span>
+          `;
+          toggleDescription.classList.remove('easy-active');
+          musicInput.placeholder = 'Type a song name...';
+        }
+      }
+      
+      // Clear and refresh autocomplete if there's text
+      if (musicInput.value.trim()) {
+        const results = filterSongs(musicInput.value);
+        displayAutocomplete(results);
+      }
+      
+      // Track mode change
+      if (typeof gtag === 'function') {
+        gtag('event', 'music_mode_toggle', {
+          easy_mode: easyModeEnabled
+        });
+      }
+    });
+  }
   
   if (musicInput) {
   musicInput.addEventListener('input', (e) => {
