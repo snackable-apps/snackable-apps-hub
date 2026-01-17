@@ -109,15 +109,15 @@ document.addEventListener("DOMContentLoaded", () => {
     comparisons.nationality = secret.nationality === guess.nationality ? 'match' : 'different';
     
     // Current Ranking (number for all players, 9999 = Retired)
-    // Lower number = better ranking, so 9999 (Retired) is always "lower" than active players
+    // Lower number = better ranking, #1 is the TOP (arrow up)
     const secretRank = secret.currentRanking;
     const guessRank = guess.currentRanking;
     if (secretRank === guessRank) {
       comparisons.currentRanking = 'match';
     } else {
-      // Both are numbers - lower number = better ranking
-      // If guess rank is higher (worse), secret is "lower" (better)
-      comparisons.currentRanking = guessRank > secretRank ? 'lower' : 'higher';
+      // For rankings: lower number = better = "higher" position (arrow up)
+      // If secret is #1 and guess is #50, arrow should point UP (secret is "higher")
+      comparisons.currentRanking = secretRank < guessRank ? 'higher' : 'lower';
     }
     
     // Hand
@@ -144,14 +144,14 @@ document.addEventListener("DOMContentLoaded", () => {
       comparisons.careerTitles = 'higher';
     }
     
-    // Highest Ranking
+    // Highest Ranking (lower number = better = "higher" position)
     if (secret.highestRanking === guess.highestRanking) {
       comparisons.highestRanking = 'match';
-    } else if (guess.highestRanking > secret.highestRanking) {
-      // Lower number = better ranking, so if guess is higher number, secret is "better"
-      comparisons.highestRanking = 'lower';
-    } else {
+    } else if (secret.highestRanking < guess.highestRanking) {
+      // Secret has better (lower) highest ranking = arrow UP
       comparisons.highestRanking = 'higher';
+    } else {
+      comparisons.highestRanking = 'lower';
     }
     
     // Age (use death date for deceased players)
