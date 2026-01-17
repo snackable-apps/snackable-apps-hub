@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tennis Quiz | Snackable Games</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎾</text></svg>">
+  <link rel="stylesheet" href="css/tennisquiz.css" />
+
+  <!-- GA4 - Placeholder until user provides ID -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script> -->
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <h1>🎾 Tennis Quiz: Guess the Player</h1>
+    <p>Guess the tennis player using logical clues!</p>
+    <a href="/">← Back to menu</a>
+  </header>
+
+  <main>
+    <!-- Header Ad (Desktop Only) -->
+    <div class="ad-container ad-header" id="ad-header">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-4490023750698733"
+           data-ad-slot="HEADER_SLOT_ID"
+           data-ad-format="horizontal"
+           data-full-width-responsive="true"></ins>
+    </div>
+
+    <!-- Game Info -->
+    <div class="game-info" id="game-info" style="display: none;">
+      <p>Each day, a secret tennis player is selected. Make guesses and use the clues to find them!</p>
+      <div class="game-stats">
+        <span>Guesses: <strong id="guess-count">0</strong></span>
+        <span id="game-status"></span>
+      </div>
+    </div>
+
+    <!-- Guess Input -->
+    <div class="guess-section" id="guess-section">
+      <label for="player-input">Make a guess:</label>
+      <div class="autocomplete-wrapper">
+        <input type="text" id="player-input" placeholder="Type a player name..." autocomplete="off" />
+        <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
+      </div>
+      <div class="button-group">
+        <button id="submit-guess" class="submit-btn">Submit Guess</button>
+        <button id="give-up-btn" class="submit-btn secondary">Give Up</button>
+      </div>
+    </div>
+
+    <!-- Share Results -->
+    <div class="share-section" id="share-section" style="display: none;">
+      <button id="share-results-btn" class="submit-btn">Share Results</button>
+    </div>
+
+    <!-- Guesses History -->
+    <div class="guesses-container" id="guesses-container">
+      <!-- Guesses will be displayed here -->
+    </div>
+
+    <!-- In-Content Ad -->
+    <div class="ad-container ad-in-content" id="ad-in-content">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-4490023750698733"
+           data-ad-slot="CONTENT_SLOT_ID"
+           data-ad-format="rectangle"
+           data-full-width-responsive="true"></ins>
+    </div>
+
+    <!-- How to Play -->
+    <div class="how-to-play">
+      <h3>How to Play</h3>
+      <ul>
+        <li><strong>✅ Match:</strong> The attribute matches the secret player</li>
+        <li><strong>🔼 Higher:</strong> The secret player has a higher value</li>
+        <li><strong>🔽 Lower:</strong> The secret player has a lower value</li>
+        <li><strong>❌ Different:</strong> The attribute doesn't match</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Feedback Button & Modal -->
+  <button class="feedback-btn" onclick="openFeedback()" aria-label="Send Feedback">💬 Feedback</button>
+  <div class="feedback-overlay" id="feedback-overlay" onclick="closeFeedback()"></div>
+  <div class="feedback-modal" id="feedback-modal">
+    <button class="feedback-close" onclick="closeFeedback()">✕</button>
+    <h3>📬 Send Feedback</h3>
+    <form action="https://formspree.io/f/xkoowdlo" method="POST">
+      <input type="hidden" name="_subject" value="User Feedback - Snackable Games">
+      <input type="hidden" name="_page" id="feedback-page">
+      <label>About:</label>
+      <select name="about" required>
+        <option value="F1 Quiz">F1 Quiz</option>
+        <option value="Tennis Quiz" selected>Tennis Quiz</option>
+        <option value="FutQuiz">FutQuiz</option>
+        <option value="Music Quiz">Music Quiz</option>
+        <option value="Animal Quiz">Animal Quiz</option>
+        <option value="Books Quiz">Books Quiz</option>
+        <option value="Sudoku">Sudoku</option>
+        <option value="General / Website">General / Website</option>
+      </select>
+      <label>Your feedback:</label>
+      <textarea name="message" rows="4" required placeholder="Tell us what you think..."></textarea>
+      <label>Email (optional):</label>
+      <input type="email" name="email" placeholder="your@email.com">
+      <button type="submit">Send Feedback</button>
+    </form>
+  </div>
+  <style>
+    .feedback-btn{position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:30px;border:none;background:linear-gradient(135deg,#00d4ff,#ff6b6b);color:#fff;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:transform .2s;z-index:1000;display:flex;align-items:center;gap:6px}
+    .feedback-btn:hover{transform:scale(1.05)}
+    .feedback-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1001}
+    .feedback-overlay.open{display:block}
+    .feedback-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1a2e;border-radius:16px;padding:24px;width:90%;max-width:400px;z-index:1002;border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+    .feedback-modal.open{display:block}
+    .feedback-modal h3{margin:0 0 16px;color:#fff;font-size:1.3rem}
+    .feedback-close{position:absolute;top:12px;right:12px;background:none;border:none;color:#999;font-size:20px;cursor:pointer}
+    .feedback-modal label{display:block;margin:12px 0 4px;color:#aaa;font-size:.9rem}
+    .feedback-modal select,.feedback-modal input,.feedback-modal textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#0f0f1a;color:#fff;font-family:inherit;font-size:1rem;box-sizing:border-box}
+    .feedback-modal button[type=submit]{width:100%;margin-top:16px;padding:12px;border:none;border-radius:8px;background:linear-gradient(135deg,#00d4ff,#ff6b6b);color:#fff;font-size:1rem;font-weight:600;cursor:pointer}
+  </style>
+  <script>
+    function openFeedback(){document.getElementById('feedback-overlay').classList.add('open');document.getElementById('feedback-modal').classList.add('open');document.getElementById('feedback-page').value=window.location.pathname}
+    function closeFeedback(){document.getElementById('feedback-overlay').classList.remove('open');document.getElementById('feedback-modal').classList.remove('open')}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeFeedback()});
+    document.querySelector('.feedback-modal select[name="about"]').addEventListener('change', function() {
+      var pageField = document.getElementById('feedback-page');
+      pageField.value = this.value === 'General / Website' ? '/general' : window.location.pathname;
+    });
+  </script>
+
+  <script src="data/players_data.js"></script>
+  <script src="js/tennisquiz.js"></script>
+  
+  <!-- Initialize Ads -->
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</body>
+</html>

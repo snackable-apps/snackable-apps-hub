@@ -75,6 +75,20 @@
           <h2>Sudoku</h2>
           <p>Classic number puzzle. Clean design, no distractions.</p>
         </a>
+
+        <a href="/tennis-quiz/" class="game-card tennis" onclick="trackGameClick('tennis-quiz')">
+          <span class="badge">New</span>
+          <span class="emoji">🎾</span>
+          <h2>Tennis Quiz</h2>
+          <p>Guess the tennis player using clues about their career and stats.</p>
+        </a>
+
+        <a href="/books-quiz/" class="game-card books" onclick="trackGameClick('books-quiz')">
+          <span class="badge">New</span>
+          <span class="emoji">📚</span>
+          <h2>Books Quiz</h2>
+          <p>Guess the classic book using clues about author and publication.</p>
+        </a>
       </div>
     </main>
 
@@ -113,9 +127,11 @@
       <select name="about" id="feedback-about" required>
         <option value="">Select...</option>
         <option value="F1 Quiz">F1 Quiz</option>
+        <option value="Tennis Quiz">Tennis Quiz</option>
         <option value="FutQuiz">FutQuiz</option>
         <option value="Music Quiz">Music Quiz</option>
         <option value="Animal Quiz">Animal Quiz</option>
+        <option value="Books Quiz">Books Quiz</option>
         <option value="Sudoku">Sudoku</option>
         <option value="General / Website">General / Website</option>
       </select>

@@ -173,6 +173,8 @@ main {
 .game-card.animal { --card-accent: #6bcb77; --card-accent-rgb: 107,203,119; }
 .game-card.sudoku { --card-accent: #00d4ff; --card-accent-rgb: 0,212,255; }
 .game-card.pomodoro { --card-accent: #ff6b6b; --card-accent-rgb: 255,107,107; }
+.game-card.tennis { --card-accent: #c4a000; --card-accent-rgb: 196,160,0; }
+.game-card.books { --card-accent: #8b4513; --card-accent-rgb: 139,69,19; }
 
 /* Featured Badge */
 .badge {
