@@ -79,14 +79,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // Director
     comparisons.director = secret.director === guess.director ? 'match' : 'different';
     
-    // Genres (array comparison)
+    // Genres (array comparison with individual matches)
     const secretGenres = new Set(secret.genres.map(g => g.toLowerCase()));
-    const guessGenres = new Set(guess.genres.map(g => g.toLowerCase()));
-    const genreIntersection = [...secretGenres].filter(g => guessGenres.has(g));
+    const guessGenres = guess.genres || [];
     
-    if (genreIntersection.length === secretGenres.size && genreIntersection.length === guessGenres.size) {
+    // For each genre in guess, check if it's in secret
+    comparisons.genreDetails = guessGenres.map(genre => ({
+      name: genre,
+      match: secretGenres.has(genre.toLowerCase())
+    }));
+    
+    // Overall genre comparison
+    const matchCount = comparisons.genreDetails.filter(g => g.match).length;
+    if (matchCount === guessGenres.length && matchCount === secretGenres.size) {
       comparisons.genres = 'match';
-    } else if (genreIntersection.length > 0) {
+    } else if (matchCount > 0) {
       comparisons.genres = 'partial';
     } else {
       comparisons.genres = 'different';
@@ -323,10 +330,12 @@ document.addEventListener("DOMContentLoaded", () => {
             ${getFeedbackText(guess.comparisons.director)} ${guess.director.split(' ').pop()}
           </div>
         </div>
-        <div class="property ${guess.comparisons.genres}">
+        <div class="property genres-property">
           <div class="property-label">Genres</div>
           <div class="property-value genres-list">
-            ${getFeedbackText(guess.comparisons.genres)} ${guess.genres.join(' / ')}
+            ${guess.comparisons.genreDetails.map(g => 
+              `<span class="genre ${g.match ? 'genre-match' : 'genre-different'}">${g.name}</span>`
+            ).join('')}
           </div>
         </div>
         <div class="property ${guess.comparisons.releaseYear}">

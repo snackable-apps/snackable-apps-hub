@@ -306,6 +306,30 @@ main {
 .property-value.genres-list {
   font-size: 0.75rem;
   flex-wrap: wrap;
+  gap: 4px;
+}
+
+.genres-property {
+  grid-column: span 2;
+}
+
+.genre {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.genre-match {
+  background: rgba(46, 204, 113, 0.25);
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+.genre-different {
+  background: rgba(231, 76, 60, 0.15);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
 }
 
 .property.match {
