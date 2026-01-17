@@ -122,8 +122,26 @@ document.addEventListener("DOMContentLoaded", () => {
     // Country
     comparisons.country = secret.country === guess.country ? 'match' : 'different';
     
-    // Lead Actor
-    comparisons.leadActor = secret.leadActor === guess.leadActor ? 'match' : 'different';
+    // Cast (array comparison with individual matches)
+    const secretCast = new Set((secret.cast || []).map(a => a.toLowerCase()));
+    const guessCast = guess.cast || [];
+    
+    // For each actor in guess, check if they're in secret
+    comparisons.castDetails = guessCast.slice(0, 6).map(actor => ({
+      name: actor.split(' ').pop(), // Last name only for display
+      fullName: actor,
+      match: secretCast.has(actor.toLowerCase())
+    }));
+    
+    // Overall cast comparison
+    const matchCount = comparisons.castDetails.filter(a => a.match).length;
+    if (matchCount === guessCast.length && matchCount === secretCast.size) {
+      comparisons.cast = 'match';
+    } else if (matchCount > 0) {
+      comparisons.cast = 'partial';
+    } else {
+      comparisons.cast = 'different';
+    }
     
     return comparisons;
   }
@@ -291,6 +309,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement('div');
     card.className = `guess-card ${guess.isCorrect ? 'correct' : ''}`;
     
+    // Build cast HTML with individual actor matches
+    const castHtml = guess.comparisons.castDetails
+      .map(actor => `<span class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${actor.name}</span>`)
+      .join(' ');
+    
     card.innerHTML = `
       <div class="guess-title">🎬 ${guess.title}</div>
       <div class="guess-properties">
@@ -331,17 +354,30 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       </div>
+      <div class="cast-section">
+        <div class="cast-label">Cast:</div>
+        <div class="cast-actors">${castHtml}</div>
+      </div>
     `;
     
     return card;
   }
 
   function displayAnswer() {
+    const movie = gameState.secretMovie;
+    const castList = (movie.cast || []).slice(0, 6).map(a => a.split(' ').pop()).join(', ');
+    
     const answerDiv = document.createElement('div');
     answerDiv.className = 'answer-reveal';
     answerDiv.innerHTML = `
       <h3>${gameState.isSolved ? '🎉 Correct!' : '📽️ The answer was:'}</h3>
-      <div class="movie-title">${gameState.secretMovie.title}</div>
+      <div class="movie-title">${movie.title}</div>
+      <div class="movie-details">
+        <span>${movie.releaseYear}</span> • 
+        <span>${movie.director}</span> • 
+        <span>${movie.country}</span>
+      </div>
+      <div class="movie-cast">🎭 ${castList}</div>
     `;
     return answerDiv;
   }

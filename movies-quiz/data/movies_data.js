@@ -13,7 +13,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 175,
     "imdbRating": 9.2,
     "country": "USA",
-    "leadActor": "Marlon Brando",
+    "cast": ["Marlon Brando", "Al Pacino", "James Caan", "Robert Duvall", "Diane Keaton"],
     "difficulty": "easy"
   },
   {
@@ -25,7 +25,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 142,
     "imdbRating": 9.3,
     "country": "USA",
-    "leadActor": "Tim Robbins",
+    "cast": ["Tim Robbins", "Morgan Freeman", "Bob Gunton", "William Sadler", "Clancy Brown"],
     "difficulty": "easy"
   },
   {
@@ -37,7 +37,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 154,
     "imdbRating": 8.9,
     "country": "USA",
-    "leadActor": "John Travolta",
+    "cast": ["John Travolta", "Uma Thurman", "Samuel L. Jackson", "Bruce Willis", "Ving Rhames"],
     "difficulty": "easy"
   },
   {
@@ -49,7 +49,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 152,
     "imdbRating": 9.0,
     "country": "USA",
-    "leadActor": "Christian Bale",
+    "cast": ["Christian Bale", "Heath Ledger", "Aaron Eckhart", "Michael Caine", "Gary Oldman", "Maggie Gyllenhaal", "Morgan Freeman"],
     "difficulty": "easy"
   },
   {
@@ -61,7 +61,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 148,
     "imdbRating": 8.8,
     "country": "USA",
-    "leadActor": "Leonardo DiCaprio",
+    "cast": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy", "Ken Watanabe", "Cillian Murphy", "Marion Cotillard"],
     "difficulty": "easy"
   },
   {
@@ -73,7 +73,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 139,
     "imdbRating": 8.8,
     "country": "USA",
-    "leadActor": "Brad Pitt",
+    "cast": ["Brad Pitt", "Edward Norton", "Helena Bonham Carter", "Meat Loaf", "Jared Leto"],
     "difficulty": "easy"
   },
   {
@@ -85,7 +85,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 142,
     "imdbRating": 8.8,
     "country": "USA",
-    "leadActor": "Tom Hanks",
+    "cast": ["Tom Hanks", "Robin Wright", "Gary Sinise", "Sally Field", "Mykelti Williamson"],
     "difficulty": "easy"
   },
   {
@@ -97,7 +97,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 136,
     "imdbRating": 8.7,
     "country": "USA",
-    "leadActor": "Keanu Reeves",
+    "cast": ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss", "Hugo Weaving", "Joe Pantoliano"],
     "difficulty": "easy"
   },
   {
@@ -109,7 +109,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 145,
     "imdbRating": 8.7,
     "country": "USA",
-    "leadActor": "Robert De Niro",
+    "cast": ["Robert De Niro", "Ray Liotta", "Joe Pesci", "Lorraine Bracco", "Paul Sorvino"],
     "difficulty": "easy"
   },
   {
@@ -121,7 +121,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 195,
     "imdbRating": 9.0,
     "country": "USA",
-    "leadActor": "Liam Neeson",
+    "cast": ["Liam Neeson", "Ralph Fiennes", "Ben Kingsley", "Caroline Goodall", "Embeth Davidtz"],
     "difficulty": "easy"
   },
   // Modern Classics
@@ -134,7 +134,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 169,
     "imdbRating": 8.7,
     "country": "USA",
-    "leadActor": "Matthew McConaughey",
+    "cast": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain", "Michael Caine", "Matt Damon", "Casey Affleck"],
     "difficulty": "easy"
   },
   {
@@ -146,7 +146,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 132,
     "imdbRating": 8.5,
     "country": "South Korea",
-    "leadActor": "Song Kang-ho",
+    "cast": ["Song Kang-ho", "Lee Sun-kyun", "Cho Yeo-jeong", "Choi Woo-shik", "Park So-dam"],
     "difficulty": "easy"
   },
   {
@@ -158,7 +158,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 120,
     "imdbRating": 7.8,
     "country": "USA",
-    "leadActor": "Jesse Eisenberg",
+    "cast": ["Jesse Eisenberg", "Andrew Garfield", "Justin Timberlake", "Armie Hammer", "Rooney Mara"],
     "difficulty": "medium"
   },
   {
@@ -170,7 +170,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 180,
     "imdbRating": 8.3,
     "country": "USA",
-    "leadActor": "Cillian Murphy",
+    "cast": ["Cillian Murphy", "Emily Blunt", "Matt Damon", "Robert Downey Jr.", "Florence Pugh", "Josh Hartnett", "Rami Malek"],
     "difficulty": "easy"
   },
   {
@@ -182,7 +182,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 104,
     "imdbRating": 7.8,
     "country": "USA",
-    "leadActor": "Daniel Kaluuya",
+    "cast": ["Daniel Kaluuya", "Allison Williams", "Bradley Whitford", "Catherine Keener", "Caleb Landry Jones"],
     "difficulty": "medium"
   },
   // International Cinema
@@ -195,7 +195,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 122,
     "imdbRating": 8.3,
     "country": "France",
-    "leadActor": "Audrey Tautou",
+    "cast": ["Audrey Tautou", "Mathieu Kassovitz", "Rufus", "Lorella Cravotta", "Serge Merlin"],
     "difficulty": "medium"
   },
   {
@@ -207,7 +207,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 130,
     "imdbRating": 8.6,
     "country": "Brazil",
-    "leadActor": "Alexandre Rodrigues",
+    "cast": ["Alexandre Rodrigues", "Leandro Firmino", "Matheus Nachtergaele", "Phellipe Haagensen", "Douglas Silva"],
     "difficulty": "medium"
   },
   {
@@ -219,7 +219,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 120,
     "imdbRating": 8.4,
     "country": "South Korea",
-    "leadActor": "Choi Min-sik",
+    "cast": ["Choi Min-sik", "Yoo Ji-tae", "Kang Hye-jung", "Kim Byeong-ok", "Oh Dal-su"],
     "difficulty": "medium"
   },
   {
@@ -231,7 +231,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 125,
     "imdbRating": 8.6,
     "country": "Japan",
-    "leadActor": "Rumi Hiiragi",
+    "cast": ["Rumi Hiiragi", "Miyu Irino", "Mari Natsuki", "Takashi Naito", "Yasuko Sawaguchi"],
     "difficulty": "easy"
   },
   {
@@ -243,7 +243,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 118,
     "imdbRating": 8.2,
     "country": "Spain",
-    "leadActor": "Ivana Baquero",
+    "cast": ["Ivana Baquero", "Sergi López", "Maribel Verdú", "Doug Jones", "Ariadna Gil"],
     "difficulty": "medium"
   },
   // Blockbusters
@@ -256,7 +256,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 194,
     "imdbRating": 7.9,
     "country": "USA",
-    "leadActor": "Leonardo DiCaprio",
+    "cast": ["Leonardo DiCaprio", "Kate Winslet", "Billy Zane", "Kathy Bates", "Frances Fisher", "Bill Paxton"],
     "difficulty": "easy"
   },
   {
@@ -268,7 +268,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 162,
     "imdbRating": 7.9,
     "country": "USA",
-    "leadActor": "Sam Worthington",
+    "cast": ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver", "Stephen Lang", "Michelle Rodriguez"],
     "difficulty": "easy"
   },
   {
@@ -280,7 +280,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 127,
     "imdbRating": 8.2,
     "country": "USA",
-    "leadActor": "Sam Neill",
+    "cast": ["Sam Neill", "Laura Dern", "Jeff Goldblum", "Richard Attenborough", "Samuel L. Jackson"],
     "difficulty": "easy"
   },
   {
@@ -292,7 +292,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 178,
     "imdbRating": 8.9,
     "country": "New Zealand",
-    "leadActor": "Elijah Wood",
+    "cast": ["Elijah Wood", "Ian McKellen", "Orlando Bloom", "Sean Bean", "Viggo Mortensen", "Cate Blanchett", "Sean Astin"],
     "difficulty": "easy"
   },
   {
@@ -304,7 +304,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 155,
     "imdbRating": 8.5,
     "country": "USA",
-    "leadActor": "Russell Crowe",
+    "cast": ["Russell Crowe", "Joaquin Phoenix", "Connie Nielsen", "Oliver Reed", "Richard Harris"],
     "difficulty": "easy"
   },
   // Thrillers & Horror
@@ -317,7 +317,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 118,
     "imdbRating": 8.6,
     "country": "USA",
-    "leadActor": "Jodie Foster",
+    "cast": ["Jodie Foster", "Anthony Hopkins", "Lawrence A. Bonney", "Kasi Lemmons", "Scott Glenn"],
     "difficulty": "easy"
   },
   {
@@ -329,7 +329,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 127,
     "imdbRating": 8.6,
     "country": "USA",
-    "leadActor": "Brad Pitt",
+    "cast": ["Brad Pitt", "Morgan Freeman", "Gwyneth Paltrow", "Kevin Spacey", "R. Lee Ermey"],
     "difficulty": "easy"
   },
   {
@@ -341,7 +341,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 146,
     "imdbRating": 8.4,
     "country": "USA",
-    "leadActor": "Jack Nicholson",
+    "cast": ["Jack Nicholson", "Shelley Duvall", "Danny Lloyd", "Scatman Crothers", "Barry Nelson"],
     "difficulty": "easy"
   },
   {
@@ -353,7 +353,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 109,
     "imdbRating": 8.5,
     "country": "USA",
-    "leadActor": "Anthony Perkins",
+    "cast": ["Anthony Perkins", "Janet Leigh", "Vera Miles", "John Gavin", "Martin Balsam"],
     "difficulty": "medium"
   },
   {
@@ -365,7 +365,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 151,
     "imdbRating": 8.5,
     "country": "USA",
-    "leadActor": "Leonardo DiCaprio",
+    "cast": ["Leonardo DiCaprio", "Matt Damon", "Jack Nicholson", "Mark Wahlberg", "Martin Sheen", "Vera Farmiga"],
     "difficulty": "easy"
   },
   // Comedies & Feel-Good
@@ -378,7 +378,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 99,
     "imdbRating": 8.1,
     "country": "USA",
-    "leadActor": "Ralph Fiennes",
+    "cast": ["Ralph Fiennes", "Tony Revolori", "F. Murray Abraham", "Adrien Brody", "Willem Dafoe", "Saoirse Ronan"],
     "difficulty": "medium"
   },
   {
@@ -390,7 +390,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 117,
     "imdbRating": 8.1,
     "country": "USA",
-    "leadActor": "Jeff Bridges",
+    "cast": ["Jeff Bridges", "John Goodman", "Julianne Moore", "Steve Buscemi", "Philip Seymour Hoffman"],
     "difficulty": "medium"
   },
   {
@@ -402,7 +402,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 113,
     "imdbRating": 7.6,
     "country": "USA",
-    "leadActor": "Jonah Hill",
+    "cast": ["Jonah Hill", "Michael Cera", "Christopher Mintz-Plasse", "Bill Hader", "Seth Rogen"],
     "difficulty": "medium"
   },
   {
@@ -414,7 +414,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 128,
     "imdbRating": 8.0,
     "country": "USA",
-    "leadActor": "Ryan Gosling",
+    "cast": ["Ryan Gosling", "Emma Stone", "John Legend", "Rosemarie DeWitt", "J.K. Simmons"],
     "difficulty": "easy"
   },
   {
@@ -426,7 +426,7 @@ const MOVIES_DATA = [
     "runtimeMinutes": 106,
     "imdbRating": 8.5,
     "country": "USA",
-    "leadActor": "Miles Teller",
+    "cast": ["Miles Teller", "J.K. Simmons", "Paul Reiser", "Melissa Benoist", "Austin Stowell"],
     "difficulty": "medium"
   }
 ];

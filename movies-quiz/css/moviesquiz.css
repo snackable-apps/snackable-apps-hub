@@ -328,6 +328,53 @@ main {
   border: 1px solid var(--accent);
 }
 
+/* Cast Section */
+.cast-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cast-label {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-top: 5px;
+  flex-shrink: 0;
+}
+
+.cast-actors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+
+.actor {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: transform 0.2s;
+}
+
+.actor-match {
+  background: rgba(46, 204, 113, 0.25);
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+.actor-different {
+  background: rgba(231, 76, 60, 0.15);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
 /* Share Section */
 .share-section {
   margin-top: 20px;
@@ -372,6 +419,20 @@ main {
   font-size: 2rem;
   color: var(--text-primary);
   letter-spacing: 1px;
+}
+
+.answer-reveal .movie-details {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.answer-reveal .movie-cast {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
 }
 
 /* Feedback Button */

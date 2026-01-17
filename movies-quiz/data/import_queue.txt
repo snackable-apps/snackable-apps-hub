@@ -1,0 +1,13 @@
+# Movies Quiz - Import Queue
+# Add IMDB IDs here, one per line
+# Format: tt1234567 or just 1234567
+# Lines starting with # are ignored
+
+# Example entries (uncomment to import):
+# tt0111161  # The Shawshank Redemption
+# tt0068646  # The Godfather
+# tt0468569  # The Dark Knight
+
+# === PENDING IMPORTS ===
+# Add your IMDB IDs below this line:
+
