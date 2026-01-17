@@ -317,12 +317,12 @@ main {
 }
 
 .genres-property {
-  grid-column: span 3;
+  grid-column: span 2;
 }
 
 @media (max-width: 600px) {
   .genres-property {
-    grid-column: span 3;
+    grid-column: span 2;
   }
 }
 
