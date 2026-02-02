@@ -12,3 +12,8 @@
 # Logs
 *.log
 npm-debug.log*
+
+# Data import scripts (keep private)
+movies-quiz/data/imdb_import/
+**/supabase_setup.sql
+**/supabase_v2_setup.sql
