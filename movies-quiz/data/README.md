@@ -2,96 +2,127 @@
 
 ## Overview
 
-The movies database contains 35 curated films with the following properties:
-- Title, Director, Director Nationality
-- Genres (up to 3)
+The movies database contains **705 curated films** stored in Supabase and served via API.
+
+### Data Properties
+- Title, Director
+- Genres (array)
 - Release Year, Runtime, IMDB Rating
 - Country of Origin
 - Cast (top 6 actors)
 - Difficulty (easy/medium/hard)
 
-## Data Structure
+## Architecture
 
-```javascript
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   IMDB API      │────▶│   Supabase      │────▶│  Vercel API     │
+│  (RapidAPI)     │     │  (PostgreSQL)   │     │  /api/movies    │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+                              │                        │
+                              ▼                        ▼
+                        ┌─────────────────┐     ┌─────────────────┐
+                        │  movies_raw     │     │  Movies Quiz    │
+                        │  (full JSONB)   │     │  (frontend)     │
+                        └─────────────────┘     └─────────────────┘
+```
+
+### Database Tables
+
+| Table | Purpose |
+|-------|---------|
+| `movies_raw` | Full API response as JSONB (for future use) |
+| `movies` | Processed data for the game |
+
+### API Endpoint
+
+**URL**: `https://snackable-api.vercel.app/api/movies`
+
+**Response:**
+```json
 {
-  "title": "The Godfather",
-  "director": "Francis Ford Coppola",
-  "directorNationality": "USA",
-  "genres": ["Crime", "Drama"],
-  "releaseYear": 1972,
-  "runtimeMinutes": 175,
-  "imdbRating": 9.2,
-  "country": "USA",
-  "cast": ["Marlon Brando", "Al Pacino", "James Caan", "Robert Duvall", "Diane Keaton"],
-  "difficulty": "easy"
+  "success": true,
+  "count": 705,
+  "movies": [...]
 }
 ```
 
-## Game Logic
+## Data Import Pipeline
 
-- **Secret Movie Pool**: Movies with difficulty "easy" or "medium" (IMDB 7.0+)
-- **Guessable Pool**: All movies in the database
-- **Daily Selection**: Based on day of year % pool size
+Located in `imdb_import/` folder. Uses a 3-step process:
 
-## Updating the Database
+### Step 1: Select Movies (`1_select_movies.py`)
+- Downloads IMDB public datasets (title.basics.tsv, title.ratings.tsv)
+- Filters by: votes ≥ 50,000, rating ≥ 6.5, year ≥ 1960
+- Outputs `selected_movies.json`
 
-### Manual Updates
+### Step 2: Fetch Details (`2_fetch_details.py`)
+- Fetches from IMDB236 API on RapidAPI
+- Gets director, cast, country, genres, etc.
+- Saves progress every 50 items (configurable)
+- Outputs `movies_raw.json`
 
-1. Add movies directly to `movies_data.js`
-2. Include all required properties
-3. Use consistent formatting
+### Step 3: Import to Supabase (`3_import_direct.py`)
+- Reads `movies_raw.json`
+- Inserts to both `movies_raw` and `movies` tables
+- Uses service_role key to bypass RLS
 
-### API Updates (IMDB)
+### Running the Pipeline
 
-1. **Add IDs to queue**: Edit `import_queue.txt` with IMDB IDs
-2. **Run import**: `python3 import_movies.py`
-3. **Review**: Check `new_movies.json` for accuracy
-4. **Merge**: Add reviewed movies to `movies_data.js`
-5. **Manual edits**: Add director info (not from API)
+```bash
+cd imdb_import
 
-### Monthly Update Strategy
+# Step 1: Select movies from IMDB datasets
+python3 1_select_movies.py
 
-| Priority | Source | Movies/Month |
-|----------|--------|--------------|
-| 1 | New theatrical releases (8+ IMDB) | ~10 |
-| 2 | Trending on streaming | ~5 |
-| 3 | Award season nominees | ~5 |
-| 4 | Gap filling (decades/genres) | ~5 |
-| 5 | User requests | ~5 |
+# Step 2: Fetch details from API (requires RapidAPI key)
+python3 2_fetch_details.py
 
-## API Details
+# Step 3: Import to Supabase (requires service_role key)
+python3 3_import_direct.py
+```
 
-**Provider**: IMDB API on RapidAPI  
-**Cost**: ~1€/month for 10,000 requests  
-**Requests per movie**: 2 (details + cast)
+## Configuration
 
-### Endpoints Used
+### Environment Variables
 
-- `GET /api/imdb/{imdbId}` - Movie details
-- `GET /api/imdb/cast/{imdbId}/principals` - Cast list
-- `GET /api/imdb/coming-soon` - Upcoming releases
-- `GET /api/imdb/in-theaters` - Current releases
+| Variable | Purpose | Where |
+|----------|---------|-------|
+| `RAPIDAPI_KEY` | IMDB API access | Local (fetch script) |
+| `SUPABASE_URL` | Database URL | Vercel + local |
+| `SUPABASE_ANON_KEY` | Read-only access | Vercel + local |
+| `SUPABASE_SERVICE_ROLE_KEY` | Write access | Local only (import) |
 
-### Quality Thresholds
+### Fetch Script Parameters
 
-- IMDB Rating: ≥ 6.0
-- Number of Votes: ≥ 10,000
-- Avoid documentaries and short films
+In `2_fetch_details.py`:
+```python
+MAX_MOVIES_TO_FETCH = 1000   # Limit
+SAVE_INTERVAL = 50           # Save every N items
+SAVE_THRESHOLD = 950         # After this, save more frequently
+SAVE_INTERVAL_AFTER_THRESHOLD = 10
+```
+
+## Monthly Update Strategy
+
+1. **Check for new releases**: Use IMDB "coming-soon" or "in-theaters" endpoints
+2. **Add IDs to selection**: Update `1_select_movies.py` criteria or manually add IDs
+3. **Run pipeline**: Execute steps 1-3
+4. **Verify**: Check Data Explorer at `/data-explorer/`
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `movies_data.js` | Main database (35 movies) |
-| `import_movies.py` | API import script |
-| `import_queue.txt` | IDs pending import |
-| `new_movies.json` | Recently imported (review) |
-| `import_log.txt` | Import history |
+| `movies_data.js` | Legacy fallback (35 movies) |
+| `imdb_import/` | Import pipeline scripts |
+| `supabase_setup.sql` | Original schema (deprecated) |
+| `supabase_v2_setup.sql` | Current schema reference |
 
 ## Current Statistics
 
-- **Total Movies**: 35
-- **Easy**: ~20 (IMDB 8.0+)
-- **Medium**: ~12 (IMDB 7.0-7.9)
-- **Hard**: ~3 (IMDB 6.0-6.9)
-- **Last Updated**: 2026-01-17
+- **Total Movies**: 705
+- **With Director**: 705
+- **With Cast**: 705
+- **Date Range**: 1960-2025
+- **Last Updated**: 2026-02-02
