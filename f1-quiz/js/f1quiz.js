@@ -82,6 +82,24 @@ document.addEventListener("DOMContentLoaded", () => {
     firstGuessTime: null
   };
 
+  // Clues State
+  let cluesState = {
+    ageMin: null, ageMax: null, ageConfirmed: null,
+    wdcMin: null, wdcMax: null, wdcConfirmed: null,
+    winsMin: null, winsMax: null, winsConfirmed: null,
+    podiumsMin: null, podiumsMax: null, podiumsConfirmed: null,
+    nationalityConfirmed: null,
+    teamConfirmed: null,
+    matchedTeams: new Set(),
+    excludedNationalities: new Set(),
+    excludedTeams: new Set()
+  };
+
+  const cluesPanel = document.getElementById('clues-panel');
+  const cluesContent = document.getElementById('clues-content');
+  const cluesHeader = document.getElementById('clues-header');
+  const cluesToggle = document.getElementById('clues-toggle');
+
   // Utility Functions
   function getDateString() {
     const date = new Date();
@@ -220,6 +238,87 @@ document.addEventListener("DOMContentLoaded", () => {
     return 'feedback-different';
   }
 
+  function updateCluesState(guess, comparisons) {
+    const guessAge = calculateAge(guess.birthdate, guess.deathDate);
+    
+    if (comparisons.age === 'match') cluesState.ageConfirmed = guessAge;
+    else if (comparisons.age === 'higher') { if (cluesState.ageMin === null || guessAge > cluesState.ageMin) cluesState.ageMin = guessAge; }
+    else if (comparisons.age === 'lower') { if (cluesState.ageMax === null || guessAge < cluesState.ageMax) cluesState.ageMax = guessAge; }
+
+    if (comparisons.worldChampionships === 'match') cluesState.wdcConfirmed = guess.worldChampionships;
+    else if (comparisons.worldChampionships === 'higher') { if (cluesState.wdcMin === null || guess.worldChampionships > cluesState.wdcMin) cluesState.wdcMin = guess.worldChampionships; }
+    else if (comparisons.worldChampionships === 'lower') { if (cluesState.wdcMax === null || guess.worldChampionships < cluesState.wdcMax) cluesState.wdcMax = guess.worldChampionships; }
+
+    if (comparisons.wins === 'match') cluesState.winsConfirmed = guess.wins;
+    else if (comparisons.wins === 'higher') { if (cluesState.winsMin === null || guess.wins > cluesState.winsMin) cluesState.winsMin = guess.wins; }
+    else if (comparisons.wins === 'lower') { if (cluesState.winsMax === null || guess.wins < cluesState.winsMax) cluesState.winsMax = guess.wins; }
+
+    if (comparisons.podiums === 'match') cluesState.podiumsConfirmed = guess.podiums;
+    else if (comparisons.podiums === 'higher') { if (cluesState.podiumsMin === null || guess.podiums > cluesState.podiumsMin) cluesState.podiumsMin = guess.podiums; }
+    else if (comparisons.podiums === 'lower') { if (cluesState.podiumsMax === null || guess.podiums < cluesState.podiumsMax) cluesState.podiumsMax = guess.podiums; }
+
+    if (comparisons.nationality === 'match') cluesState.nationalityConfirmed = guess.nationality;
+    else cluesState.excludedNationalities.add(guess.nationality);
+
+    if (comparisons.currentTeam === 'match') cluesState.teamConfirmed = guess.currentTeam;
+    else cluesState.excludedTeams.add(guess.currentTeam);
+
+    if (comparisons.teamsHistory && comparisons.teamsHistory.matches) {
+      comparisons.teamsHistory.matches.forEach(t => cluesState.matchedTeams.add(t));
+    }
+  }
+
+  function renderCluesPanel() {
+    if (gameState.guesses.length === 0) { cluesPanel.style.display = 'none'; return; }
+    cluesPanel.style.display = 'block';
+
+    function renderRange(itemId, valueId, min, max, confirmed) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed !== null) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
+      else if (min !== null || max !== null) {
+        item.className = 'clue-item narrowed';
+        if (min !== null && max !== null) value.textContent = `${min + 1}-${max - 1}`;
+        else if (min !== null) value.textContent = `>${min}`;
+        else value.textContent = `<${max}`;
+      } else { item.className = 'clue-item'; value.textContent = '?'; }
+    }
+
+    renderRange('clue-age', 'clue-age-value', cluesState.ageMin, cluesState.ageMax, cluesState.ageConfirmed);
+    renderRange('clue-wdc', 'clue-wdc-value', cluesState.wdcMin, cluesState.wdcMax, cluesState.wdcConfirmed);
+    renderRange('clue-wins', 'clue-wins-value', cluesState.winsMin, cluesState.winsMax, cluesState.winsConfirmed);
+    renderRange('clue-podiums', 'clue-podiums-value', cluesState.podiumsMin, cluesState.podiumsMax, cluesState.podiumsConfirmed);
+
+    function renderCategorical(itemId, valueId, confirmed) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
+      else { item.className = 'clue-item'; value.textContent = '?'; }
+    }
+
+    renderCategorical('clue-nationality', 'clue-nationality-value', cluesState.nationalityConfirmed);
+    renderCategorical('clue-team', 'clue-team-value', cluesState.teamConfirmed);
+
+    const teamsRow = document.getElementById('clue-teams-row');
+    const teamsContainer = document.getElementById('clue-teams');
+    if (cluesState.matchedTeams.size > 0) {
+      teamsRow.style.display = 'flex';
+      teamsContainer.innerHTML = [...cluesState.matchedTeams].map(t => `<span class="clue-tag">${t}</span>`).join('');
+    } else { teamsRow.style.display = 'none'; }
+
+    const excludedRow = document.getElementById('clue-excluded-row');
+    const excludedContainer = document.getElementById('clue-excluded');
+    const allExcluded = [];
+    if (!cluesState.nationalityConfirmed) allExcluded.push(...cluesState.excludedNationalities);
+    if (!cluesState.teamConfirmed) allExcluded.push(...[...cluesState.excludedTeams].slice(0, 3));
+    if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.slice(0, 8).join(', '); }
+    else { excludedRow.style.display = 'none'; }
+  }
+
+  function resetCluesState() {
+    cluesState = { ageMin: null, ageMax: null, ageConfirmed: null, wdcMin: null, wdcMax: null, wdcConfirmed: null, winsMin: null, winsMax: null, winsConfirmed: null, podiumsMin: null, podiumsMax: null, podiumsConfirmed: null, nationalityConfirmed: null, teamConfirmed: null, matchedTeams: new Set(), excludedNationalities: new Set(), excludedTeams: new Set() };
+  }
+
   function displayGuess(guess, comparisons) {
     const guessCard = document.createElement('div');
     guessCard.className = 'guess-card';
@@ -335,6 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const comparisons = compareProperties(gameState.secretDriver, guess);
+    updateCluesState(guess, comparisons);
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);
@@ -488,10 +588,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;
+    renderCluesPanel();
     if (!gameState.isSolved && !gameState.isGameOver) {
       gameStatusEl.textContent = '';
       gameStatusEl.className = '';
     }
+    if (gameState.isGameOver && cluesPanel) cluesPanel.style.display = 'none';
   }
 
   function initializeGame() {
@@ -503,6 +605,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.gaveUp = false;
     gameState.sessionStartTime = Date.now();
     gameState.firstGuessTime = null;
+    
+    resetCluesState();
     
     guessesContainer.innerHTML = '';
     guessCountEl.textContent = '0';
@@ -567,6 +671,14 @@ document.addEventListener("DOMContentLoaded", () => {
       autocompleteState.isOpen = false;
     }
   });
+
+  // Clues panel toggle
+  if (cluesHeader) {
+    cluesHeader.addEventListener('click', () => {
+      cluesContent.classList.toggle('collapsed');
+      cluesToggle.classList.toggle('collapsed');
+    });
+  }
 
   // Initialize
   loadDriversData();

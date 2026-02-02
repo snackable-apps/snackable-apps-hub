@@ -68,6 +68,20 @@ document.addEventListener("DOMContentLoaded", () => {
     currentDate: null
   };
 
+  // Clues State
+  let cluesState = {
+    weightMin: null, weightMax: null, weightConfirmed: null,
+    lifespanMin: null, lifespanMax: null, lifespanConfirmed: null,
+    classConfirmed: null, dietConfirmed: null, activityConfirmed: null,
+    matchedContinents: new Set(), matchedHabitats: new Set(),
+    excludedClasses: new Set(), excludedDiets: new Set()
+  };
+
+  const cluesPanel = document.getElementById('clues-panel');
+  const cluesContent = document.getElementById('clues-content');
+  const cluesHeader = document.getElementById('clues-header');
+  const cluesToggle = document.getElementById('clues-toggle');
+
   // Helper function to get image path
   function getImagePath(animalName) {
     const filename = animalName.toLowerCase().replace(/\s+/g, '-');
@@ -259,6 +273,85 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function updateCluesState(guess, comparisons) {
+    if (comparisons.weight === 'match') cluesState.weightConfirmed = guess.weight;
+    else if (comparisons.weight === 'higher') { if (cluesState.weightMin === null || guess.weight > cluesState.weightMin) cluesState.weightMin = guess.weight; }
+    else if (comparisons.weight === 'lower') { if (cluesState.weightMax === null || guess.weight < cluesState.weightMax) cluesState.weightMax = guess.weight; }
+
+    if (comparisons.lifespan === 'match') cluesState.lifespanConfirmed = guess.lifespan;
+    else if (comparisons.lifespan === 'higher') { if (cluesState.lifespanMin === null || guess.lifespan > cluesState.lifespanMin) cluesState.lifespanMin = guess.lifespan; }
+    else if (comparisons.lifespan === 'lower') { if (cluesState.lifespanMax === null || guess.lifespan < cluesState.lifespanMax) cluesState.lifespanMax = guess.lifespan; }
+
+    if (comparisons.class === 'match') cluesState.classConfirmed = guess.class;
+    else cluesState.excludedClasses.add(guess.class);
+
+    if (comparisons.diet === 'match') cluesState.dietConfirmed = guess.diet;
+    else cluesState.excludedDiets.add(guess.diet);
+
+    if (comparisons.activity === 'match') cluesState.activityConfirmed = guess.activity;
+
+    if (comparisons.continent && comparisons.continent.matches) comparisons.continent.matches.forEach(c => cluesState.matchedContinents.add(c));
+    if (comparisons.habitat && comparisons.habitat.matches) comparisons.habitat.matches.forEach(h => cluesState.matchedHabitats.add(h));
+  }
+
+  function renderCluesPanel() {
+    if (gameState.guesses.length === 0) { cluesPanel.style.display = 'none'; return; }
+    cluesPanel.style.display = 'block';
+
+    function renderRange(itemId, valueId, min, max, confirmed, formatter = v => v) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed !== null) { item.className = 'clue-item confirmed'; value.textContent = formatter(confirmed); }
+      else if (min !== null || max !== null) {
+        item.className = 'clue-item narrowed';
+        if (min !== null && max !== null) value.textContent = `${formatter(min + 1)}-${formatter(max - 1)}`;
+        else if (min !== null) value.textContent = `>${formatter(min)}`;
+        else value.textContent = `<${formatter(max)}`;
+      } else { item.className = 'clue-item'; value.textContent = '?'; }
+    }
+
+    const formatWeight = w => w >= 1000 ? `${(w/1000).toFixed(0)}t` : `${w}kg`;
+    renderRange('clue-weight', 'clue-weight-value', cluesState.weightMin, cluesState.weightMax, cluesState.weightConfirmed, formatWeight);
+    renderRange('clue-lifespan', 'clue-lifespan-value', cluesState.lifespanMin, cluesState.lifespanMax, cluesState.lifespanConfirmed, l => `${l}y`);
+
+    function renderCategorical(itemId, valueId, confirmed) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
+      else { item.className = 'clue-item'; value.textContent = '?'; }
+    }
+
+    renderCategorical('clue-class', 'clue-class-value', cluesState.classConfirmed);
+    renderCategorical('clue-diet', 'clue-diet-value', cluesState.dietConfirmed);
+    renderCategorical('clue-activity', 'clue-activity-value', cluesState.activityConfirmed);
+
+    const continentsRow = document.getElementById('clue-continents-row');
+    const continentsContainer = document.getElementById('clue-continents');
+    if (cluesState.matchedContinents.size > 0) {
+      continentsRow.style.display = 'flex';
+      continentsContainer.innerHTML = [...cluesState.matchedContinents].map(c => `<span class="clue-tag">${c}</span>`).join('');
+    } else { continentsRow.style.display = 'none'; }
+
+    const habitatsRow = document.getElementById('clue-habitats-row');
+    const habitatsContainer = document.getElementById('clue-habitats');
+    if (cluesState.matchedHabitats.size > 0) {
+      habitatsRow.style.display = 'flex';
+      habitatsContainer.innerHTML = [...cluesState.matchedHabitats].map(h => `<span class="clue-tag">${h}</span>`).join('');
+    } else { habitatsRow.style.display = 'none'; }
+
+    const excludedRow = document.getElementById('clue-excluded-row');
+    const excludedContainer = document.getElementById('clue-excluded');
+    const allExcluded = [];
+    if (!cluesState.classConfirmed) allExcluded.push(...cluesState.excludedClasses);
+    if (!cluesState.dietConfirmed) allExcluded.push(...cluesState.excludedDiets);
+    if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.slice(0, 8).join(', '); }
+    else { excludedRow.style.display = 'none'; }
+  }
+
+  function resetCluesState() {
+    cluesState = { weightMin: null, weightMax: null, weightConfirmed: null, lifespanMin: null, lifespanMax: null, lifespanConfirmed: null, classConfirmed: null, dietConfirmed: null, activityConfirmed: null, matchedContinents: new Set(), matchedHabitats: new Set(), excludedClasses: new Set(), excludedDiets: new Set() };
+  }
+
   function formatPropertyValue(property, value) {
     if (property === 'weight') {
       return value >= 1000 ? `${(value / 1000).toFixed(1)}t` : `${value}kg`;
@@ -394,6 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const comparisons = compareProperties(gameState.secretAnimal, guess);
+    updateCluesState(guess, comparisons);
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);
@@ -589,14 +683,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateGameState() {
-    // Just show the count, no limit
     guessCountEl.textContent = gameState.guesses.length;
-    
-    // Clear status message if game is still active
+    renderCluesPanel();
     if (!gameState.isSolved && !gameState.isGameOver) {
       gameStatusEl.textContent = '';
       gameStatusEl.className = '';
     }
+    if (gameState.isGameOver && cluesPanel) cluesPanel.style.display = 'none';
   }
 
   function initializeGame() {
@@ -606,6 +699,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
+    
+    resetCluesState();
     
     // Clear previous guesses
     guessesContainer.innerHTML = '';
@@ -675,6 +770,14 @@ document.addEventListener("DOMContentLoaded", () => {
       autocompleteState.isOpen = false;
     }
   });
+
+  // Clues panel toggle
+  if (cluesHeader) {
+    cluesHeader.addEventListener('click', () => {
+      cluesContent.classList.toggle('collapsed');
+      cluesToggle.classList.toggle('collapsed');
+    });
+  }
 
   // Load data and initialize
   loadAnimalsData();

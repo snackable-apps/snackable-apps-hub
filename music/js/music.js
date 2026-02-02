@@ -74,6 +74,20 @@ document.addEventListener("DOMContentLoaded", () => {
     currentDate: null
   };
 
+  // Clues State
+  let cluesState = {
+    yearMin: null, yearMax: null, yearConfirmed: null,
+    membersMin: null, membersMax: null, membersConfirmed: null,
+    durationMin: null, durationMax: null, durationConfirmed: null,
+    artistConfirmed: null, genreConfirmed: null, decadeConfirmed: null,
+    matchedCountries: new Set(), excludedGenres: new Set()
+  };
+
+  const cluesPanel = document.getElementById('clues-panel');
+  const cluesContent = document.getElementById('clues-content');
+  const cluesHeader = document.getElementById('clues-header');
+  const cluesToggle = document.getElementById('clues-toggle');
+
   // Helper function to get emoji for music
   function getMusicEmoji(songName) {
     return "🎵"; // Default music emoji
@@ -247,6 +261,78 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function updateCluesState(guess, comparisons) {
+    if (comparisons.releaseYear === 'match') cluesState.yearConfirmed = guess.releaseYear;
+    else if (comparisons.releaseYear === 'higher') { if (cluesState.yearMin === null || guess.releaseYear > cluesState.yearMin) cluesState.yearMin = guess.releaseYear; }
+    else if (comparisons.releaseYear === 'lower') { if (cluesState.yearMax === null || guess.releaseYear < cluesState.yearMax) cluesState.yearMax = guess.releaseYear; }
+
+    if (comparisons.groupMembers === 'match') cluesState.membersConfirmed = guess.groupMembers;
+    else if (comparisons.groupMembers === 'higher') { if (cluesState.membersMin === null || guess.groupMembers > cluesState.membersMin) cluesState.membersMin = guess.groupMembers; }
+    else if (comparisons.groupMembers === 'lower') { if (cluesState.membersMax === null || guess.groupMembers < cluesState.membersMax) cluesState.membersMax = guess.groupMembers; }
+
+    if (comparisons.duration === 'match') cluesState.durationConfirmed = guess.duration;
+    else if (comparisons.duration === 'higher') { if (cluesState.durationMin === null || guess.duration > cluesState.durationMin) cluesState.durationMin = guess.duration; }
+    else if (comparisons.duration === 'lower') { if (cluesState.durationMax === null || guess.duration < cluesState.durationMax) cluesState.durationMax = guess.duration; }
+
+    if (comparisons.artist === 'match') cluesState.artistConfirmed = guess.artist;
+    if (comparisons.primaryGenre === 'match') cluesState.genreConfirmed = guess.primaryGenre;
+    else cluesState.excludedGenres.add(guess.primaryGenre);
+    if (comparisons.decade === 'match') cluesState.decadeConfirmed = guess.decade;
+
+    if (comparisons.artistCountry && comparisons.artistCountry.matches) {
+      comparisons.artistCountry.matches.forEach(c => cluesState.matchedCountries.add(c));
+    }
+  }
+
+  function renderCluesPanel() {
+    if (gameState.guesses.length === 0) { cluesPanel.style.display = 'none'; return; }
+    cluesPanel.style.display = 'block';
+
+    function renderRange(itemId, valueId, min, max, confirmed, formatter = v => v) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed !== null) { item.className = 'clue-item confirmed'; value.textContent = formatter(confirmed); }
+      else if (min !== null || max !== null) {
+        item.className = 'clue-item narrowed';
+        if (min !== null && max !== null) value.textContent = `${formatter(min + 1)}-${formatter(max - 1)}`;
+        else if (min !== null) value.textContent = `>${formatter(min)}`;
+        else value.textContent = `<${formatter(max)}`;
+      } else { item.className = 'clue-item'; value.textContent = '?'; }
+    }
+
+    renderRange('clue-year', 'clue-year-value', cluesState.yearMin, cluesState.yearMax, cluesState.yearConfirmed);
+    renderRange('clue-members', 'clue-members-value', cluesState.membersMin, cluesState.membersMax, cluesState.membersConfirmed, formatGroupMembers);
+    renderRange('clue-duration', 'clue-duration-value', cluesState.durationMin, cluesState.durationMax, cluesState.durationConfirmed, formatDuration);
+
+    function renderCategorical(itemId, valueId, confirmed) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
+      else { item.className = 'clue-item'; value.textContent = '?'; }
+    }
+
+    renderCategorical('clue-artist', 'clue-artist-value', cluesState.artistConfirmed);
+    renderCategorical('clue-genre', 'clue-genre-value', cluesState.genreConfirmed);
+    renderCategorical('clue-decade', 'clue-decade-value', cluesState.decadeConfirmed);
+
+    const countriesRow = document.getElementById('clue-countries-row');
+    const countriesContainer = document.getElementById('clue-countries');
+    if (cluesState.matchedCountries.size > 0) {
+      countriesRow.style.display = 'flex';
+      countriesContainer.innerHTML = [...cluesState.matchedCountries].map(c => `<span class="clue-tag">${c}</span>`).join('');
+    } else { countriesRow.style.display = 'none'; }
+
+    const excludedRow = document.getElementById('clue-excluded-row');
+    const excludedContainer = document.getElementById('clue-excluded');
+    const allExcluded = [...cluesState.excludedGenres].filter(g => g !== cluesState.genreConfirmed).slice(0, 5);
+    if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.join(', '); }
+    else { excludedRow.style.display = 'none'; }
+  }
+
+  function resetCluesState() {
+    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, membersMin: null, membersMax: null, membersConfirmed: null, durationMin: null, durationMax: null, durationConfirmed: null, artistConfirmed: null, genreConfirmed: null, decadeConfirmed: null, matchedCountries: new Set(), excludedGenres: new Set() };
+  }
+
   function formatPropertyValue(property, value) {
     if (property === 'groupMembers') {
       return formatGroupMembers(value);
@@ -393,6 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const comparisons = compareProperties(gameState.secretSong, guess);
+    updateCluesState(guess, comparisons);
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);
@@ -593,14 +680,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateGameState() {
-    // Just show the count, no limit
     guessCountEl.textContent = gameState.guesses.length;
-    
-    // Clear status message if game is still active
+    renderCluesPanel();
     if (!gameState.isSolved && !gameState.isGameOver) {
       gameStatusEl.textContent = '';
       gameStatusEl.className = '';
     }
+    if (gameState.isGameOver && cluesPanel) cluesPanel.style.display = 'none';
   }
 
   function initializeGame() {
@@ -610,6 +696,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
+    
+    resetCluesState();
     
     // Clear previous guesses
     guessesContainer.innerHTML = '';
@@ -728,6 +816,14 @@ document.addEventListener("DOMContentLoaded", () => {
         autocompleteDropdown.style.display = 'none';
         autocompleteState.isOpen = false;
       }
+    });
+  }
+
+  // Clues panel toggle
+  if (cluesHeader) {
+    cluesHeader.addEventListener('click', () => {
+      cluesContent.classList.toggle('collapsed');
+      cluesToggle.classList.toggle('collapsed');
     });
   }
 

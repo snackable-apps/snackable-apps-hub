@@ -75,6 +75,32 @@
       </div>
     </div>
 
+    <!-- Clues Summary Panel -->
+    <div id="clues-panel" class="clues-panel" style="display: none;">
+      <div class="clues-header" id="clues-header">
+        <span class="clues-title">🔍 Clues Summary</span>
+        <button class="clues-toggle" id="clues-toggle">▼</button>
+      </div>
+      <div class="clues-content" id="clues-content">
+        <div class="clues-row clues-ranges">
+          <div class="clue-item" id="clue-year"><span class="clue-label">Published</span><span class="clue-value" id="clue-year-value">?</span></div>
+          <div class="clue-item" id="clue-pages"><span class="clue-label">Pages</span><span class="clue-value" id="clue-pages-value">?</span></div>
+        </div>
+        <div class="clues-row clues-confirmed">
+          <div class="clue-item" id="clue-author"><span class="clue-label">Author</span><span class="clue-value" id="clue-author-value">?</span></div>
+          <div class="clue-item" id="clue-nationality"><span class="clue-label">Author From</span><span class="clue-value" id="clue-nationality-value">?</span></div>
+        </div>
+        <div class="clues-row clues-confirmed">
+          <div class="clue-item" id="clue-genre"><span class="clue-label">Genre</span><span class="clue-value" id="clue-genre-value">?</span></div>
+          <div class="clue-item" id="clue-language"><span class="clue-label">Language</span><span class="clue-value" id="clue-language-value">?</span></div>
+        </div>
+        <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
+          <span class="clue-label">❌ Not:</span>
+          <span class="clue-excluded-values" id="clue-excluded"></span>
+        </div>
+      </div>
+    </div>
+
     <!-- Share Results -->
     <div class="share-section" id="share-section" style="display: none;">
       <button id="share-results-btn" class="submit-btn">Share Results</button>

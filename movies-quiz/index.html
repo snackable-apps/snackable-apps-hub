@@ -62,6 +62,68 @@
         <button id="give-up-btn" class="btn-secondary">Give Up</button>
       </div>
 
+      <!-- Clues Summary Panel -->
+      <div id="clues-panel" class="clues-panel" style="display: none;">
+        <div class="clues-header">
+          <span class="clues-title">🔍 Clues Summary</span>
+          <button class="clues-toggle" id="clues-toggle">▼</button>
+        </div>
+        <div class="clues-content" id="clues-content">
+          <!-- Ranges Row -->
+          <div class="clues-row clues-ranges">
+            <div class="clue-item" id="clue-year">
+              <span class="clue-label">Year</span>
+              <span class="clue-value" id="clue-year-value">?</span>
+            </div>
+            <div class="clue-item" id="clue-runtime">
+              <span class="clue-label">Runtime</span>
+              <span class="clue-value" id="clue-runtime-value">?</span>
+            </div>
+            <div class="clue-item" id="clue-rating">
+              <span class="clue-label">IMDB</span>
+              <span class="clue-value" id="clue-rating-value">?</span>
+            </div>
+          </div>
+          <!-- Confirmed Row -->
+          <div class="clues-row clues-confirmed">
+            <div class="clue-item" id="clue-director">
+              <span class="clue-label">Director</span>
+              <span class="clue-value" id="clue-director-value">?</span>
+            </div>
+            <div class="clue-item" id="clue-country">
+              <span class="clue-label">Country</span>
+              <span class="clue-value" id="clue-country-value">?</span>
+            </div>
+          </div>
+          <!-- Genres & Cast -->
+          <div class="clues-row clues-tags">
+            <div class="clue-tags-group" id="clue-genres-group" style="display: none;">
+              <span class="clue-label">Genres:</span>
+              <span class="clue-tags" id="clue-genres"></span>
+            </div>
+            <div class="clue-tags-group" id="clue-cast-group" style="display: none;">
+              <span class="clue-label">Cast:</span>
+              <span class="clue-tags" id="clue-cast"></span>
+            </div>
+          </div>
+          <!-- Excluded -->
+          <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
+            <div class="clue-excluded-section" id="clue-excluded-directors-section" style="display: none;">
+              <span class="clue-label">❌ Directors:</span>
+              <span class="clue-excluded-values" id="clue-excluded-directors"></span>
+            </div>
+            <div class="clue-excluded-section" id="clue-excluded-genres-section" style="display: none;">
+              <span class="clue-label">❌ Genres:</span>
+              <span class="clue-excluded-values" id="clue-excluded-genres"></span>
+            </div>
+            <div class="clue-excluded-section" id="clue-excluded-actors-section" style="display: none;">
+              <span class="clue-label">❌ Actors:</span>
+              <span class="clue-excluded-values" id="clue-excluded-actors"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Guesses Display -->
       <div id="guesses-container" class="guesses-container">
         <!-- Guesses will be inserted here -->

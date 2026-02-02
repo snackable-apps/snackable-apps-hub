@@ -63,6 +63,41 @@
       </div>
     </div>
 
+    <!-- Clues Summary Panel -->
+    <div id="clues-panel" class="clues-panel" style="display: none;">
+      <div class="clues-header" id="clues-header">
+        <span class="clues-title">🔍 Resumo das Pistas</span>
+        <button class="clues-toggle" id="clues-toggle">▼</button>
+      </div>
+      <div class="clues-content" id="clues-content">
+        <div class="clues-row clues-ranges">
+          <div class="clue-item" id="clue-age"><span class="clue-label">Idade</span><span class="clue-value" id="clue-age-value">?</span></div>
+          <div class="clue-item" id="clue-height"><span class="clue-label">Altura</span><span class="clue-value" id="clue-height-value">?</span></div>
+        </div>
+        <div class="clues-row clues-confirmed">
+          <div class="clue-item" id="clue-nationality"><span class="clue-label">Nacionalidade</span><span class="clue-value" id="clue-nationality-value">?</span></div>
+          <div class="clue-item" id="clue-club"><span class="clue-label">Clube</span><span class="clue-value" id="clue-club-value">?</span></div>
+          <div class="clue-item" id="clue-position"><span class="clue-label">Posição</span><span class="clue-value" id="clue-position-value">?</span></div>
+        </div>
+        <div class="clues-row clues-confirmed">
+          <div class="clue-item" id="clue-foot"><span class="clue-label">Pé</span><span class="clue-value" id="clue-foot-value">?</span></div>
+          <div class="clue-item" id="clue-worldcup"><span class="clue-label">Jogou Copa?</span><span class="clue-value" id="clue-worldcup-value">?</span></div>
+        </div>
+        <div class="clues-row clues-tags" id="clue-leagues-row" style="display: none;">
+          <span class="clue-label">✅ Ligas:</span>
+          <span class="clue-tags" id="clue-leagues"></span>
+        </div>
+        <div class="clues-row clues-tags" id="clue-titles-row" style="display: none;">
+          <span class="clue-label">🏆 Títulos:</span>
+          <span class="clue-tags" id="clue-titles"></span>
+        </div>
+        <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
+          <span class="clue-label">❌ Não é:</span>
+          <span class="clue-excluded-values" id="clue-excluded"></span>
+        </div>
+      </div>
+    </div>
+
     <!-- Share Results -->
     <div class="share-section" id="share-section" style="display: none;">
       <button id="share-results-btn" class="submit-btn">Compartilhar Resultados</button>

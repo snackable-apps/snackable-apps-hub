@@ -65,6 +65,37 @@
       </div>
     </div>
 
+    <!-- Clues Summary Panel -->
+    <div id="clues-panel" class="clues-panel" style="display: none;">
+      <div class="clues-header" id="clues-header">
+        <span class="clues-title">🔍 Clues Summary</span>
+        <button class="clues-toggle" id="clues-toggle">▼</button>
+      </div>
+      <div class="clues-content" id="clues-content">
+        <div class="clues-row clues-ranges">
+          <div class="clue-item" id="clue-age"><span class="clue-label">Age</span><span class="clue-value" id="clue-age-value">?</span></div>
+          <div class="clue-item" id="clue-ranking"><span class="clue-label">Current Rank</span><span class="clue-value" id="clue-ranking-value">?</span></div>
+          <div class="clue-item" id="clue-best-rank"><span class="clue-label">Best Rank</span><span class="clue-value" id="clue-best-rank-value">?</span></div>
+        </div>
+        <div class="clues-row clues-ranges">
+          <div class="clue-item" id="clue-slams"><span class="clue-label">Grand Slams</span><span class="clue-value" id="clue-slams-value">?</span></div>
+          <div class="clue-item" id="clue-titles"><span class="clue-label">Titles</span><span class="clue-value" id="clue-titles-value">?</span></div>
+          <div class="clue-item" id="clue-pro"><span class="clue-label">Pro Since</span><span class="clue-value" id="clue-pro-value">?</span></div>
+        </div>
+        <div class="clues-row clues-confirmed">
+          <div class="clue-item" id="clue-nationality"><span class="clue-label">Nationality</span><span class="clue-value" id="clue-nationality-value">?</span></div>
+          <div class="clue-item" id="clue-hand"><span class="clue-label">Hand</span><span class="clue-value" id="clue-hand-value">?</span></div>
+          <div class="clue-item" id="clue-backhand"><span class="clue-label">Backhand</span><span class="clue-value" id="clue-backhand-value">?</span></div>
+        </div>
+        <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
+          <div class="clue-excluded-section" id="clue-excluded-section">
+            <span class="clue-label">❌ Not:</span>
+            <span class="clue-excluded-values" id="clue-excluded"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Share Results -->
     <div class="share-section" id="share-section" style="display: none;">
       <button id="share-results-btn" class="submit-btn">Share Results</button>

@@ -75,6 +75,34 @@
       </div>
     </div>
 
+    <!-- Clues Summary Panel -->
+    <div id="clues-panel" class="clues-panel" style="display: none;">
+      <div class="clues-header" id="clues-header">
+        <span class="clues-title">🔍 Clues Summary</span>
+        <button class="clues-toggle" id="clues-toggle">▼</button>
+      </div>
+      <div class="clues-content" id="clues-content">
+        <div class="clues-row clues-ranges">
+          <div class="clue-item" id="clue-year"><span class="clue-label">Year</span><span class="clue-value" id="clue-year-value">?</span></div>
+          <div class="clue-item" id="clue-members"><span class="clue-label">Members</span><span class="clue-value" id="clue-members-value">?</span></div>
+          <div class="clue-item" id="clue-duration"><span class="clue-label">Duration</span><span class="clue-value" id="clue-duration-value">?</span></div>
+        </div>
+        <div class="clues-row clues-confirmed">
+          <div class="clue-item" id="clue-artist"><span class="clue-label">Artist</span><span class="clue-value" id="clue-artist-value">?</span></div>
+          <div class="clue-item" id="clue-genre"><span class="clue-label">Genre</span><span class="clue-value" id="clue-genre-value">?</span></div>
+          <div class="clue-item" id="clue-decade"><span class="clue-label">Decade</span><span class="clue-value" id="clue-decade-value">?</span></div>
+        </div>
+        <div class="clues-row clues-tags" id="clue-countries-row" style="display: none;">
+          <span class="clue-label">✅ Countries:</span>
+          <span class="clue-tags" id="clue-countries"></span>
+        </div>
+        <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
+          <span class="clue-label">❌ Not:</span>
+          <span class="clue-excluded-values" id="clue-excluded"></span>
+        </div>
+      </div>
+    </div>
+
     <!-- Share Results -->
     <div class="share-section" id="share-section" style="display: none;">
       <button id="share-results-btn" class="submit-btn">Share Results</button>

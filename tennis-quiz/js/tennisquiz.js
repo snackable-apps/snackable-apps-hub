@@ -68,6 +68,28 @@ document.addEventListener("DOMContentLoaded", () => {
     currentDate: null
   };
 
+  // Clues State
+  let cluesState = {
+    ageMin: null, ageMax: null, ageConfirmed: null,
+    rankingMin: null, rankingMax: null, rankingConfirmed: null,
+    bestRankMin: null, bestRankMax: null, bestRankConfirmed: null,
+    slamsMin: null, slamsMax: null, slamsConfirmed: null,
+    titlesMin: null, titlesMax: null, titlesConfirmed: null,
+    proMin: null, proMax: null, proConfirmed: null,
+    nationalityConfirmed: null,
+    handConfirmed: null,
+    backhandConfirmed: null,
+    excludedNationalities: new Set(),
+    excludedHands: new Set(),
+    excludedBackhands: new Set()
+  };
+
+  // Clues Panel Elements
+  const cluesPanel = document.getElementById('clues-panel');
+  const cluesContent = document.getElementById('clues-content');
+  const cluesHeader = document.getElementById('clues-header');
+  const cluesToggle = document.getElementById('clues-toggle');
+
   // Utility Functions
   function getDateString() {
     const date = new Date();
@@ -214,6 +236,204 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Update clues state after a guess
+  function updateCluesState(guess, comparisons) {
+    const guessAge = calculateAge(guess.birthdate, guess.deathDate);
+    
+    // Age
+    if (comparisons.age === 'match') {
+      cluesState.ageConfirmed = guessAge;
+    } else if (comparisons.age === 'higher') {
+      if (cluesState.ageMin === null || guessAge > cluesState.ageMin) cluesState.ageMin = guessAge;
+    } else if (comparisons.age === 'lower') {
+      if (cluesState.ageMax === null || guessAge < cluesState.ageMax) cluesState.ageMax = guessAge;
+    }
+
+    // Current Ranking (lower is better, so inverted arrows)
+    if (comparisons.currentRanking === 'match') {
+      cluesState.rankingConfirmed = guess.currentRanking;
+    } else if (comparisons.currentRanking === 'higher') {
+      // Secret is better (lower) than guess
+      if (cluesState.rankingMax === null || guess.currentRanking < cluesState.rankingMax) cluesState.rankingMax = guess.currentRanking;
+    } else if (comparisons.currentRanking === 'lower') {
+      // Secret is worse (higher) than guess
+      if (cluesState.rankingMin === null || guess.currentRanking > cluesState.rankingMin) cluesState.rankingMin = guess.currentRanking;
+    }
+
+    // Best Ranking (lower is better)
+    if (comparisons.highestRanking === 'match') {
+      cluesState.bestRankConfirmed = guess.highestRanking;
+    } else if (comparisons.highestRanking === 'higher') {
+      if (cluesState.bestRankMax === null || guess.highestRanking < cluesState.bestRankMax) cluesState.bestRankMax = guess.highestRanking;
+    } else if (comparisons.highestRanking === 'lower') {
+      if (cluesState.bestRankMin === null || guess.highestRanking > cluesState.bestRankMin) cluesState.bestRankMin = guess.highestRanking;
+    }
+
+    // Grand Slams
+    if (comparisons.grandSlamTitles === 'match') {
+      cluesState.slamsConfirmed = guess.grandSlamTitles;
+    } else if (comparisons.grandSlamTitles === 'higher') {
+      if (cluesState.slamsMin === null || guess.grandSlamTitles > cluesState.slamsMin) cluesState.slamsMin = guess.grandSlamTitles;
+    } else if (comparisons.grandSlamTitles === 'lower') {
+      if (cluesState.slamsMax === null || guess.grandSlamTitles < cluesState.slamsMax) cluesState.slamsMax = guess.grandSlamTitles;
+    }
+
+    // Career Titles
+    if (comparisons.careerTitles === 'match') {
+      cluesState.titlesConfirmed = guess.careerTitles;
+    } else if (comparisons.careerTitles === 'higher') {
+      if (cluesState.titlesMin === null || guess.careerTitles > cluesState.titlesMin) cluesState.titlesMin = guess.careerTitles;
+    } else if (comparisons.careerTitles === 'lower') {
+      if (cluesState.titlesMax === null || guess.careerTitles < cluesState.titlesMax) cluesState.titlesMax = guess.careerTitles;
+    }
+
+    // Turned Pro
+    if (comparisons.turnedPro === 'match') {
+      cluesState.proConfirmed = guess.turnedPro;
+    } else if (comparisons.turnedPro === 'higher') {
+      if (cluesState.proMin === null || guess.turnedPro > cluesState.proMin) cluesState.proMin = guess.turnedPro;
+    } else if (comparisons.turnedPro === 'lower') {
+      if (cluesState.proMax === null || guess.turnedPro < cluesState.proMax) cluesState.proMax = guess.turnedPro;
+    }
+
+    // Nationality
+    if (comparisons.nationality === 'match') {
+      cluesState.nationalityConfirmed = guess.nationality;
+    } else {
+      cluesState.excludedNationalities.add(guess.nationality);
+    }
+
+    // Hand
+    if (comparisons.hand === 'match') {
+      cluesState.handConfirmed = guess.hand;
+    } else {
+      cluesState.excludedHands.add(guess.hand);
+    }
+
+    // Backhand
+    if (comparisons.backhand === 'match') {
+      cluesState.backhandConfirmed = guess.backhand;
+    } else {
+      cluesState.excludedBackhands.add(guess.backhand);
+    }
+  }
+
+  // Render clues panel
+  function renderCluesPanel() {
+    if (gameState.guesses.length === 0) {
+      cluesPanel.style.display = 'none';
+      return;
+    }
+    cluesPanel.style.display = 'block';
+
+    // Helper for range display
+    function renderRange(itemId, valueId, min, max, confirmed, formatter = v => v) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed !== null) {
+        item.className = 'clue-item confirmed';
+        value.textContent = formatter(confirmed);
+      } else if (min !== null || max !== null) {
+        item.className = 'clue-item narrowed';
+        if (min !== null && max !== null) {
+          value.textContent = `${formatter(min + 1)}-${formatter(max - 1)}`;
+        } else if (min !== null) {
+          value.textContent = `>${formatter(min)}`;
+        } else {
+          value.textContent = `<${formatter(max)}`;
+        }
+      } else {
+        item.className = 'clue-item';
+        value.textContent = '?';
+      }
+    }
+
+    // Helper for ranking (inverted - lower number is better)
+    // min = largest guess where secret is WORSE (higher number) than guess. So: secret > min
+    // max = smallest guess where secret is BETTER (lower number) than guess. So: secret < max
+    // Range: min < secret < max, display: #(min+1) to #(max-1)
+    function renderRankingRange(itemId, valueId, min, max, confirmed) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed !== null) {
+        item.className = 'clue-item confirmed';
+        value.textContent = formatRanking(confirmed);
+      } else if (min !== null || max !== null) {
+        item.className = 'clue-item narrowed';
+        if (min !== null && max !== null) {
+          // Secret is between min+1 and max-1 (secret > min AND secret < max)
+          value.textContent = `#${min + 1}-#${max - 1}`;
+        } else if (min !== null) {
+          // Only know secret > min (worse rank), so secret could be #min+1 or higher
+          value.textContent = `worse than #${min}`;
+        } else {
+          // Only know secret < max (better rank), so secret could be #max-1 or lower
+          value.textContent = `better than #${max}`;
+        }
+      } else {
+        item.className = 'clue-item';
+        value.textContent = '?';
+      }
+    }
+
+    renderRange('clue-age', 'clue-age-value', cluesState.ageMin, cluesState.ageMax, cluesState.ageConfirmed);
+    renderRankingRange('clue-ranking', 'clue-ranking-value', cluesState.rankingMin, cluesState.rankingMax, cluesState.rankingConfirmed);
+    renderRankingRange('clue-best-rank', 'clue-best-rank-value', cluesState.bestRankMin, cluesState.bestRankMax, cluesState.bestRankConfirmed);
+    renderRange('clue-slams', 'clue-slams-value', cluesState.slamsMin, cluesState.slamsMax, cluesState.slamsConfirmed);
+    renderRange('clue-titles', 'clue-titles-value', cluesState.titlesMin, cluesState.titlesMax, cluesState.titlesConfirmed);
+    renderRange('clue-pro', 'clue-pro-value', cluesState.proMin, cluesState.proMax, cluesState.proConfirmed);
+
+    // Categorical properties
+    function renderCategorical(itemId, valueId, confirmed) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed) {
+        item.className = 'clue-item confirmed';
+        value.textContent = confirmed;
+      } else {
+        item.className = 'clue-item';
+        value.textContent = '?';
+      }
+    }
+
+    renderCategorical('clue-nationality', 'clue-nationality-value', cluesState.nationalityConfirmed);
+    renderCategorical('clue-hand', 'clue-hand-value', cluesState.handConfirmed);
+    renderCategorical('clue-backhand', 'clue-backhand-value', cluesState.backhandConfirmed);
+
+    // Excluded
+    const excludedRow = document.getElementById('clue-excluded-row');
+    const excludedContainer = document.getElementById('clue-excluded');
+    const allExcluded = [];
+    if (!cluesState.nationalityConfirmed) allExcluded.push(...cluesState.excludedNationalities);
+    if (!cluesState.handConfirmed) allExcluded.push(...cluesState.excludedHands);
+    if (!cluesState.backhandConfirmed) allExcluded.push(...cluesState.excludedBackhands);
+    
+    if (allExcluded.length > 0) {
+      excludedRow.style.display = 'flex';
+      excludedContainer.textContent = allExcluded.slice(0, 10).join(', ') + (allExcluded.length > 10 ? '...' : '');
+    } else {
+      excludedRow.style.display = 'none';
+    }
+  }
+
+  // Reset clues state
+  function resetCluesState() {
+    cluesState = {
+      ageMin: null, ageMax: null, ageConfirmed: null,
+      rankingMin: null, rankingMax: null, rankingConfirmed: null,
+      bestRankMin: null, bestRankMax: null, bestRankConfirmed: null,
+      slamsMin: null, slamsMax: null, slamsConfirmed: null,
+      titlesMin: null, titlesMax: null, titlesConfirmed: null,
+      proMin: null, proMax: null, proConfirmed: null,
+      nationalityConfirmed: null,
+      handConfirmed: null,
+      backhandConfirmed: null,
+      excludedNationalities: new Set(),
+      excludedHands: new Set(),
+      excludedBackhands: new Set()
+    };
+  }
+
   function displayGuess(guess, comparisons) {
     const guessCard = document.createElement('div');
     guessCard.className = 'guess-card';
@@ -324,6 +544,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const comparisons = compareProperties(gameState.secretPlayer, guess);
+    updateCluesState(guess, comparisons);
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);
@@ -503,10 +724,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;
+    renderCluesPanel();
     
     if (!gameState.isSolved && !gameState.isGameOver) {
       gameStatusEl.textContent = '';
       gameStatusEl.className = '';
+    }
+    
+    // Hide clues panel when game ends
+    if (gameState.isGameOver && cluesPanel) {
+      cluesPanel.style.display = 'none';
     }
   }
 
@@ -517,6 +744,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
+    
+    resetCluesState();
     
     guessesContainer.innerHTML = '';
     guessCountEl.textContent = '0';
@@ -588,6 +817,14 @@ document.addEventListener("DOMContentLoaded", () => {
         autocompleteDropdown.style.display = 'none';
         autocompleteState.isOpen = false;
       }
+    });
+  }
+
+  // Clues panel toggle
+  if (cluesHeader) {
+    cluesHeader.addEventListener('click', () => {
+      cluesContent.classList.toggle('collapsed');
+      cluesToggle.classList.toggle('collapsed');
     });
   }
 

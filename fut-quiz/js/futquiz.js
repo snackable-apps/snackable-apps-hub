@@ -79,6 +79,28 @@ document.addEventListener("DOMContentLoaded", () => {
     currentDate: null
   };
 
+  // Clues State
+  let cluesState = {
+    ageMin: null, ageMax: null, ageConfirmed: null,
+    heightMin: null, heightMax: null, heightConfirmed: null,
+    nationalityConfirmed: null,
+    clubConfirmed: null,
+    positionConfirmed: null,
+    footConfirmed: null,
+    worldCupConfirmed: null,
+    matchedLeagues: new Set(),
+    matchedTeamTitles: new Set(),
+    excludedNationalities: new Set(),
+    excludedClubs: new Set(),
+    excludedPositions: new Set()
+  };
+
+  // Clues Panel Elements
+  const cluesPanel = document.getElementById('clues-panel');
+  const cluesContent = document.getElementById('clues-content');
+  const cluesHeader = document.getElementById('clues-header');
+  const cluesToggle = document.getElementById('clues-toggle');
+
   // Utility Functions
   function getDateString() {
     const date = new Date();
@@ -263,6 +285,177 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Update clues state after a guess
+  function updateCluesState(guess, comparisons) {
+    const guessAge = calculateAge(guess.dateOfBirth, guess.deathDate);
+    
+    // Age
+    if (comparisons.age === 'match') {
+      cluesState.ageConfirmed = guessAge;
+    } else if (comparisons.age === 'higher') {
+      if (cluesState.ageMin === null || guessAge > cluesState.ageMin) cluesState.ageMin = guessAge;
+    } else if (comparisons.age === 'lower') {
+      if (cluesState.ageMax === null || guessAge < cluesState.ageMax) cluesState.ageMax = guessAge;
+    }
+
+    // Height
+    if (comparisons.height === 'match') {
+      cluesState.heightConfirmed = guess.height;
+    } else if (comparisons.height === 'higher') {
+      if (cluesState.heightMin === null || guess.height > cluesState.heightMin) cluesState.heightMin = guess.height;
+    } else if (comparisons.height === 'lower') {
+      if (cluesState.heightMax === null || guess.height < cluesState.heightMax) cluesState.heightMax = guess.height;
+    }
+
+    // Nationality
+    if (comparisons.nationality.allMatch || comparisons.nationality.hasMatch) {
+      comparisons.nationality.matches.forEach(n => {
+        if (comparisons.nationality.allMatch) cluesState.nationalityConfirmed = n;
+      });
+    } else {
+      normalizeProperty(guess.nationality).forEach(n => cluesState.excludedNationalities.add(n));
+    }
+
+    // Club
+    if (comparisons.currentClub === 'match') {
+      cluesState.clubConfirmed = guess.currentClub;
+    } else {
+      cluesState.excludedClubs.add(guess.currentClub);
+    }
+
+    // Position
+    if (comparisons.primaryPosition === 'match') {
+      cluesState.positionConfirmed = guess.primaryPosition;
+    } else {
+      cluesState.excludedPositions.add(guess.primaryPosition);
+    }
+
+    // Foot
+    if (comparisons.preferredFoot === 'match') {
+      cluesState.footConfirmed = guess.preferredFoot;
+    }
+
+    // World Cup
+    if (comparisons.playedWorldCup === 'match') {
+      cluesState.worldCupConfirmed = guess.playedWorldCup ? 'Sim' : 'Não';
+    }
+
+    // Leagues
+    if (comparisons.leaguesPlayed && comparisons.leaguesPlayed.matches) {
+      comparisons.leaguesPlayed.matches.forEach(l => cluesState.matchedLeagues.add(l));
+    }
+
+    // Team Titles
+    if (comparisons.teamTitles && comparisons.teamTitles.matches) {
+      comparisons.teamTitles.matches.forEach(t => cluesState.matchedTeamTitles.add(t));
+    }
+  }
+
+  // Render clues panel
+  function renderCluesPanel() {
+    if (gameState.guesses.length === 0) {
+      cluesPanel.style.display = 'none';
+      return;
+    }
+    cluesPanel.style.display = 'block';
+
+    function renderRange(itemId, valueId, min, max, confirmed, formatter = v => v) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed !== null) {
+        item.className = 'clue-item confirmed';
+        value.textContent = formatter(confirmed);
+      } else if (min !== null || max !== null) {
+        item.className = 'clue-item narrowed';
+        if (min !== null && max !== null) {
+          value.textContent = `${formatter(min + 1)}-${formatter(max - 1)}`;
+        } else if (min !== null) {
+          value.textContent = `>${formatter(min)}`;
+        } else {
+          value.textContent = `<${formatter(max)}`;
+        }
+      } else {
+        item.className = 'clue-item';
+        value.textContent = '?';
+      }
+    }
+
+    renderRange('clue-age', 'clue-age-value', cluesState.ageMin, cluesState.ageMax, cluesState.ageConfirmed);
+    renderRange('clue-height', 'clue-height-value', cluesState.heightMin, cluesState.heightMax, cluesState.heightConfirmed, h => `${h}cm`);
+
+    function renderCategorical(itemId, valueId, confirmed) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed) {
+        item.className = 'clue-item confirmed';
+        value.textContent = confirmed;
+      } else {
+        item.className = 'clue-item';
+        value.textContent = '?';
+      }
+    }
+
+    renderCategorical('clue-nationality', 'clue-nationality-value', cluesState.nationalityConfirmed);
+    renderCategorical('clue-club', 'clue-club-value', cluesState.clubConfirmed);
+    renderCategorical('clue-position', 'clue-position-value', cluesState.positionConfirmed);
+    renderCategorical('clue-foot', 'clue-foot-value', cluesState.footConfirmed);
+    renderCategorical('clue-worldcup', 'clue-worldcup-value', cluesState.worldCupConfirmed);
+
+    // Matched leagues
+    const leaguesRow = document.getElementById('clue-leagues-row');
+    const leaguesContainer = document.getElementById('clue-leagues');
+    if (cluesState.matchedLeagues.size > 0) {
+      leaguesRow.style.display = 'flex';
+      leaguesContainer.innerHTML = [...cluesState.matchedLeagues]
+        .map(l => `<span class="clue-tag">${l}</span>`).join('');
+    } else {
+      leaguesRow.style.display = 'none';
+    }
+
+    // Matched team titles
+    const titlesRow = document.getElementById('clue-titles-row');
+    const titlesContainer = document.getElementById('clue-titles');
+    if (cluesState.matchedTeamTitles.size > 0) {
+      titlesRow.style.display = 'flex';
+      titlesContainer.innerHTML = [...cluesState.matchedTeamTitles]
+        .map(t => `<span class="clue-tag">${t}</span>`).join('');
+    } else {
+      titlesRow.style.display = 'none';
+    }
+
+    // Excluded
+    const excludedRow = document.getElementById('clue-excluded-row');
+    const excludedContainer = document.getElementById('clue-excluded');
+    const allExcluded = [];
+    if (!cluesState.nationalityConfirmed) allExcluded.push(...cluesState.excludedNationalities);
+    if (!cluesState.clubConfirmed) allExcluded.push(...[...cluesState.excludedClubs].slice(0, 3));
+    if (!cluesState.positionConfirmed) allExcluded.push(...cluesState.excludedPositions);
+    
+    if (allExcluded.length > 0) {
+      excludedRow.style.display = 'flex';
+      excludedContainer.textContent = allExcluded.slice(0, 8).join(', ') + (allExcluded.length > 8 ? '...' : '');
+    } else {
+      excludedRow.style.display = 'none';
+    }
+  }
+
+  function resetCluesState() {
+    cluesState = {
+      ageMin: null, ageMax: null, ageConfirmed: null,
+      heightMin: null, heightMax: null, heightConfirmed: null,
+      nationalityConfirmed: null,
+      clubConfirmed: null,
+      positionConfirmed: null,
+      footConfirmed: null,
+      worldCupConfirmed: null,
+      matchedLeagues: new Set(),
+      matchedTeamTitles: new Set(),
+      excludedNationalities: new Set(),
+      excludedClubs: new Set(),
+      excludedPositions: new Set()
+    };
+  }
+
   function formatPropertyValue(property, value) {
     if (property === 'height') {
       return `${value} cm`;
@@ -404,6 +597,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const comparisons = compareProperties(gameState.secretPlayer, guess);
+    updateCluesState(guess, comparisons);
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);
@@ -607,11 +801,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateGameState() {
     // Just show the count, no limit
     guessCountEl.textContent = gameState.guesses.length;
+    renderCluesPanel();
     
     // Clear status message if game is still active
     if (!gameState.isSolved && !gameState.isGameOver) {
       gameStatusEl.textContent = '';
       gameStatusEl.className = '';
+    }
+    
+    // Hide clues panel when game ends
+    if (gameState.isGameOver && cluesPanel) {
+      cluesPanel.style.display = 'none';
     }
   }
 
@@ -622,6 +822,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
+    
+    resetCluesState();
     
     // Clear previous guesses
     guessesContainer.innerHTML = '';
@@ -691,6 +893,14 @@ document.addEventListener("DOMContentLoaded", () => {
       autocompleteState.isOpen = false;
     }
   });
+
+  // Clues panel toggle
+  if (cluesHeader) {
+    cluesHeader.addEventListener('click', () => {
+      cluesContent.classList.toggle('collapsed');
+      cluesToggle.classList.toggle('collapsed');
+    });
+  }
 
   // Load data and initialize
   loadPlayersData();

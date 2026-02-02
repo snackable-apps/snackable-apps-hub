@@ -68,6 +68,19 @@ document.addEventListener("DOMContentLoaded", () => {
     currentDate: null
   };
 
+  // Clues State
+  let cluesState = {
+    yearMin: null, yearMax: null, yearConfirmed: null,
+    pagesMin: null, pagesMax: null, pagesConfirmed: null,
+    authorConfirmed: null, nationalityConfirmed: null, genreConfirmed: null, languageConfirmed: null,
+    excludedAuthors: new Set(), excludedGenres: new Set()
+  };
+
+  const cluesPanel = document.getElementById('clues-panel');
+  const cluesContent = document.getElementById('clues-content');
+  const cluesHeader = document.getElementById('clues-header');
+  const cluesToggle = document.getElementById('clues-toggle');
+
   // Utility Functions
   function getDateString() {
     const date = new Date();
@@ -151,6 +164,67 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       return 'feedback-different';
     }
+  }
+
+  function updateCluesState(guess, comparisons) {
+    if (comparisons.publicationYear === 'match') cluesState.yearConfirmed = guess.publicationYear;
+    else if (comparisons.publicationYear === 'higher') { if (cluesState.yearMin === null || guess.publicationYear > cluesState.yearMin) cluesState.yearMin = guess.publicationYear; }
+    else if (comparisons.publicationYear === 'lower') { if (cluesState.yearMax === null || guess.publicationYear < cluesState.yearMax) cluesState.yearMax = guess.publicationYear; }
+
+    if (comparisons.pageCount === 'match') cluesState.pagesConfirmed = guess.pageCount;
+    else if (comparisons.pageCount === 'higher') { if (cluesState.pagesMin === null || guess.pageCount > cluesState.pagesMin) cluesState.pagesMin = guess.pageCount; }
+    else if (comparisons.pageCount === 'lower') { if (cluesState.pagesMax === null || guess.pageCount < cluesState.pagesMax) cluesState.pagesMax = guess.pageCount; }
+
+    if (comparisons.author === 'match') cluesState.authorConfirmed = guess.author;
+    else cluesState.excludedAuthors.add(guess.author);
+
+    if (comparisons.authorNationality === 'match') cluesState.nationalityConfirmed = guess.authorNationality;
+    if (comparisons.genre === 'match') cluesState.genreConfirmed = guess.genre;
+    else cluesState.excludedGenres.add(guess.genre);
+    if (comparisons.originalLanguage === 'match') cluesState.languageConfirmed = guess.originalLanguage;
+  }
+
+  function renderCluesPanel() {
+    if (gameState.guesses.length === 0) { cluesPanel.style.display = 'none'; return; }
+    cluesPanel.style.display = 'block';
+
+    function renderRange(itemId, valueId, min, max, confirmed) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed !== null) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
+      else if (min !== null || max !== null) {
+        item.className = 'clue-item narrowed';
+        if (min !== null && max !== null) value.textContent = `${min + 1}-${max - 1}`;
+        else if (min !== null) value.textContent = `>${min}`;
+        else value.textContent = `<${max}`;
+      } else { item.className = 'clue-item'; value.textContent = '?'; }
+    }
+
+    renderRange('clue-year', 'clue-year-value', cluesState.yearMin, cluesState.yearMax, cluesState.yearConfirmed);
+    renderRange('clue-pages', 'clue-pages-value', cluesState.pagesMin, cluesState.pagesMax, cluesState.pagesConfirmed);
+
+    function renderCategorical(itemId, valueId, confirmed) {
+      const item = document.getElementById(itemId);
+      const value = document.getElementById(valueId);
+      if (confirmed) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
+      else { item.className = 'clue-item'; value.textContent = '?'; }
+    }
+
+    renderCategorical('clue-author', 'clue-author-value', cluesState.authorConfirmed);
+    renderCategorical('clue-nationality', 'clue-nationality-value', cluesState.nationalityConfirmed);
+    renderCategorical('clue-genre', 'clue-genre-value', cluesState.genreConfirmed);
+    renderCategorical('clue-language', 'clue-language-value', cluesState.languageConfirmed);
+
+    const excludedRow = document.getElementById('clue-excluded-row');
+    const excludedContainer = document.getElementById('clue-excluded');
+    const allExcluded = [];
+    if (!cluesState.genreConfirmed) allExcluded.push(...[...cluesState.excludedGenres].slice(0, 3));
+    if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.join(', '); }
+    else { excludedRow.style.display = 'none'; }
+  }
+
+  function resetCluesState() {
+    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, pagesMin: null, pagesMax: null, pagesConfirmed: null, authorConfirmed: null, nationalityConfirmed: null, genreConfirmed: null, languageConfirmed: null, excludedAuthors: new Set(), excludedGenres: new Set() };
   }
 
   function displayGuess(guess, comparisons) {
@@ -279,6 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const comparisons = compareProperties(gameState.secretBook, guess);
+    updateCluesState(guess, comparisons);
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);
@@ -453,11 +528,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;
-    
+    renderCluesPanel();
     if (!gameState.isSolved && !gameState.isGameOver) {
       gameStatusEl.textContent = '';
       gameStatusEl.className = '';
     }
+    if (gameState.isGameOver && cluesPanel) cluesPanel.style.display = 'none';
   }
 
   function initializeGame() {
@@ -467,6 +543,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
+    
+    resetCluesState();
     
     guessesContainer.innerHTML = '';
     guessCountEl.textContent = '0';
@@ -582,6 +660,14 @@ document.addEventListener("DOMContentLoaded", () => {
         autocompleteDropdown.style.display = 'none';
         autocompleteState.isOpen = false;
       }
+    });
+  }
+
+  // Clues panel toggle
+  if (cluesHeader) {
+    cluesHeader.addEventListener('click', () => {
+      cluesContent.classList.toggle('collapsed');
+      cluesToggle.classList.toggle('collapsed');
     });
   }
 

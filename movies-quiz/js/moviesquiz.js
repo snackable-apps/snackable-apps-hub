@@ -59,6 +59,36 @@ document.addEventListener("DOMContentLoaded", () => {
     currentDate: null
   };
 
+  // Clues State - aggregated info from all guesses
+  let cluesState = {
+    // Ranges (null = unknown, value = confirmed or bounded)
+    yearMin: null,
+    yearMax: null,
+    yearConfirmed: null,
+    runtimeMin: null,
+    runtimeMax: null,
+    runtimeConfirmed: null,
+    ratingMin: null,
+    ratingMax: null,
+    ratingConfirmed: null,
+    // Confirmed values
+    directorConfirmed: null,
+    countryConfirmed: null,
+    // Matched genres and cast
+    matchedGenres: new Set(),
+    matchedCast: new Set(),
+    // Excluded values (for testing)
+    excludedDirectors: new Set(),
+    excludedGenres: new Set(),
+    excludedActors: new Set()
+  };
+
+  // Clues Panel Elements
+  const cluesPanel = document.getElementById('clues-panel');
+  const cluesContent = document.getElementById('clues-content');
+  const cluesToggle = document.getElementById('clues-toggle');
+  const cluesHeader = document.querySelector('.clues-header');
+
   // Utility Functions
   function getDateString() {
     const date = new Date();
@@ -168,6 +198,292 @@ document.addEventListener("DOMContentLoaded", () => {
     return hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
   }
 
+  function formatRuntimeShort(minutes) {
+    const hrs = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    if (hrs > 0 && mins > 0) {
+      return `${hrs}h${mins}`;
+    } else if (hrs > 0) {
+      return `${hrs}h`;
+    }
+    return `${mins}m`;
+  }
+
+  // Format actor name as "Ryan GOSLING"
+  function formatActorName(fullName) {
+    const parts = fullName.trim().split(' ');
+    if (parts.length === 1) {
+      return parts[0].toUpperCase();
+    }
+    const lastName = parts.pop().toUpperCase();
+    const firstName = parts.join(' ');
+    return `${firstName} ${lastName}`;
+  }
+
+  // Update clues state after a guess
+  function updateCluesState(guess, comparisons) {
+    // Year
+    if (comparisons.releaseYear === 'match') {
+      cluesState.yearConfirmed = guess.releaseYear;
+    } else if (comparisons.releaseYear === 'higher') {
+      // Secret is higher than guess, so min bound
+      if (cluesState.yearMin === null || guess.releaseYear > cluesState.yearMin) {
+        cluesState.yearMin = guess.releaseYear;
+      }
+    } else if (comparisons.releaseYear === 'lower') {
+      // Secret is lower than guess, so max bound
+      if (cluesState.yearMax === null || guess.releaseYear < cluesState.yearMax) {
+        cluesState.yearMax = guess.releaseYear;
+      }
+    }
+
+    // Runtime
+    if (comparisons.runtime === 'match') {
+      cluesState.runtimeConfirmed = guess.runtimeMinutes;
+    } else if (comparisons.runtime === 'higher') {
+      // Secret is longer than guess
+      if (cluesState.runtimeMin === null || guess.runtimeMinutes > cluesState.runtimeMin) {
+        cluesState.runtimeMin = guess.runtimeMinutes;
+      }
+    } else if (comparisons.runtime === 'lower') {
+      // Secret is shorter than guess
+      if (cluesState.runtimeMax === null || guess.runtimeMinutes < cluesState.runtimeMax) {
+        cluesState.runtimeMax = guess.runtimeMinutes;
+      }
+    }
+
+    // Rating
+    if (comparisons.imdbRating === 'match') {
+      cluesState.ratingConfirmed = guess.imdbRating;
+    } else if (comparisons.imdbRating === 'higher') {
+      // Secret is higher rated than guess
+      if (cluesState.ratingMin === null || guess.imdbRating > cluesState.ratingMin) {
+        cluesState.ratingMin = guess.imdbRating;
+      }
+    } else if (comparisons.imdbRating === 'lower') {
+      // Secret is lower rated than guess
+      if (cluesState.ratingMax === null || guess.imdbRating < cluesState.ratingMax) {
+        cluesState.ratingMax = guess.imdbRating;
+      }
+    }
+
+    // Director
+    if (comparisons.director === 'match') {
+      cluesState.directorConfirmed = guess.director;
+    } else {
+      cluesState.excludedDirectors.add(guess.director);
+    }
+
+    // Country
+    if (comparisons.country === 'match') {
+      cluesState.countryConfirmed = guess.country;
+    }
+
+    // Genres - track matches and exclusions
+    comparisons.genreDetails.forEach(g => {
+      if (g.match) {
+        cluesState.matchedGenres.add(g.name);
+      } else {
+        cluesState.excludedGenres.add(g.name);
+      }
+    });
+
+    // Cast - track matches and exclusions
+    comparisons.castDetails.forEach(a => {
+      if (a.match) {
+        cluesState.matchedCast.add(a.fullName);
+      } else {
+        cluesState.excludedActors.add(a.fullName);
+      }
+    });
+  }
+
+  // Render the clues panel
+  function renderCluesPanel() {
+    // Show panel if we have any guesses
+    if (gameState.guesses.length === 0) {
+      cluesPanel.style.display = 'none';
+      return;
+    }
+    cluesPanel.style.display = 'block';
+
+    // Year
+    const yearItem = document.getElementById('clue-year');
+    const yearValue = document.getElementById('clue-year-value');
+    if (cluesState.yearConfirmed) {
+      yearItem.className = 'clue-item confirmed';
+      yearValue.textContent = cluesState.yearConfirmed;
+    } else if (cluesState.yearMin !== null || cluesState.yearMax !== null) {
+      yearItem.className = 'clue-item narrowed';
+      const min = cluesState.yearMin ? `>${cluesState.yearMin}` : '';
+      const max = cluesState.yearMax ? `<${cluesState.yearMax}` : '';
+      yearValue.textContent = min && max ? `${cluesState.yearMin + 1}-${cluesState.yearMax - 1}` : (min || max);
+    } else {
+      yearItem.className = 'clue-item';
+      yearValue.textContent = '?';
+    }
+
+    // Runtime (same format as year - show range)
+    const runtimeItem = document.getElementById('clue-runtime');
+    const runtimeValue = document.getElementById('clue-runtime-value');
+    if (cluesState.runtimeConfirmed) {
+      runtimeItem.className = 'clue-item confirmed';
+      runtimeValue.textContent = formatRuntimeShort(cluesState.runtimeConfirmed);
+    } else if (cluesState.runtimeMin !== null || cluesState.runtimeMax !== null) {
+      runtimeItem.className = 'clue-item narrowed';
+      if (cluesState.runtimeMin !== null && cluesState.runtimeMax !== null) {
+        // Show range like year: "1h50-2h10"
+        runtimeValue.textContent = `${formatRuntimeShort(cluesState.runtimeMin + 1)}-${formatRuntimeShort(cluesState.runtimeMax - 1)}`;
+      } else if (cluesState.runtimeMin !== null) {
+        runtimeValue.textContent = `>${formatRuntimeShort(cluesState.runtimeMin)}`;
+      } else {
+        runtimeValue.textContent = `<${formatRuntimeShort(cluesState.runtimeMax)}`;
+      }
+    } else {
+      runtimeItem.className = 'clue-item';
+      runtimeValue.textContent = '?';
+    }
+
+    // Rating (same format as year - show range)
+    const ratingItem = document.getElementById('clue-rating');
+    const ratingValue = document.getElementById('clue-rating-value');
+    if (cluesState.ratingConfirmed) {
+      ratingItem.className = 'clue-item confirmed';
+      ratingValue.textContent = cluesState.ratingConfirmed;
+    } else if (cluesState.ratingMin !== null || cluesState.ratingMax !== null) {
+      ratingItem.className = 'clue-item narrowed';
+      if (cluesState.ratingMin !== null && cluesState.ratingMax !== null) {
+        // Show range like year
+        const minVal = (cluesState.ratingMin + 0.1).toFixed(1);
+        const maxVal = (cluesState.ratingMax - 0.1).toFixed(1);
+        ratingValue.textContent = `${minVal}-${maxVal}`;
+      } else if (cluesState.ratingMin !== null) {
+        ratingValue.textContent = `>${cluesState.ratingMin}`;
+      } else {
+        ratingValue.textContent = `<${cluesState.ratingMax}`;
+      }
+    } else {
+      ratingItem.className = 'clue-item';
+      ratingValue.textContent = '?';
+    }
+
+    // Director (format: "Damien CHAZELLE")
+    const directorItem = document.getElementById('clue-director');
+    const directorValue = document.getElementById('clue-director-value');
+    if (cluesState.directorConfirmed) {
+      directorItem.className = 'clue-item confirmed';
+      directorValue.textContent = formatActorName(cluesState.directorConfirmed);
+    } else {
+      directorItem.className = 'clue-item';
+      directorValue.textContent = '?';
+    }
+
+    // Country
+    const countryItem = document.getElementById('clue-country');
+    const countryValue = document.getElementById('clue-country-value');
+    if (cluesState.countryConfirmed) {
+      countryItem.className = 'clue-item confirmed';
+      countryValue.textContent = cluesState.countryConfirmed;
+    } else {
+      countryItem.className = 'clue-item';
+      countryValue.textContent = '?';
+    }
+
+    // Genres
+    const genresGroup = document.getElementById('clue-genres-group');
+    const genresContainer = document.getElementById('clue-genres');
+    if (cluesState.matchedGenres.size > 0) {
+      genresGroup.style.display = 'flex';
+      genresContainer.innerHTML = [...cluesState.matchedGenres]
+        .map(g => `<span class="clue-tag match">${g}</span>`)
+        .join('');
+    } else {
+      genresGroup.style.display = 'none';
+    }
+
+    // Cast
+    const castGroup = document.getElementById('clue-cast-group');
+    const castContainer = document.getElementById('clue-cast');
+    if (cluesState.matchedCast.size > 0) {
+      castGroup.style.display = 'flex';
+      castContainer.innerHTML = [...cluesState.matchedCast]
+        .map(a => `<span class="clue-tag match">${formatActorName(a)}</span>`)
+        .join('');
+    } else {
+      castGroup.style.display = 'none';
+    }
+
+    // Excluded sections
+    const excludedRow = document.getElementById('clue-excluded-row');
+    const excludedDirectorsSection = document.getElementById('clue-excluded-directors-section');
+    const excludedDirectorsContainer = document.getElementById('clue-excluded-directors');
+    const excludedGenresSection = document.getElementById('clue-excluded-genres-section');
+    const excludedGenresContainer = document.getElementById('clue-excluded-genres');
+    const excludedActorsSection = document.getElementById('clue-excluded-actors-section');
+    const excludedActorsContainer = document.getElementById('clue-excluded-actors');
+
+    let hasAnyExcluded = false;
+
+    // Excluded directors (only if not confirmed)
+    if (!cluesState.directorConfirmed && cluesState.excludedDirectors.size > 0) {
+      excludedDirectorsSection.style.display = 'flex';
+      excludedDirectorsContainer.textContent = [...cluesState.excludedDirectors]
+        .map(d => formatActorName(d))
+        .slice(0, 5)
+        .join(', ') + (cluesState.excludedDirectors.size > 5 ? '...' : '');
+      hasAnyExcluded = true;
+    } else {
+      excludedDirectorsSection.style.display = 'none';
+    }
+
+    // Excluded genres
+    if (cluesState.excludedGenres.size > 0) {
+      excludedGenresSection.style.display = 'flex';
+      excludedGenresContainer.textContent = [...cluesState.excludedGenres]
+        .slice(0, 8)
+        .join(', ') + (cluesState.excludedGenres.size > 8 ? '...' : '');
+      hasAnyExcluded = true;
+    } else {
+      excludedGenresSection.style.display = 'none';
+    }
+
+    // Excluded actors
+    if (cluesState.excludedActors.size > 0) {
+      excludedActorsSection.style.display = 'flex';
+      excludedActorsContainer.textContent = [...cluesState.excludedActors]
+        .map(a => formatActorName(a))
+        .slice(0, 6)
+        .join(', ') + (cluesState.excludedActors.size > 6 ? '...' : '');
+      hasAnyExcluded = true;
+    } else {
+      excludedActorsSection.style.display = 'none';
+    }
+
+    excludedRow.style.display = hasAnyExcluded ? 'flex' : 'none';
+  }
+
+  // Reset clues state
+  function resetCluesState() {
+    cluesState = {
+      yearMin: null,
+      yearMax: null,
+      yearConfirmed: null,
+      runtimeMin: null,
+      runtimeMax: null,
+      runtimeConfirmed: null,
+      ratingMin: null,
+      ratingMax: null,
+      ratingConfirmed: null,
+      directorConfirmed: null,
+      countryConfirmed: null,
+      matchedGenres: new Set(),
+      matchedCast: new Set(),
+      excludedDirectors: new Set(),
+      excludedGenres: new Set(),
+      excludedActors: new Set()
+    };
+  }
+
   // Game Functions
   function initializeGame() {
     gameState.currentDate = getDateString();
@@ -176,6 +492,9 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
+    
+    // Reset clues state
+    resetCluesState();
     
     console.log('Secret movie:', gameState.secretMovie.title);
     
@@ -265,6 +584,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const isCorrect = movie.title === gameState.secretMovie.title;
     const comparisons = compareProperties(gameState.secretMovie, movie);
     
+    // Update clues state with this guess
+    updateCluesState(movie, comparisons);
+
     gameState.guesses.push({
       ...movie,
       comparisons,
@@ -316,9 +638,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement('div');
     card.className = `guess-card ${guess.isCorrect ? 'correct' : ''}`;
     
-    // Build cast HTML with individual actor matches
+    // Build cast HTML with individual actor matches (format: "Ryan GOSLING")
     const castHtml = guess.comparisons.castDetails
-      .map(actor => `<span class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${actor.name}</span>`)
+      .map(actor => `<span class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${formatActorName(actor.fullName)}</span>`)
       .join(' ');
     
     // Build genres HTML
@@ -332,7 +654,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="property ${guess.comparisons.director}">
           <div class="property-label">Director</div>
           <div class="property-value">
-            ${getFeedbackText(guess.comparisons.director)} ${guess.director.split(' ').pop()}
+            ${getFeedbackText(guess.comparisons.director)} ${formatActorName(guess.director)}
           </div>
         </div>
         <div class="property ${guess.comparisons.releaseYear}">
@@ -372,7 +694,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function displayAnswer() {
     const movie = gameState.secretMovie;
-    const castList = (movie.cast || []).slice(0, 6).map(a => a.split(' ').pop()).join(', ');
+    const castList = (movie.cast || []).slice(0, 6).map(a => formatActorName(a)).join(', ');
     
     const answerDiv = document.createElement('div');
     answerDiv.className = 'answer-reveal';
@@ -392,6 +714,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateUI() {
     // Update guess count
     guessCountEl.textContent = gameState.guesses.length;
+    
+    // Render clues panel
+    renderCluesPanel();
     
     // Update game status
     if (gameState.isSolved) {
@@ -421,6 +746,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (gameState.isGameOver) {
       guessSection.style.display = 'none';
       shareSection.style.display = 'block';
+      cluesPanel.style.display = 'none'; // Hide clues when game ends
     }
   }
 
@@ -533,6 +859,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
+
+  // Clues panel toggle
+  if (cluesHeader) {
+    cluesHeader.addEventListener('click', () => {
+      cluesContent.classList.toggle('collapsed');
+      cluesToggle.classList.toggle('collapsed');
+    });
+  }
 
   // Initialize
   loadMoviesData();
