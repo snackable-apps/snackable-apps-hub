@@ -22,30 +22,65 @@ document.addEventListener("DOMContentLoaded", () => {
   let ALL_MOVIES = [];
   let SECRET_POOL = [];
 
-  // Load embedded data
-  function loadMoviesData() {
+  // API endpoint
+  const API_URL = 'https://snackable-api.vercel.app/api/movies';
+
+  // Load movies from API (with fallback to embedded data)
+  async function loadMoviesData() {
     try {
-      if (typeof MOVIES_DATA === 'undefined' || !MOVIES_DATA || MOVIES_DATA.length === 0) {
-        throw new Error('Movie data not loaded.');
+      // Try fetching from API first
+      const response = await fetch(API_URL);
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
       }
       
-      ALL_MOVIES = MOVIES_DATA;
-      console.log('Total movies loaded:', ALL_MOVIES.length);
+      const data = await response.json();
       
-      // Secret pool: only easy + medium movies
-      SECRET_POOL = ALL_MOVIES.filter(movie => 
-        movie.difficulty === 'easy' || movie.difficulty === 'medium'
-      );
-      console.log('Secret pool (easy+medium):', SECRET_POOL.length);
+      if (!data.success || !data.movies || data.movies.length === 0) {
+        throw new Error('No movies returned from API');
+      }
       
-      if (SECRET_POOL.length > 0) {
-        initializeGame();
+      // Transform API data to match expected format
+      ALL_MOVIES = data.movies.map(movie => ({
+        title: movie.title,
+        director: movie.director,
+        directorNationality: movie.directorNationality,
+        genres: movie.genres,
+        releaseYear: movie.releaseYear,
+        runtimeMinutes: movie.runtime, // API returns 'runtime', we use 'runtimeMinutes'
+        imdbRating: movie.imdbRating,
+        country: movie.country,
+        cast: movie.cast,
+        difficulty: movie.difficulty
+      }));
+      
+      console.log('Movies loaded from API:', ALL_MOVIES.length);
+      
+    } catch (apiError) {
+      console.warn('API fetch failed, trying fallback:', apiError.message);
+      
+      // Fallback to embedded data if API fails
+      if (typeof MOVIES_DATA !== 'undefined' && MOVIES_DATA && MOVIES_DATA.length > 0) {
+        ALL_MOVIES = MOVIES_DATA;
+        console.log('Movies loaded from fallback:', ALL_MOVIES.length);
       } else {
-        alert('No movies available.');
+        console.error('No movie data available');
+        alert('Failed to load movie data. Please refresh the page.');
+        return;
       }
-    } catch (error) {
-      console.error('Error loading movie data:', error);
-      alert('Failed to load movie data: ' + error.message);
+    }
+    
+    // Secret pool: only easy + medium movies
+    SECRET_POOL = ALL_MOVIES.filter(movie => 
+      movie.difficulty === 'easy' || movie.difficulty === 'medium'
+    );
+    console.log('Secret pool (easy+medium):', SECRET_POOL.length);
+    
+    if (SECRET_POOL.length > 0) {
+      initializeGame();
+    } else {
+      alert('No movies available.');
     }
   }
 

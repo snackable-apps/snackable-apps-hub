@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Explorer - Snackable Games</title>
+    <link rel="stylesheet" href="css/explorer.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Data Explorer</h1>
+            <a href="/" class="back-link">← Back to Games</a>
+        </header>
+
+        <div class="controls">
+            <div class="database-selector">
+                <label for="database">Database:</label>
+                <select id="database">
+                    <option value="movies">Movies</option>
+                    <option value="tennis" disabled>Tennis (coming soon)</option>
+                    <option value="f1" disabled>F1 (coming soon)</option>
+                    <option value="football" disabled>Football (coming soon)</option>
+                </select>
+            </div>
+            
+            <div class="stats">
+                <span id="total-count">Loading...</span>
+                <span id="filtered-count"></span>
+            </div>
+        </div>
+
+        <div class="filters" id="filters">
+            <!-- Filters will be dynamically generated -->
+        </div>
+
+        <div class="table-container">
+            <table id="data-table">
+                <thead id="table-header">
+                    <!-- Headers will be dynamically generated -->
+                </thead>
+                <tbody id="table-body">
+                    <!-- Data will be dynamically generated -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <span>Loading data...</span>
+        </div>
+    </div>
+
+    <script src="js/explorer.js"></script>
+</body>
+</html>
