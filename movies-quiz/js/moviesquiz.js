@@ -574,12 +574,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     
-    autocompleteDropdown.innerHTML = movies.map((movie, index) => `
-      <div class="autocomplete-item" data-index="${index}">
-        <span class="autocomplete-title">${movie.title}</span>
-        <span class="autocomplete-year">(${movie.releaseYear})</span>
-      </div>
-    `).join('');
+    autocompleteDropdown.innerHTML = movies.map((movie, index) => {
+      const posterHtml = movie.posterUrl 
+        ? `<img src="${movie.posterUrl}" alt="" class="autocomplete-poster" onerror="this.style.display='none'">`
+        : '<div class="autocomplete-poster-placeholder">🎬</div>';
+      return `
+        <div class="autocomplete-item" data-index="${index}">
+          ${posterHtml}
+          <div class="autocomplete-info">
+            <span class="autocomplete-title">${movie.title}</span>
+            <span class="autocomplete-year">(${movie.releaseYear})</span>
+          </div>
+        </div>
+      `;
+    }).join('');
     
     autocompleteDropdown.classList.add('active');
     autocompleteState.isOpen = true;
@@ -701,46 +709,46 @@ document.addEventListener("DOMContentLoaded", () => {
       : '';
     
     card.innerHTML = `
-      <div class="guess-header">
-        ${guessPosterHtml}
+      ${guessPosterHtml}
+      <div class="guess-content">
         <div class="guess-title">🎬 ${guess.title}</div>
-      </div>
-      <div class="guess-properties">
-        <div class="property ${guess.comparisons.director}">
-          <div class="property-label">Director</div>
-          <div class="property-value">
-            ${getFeedbackText(guess.comparisons.director)} ${formatActorName(guess.director)}
+        <div class="guess-properties">
+          <div class="property ${guess.comparisons.director}">
+            <div class="property-label">Director</div>
+            <div class="property-value">
+              ${getFeedbackText(guess.comparisons.director)} ${formatActorName(guess.director)}
+            </div>
+          </div>
+          <div class="property ${guess.comparisons.releaseYear}">
+            <div class="property-label">Year</div>
+            <div class="property-value">
+              ${getFeedbackText(guess.comparisons.releaseYear)} ${guess.releaseYear}
+            </div>
+          </div>
+          <div class="property ${guess.comparisons.runtime}">
+            <div class="property-label">Runtime</div>
+            <div class="property-value">
+              ${getFeedbackText(guess.comparisons.runtime)} ${formatRuntime(guess.runtimeMinutes)}
+            </div>
+          </div>
+          <div class="property ${guess.comparisons.imdbRating}">
+            <div class="property-label">IMDB</div>
+            <div class="property-value">
+              ${getFeedbackText(guess.comparisons.imdbRating)} ${guess.imdbRating}
+            </div>
+          </div>
+          <div class="property ${guess.comparisons.country}">
+            <div class="property-label">Country</div>
+            <div class="property-value">
+              ${getFeedbackText(guess.comparisons.country)} ${guess.country}
+            </div>
           </div>
         </div>
-        <div class="property ${guess.comparisons.releaseYear}">
-          <div class="property-label">Year</div>
-          <div class="property-value">
-            ${getFeedbackText(guess.comparisons.releaseYear)} ${guess.releaseYear}
-          </div>
+        <div class="details-row">
+          <span class="details-label">Genres:</span> ${genresHtml}
+          <span class="details-divider">•</span>
+          <span class="details-label">Cast:</span> ${castHtml}
         </div>
-        <div class="property ${guess.comparisons.runtime}">
-          <div class="property-label">Runtime</div>
-          <div class="property-value">
-            ${getFeedbackText(guess.comparisons.runtime)} ${formatRuntime(guess.runtimeMinutes)}
-          </div>
-        </div>
-        <div class="property ${guess.comparisons.imdbRating}">
-          <div class="property-label">IMDB</div>
-          <div class="property-value">
-            ${getFeedbackText(guess.comparisons.imdbRating)} ${guess.imdbRating}
-          </div>
-        </div>
-        <div class="property ${guess.comparisons.country}">
-          <div class="property-label">Country</div>
-          <div class="property-value">
-            ${getFeedbackText(guess.comparisons.country)} ${guess.country}
-          </div>
-        </div>
-      </div>
-      <div class="details-row">
-        <span class="details-label">Genres:</span> ${genresHtml}
-        <span class="details-divider">•</span>
-        <span class="details-label">Cast:</span> ${castHtml}
       </div>
     `;
     
