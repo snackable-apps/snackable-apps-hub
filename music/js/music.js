@@ -32,6 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let ALL_SONGS = []; // All songs (for guessing)
   let SECRET_POOL = []; // Easy + Medium songs (for daily secret selection)
 
+  // Text normalization for accent-insensitive search
+  function normalizeText(text) {
+    return text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+      .toLowerCase();
+  }
+
   // Load embedded data
   function loadSongsData() {
     try {
@@ -377,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!query || query.trim() === '' || !ALL_SONGS || ALL_SONGS.length === 0) {
       return [];
     }
-    const lowerQuery = query.toLowerCase().trim();
+    const normalizedQuery = normalizeText(query.trim());
     
     // Filter songs - in easy mode, also match by artist name
     return ALL_SONGS.filter(song => {
@@ -387,12 +395,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       // Match by song name (always)
-      if (song.name.toLowerCase().startsWith(lowerQuery)) {
+      if (normalizeText(song.name).startsWith(normalizedQuery)) {
         return true;
       }
       
       // In easy mode, also match by artist name
-      if (easyModeEnabled && song.artist.toLowerCase().startsWith(lowerQuery)) {
+      if (easyModeEnabled && normalizeText(song.artist).startsWith(normalizedQuery)) {
         return true;
       }
       

@@ -23,6 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let ALL_PLAYERS = [];
   let SECRET_POOL = [];
 
+  // Text normalization for accent-insensitive search
+  function normalizeText(text) {
+    return text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+      .toLowerCase();
+  }
+
   // Load embedded data
   function loadPlayersData() {
     try {
@@ -470,9 +478,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!query || query.trim() === '' || !ALL_PLAYERS || ALL_PLAYERS.length === 0) {
       return [];
     }
-    const lowerQuery = query.toLowerCase().trim();
+    const normalizedQuery = normalizeText(query.trim());
     return ALL_PLAYERS.filter(player => 
-      player.name.toLowerCase().includes(lowerQuery) &&
+      normalizeText(player.name).includes(normalizedQuery) &&
       !gameState.guesses.some(g => g.name === player.name)
     ).slice(0, 10);
   }

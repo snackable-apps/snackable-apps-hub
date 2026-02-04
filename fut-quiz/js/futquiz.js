@@ -27,6 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let ALL_PLAYERS = [];
   let DAILY_ELIGIBLE_PLAYERS = []; // Players eligible to be the daily secret (easy/medium)
 
+  // Text normalization for accent-insensitive search
+  function normalizeText(text) {
+    return text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+      .toLowerCase();
+  }
+
   // Load embedded data
   function loadPlayersData() {
     try {
@@ -522,10 +530,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!query || query.trim() === '') {
       return [];
     }
-    const lowerQuery = query.toLowerCase().trim();
+    const normalizedQuery = normalizeText(query.trim());
     // Allow guessing any player from the entire database
     return ALL_PLAYERS.filter(player => 
-      player.name.toLowerCase().includes(lowerQuery) &&
+      normalizeText(player.name).includes(normalizedQuery) &&
       !gameState.guesses.some(g => g.name === player.name)
     ).slice(0, 10); // Limit to 10 results
   }

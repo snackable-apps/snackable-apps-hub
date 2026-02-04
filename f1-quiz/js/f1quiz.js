@@ -24,6 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let ALL_DRIVERS_LIST = []; // All drivers (for guessing)
   let SECRET_POOL = []; // Easy + Medium drivers (for daily secret selection)
 
+  // Text normalization for accent-insensitive search
+  function normalizeText(text) {
+    return text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+      .toLowerCase();
+  }
+
   // Load embedded data
   function loadDriversData() {
     try {
@@ -363,9 +371,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function filterDrivers(query) {
     if (!query || query.trim() === '') return [];
-    const lowerQuery = query.toLowerCase().trim();
+    const normalizedQuery = normalizeText(query.trim());
     return ALL_DRIVERS_LIST.filter(driver => 
-      driver.name.toLowerCase().includes(lowerQuery) &&
+      normalizeText(driver.name).includes(normalizedQuery) &&
       !gameState.guesses.some(g => g.name === driver.name)
     ).slice(0, 10);
   }

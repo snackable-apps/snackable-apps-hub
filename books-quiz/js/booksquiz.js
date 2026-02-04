@@ -29,6 +29,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let ALL_BOOKS = [];
   let SECRET_POOL = [];
 
+  // Text normalization for accent-insensitive search
+  function normalizeText(text) {
+    return text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+      .toLowerCase();
+  }
+
   // Load embedded data
   function loadBooksData() {
     try {
@@ -257,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!query || query.trim() === '' || !ALL_BOOKS || ALL_BOOKS.length === 0) {
       return [];
     }
-    const lowerQuery = query.toLowerCase().trim();
+    const normalizedQuery = normalizeText(query.trim());
     
     return ALL_BOOKS.filter(book => {
       // Skip already guessed books
@@ -266,12 +274,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       // Match by title (always)
-      if (book.title.toLowerCase().includes(lowerQuery)) {
+      if (normalizeText(book.title).includes(normalizedQuery)) {
         return true;
       }
       
       // In easy mode, also match by author name
-      if (easyModeEnabled && book.author.toLowerCase().includes(lowerQuery)) {
+      if (easyModeEnabled && normalizeText(book.author).includes(normalizedQuery)) {
         return true;
       }
       

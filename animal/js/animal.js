@@ -26,6 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let ALL_ANIMALS = []; // All animals (for guessing)
   let SECRET_POOL = []; // Easy + Medium animals (for daily secret selection)
 
+  // Text normalization for accent-insensitive search
+  function normalizeText(text) {
+    return text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+      .toLowerCase();
+  }
+
   // Load embedded data
   function loadAnimalsData() {
     try {
@@ -412,10 +420,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!query || query.trim() === '') {
       return [];
     }
-    const lowerQuery = query.toLowerCase().trim();
+    const normalizedQuery = normalizeText(query.trim());
     // Allow guessing any animal from the entire database
     return ALL_ANIMALS.filter(animal => 
-      animal.name.toLowerCase().startsWith(lowerQuery) &&
+      normalizeText(animal.name).startsWith(normalizedQuery) &&
       !gameState.guesses.some(g => g.name === animal.name)
     ).slice(0, 10); // Limit to 10 results
   }
