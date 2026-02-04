@@ -457,12 +457,28 @@ main {
 /* Guess Card */
 .guess-card {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 12px;
   background: var(--bg-card);
   border-radius: 10px;
   padding: 16px;
   border: 1px solid var(--border);
   animation: slideIn 0.3s ease;
+}
+
+/* Row 1: Poster + Info */
+.guess-row-main {
+  display: flex;
+  gap: 16px;
+}
+
+/* Row 2: Actors */
+.guess-row-cast {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
 }
 
 @keyframes slideIn {
@@ -607,18 +623,27 @@ main {
   border: 1px solid var(--border);
 }
 
-/* Actor images */
+/* Actor cards - vertical layout with image on top */
+.actor {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 70px;
+  margin: 4px;
+  font-size: 0.75rem;
+}
+
 .actor-img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
   object-fit: cover;
-  margin-right: 6px;
-  vertical-align: middle;
+  margin-bottom: 4px;
 }
 
 .actor-match .actor-img {
-  border: 2px solid #2ecc71;
+  border: 3px solid #2ecc71;
 }
 
 .actor-different .actor-img {
@@ -626,7 +651,12 @@ main {
   opacity: 0.7;
 }
 
-/* Guess card poster and content layout */
+.actor-name {
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+/* Guess card poster */
 .guess-poster {
   width: 80px;
   height: 120px;
@@ -636,18 +666,21 @@ main {
   flex-shrink: 0;
 }
 
+/* Content area next to poster */
 .guess-content {
   flex: 1;
   min-width: 0;
 }
 
-.guess-header {
-  margin-bottom: 10px;
+.guess-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
-.guess-header .guess-title {
-  margin-bottom: 0;
-  font-size: 1.1rem;
+/* Genres row */
+.guess-genres {
+  margin-top: 8px;
 }
 
 /* Share Section */

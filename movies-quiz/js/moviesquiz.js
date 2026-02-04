@@ -688,15 +688,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement('div');
     card.className = `guess-card ${guess.isCorrect ? 'correct' : ''}`;
     
-    // Build cast HTML with individual actor matches and images for ALL actors
+    // Build cast HTML - vertical cards with image on top, name below
     const castHtml = guess.comparisons.castDetails
       .map(actor => {
         const imageHtml = actor.image 
           ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.style.display='none'">`
           : '';
-        return `<span class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${imageHtml}${formatActorName(actor.fullName)}</span>`;
+        return `<div class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${imageHtml}<span class="actor-name">${formatActorName(actor.fullName)}</span></div>`;
       })
-      .join(' ');
+      .join('');
     
     // Build genres HTML
     const genresHtml = guess.comparisons.genreDetails
@@ -709,46 +709,49 @@ document.addEventListener("DOMContentLoaded", () => {
       : '';
     
     card.innerHTML = `
-      ${guessPosterHtml}
-      <div class="guess-content">
-        <div class="guess-title">🎬 ${guess.title}</div>
-        <div class="guess-properties">
-          <div class="property ${guess.comparisons.director}">
-            <div class="property-label">Director</div>
-            <div class="property-value">
-              ${getFeedbackText(guess.comparisons.director)} ${formatActorName(guess.director)}
+      <div class="guess-row-main">
+        ${guessPosterHtml}
+        <div class="guess-content">
+          <div class="guess-title">🎬 ${guess.title}</div>
+          <div class="guess-properties">
+            <div class="property ${guess.comparisons.director}">
+              <div class="property-label">Director</div>
+              <div class="property-value">
+                ${getFeedbackText(guess.comparisons.director)} ${formatActorName(guess.director)}
+              </div>
+            </div>
+            <div class="property ${guess.comparisons.releaseYear}">
+              <div class="property-label">Year</div>
+              <div class="property-value">
+                ${getFeedbackText(guess.comparisons.releaseYear)} ${guess.releaseYear}
+              </div>
+            </div>
+            <div class="property ${guess.comparisons.runtime}">
+              <div class="property-label">Runtime</div>
+              <div class="property-value">
+                ${getFeedbackText(guess.comparisons.runtime)} ${formatRuntime(guess.runtimeMinutes)}
+              </div>
+            </div>
+            <div class="property ${guess.comparisons.imdbRating}">
+              <div class="property-label">IMDB</div>
+              <div class="property-value">
+                ${getFeedbackText(guess.comparisons.imdbRating)} ${guess.imdbRating}
+              </div>
+            </div>
+            <div class="property ${guess.comparisons.country}">
+              <div class="property-label">Country</div>
+              <div class="property-value">
+                ${getFeedbackText(guess.comparisons.country)} ${guess.country}
+              </div>
             </div>
           </div>
-          <div class="property ${guess.comparisons.releaseYear}">
-            <div class="property-label">Year</div>
-            <div class="property-value">
-              ${getFeedbackText(guess.comparisons.releaseYear)} ${guess.releaseYear}
-            </div>
-          </div>
-          <div class="property ${guess.comparisons.runtime}">
-            <div class="property-label">Runtime</div>
-            <div class="property-value">
-              ${getFeedbackText(guess.comparisons.runtime)} ${formatRuntime(guess.runtimeMinutes)}
-            </div>
-          </div>
-          <div class="property ${guess.comparisons.imdbRating}">
-            <div class="property-label">IMDB</div>
-            <div class="property-value">
-              ${getFeedbackText(guess.comparisons.imdbRating)} ${guess.imdbRating}
-            </div>
-          </div>
-          <div class="property ${guess.comparisons.country}">
-            <div class="property-label">Country</div>
-            <div class="property-value">
-              ${getFeedbackText(guess.comparisons.country)} ${guess.country}
-            </div>
+          <div class="guess-genres">
+            <span class="details-label">Genres:</span> ${genresHtml}
           </div>
         </div>
-        <div class="details-row">
-          <span class="details-label">Genres:</span> ${genresHtml}
-          <span class="details-divider">•</span>
-          <span class="details-label">Cast:</span> ${castHtml}
-        </div>
+      </div>
+      <div class="guess-row-cast">
+        ${castHtml}
       </div>
     `;
     
