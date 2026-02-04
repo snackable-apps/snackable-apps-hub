@@ -692,9 +692,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const castHtml = guess.comparisons.castDetails
       .map(actor => {
         const imageHtml = actor.image 
-          ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.style.display='none'">`
+          ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.parentElement.innerHTML=''">`
           : '';
-        return `<div class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${imageHtml}<span class="actor-name">${formatActorName(actor.fullName)}</span></div>`;
+        return `<div class="actor ${actor.match ? 'actor-match' : 'actor-different'}"><div class="actor-avatar">${imageHtml}</div><span class="actor-name">${formatActorName(actor.fullName)}</span></div>`;
       })
       .join('');
     

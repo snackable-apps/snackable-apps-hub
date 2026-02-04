@@ -634,19 +634,29 @@ main {
   font-size: 0.75rem;
 }
 
-.actor-img {
+.actor-avatar {
   width: 50px;
   height: 50px;
   border-radius: 6px;
-  object-fit: cover;
   margin-bottom: 4px;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.actor-match .actor-img {
+.actor-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.actor-match .actor-avatar {
   border: 3px solid #2ecc71;
 }
 
-.actor-different .actor-img {
+.actor-different .actor-avatar {
   border: 2px solid #555;
   opacity: 0.7;
 }
