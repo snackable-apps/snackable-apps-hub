@@ -1,5 +1,13 @@
 // Data Explorer for Snackable Games
 
+// Text normalization for accent-insensitive search
+function normalizeText(text) {
+    return text
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+        .toLowerCase();
+}
+
 const API_ENDPOINTS = {
     movies: 'https://snackable-api.vercel.app/api/movies'
 };
@@ -129,7 +137,7 @@ function renderFilters() {
 
 function applyFilter(key, value) {
     if (value) {
-        filters[key] = { type: 'text', value: value.toLowerCase() };
+        filters[key] = { type: 'text', value: normalizeText(value) };
     } else {
         delete filters[key];
     }
@@ -169,10 +177,10 @@ function filterData() {
             } else if (filter.type === 'text') {
                 if (col.type === 'array') {
                     const arr = value || [];
-                    const match = arr.some(v => v.toLowerCase().includes(filter.value));
+                    const match = arr.some(v => normalizeText(v).includes(filter.value));
                     if (!match) return false;
                 } else {
-                    const strValue = String(value || '').toLowerCase();
+                    const strValue = normalizeText(String(value || ''));
                     if (!strValue.includes(filter.value)) return false;
                 }
             }
