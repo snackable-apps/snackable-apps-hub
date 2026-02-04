@@ -27,24 +27,33 @@ Fields captured from IMDb API:
 import json
 import os
 import time
+import subprocess
 import urllib.request
 from urllib.error import HTTPError, URLError
 from datetime import datetime
 
 # ============ CONFIGURATION ============
 
-# Supabase config
-SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://qdrtfwmcscpnmxvufulr.supabase.co')
-SUPABASE_ANON_KEY = os.environ.get('SUPABASE_ANON_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFkcnRmd21jc2Nwbm14dnVmdWxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYxMTIzNzksImV4cCI6MjA1MTY4ODM3OX0.89MNchXuOcNLLsHMdS20nzCikFOEHsRY4V_q1LeDqEU')
+# Supabase config - will be loaded from .env.local
+SUPABASE_URL = ''
+SUPABASE_ANON_KEY = ''
 # Service role key for writes (bypasses RLS)
-SUPABASE_SERVICE_KEY = os.environ.get('SUPABASE_SERVICE_KEY', '')
+SUPABASE_SERVICE_KEY = ''
+
+# .env.local location
+ENV_LOCAL_FILE = "../../../snackable-api/.env.local"
 
 # RapidAPI config
 RAPIDAPI_HOST = "imdb236.p.rapidapi.com"
 RAPIDAPI_KEY = ""  # Will be loaded from file
 
 # API key file location
-API_KEY_FILE = "../../../.cursor/.api_keys.txt"
+# Try multiple possible locations
+API_KEY_LOCATIONS = [
+    os.path.expanduser("~/GitHub Cloned Repositories/Personal/vikal/.cursor/.api_keys.txt"),
+    os.path.join(os.path.dirname(__file__), "../../../../../../.cursor/.api_keys.txt"),
+    os.path.join(os.path.dirname(__file__), "../../../.cursor/.api_keys.txt"),
+]
 
 # Rate limiting
 REQUESTS_PER_SECOND = 5  # Conservative to avoid 429
@@ -56,80 +65,129 @@ REMAINING_FILE = "remaining_to_refetch.json"
 
 # ============ HELPER FUNCTIONS ============
 
+def load_supabase_config():
+    """Load Supabase URL and anon key from .env.local."""
+    global SUPABASE_URL, SUPABASE_ANON_KEY
+    env_path = os.path.join(os.path.dirname(__file__), ENV_LOCAL_FILE)
+    env_path = os.path.normpath(env_path)
+    
+    try:
+        with open(env_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith('SUPABASE_URL='):
+                    SUPABASE_URL = line.split('=', 1)[1]
+                elif line.startswith('SUPABASE_ANON_KEY='):
+                    SUPABASE_ANON_KEY = line.split('=', 1)[1]
+        
+        if SUPABASE_URL and SUPABASE_ANON_KEY:
+            print(f"✅ Loaded Supabase config from: {env_path}")
+            return True
+    except FileNotFoundError:
+        print(f"❌ .env.local not found: {env_path}")
+    return False
+
 def load_api_key():
     """Load RapidAPI key from config file."""
-    key_path = os.path.join(os.path.dirname(__file__), API_KEY_FILE)
-    try:
-        with open(key_path, 'r') as f:
-            for line in f:
-                if line.startswith('RAPIDAPI_APP_KEY='):
-                    return line.strip().split('=', 1)[1]
-    except FileNotFoundError:
-        print(f"❌ API key file not found: {key_path}")
+    for key_path in API_KEY_LOCATIONS:
+        key_path = os.path.normpath(key_path)
+        try:
+            with open(key_path, 'r') as f:
+                for line in f:
+                    if line.startswith('RAPIDAPI_APP_KEY='):
+                        print(f"✅ Found API key in: {key_path}")
+                        return line.strip().split('=', 1)[1]
+        except FileNotFoundError:
+            continue
+    print(f"❌ API key file not found in any of these locations:")
+    for loc in API_KEY_LOCATIONS:
+        print(f"   - {os.path.normpath(loc)}")
     return None
 
 def load_service_key():
     """Load Supabase service role key."""
-    key_path = os.path.join(os.path.dirname(__file__), API_KEY_FILE)
-    try:
-        with open(key_path, 'r') as f:
-            for line in f:
-                if line.startswith('SUPABASE_SERVICE_KEY='):
-                    return line.strip().split('=', 1)[1]
-    except FileNotFoundError:
-        pass
+    key_names = ['SUPABASE_SERVICE_ROLE_SECRET_KEY=', 'SUPABASE_SERVICE_KEY=']
+    for key_path in API_KEY_LOCATIONS:
+        key_path = os.path.normpath(key_path)
+        try:
+            with open(key_path, 'r') as f:
+                for line in f:
+                    for key_name in key_names:
+                        if line.startswith(key_name):
+                            return line.strip().split('=', 1)[1]
+        except FileNotFoundError:
+            continue
     return os.environ.get('SUPABASE_SERVICE_KEY', '')
 
 def supabase_request(endpoint, method='GET', data=None, use_service_key=False):
-    """Make a request to Supabase REST API."""
+    """Make a request to Supabase REST API using curl (more reliable DNS)."""
     url = f"{SUPABASE_URL}/rest/v1/{endpoint}"
     key = SUPABASE_SERVICE_KEY if use_service_key else SUPABASE_ANON_KEY
     
-    headers = {
-        "apikey": key,
-        "Authorization": f"Bearer {key}",
-        "Content-Type": "application/json"
-    }
+    cmd = ['curl', '-s', '-X', method, url,
+           '-H', f'apikey: {key}',
+           '-H', f'Authorization: Bearer {key}',
+           '-H', 'Content-Type: application/json']
     
     if method in ('POST', 'PATCH', 'PUT'):
-        headers["Prefer"] = "return=representation"
+        cmd.extend(['-H', 'Prefer: return=representation'])
     
-    body = json.dumps(data).encode('utf-8') if data else None
-    
-    req = urllib.request.Request(url, data=body, headers=headers, method=method)
+    if data:
+        cmd.extend(['-d', json.dumps(data)])
     
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return json.loads(resp.read().decode('utf-8'))
-    except HTTPError as e:
-        error_body = e.read().decode('utf-8') if e.fp else ''
-        print(f"  ❌ Supabase {method} error {e.code}: {error_body[:200]}")
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        if result.returncode != 0:
+            print(f"  ❌ curl error: {result.stderr[:200]}")
+            return None
+        if not result.stdout.strip():
+            return []
+        return json.loads(result.stdout)
+    except subprocess.TimeoutExpired:
+        print(f"  ❌ Supabase request timeout")
         return None
-    except URLError as e:
-        print(f"  ❌ Supabase URL error: {e.reason}")
+    except json.JSONDecodeError as e:
+        print(f"  ❌ JSON decode error: {e}")
+        return None
+    except Exception as e:
+        print(f"  ❌ Supabase request error: {e}")
         return None
 
 def fetch_imdb_details(imdb_id, api_key):
-    """Fetch movie details from IMDb API."""
+    """Fetch movie details from IMDb API using curl."""
     url = f"https://{RAPIDAPI_HOST}/api/imdb/{imdb_id}"
     
-    headers = {
-        "x-rapidapi-host": RAPIDAPI_HOST,
-        "x-rapidapi-key": api_key
-    }
+    cmd = ['curl', '-s', '-w', '\n%{http_code}', url,
+           '-H', f'x-rapidapi-host: {RAPIDAPI_HOST}',
+           '-H', f'x-rapidapi-key: {api_key}']
     
     try:
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=30) as response:
-            return json.loads(response.read().decode('utf-8'))
-    except HTTPError as e:
-        if e.code == 429:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        if result.returncode != 0:
+            print(f"  ❌ curl error: {result.stderr[:100]}")
+            return None
+        
+        # Split response body and status code
+        lines = result.stdout.rsplit('\n', 1)
+        body = lines[0] if len(lines) > 1 else result.stdout
+        status = int(lines[-1]) if len(lines) > 1 and lines[-1].isdigit() else 200
+        
+        if status == 429:
             print(f"  ⚠️ Rate limited! Saving progress...")
             return "RATE_LIMITED"
-        print(f"  ❌ IMDb API error {e.code}")
+        if status >= 400:
+            print(f"  ❌ IMDb API error {status}")
+            return None
+        
+        return json.loads(body) if body.strip() else None
+    except subprocess.TimeoutExpired:
+        print(f"  ❌ IMDb API timeout")
         return None
-    except URLError as e:
-        print(f"  ❌ IMDb API URL error: {e.reason}")
+    except json.JSONDecodeError as e:
+        print(f"  ❌ JSON decode error: {e}")
+        return None
+    except Exception as e:
+        print(f"  ❌ IMDb API error: {e}")
         return None
 
 def get_movies_missing_images():
@@ -228,6 +286,11 @@ def main():
     print("🎬 Movie Image Data Re-fetch Script")
     print("=" * 60)
     
+    # Load Supabase config
+    if not load_supabase_config():
+        print("❌ Failed to load Supabase config")
+        return
+    
     # Load API keys
     global RAPIDAPI_KEY, SUPABASE_SERVICE_KEY
     RAPIDAPI_KEY = load_api_key()
@@ -246,10 +309,8 @@ def main():
     # Check for remaining from previous run
     remaining = load_remaining()
     if remaining:
-        print(f"📂 Found {len(remaining)} movies from previous run")
-        response = input("   Continue from where we left off? (y/n): ").strip().lower()
-        if response != 'y':
-            remaining = None
+        print(f"📂 Found {len(remaining)} movies from previous run - continuing...")
+        # Auto-continue without asking (for non-interactive runs)
     
     # Get movies to process
     if not remaining:

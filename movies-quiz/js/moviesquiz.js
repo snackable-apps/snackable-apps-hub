@@ -680,10 +680,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement('div');
     card.className = `guess-card ${guess.isCorrect ? 'correct' : ''}`;
     
-    // Build cast HTML with individual actor matches and images for matches
+    // Build cast HTML with individual actor matches and images for ALL actors
     const castHtml = guess.comparisons.castDetails
       .map(actor => {
-        const imageHtml = actor.match && actor.image 
+        const imageHtml = actor.image 
           ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.style.display='none'">`
           : '';
         return `<span class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${imageHtml}${formatActorName(actor.fullName)}</span>`;
@@ -695,8 +695,16 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(g => `<span class="genre ${g.match ? 'genre-match' : 'genre-different'}">${g.name}</span>`)
       .join('');
     
+    // Movie poster for the guessed movie
+    const guessPosterHtml = guess.posterUrl 
+      ? `<img src="${guess.posterUrl}" alt="${guess.title}" class="guess-poster" onerror="this.style.display='none'">`
+      : '';
+    
     card.innerHTML = `
-      <div class="guess-title">🎬 ${guess.title}</div>
+      <div class="guess-header">
+        ${guessPosterHtml}
+        <div class="guess-title">🎬 ${guess.title}</div>
+      </div>
       <div class="guess-properties">
         <div class="property ${guess.comparisons.director}">
           <div class="property-label">Director</div>

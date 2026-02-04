@@ -576,7 +576,7 @@ main {
   border: 1px solid var(--border);
 }
 
-/* Actor images (only shown for matches) */
+/* Actor images */
 .actor-img {
   width: 20px;
   height: 20px;
@@ -584,7 +584,36 @@ main {
   object-fit: cover;
   margin-right: 4px;
   vertical-align: middle;
-  border: 1px solid #2ecc71;
+}
+
+.actor-match .actor-img {
+  border: 2px solid #2ecc71;
+}
+
+.actor-different .actor-img {
+  border: 1px solid #666;
+  opacity: 0.8;
+}
+
+/* Guess card header with poster */
+.guess-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.guess-poster {
+  width: 50px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+.guess-header .guess-title {
+  margin-bottom: 0;
 }
 
 /* Share Section */
