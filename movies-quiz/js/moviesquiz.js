@@ -52,23 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
         imdbRating: movie.imdbRating,
         country: movie.country,
         cast: movie.cast,
+        castWithImages: movie.castWithImages || [], // Cast with image URLs
+        posterUrl: movie.posterUrl || null, // Movie poster
         difficulty: movie.difficulty
       }));
       
       console.log('Movies loaded from API:', ALL_MOVIES.length);
       
     } catch (apiError) {
-      console.warn('API fetch failed, trying fallback:', apiError.message);
-      
-      // Fallback to embedded data if API fails
-      if (typeof MOVIES_DATA !== 'undefined' && MOVIES_DATA && MOVIES_DATA.length > 0) {
-        ALL_MOVIES = MOVIES_DATA;
-        console.log('Movies loaded from fallback:', ALL_MOVIES.length);
-      } else {
-        console.error('No movie data available');
-        alert('Failed to load movie data. Please refresh the page.');
-        return;
-      }
+      console.error('API fetch failed:', apiError.message);
+      alert('Failed to load movie data. Please check your connection and refresh the page.');
+      return;
     }
     
     // Secret pool: only easy + medium movies
@@ -197,13 +191,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Cast (array comparison with individual matches)
     const secretCast = new Set((secret.cast || []).map(a => a.toLowerCase()));
     const guessCast = guess.cast || [];
+    const guessCastWithImages = guess.castWithImages || [];
     
     // For each actor in guess, check if they're in secret
-    comparisons.castDetails = guessCast.slice(0, 6).map(actor => ({
-      name: actor.split(' ').pop(), // Last name only for display
-      fullName: actor,
-      match: secretCast.has(actor.toLowerCase())
-    }));
+    comparisons.castDetails = guessCast.slice(0, 10).map((actor, idx) => {
+      const imageData = guessCastWithImages[idx];
+      return {
+        name: actor.split(' ').pop(), // Last name only for display
+        fullName: actor,
+        match: secretCast.has(actor.toLowerCase()),
+        image: imageData?.image || null // Actor image URL
+      };
+    });
     
     // Overall cast comparison
     const castMatchCount = comparisons.castDetails.filter(a => a.match).length;
@@ -225,6 +224,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (comparison === 'higher') return '⬆️';
     if (comparison === 'lower') return '⬇️';
     return '';
+  }
+
+  // Normalize text for accent-insensitive search
+  function normalizeText(text) {
+    return text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+      .toLowerCase();
   }
 
   function formatRuntime(minutes) {
@@ -547,12 +554,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function filterMovies(query) {
     if (!query || query.length < 2) return [];
     
-    const lowerQuery = query.toLowerCase();
+    const normalizedQuery = normalizeText(query);
     return ALL_MOVIES
       .filter(movie => {
         const alreadyGuessed = gameState.guesses.some(g => g.title === movie.title);
         if (alreadyGuessed) return false;
-        return movie.title.toLowerCase().includes(lowerQuery);
+        return normalizeText(movie.title).includes(normalizedQuery);
       })
       .slice(0, 8);
   }
@@ -673,9 +680,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement('div');
     card.className = `guess-card ${guess.isCorrect ? 'correct' : ''}`;
     
-    // Build cast HTML with individual actor matches (format: "Ryan GOSLING")
+    // Build cast HTML with individual actor matches and images for matches
     const castHtml = guess.comparisons.castDetails
-      .map(actor => `<span class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${formatActorName(actor.fullName)}</span>`)
+      .map(actor => {
+        const imageHtml = actor.match && actor.image 
+          ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.style.display='none'">`
+          : '';
+        return `<span class="actor ${actor.match ? 'actor-match' : 'actor-different'}">${imageHtml}${formatActorName(actor.fullName)}</span>`;
+      })
       .join(' ');
     
     // Build genres HTML
@@ -731,17 +743,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const movie = gameState.secretMovie;
     const castList = (movie.cast || []).slice(0, 6).map(a => formatActorName(a)).join(', ');
     
+    // Build poster HTML if available
+    const posterHtml = movie.posterUrl 
+      ? `<img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster" onerror="this.style.display='none'">`
+      : '';
+    
     const answerDiv = document.createElement('div');
     answerDiv.className = 'answer-reveal';
     answerDiv.innerHTML = `
       <h3>${gameState.isSolved ? '🎉 Correct!' : '📽️ The answer was:'}</h3>
-      <div class="movie-title">${movie.title}</div>
-      <div class="movie-details">
-        <span>${movie.releaseYear}</span> • 
-        <span>${movie.director}</span> • 
-        <span>${movie.country}</span>
+      <div class="answer-content">
+        ${posterHtml}
+        <div class="answer-info">
+          <div class="movie-title">${movie.title}</div>
+          <div class="movie-details">
+            <span>${movie.releaseYear}</span> • 
+            <span>${movie.director}</span> • 
+            <span>${movie.country}</span>
+          </div>
+          <div class="movie-cast">🎭 ${castList}</div>
+        </div>
       </div>
-      <div class="movie-cast">🎭 ${castList}</div>
     `;
     return answerDiv;
   }
@@ -841,8 +863,8 @@ document.addEventListener("DOMContentLoaded", () => {
   movieInput.addEventListener('keydown', (e) => {
     if (!autocompleteState.isOpen) {
       if (e.key === 'Enter') {
-        const query = movieInput.value.trim().toLowerCase();
-        const movie = ALL_MOVIES.find(m => m.title.toLowerCase() === query);
+        const normalizedQuery = normalizeText(movieInput.value.trim());
+        const movie = ALL_MOVIES.find(m => normalizeText(m.title) === normalizedQuery);
         if (movie) {
           submitGuess(movie);
         }
@@ -885,8 +907,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   submitBtn.addEventListener('click', () => {
-    const query = movieInput.value.trim().toLowerCase();
-    const movie = ALL_MOVIES.find(m => m.title.toLowerCase() === query);
+    const normalizedQuery = normalizeText(movieInput.value.trim());
+    const movie = ALL_MOVIES.find(m => normalizeText(m.title) === normalizedQuery);
     if (movie) {
       submitGuess(movie);
     }

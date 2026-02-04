@@ -12,6 +12,30 @@
     h2 { color: var(--accent-primary); font-size: 1.3rem; margin-bottom: 0.5rem; }
     p, li { color: var(--text-secondary); line-height: 1.6; }
     ul { padding-left: 1.5rem; }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent-primary); }
+    .feedback-inline-btn {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s;
+    }
+    .feedback-inline-btn:hover { opacity: 0.9; }
   </style>
 
   <!-- AdSense -->
@@ -20,6 +44,7 @@
 </head>
 <body>
   <header>
+    <a href="/" class="back-link">← Back to Games</a>
     <h1>Snackable Games</h1>
     <p>About us</p>
   </header>
@@ -47,7 +72,8 @@
 
       <section>
         <h2>Contact</h2>
-        <p>Want to reach out? Use the <strong>💬 Feedback</strong> button on any page — we read every message!</p>
+        <p>Want to reach out? Use the Feedback button — we read every message!</p>
+        <button class="feedback-inline-btn" onclick="window.location.href='/?feedback=open'">💬 Send Feedback</button>
       </section>
     </main>
   </div>

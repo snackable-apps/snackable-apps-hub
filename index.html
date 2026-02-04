@@ -337,6 +337,13 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeFeedback();
     });
+
+    // Auto-open feedback if ?feedback=open in URL
+    if (window.location.search.includes('feedback=open')) {
+      openFeedback();
+      // Clean URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
   </script>
 </body>
 </html>

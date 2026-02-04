@@ -576,6 +576,17 @@ main {
   border: 1px solid var(--border);
 }
 
+/* Actor images (only shown for matches) */
+.actor-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 4px;
+  vertical-align: middle;
+  border: 1px solid #2ecc71;
+}
+
 /* Share Section */
 .share-section {
   margin-top: 20px;
@@ -634,6 +645,38 @@ main {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid var(--border);
+}
+
+/* Answer content with poster */
+.answer-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.movie-poster {
+  width: 100px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.answer-info {
+  text-align: left;
+}
+
+@media (max-width: 500px) {
+  .answer-content {
+    flex-direction: column;
+  }
+  .movie-poster {
+    width: 80px;
+  }
+  .answer-info {
+    text-align: center;
+  }
 }
 
 /* Feedback Button */
@@ -747,6 +790,16 @@ footer a {
 
 footer a:hover {
   color: var(--accent);
+}
+
+.data-attribution {
+  font-size: 0.7rem;
+  opacity: 0.5;
+  margin-top: 0.5rem;
+}
+
+.data-attribution a {
+  color: inherit;
 }
 
 /* Responsive */

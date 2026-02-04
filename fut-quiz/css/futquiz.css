@@ -608,9 +608,7 @@ main {
 
 .clues-excluded { padding-top: 8px; border-top: 1px solid var(--border-color); align-items: center; gap: 6px; }
 .clues-excluded .clue-label { display: inline; margin-bottom: 0; font-size: 0.65rem; color: var(--error-color); }
-.clue-excluded-values { font-size: 0.7rem; color: var(--text-muted); }
-
-@media (max-width: 500px) {
+.clue-excluded-values { font-size: 0.7rem; color: var(--text-muted); }@media (max-width: 500px) {
   .clues-ranges { grid-template-columns: repeat(2, 1fr); }
   .clues-confirmed { grid-template-columns: repeat(3, 1fr); }
   .clue-item { padding: 6px 4px; }

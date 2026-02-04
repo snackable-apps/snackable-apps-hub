@@ -685,9 +685,7 @@ main {
     align-items: flex-start;
     text-align: left;
   }
-}
-
-/* Clues Summary Panel */
+}/* Clues Summary Panel */
 .clues-panel { background: var(--card-bg); border: 1px solid var(--primary-color); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; width: 100%; max-width: 800px; }
 .clues-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(168, 85, 247, 0.15); cursor: pointer; }
 .clues-title { font-size: 0.85rem; font-weight: 600; color: var(--primary-color); }

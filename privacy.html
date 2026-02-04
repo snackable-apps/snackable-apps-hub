@@ -14,6 +14,15 @@
     ul { padding-left: 1.5rem; }
     .small { font-size: 0.85rem; color: var(--text-secondary); }
     code { background: var(--bg-card); padding: 2px 6px; border-radius: 4px; }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent-primary); }
   </style>
 
   <!-- AdSense -->
@@ -22,6 +31,7 @@
 </head>
 <body>
   <header>
+    <a href="/" class="back-link">← Back to Games</a>
     <h1>Snackable Games</h1>
     <p>Privacy Policy</p>
   </header>
