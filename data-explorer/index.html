@@ -5,9 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Explorer - Snackable Games</title>
     <link rel="stylesheet" href="css/explorer.css">
+    <style>
+        .auth-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .auth-overlay.hidden { display: none; }
+        .auth-box {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .auth-box h2 {
+            color: #f1f5f9;
+            margin: 0 0 0.5rem;
+            font-size: 1.5rem;
+        }
+        .auth-box p {
+            color: #94a3b8;
+            margin: 0 0 1.5rem;
+            font-size: 0.9rem;
+        }
+        .auth-box input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0f172a;
+            color: #f1f5f9;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .auth-box input:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+        .auth-box button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .auth-box button:hover { opacity: 0.9; }
+        .auth-error {
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .auth-error.show { display: block; }
+        .container.locked { display: none; }
+    </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Password Protection -->
+    <div class="auth-overlay" id="auth-overlay">
+        <div class="auth-box">
+            <h2>🔒 Data Explorer</h2>
+            <p>This tool is for internal use only.</p>
+            <input type="password" id="auth-password" placeholder="Enter password" autofocus>
+            <button onclick="checkPassword()">Access</button>
+            <div class="auth-error" id="auth-error">Incorrect password</div>
+        </div>
+    </div>
+
+    <div class="container locked" id="main-container">
         <header>
             <h1>Data Explorer</h1>
             <a href="/" class="back-link">← Back to Games</a>
@@ -51,6 +128,33 @@
         </div>
     </div>
 
+    <script>
+        // Password protection
+        const PASS_HASH = 'DataExplorer'; // Simple check (not cryptographically secure)
+        
+        function checkPassword() {
+            const input = document.getElementById('auth-password').value;
+            if (input === PASS_HASH) {
+                document.getElementById('auth-overlay').classList.add('hidden');
+                document.getElementById('main-container').classList.remove('locked');
+                sessionStorage.setItem('data-explorer-auth', 'true');
+            } else {
+                document.getElementById('auth-error').classList.add('show');
+                document.getElementById('auth-password').value = '';
+            }
+        }
+        
+        // Check on Enter key
+        document.getElementById('auth-password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+        
+        // Check if already authenticated this session
+        if (sessionStorage.getItem('data-explorer-auth') === 'true') {
+            document.getElementById('auth-overlay').classList.add('hidden');
+            document.getElementById('main-container').classList.remove('locked');
+        }
+    </script>
     <script src="js/explorer.js"></script>
 </body>
 </html>
