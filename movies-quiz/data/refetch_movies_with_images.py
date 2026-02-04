@@ -55,8 +55,8 @@ API_KEY_LOCATIONS = [
     os.path.join(os.path.dirname(__file__), "../../../.cursor/.api_keys.txt"),
 ]
 
-# Rate limiting
-REQUESTS_PER_SECOND = 5  # Conservative to avoid 429
+# Rate limiting: 60 requests per minute = 1 request per second
+REQUESTS_PER_SECOND = 1  # Stay within 60/min limit
 BATCH_SIZE = 10  # Save progress every N movies
 
 # Output files
