@@ -452,8 +452,13 @@ document.addEventListener("DOMContentLoaded", () => {
       castGroup.style.display = 'flex';
       castContainer.innerHTML = [...cluesState.matchedCast.values()]
         .map(a => {
-          const imgHtml = a.image 
-            ? `<img src="${a.image}" alt="${a.name}" class="clue-actor-img" onerror="this.style.display='none'">`
+          const hasImage = !!a.image;
+          const clickableClass = hasImage ? 'clickable' : '';
+          const onclickAttr = hasImage 
+            ? `onclick="openActorLightbox('${a.image.replace(/'/g, "\\'")}', '${a.name.replace(/'/g, "\\'")}')"` 
+            : '';
+          const imgHtml = hasImage 
+            ? `<img src="${a.image}" alt="${a.name}" class="clue-actor-img ${clickableClass}" ${onclickAttr} onerror="this.style.display='none';this.classList.remove('clickable');this.removeAttribute('onclick')">`
             : '';
           return `<div class="clue-actor">${imgHtml}<span class="clue-actor-name">${formatActorName(a.name)}</span></div>`;
         })
@@ -702,10 +707,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Image cards for first 10
     const castCardsHtml = castWithImages
       .map(actor => {
-        const imageHtml = actor.image 
-          ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.parentElement.innerHTML=''">`
+        const hasImage = !!actor.image;
+        const clickableClass = hasImage ? 'clickable' : '';
+        const onclickAttr = hasImage 
+          ? `onclick="openActorLightbox('${actor.image.replace(/'/g, "\\'")}', '${actor.fullName.replace(/'/g, "\\'")}')"` 
           : '';
-        return `<div class="actor ${actor.match ? 'actor-match' : 'actor-different'}"><div class="actor-avatar">${imageHtml}</div><span class="actor-name">${formatActorName(actor.fullName)}</span></div>`;
+        const imageHtml = hasImage 
+          ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.parentElement.classList.remove('clickable');this.parentElement.removeAttribute('onclick');this.remove()">`
+          : '';
+        return `<div class="actor ${actor.match ? 'actor-match' : 'actor-different'}"><div class="actor-avatar ${clickableClass}" ${onclickAttr}>${imageHtml}</div><span class="actor-name">${formatActorName(actor.fullName)}</span></div>`;
       })
       .join('');
     

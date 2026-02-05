@@ -125,6 +125,15 @@
       </div>
     </main>
 
+    <!-- Actor Image Lightbox -->
+    <div id="actor-lightbox" class="actor-lightbox" onclick="closeActorLightbox(event)">
+      <button class="lightbox-close" onclick="closeActorLightbox(event)">&times;</button>
+      <div class="lightbox-content">
+        <img id="lightbox-image" src="" alt="">
+        <div id="lightbox-name" class="lightbox-name"></div>
+      </div>
+    </div>
+
     <!-- Feedback Button -->
     <button class="feedback-btn" onclick="openFeedback()">💬 Feedback</button>
     
@@ -188,6 +197,41 @@
         modal.style.display = 'none';
       }
     }
+
+    // Actor Image Lightbox
+    function openActorLightbox(imageUrl, actorName) {
+      const lightbox = document.getElementById('actor-lightbox');
+      const img = document.getElementById('lightbox-image');
+      const name = document.getElementById('lightbox-name');
+      
+      img.src = imageUrl;
+      img.alt = actorName;
+      name.textContent = actorName;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      
+      if (typeof gtag === 'function') {
+        gtag('event', 'actor_image_viewed', { actor: actorName });
+      }
+    }
+
+    function closeActorLightbox(event) {
+      // Don't close if clicking on the image itself
+      if (event && event.target.tagName === 'IMG') {
+        return;
+      }
+      const lightbox = document.getElementById('actor-lightbox');
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeActorLightbox();
+        closeFeedback();
+      }
+    });
   </script>
 </body>
 </html>
