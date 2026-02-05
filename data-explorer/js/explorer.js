@@ -162,6 +162,7 @@ function clearFilters() {
     filterData();
 }
 
+
 function filterData() {
     const columns = COLUMNS[currentDatabase];
     
@@ -230,7 +231,9 @@ function renderTableBody() {
         html += '<tr>';
         columns.forEach(col => {
             const value = item[col.key];
-            html += `<td>${formatCell(value, col)}</td>`;
+            // Add wrap class to cast column for wrapping
+            const wrapClass = col.key === 'cast' ? ' class="wrap"' : '';
+            html += `<td${wrapClass}>${formatCell(value, col)}</td>`;
         });
         html += '</tr>';
     });
@@ -246,12 +249,9 @@ function formatCell(value, col) {
     if (col.type === 'array') {
         const arr = value || [];
         const tagClass = col.key === 'genres' ? 'genre' : 'cast';
-        const displayItems = arr.slice(0, 4);
-        const remaining = arr.length - 4;
-        let html = displayItems.map(v => `<span class="tag ${tagClass}">${escapeHtml(v)}</span>`).join('');
-        if (remaining > 0) {
-            html += `<span class="tag">+${remaining}</span>`;
-        }
+        
+        // Show all items for arrays (full cast, all genres)
+        let html = arr.map(v => `<span class="tag ${tagClass}">${escapeHtml(v)}</span>`).join('');
         return html || '—';
     }
     

@@ -642,9 +642,7 @@ main {
 
 .toggle-description.easy-active .current-mode strong {
   color: var(--success-color);
-}
-
-/* Toggle description - positioned to the right */
+}/* Toggle description - positioned to the right */
 .toggle-description {
   margin: 0 0 0 auto;
   font-size: 0.85rem;

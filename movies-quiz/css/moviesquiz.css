@@ -408,6 +408,36 @@ main {
   border: 1px solid #2ecc71;
 }
 
+/* Clue Actor Cards with Images */
+.clue-actor {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 2px;
+  padding: 4px;
+  background: rgba(46, 204, 113, 0.1);
+  border: 1px solid #2ecc71;
+  border-radius: 8px;
+}
+
+.clue-actor-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 2px;
+  border: 2px solid #2ecc71;
+}
+
+.clue-actor-name {
+  font-size: 0.6rem;
+  color: #2ecc71;
+  max-width: 60px;
+  word-break: break-word;
+  line-height: 1.1;
+}
+
 /* Excluded values */
 .clues-excluded {
   padding-top: 8px;
@@ -664,6 +694,45 @@ main {
 .actor-name {
   word-break: break-word;
   line-height: 1.2;
+}
+
+/* Text-only actor pills for cast overflow (actors beyond first 10) */
+.cast-overflow {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+.cast-overflow-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.actor-pill {
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.actor-pill.actor-match {
+  background: rgba(46, 204, 113, 0.25);
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+.actor-pill.actor-different {
+  background: rgba(231, 76, 60, 0.1);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
 }
 
 /* Guess card poster */
@@ -932,6 +1001,105 @@ footer a:hover {
     right: 15px;
     padding: 10px 16px;
     font-size: 0.85rem;
+  }
+  
+  /* Mobile guess card improvements */
+  .guess-card {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .guess-row-main {
+    gap: 12px;
+  }
+  
+  .guess-poster {
+    width: 60px;
+    height: 90px;
+  }
+  
+  .guess-title {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+  }
+  
+  /* Smaller actor cards on mobile */
+  .actor {
+    width: 55px;
+    margin: 2px;
+    font-size: 0.65rem;
+  }
+  
+  .actor-avatar {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .actor-name {
+    font-size: 0.6rem;
+  }
+  
+  /* Compact actor pills */
+  .actor-pill {
+    padding: 3px 8px;
+    font-size: 0.6rem;
+  }
+  
+  .cast-overflow {
+    padding-top: 6px;
+    margin-top: 6px;
+    gap: 4px;
+  }
+  
+  .cast-overflow-label {
+    font-size: 0.6rem;
+  }
+  
+  /* Clue actor cards in summary */
+  .clue-actor {
+    padding: 3px;
+  }
+  
+  .clue-actor-img {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .clue-actor-name {
+    font-size: 0.55rem;
+    max-width: 50px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .guess-row-main {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .guess-poster {
+    width: 80px;
+    height: 120px;
+  }
+  
+  .guess-content {
+    width: 100%;
+  }
+  
+  .guess-properties {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .actor {
+    width: 50px;
+    margin: 2px;
+  }
+  
+  .actor-avatar {
+    width: 36px;
+    height: 36px;
   }
 }
 

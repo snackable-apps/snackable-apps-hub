@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     countryConfirmed: null,
     // Matched genres and cast
     matchedGenres: new Set(),
-    matchedCast: new Set(),
+    matchedCast: new Map(), // Map of name -> {name, image}
     // Excluded values (for testing)
     excludedDirectors: new Set(),
     excludedGenres: new Set(),
@@ -193,14 +193,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const guessCast = guess.cast || [];
     const guessCastWithImages = guess.castWithImages || [];
     
-    // For each actor in guess, check if they're in secret
-    comparisons.castDetails = guessCast.slice(0, 10).map((actor, idx) => {
+    // For each actor in guess, check if they're in secret (ALL actors, not just first 10)
+    comparisons.castDetails = guessCast.map((actor, idx) => {
       const imageData = guessCastWithImages[idx];
       return {
         name: actor.split(' ').pop(), // Last name only for display
         fullName: actor,
         match: secretCast.has(actor.toLowerCase()),
-        image: imageData?.image || null // Actor image URL
+        image: idx < 10 ? (imageData?.image || null) : null, // Only first 10 get images
+        showImage: idx < 10 // Flag to show image card vs text-only
       };
     });
     
@@ -330,10 +331,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Cast - track matches and exclusions
+    // Cast - track matches and exclusions (with images for matched)
     comparisons.castDetails.forEach(a => {
       if (a.match) {
-        cluesState.matchedCast.add(a.fullName);
+        // Store with image URL for display in clues panel
+        cluesState.matchedCast.set(a.fullName, { name: a.fullName, image: a.image });
       } else {
         cluesState.excludedActors.add(a.fullName);
       }
@@ -443,13 +445,18 @@ document.addEventListener("DOMContentLoaded", () => {
       genresGroup.style.display = 'none';
     }
 
-    // Cast
+    // Cast - show with pictures
     const castGroup = document.getElementById('clue-cast-group');
     const castContainer = document.getElementById('clue-cast');
     if (cluesState.matchedCast.size > 0) {
       castGroup.style.display = 'flex';
-      castContainer.innerHTML = [...cluesState.matchedCast]
-        .map(a => `<span class="clue-tag match">${formatActorName(a)}</span>`)
+      castContainer.innerHTML = [...cluesState.matchedCast.values()]
+        .map(a => {
+          const imgHtml = a.image 
+            ? `<img src="${a.image}" alt="${a.name}" class="clue-actor-img" onerror="this.style.display='none'">`
+            : '';
+          return `<div class="clue-actor">${imgHtml}<span class="clue-actor-name">${formatActorName(a.name)}</span></div>`;
+        })
         .join('');
     } else {
       castGroup.style.display = 'none';
@@ -519,7 +526,7 @@ document.addEventListener("DOMContentLoaded", () => {
       directorConfirmed: null,
       countryConfirmed: null,
       matchedGenres: new Set(),
-      matchedCast: new Set(),
+      matchedCast: new Map(),
       excludedDirectors: new Set(),
       excludedGenres: new Set(),
       excludedActors: new Set()
@@ -688,8 +695,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement('div');
     card.className = `guess-card ${guess.isCorrect ? 'correct' : ''}`;
     
-    // Build cast HTML - vertical cards with image on top, name below
-    const castHtml = guess.comparisons.castDetails
+    // Build cast HTML - image cards for first 10, text-only pills for the rest
+    const castWithImages = guess.comparisons.castDetails.filter(a => a.showImage);
+    const castTextOnly = guess.comparisons.castDetails.filter(a => !a.showImage);
+    
+    // Image cards for first 10
+    const castCardsHtml = castWithImages
       .map(actor => {
         const imageHtml = actor.image 
           ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.parentElement.innerHTML=''">`
@@ -697,6 +708,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return `<div class="actor ${actor.match ? 'actor-match' : 'actor-different'}"><div class="actor-avatar">${imageHtml}</div><span class="actor-name">${formatActorName(actor.fullName)}</span></div>`;
       })
       .join('');
+    
+    // Text-only pills for remaining actors
+    const castTextHtml = castTextOnly.length > 0
+      ? `<div class="cast-overflow"><span class="cast-overflow-label">Also:</span>${castTextOnly.map(actor => 
+          `<span class="actor-pill ${actor.match ? 'actor-match' : 'actor-different'}">${formatActorName(actor.fullName)}</span>`
+        ).join('')}</div>`
+      : '';
+    
+    const castHtml = castCardsHtml + castTextHtml;
     
     // Build genres HTML
     const genresHtml = guess.comparisons.genreDetails
@@ -760,7 +780,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function displayAnswer() {
     const movie = gameState.secretMovie;
-    const castList = (movie.cast || []).slice(0, 6).map(a => formatActorName(a)).join(', ');
+    const allCast = movie.cast || [];
+    const castList = allCast.map(a => formatActorName(a)).join(', ');
     
     // Build poster HTML if available
     const posterHtml = movie.posterUrl 
