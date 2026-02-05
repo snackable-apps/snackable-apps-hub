@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let ALL_SONGS = []; // All songs (for guessing)
   let SECRET_POOL = []; // Easy + Medium songs (for daily secret selection)
 
+  // API endpoint
+  const API_URL = 'https://snackable-api.vercel.app/api/songs';
+
   // Text normalization for accent-insensitive search
   function normalizeText(text) {
     return text
@@ -40,35 +43,69 @@ document.addEventListener("DOMContentLoaded", () => {
       .toLowerCase();
   }
 
-  // Load embedded data
-  function loadSongsData() {
+  // Load songs from API
+  async function loadSongsData() {
     try {
-      // Check if SONGS_DATA is available (loaded from data/music_data.js)
-      if (typeof SONGS_DATA === 'undefined' || !SONGS_DATA || SONGS_DATA.length === 0) {
-        throw new Error('Songs data not loaded. Please ensure data/music_data.js is included.');
+      // Fetch from API
+      const response = await fetch(API_URL);
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
       }
       
-      // All songs available for guessing
-      ALL_SONGS = SONGS_DATA;
-      console.log('Total songs loaded:', ALL_SONGS.length);
+      const data = await response.json();
       
-      // Secret pool: only easy + medium songs
-      SECRET_POOL = ALL_SONGS.filter(song => 
-        song.difficulty === 'easy' || song.difficulty === 'medium'
-      );
-      console.log('Secret pool (easy+medium):', SECRET_POOL.length);
-      
-      // Auto-initialize game
-      if (SECRET_POOL.length > 0) {
-        initializeGame();
-        console.log('Game initialized');
-      } else {
-        console.error('No songs available in secret pool');
-        alert('No songs available.');
+      if (!data.success || !data.songs || data.songs.length === 0) {
+        throw new Error('No songs returned from API');
       }
-    } catch (error) {
-      console.error('Error loading songs data:', error);
-      alert('Failed to load songs data: ' + error.message + '. Please refresh the page.');
+      
+      // Transform API data to match expected format
+      ALL_SONGS = data.songs.map(song => {
+        // Calculate decade from release year
+        const releaseYear = song.releaseYear || 2000;
+        const decade = Math.floor(releaseYear / 10) * 10 + 's';
+        
+        // Calculate duration in minutes.fraction format
+        const durationMinutes = song.durationSeconds ? 
+          Math.floor(song.durationSeconds / 60) + (song.durationSeconds % 60) / 100 : 3.30;
+        
+        return {
+          name: song.title,
+          artist: song.artist,
+          artistCountry: 'Unknown', // Not available from iTunes
+          groupMembers: 1, // Default, not available from iTunes
+          releaseYear: releaseYear,
+          decade: decade,
+          primaryGenre: song.genres && song.genres.length > 0 ? song.genres[0] : 'Pop',
+          language: 'English', // Default, not available from iTunes
+          duration: durationMinutes,
+          albumImage: song.albumImage,
+          previewUrl: song.previewUrl,
+          difficulty: song.difficulty || 'medium'
+        };
+      });
+      
+      console.log('Songs loaded from API:', ALL_SONGS.length);
+      
+    } catch (apiError) {
+      console.error('API fetch failed:', apiError.message);
+      alert('Failed to load songs data. Please check your connection and refresh the page.');
+      return;
+    }
+    
+    // Secret pool: only easy + medium songs
+    SECRET_POOL = ALL_SONGS.filter(song => 
+      song.difficulty === 'easy' || song.difficulty === 'medium'
+    );
+    console.log('Secret pool (easy+medium):', SECRET_POOL.length);
+    
+    // Auto-initialize game
+    if (SECRET_POOL.length > 0) {
+      initializeGame();
+      console.log('Game initialized');
+    } else {
+      console.error('No songs available in secret pool');
+      alert('No songs available.');
     }
   }
 

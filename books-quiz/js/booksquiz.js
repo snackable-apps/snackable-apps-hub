@@ -29,6 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let ALL_BOOKS = [];
   let SECRET_POOL = [];
 
+  // API endpoint
+  const API_URL = 'https://snackable-api.vercel.app/api/books';
+
   // Text normalization for accent-insensitive search
   function normalizeText(text) {
     return text
@@ -37,32 +40,56 @@ document.addEventListener("DOMContentLoaded", () => {
       .toLowerCase();
   }
 
-  // Load embedded data
-  function loadBooksData() {
+  // Load books from API
+  async function loadBooksData() {
     try {
-      if (typeof BOOKS_DATA === 'undefined' || !BOOKS_DATA || BOOKS_DATA.length === 0) {
-        throw new Error('Book data not loaded. Please check if data/books_data.js is included.');
+      // Fetch from API
+      const response = await fetch(API_URL);
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
       }
       
-      ALL_BOOKS = BOOKS_DATA;
-      console.log('Total books loaded:', ALL_BOOKS.length);
+      const data = await response.json();
       
-      // Secret pool: only easy + medium books
-      SECRET_POOL = ALL_BOOKS.filter(book => 
-        book.difficulty === 'easy' || book.difficulty === 'medium'
-      );
-      console.log('Secret pool (easy+medium):', SECRET_POOL.length);
-      
-      if (SECRET_POOL.length > 0) {
-        initializeGame();
-        console.log('Game initialized');
-      } else {
-        console.error('No books available in secret pool');
-        alert('No books available.');
+      if (!data.success || !data.books || data.books.length === 0) {
+        throw new Error('No books returned from API');
       }
-    } catch (error) {
-      console.error('Error loading book data:', error);
-      alert('Failed to load book data: ' + error.message);
+      
+      // Transform API data to match expected format
+      ALL_BOOKS = data.books.map(book => ({
+        title: book.title,
+        author: book.author,
+        authorNationality: 'Unknown', // Not available from Open Library
+        genre: book.genres && book.genres.length > 0 ? book.genres[0] : 'Fiction',
+        publicationYear: book.publicationYear || 0,
+        pageCount: book.pages || 0,
+        originalLanguage: book.language || 'en',
+        coverImage: book.coverImage,
+        description: book.description,
+        difficulty: book.difficulty || 'medium'
+      }));
+      
+      console.log('Books loaded from API:', ALL_BOOKS.length);
+      
+    } catch (apiError) {
+      console.error('API fetch failed:', apiError.message);
+      alert('Failed to load book data. Please check your connection and refresh the page.');
+      return;
+    }
+    
+    // Secret pool: only easy + medium books
+    SECRET_POOL = ALL_BOOKS.filter(book => 
+      book.difficulty === 'easy' || book.difficulty === 'medium'
+    );
+    console.log('Secret pool (easy+medium):', SECRET_POOL.length);
+    
+    if (SECRET_POOL.length > 0) {
+      initializeGame();
+      console.log('Game initialized');
+    } else {
+      console.error('No books available in secret pool');
+      alert('No books available.');
     }
   }
 
