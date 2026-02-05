@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let SECRET_POOL = [];
 
   // API endpoint
-  const API_URL = 'https://snackable-api.vercel.app/api/movies';
+  const API_URL = 'https://snackable-api-v4.vercel.app/api/movies';
 
   // Load movies from API (with fallback to embedded data)
   async function loadMoviesData() {

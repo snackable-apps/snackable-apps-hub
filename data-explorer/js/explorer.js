@@ -9,7 +9,7 @@ function normalizeText(text) {
 }
 
 const API_ENDPOINTS = {
-    movies: 'https://snackable-api.vercel.app/api/movies'
+    movies: 'https://snackable-api-v4.vercel.app/api/movies'
 };
 
 // Column definitions for each database
