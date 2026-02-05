@@ -779,19 +779,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function displayAnswer() {
+    // Only called when gave up - show the full movie details
+    const answerDiv = document.createElement('div');
+    answerDiv.className = 'answer-reveal';
+    
     const movie = gameState.secretMovie;
     const allCast = movie.cast || [];
     const castList = allCast.map(a => formatActorName(a)).join(', ');
     
-    // Build poster HTML if available
     const posterHtml = movie.posterUrl 
       ? `<img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster" onerror="this.style.display='none'">`
       : '';
     
-    const answerDiv = document.createElement('div');
-    answerDiv.className = 'answer-reveal';
     answerDiv.innerHTML = `
-      <h3>${gameState.isSolved ? '🎉 Correct!' : '📽️ The answer was:'}</h3>
+      <h3>📽️ The answer was:</h3>
       <div class="answer-content">
         ${posterHtml}
         <div class="answer-info">
@@ -829,8 +830,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear and rebuild guesses
     guessesContainer.innerHTML = '';
     
-    // Show answer if game over
-    if (gameState.isGameOver) {
+    // Show answer only if gave up (when solved, the correct guess card already shows the movie)
+    if (gameState.isGameOver && gameState.gaveUp) {
       guessesContainer.appendChild(displayAnswer());
     }
     
