@@ -214,6 +214,9 @@ td {
 td.wrap {
     white-space: normal;
     word-break: break-word;
+    max-height: 120px;
+    overflow-y: auto;
+    vertical-align: top;
 }
 
 tr:hover {
