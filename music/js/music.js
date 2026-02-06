@@ -294,7 +294,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const isCorrect = guess.name === gameState.secretSong.name;
     const songNameClass = isCorrect ? 'guess-animal-name correct' : 'guess-animal-name';
-    const albumImg = guess.albumImage ? `<img src="${guess.albumImage}" alt="${guess.name}" class="album-cover-small" onerror="this.style.display='none'">` : '<span class="animal-emoji-inline">🎵</span>';
+    const albumImg = guess.albumImage 
+      ? `<img src="${guess.albumImage}" alt="${guess.name}" class="album-cover-small clickable" onclick="openLightbox('${guess.albumImage.replace(/'/g, "\\'")}', '${guess.name.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
+      : '<span class="animal-emoji-inline">🎵</span>';
     
     guessCard.innerHTML = `
       <div class="guess-line">
@@ -464,7 +466,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const answerCard = document.createElement('div');
     answerCard.className = 'guess-card answer-reveal';
     const secret = gameState.secretSong;
-    const albumImg = secret.albumImage ? `<img src="${secret.albumImage}" alt="${secret.name}" class="album-cover-small" onerror="this.style.display='none'">` : '<span class="animal-emoji-inline">🎵</span>';
+    const albumImg = secret.albumImage 
+      ? `<img src="${secret.albumImage}" alt="${secret.name}" class="album-cover-small clickable" onclick="openLightbox('${secret.albumImage.replace(/'/g, "\\'")}', '${secret.name.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
+      : '<span class="animal-emoji-inline">🎵</span>';
     
     answerCard.innerHTML = `
       <div class="guess-line">
@@ -502,6 +506,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function endGame(solved) {
     gameState.isSolved = solved;
     gameState.isGameOver = true;
+    
+    // Hide clues panel when game ends
+    if (cluesPanel) cluesPanel.style.display = 'none';
     
     if (solved) {
       gameStatusEl.textContent = `🎉 Solved in ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}!`;
@@ -610,12 +617,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;
-    renderCluesPanel();
-    if (!gameState.isSolved && !gameState.isGameOver) {
+    
+    // Only show clues panel when game is in progress
+    if (gameState.isGameOver) {
+      if (cluesPanel) cluesPanel.style.display = 'none';
+    } else {
+      renderCluesPanel();
       gameStatusEl.textContent = '';
       gameStatusEl.className = '';
     }
-    if (gameState.isGameOver && cluesPanel) cluesPanel.style.display = 'none';
   }
 
   function initializeGame() {

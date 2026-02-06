@@ -701,12 +701,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement('div');
     card.className = `guess-card ${guess.isCorrect ? 'correct' : ''}`;
     
-    // Build cast HTML - image cards for first 10, text-only pills for the rest
-    const castWithImages = guess.comparisons.castDetails.filter(a => a.showImage);
-    const castTextOnly = guess.comparisons.castDetails.filter(a => !a.showImage);
-    
-    // Image cards for first 10
-    const castCardsHtml = castWithImages
+    // Build cast HTML - all actors get cards (with image or placeholder avatar)
+    const castHtml = guess.comparisons.castDetails
       .map(actor => {
         const hasImage = !!actor.image;
         const clickableClass = hasImage ? 'clickable' : '';
@@ -714,20 +710,11 @@ document.addEventListener("DOMContentLoaded", () => {
           ? `onclick="openActorLightbox('${actor.image.replace(/'/g, "\\'")}', '${actor.fullName.replace(/'/g, "\\'")}')"` 
           : '';
         const imageHtml = hasImage 
-          ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.parentElement.classList.remove('clickable');this.parentElement.removeAttribute('onclick');this.remove()">`
-          : '';
+          ? `<img src="${actor.image}" alt="${actor.fullName}" class="actor-img" onerror="this.parentElement.innerHTML='<span class=\\'actor-placeholder\\'>👤</span>'">`
+          : '<span class="actor-placeholder">👤</span>';
         return `<div class="actor ${actor.match ? 'actor-match' : 'actor-different'}"><div class="actor-avatar ${clickableClass}" ${onclickAttr}>${imageHtml}</div><span class="actor-name">${formatActorName(actor.fullName)}</span></div>`;
       })
       .join('');
-    
-    // Text-only pills for remaining actors
-    const castTextHtml = castTextOnly.length > 0
-      ? `<div class="cast-overflow"><span class="cast-overflow-label">Also:</span>${castTextOnly.map(actor => 
-          `<span class="actor-pill ${actor.match ? 'actor-match' : 'actor-different'}">${formatActorName(actor.fullName)}</span>`
-        ).join('')}</div>`
-      : '';
-    
-    const castHtml = castCardsHtml + castTextHtml;
     
     // Build genres HTML
     const genresHtml = guess.comparisons.genreDetails
@@ -790,13 +777,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function displayAnswer() {
-    // Only called when gave up - show the full movie details
+    // Only called when gave up - show the full movie details with clickable actor images
     const answerDiv = document.createElement('div');
     answerDiv.className = 'answer-reveal';
     
     const movie = gameState.secretMovie;
-    const allCast = movie.cast || [];
-    const castList = allCast.map(a => formatActorName(a)).join(', ');
+    const castWithImages = movie.castWithImages || [];
+    
+    // Build cast HTML with clickable images (or placeholder avatar)
+    const castHtml = castWithImages.map(actor => {
+      const hasImage = !!actor.image;
+      const clickableClass = hasImage ? 'clickable' : '';
+      const onclickAttr = hasImage 
+        ? `onclick="openActorLightbox('${actor.image.replace(/'/g, "\\'")}', '${actor.name.replace(/'/g, "\\'")}')"` 
+        : '';
+      const imageHtml = hasImage 
+        ? `<img src="${actor.image}" alt="${actor.name}" class="actor-img" onerror="this.parentElement.innerHTML='<span class=\\'actor-placeholder\\'>👤</span>'">`
+        : '<span class="actor-placeholder">👤</span>';
+      return `<div class="actor answer-actor"><div class="actor-avatar ${clickableClass}" ${onclickAttr}>${imageHtml}</div><span class="actor-name">${formatActorName(actor.name)}</span></div>`;
+    }).join('');
     
     const posterHtml = movie.posterUrl 
       ? `<img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster clickable" onclick="openActorLightbox('${movie.posterUrl.replace(/'/g, "\\'")}', '${movie.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
@@ -813,8 +812,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <span>${movie.director}</span> • 
             <span>${movie.country}</span>
           </div>
-          <div class="movie-cast">🎭 ${castList}</div>
         </div>
+      </div>
+      <div class="answer-cast">
+        <div class="answer-cast-label">🎭 Cast:</div>
+        <div class="answer-cast-grid">${castHtml}</div>
       </div>
     `;
     return answerDiv;

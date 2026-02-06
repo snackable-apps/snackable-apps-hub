@@ -100,6 +100,12 @@ main {
   gap: 12px;
 }
 
+.toggle-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
 .toggle-container {
   background: var(--card-bg);
   border-radius: 10px;
@@ -108,6 +114,13 @@ main {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.toggle-container.compact {
+  flex: 1;
+  max-width: 200px;
+  justify-content: center;
+  padding: 10px 14px;
 }
 
 .toggle-switch {
@@ -504,10 +517,149 @@ input:checked + .toggle-slider:before {
   width: 100%;
 }
 
-/* Share Section */
-.share-section {
+/* Result Points */
+.result-points {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Match Summary Section */
+.match-summary {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.summary-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.summary-score {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.summary-score .score-label {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.summary-score .score-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.summary-score .score-max {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
+
+.summary-stats {
   display: flex;
   justify-content: center;
+  gap: 32px;
+  margin-bottom: 16px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-item .stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.stat-item .stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.summary-mode {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.summary-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.song-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-color);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.song-result .result-emoji {
+  font-size: 1.2rem;
+}
+
+.song-result .song-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.song-result .song-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-result .song-artist {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.song-result .song-points {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+}
+
+.song-result .song-points.zero {
+  color: var(--text-muted);
+}
+
+.summary-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.summary-actions .submit-btn {
+  min-width: 140px;
+}
+
+/* Hide share button for random matches */
+.summary-actions.no-share #share-results-btn {
+  display: none;
 }
 
 /* How to Play */
@@ -554,6 +706,21 @@ input:checked + .toggle-slider:before {
     gap: 16px;
   }
   
+  .toggle-row {
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .toggle-container.compact {
+    max-width: none;
+    flex: 1;
+    padding: 8px 10px;
+  }
+  
+  .toggle-label {
+    font-size: 0.85rem;
+  }
+  
   .toggle-description {
     margin-left: 0;
     margin-top: 8px;
@@ -574,5 +741,21 @@ input:checked + .toggle-slider:before {
   
   .result-actions {
     flex-direction: column;
+  }
+  
+  .summary-stats {
+    gap: 20px;
+  }
+  
+  .summary-score .score-value {
+    font-size: 2.5rem;
+  }
+  
+  .summary-actions {
+    flex-direction: column;
+  }
+  
+  .summary-actions .submit-btn {
+    width: 100%;
   }
 }

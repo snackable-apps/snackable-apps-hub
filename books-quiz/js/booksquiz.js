@@ -250,7 +250,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const isCorrect = guess.title === gameState.secretBook.title;
     const bookNameClass = isCorrect ? 'guess-book-header correct' : 'guess-book-header';
-    const coverImg = guess.coverImage ? `<img src="${guess.coverImage}" alt="${guess.title}" class="book-cover-small" onerror="this.style.display='none'">` : '<span class="book-emoji-inline">📖</span>';
+    const coverImg = guess.coverImage 
+      ? `<img src="${guess.coverImage}" alt="${guess.title}" class="book-cover-small clickable" onclick="openLightbox('${guess.coverImage.replace(/'/g, "\\'")}', '${guess.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
+      : '<span class="book-emoji-inline">📖</span>';
     
     guessCard.innerHTML = `
       <div class="guess-line">
@@ -408,7 +410,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const answerCard = document.createElement('div');
     answerCard.className = 'guess-card answer-reveal';
     const secret = gameState.secretBook;
-    const coverImg = secret.coverImage ? `<img src="${secret.coverImage}" alt="${secret.title}" class="book-cover-small" onerror="this.style.display='none'">` : '<span class="book-emoji-inline">📖</span>';
+    const coverImg = secret.coverImage 
+      ? `<img src="${secret.coverImage}" alt="${secret.title}" class="book-cover-small clickable" onclick="openLightbox('${secret.coverImage.replace(/'/g, "\\'")}', '${secret.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
+      : '<span class="book-emoji-inline">📖</span>';
     
     answerCard.innerHTML = `
       <div class="guess-line">
@@ -444,6 +448,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function endGame(solved) {
     gameState.isSolved = solved;
     gameState.isGameOver = true;
+    
+    // Hide clues panel when game ends
+    if (cluesPanel) cluesPanel.style.display = 'none';
     
     if (solved) {
       gameStatusEl.textContent = `🎉 Solved in ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}!`;
@@ -541,12 +548,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;
-    renderCluesPanel();
-    if (!gameState.isSolved && !gameState.isGameOver) {
+    
+    // Only show clues panel when game is in progress
+    if (gameState.isGameOver) {
+      if (cluesPanel) cluesPanel.style.display = 'none';
+    } else {
+      renderCluesPanel();
       gameStatusEl.textContent = '';
       gameStatusEl.className = '';
     }
-    if (gameState.isGameOver && cluesPanel) cluesPanel.style.display = 'none';
   }
 
   function initializeGame() {

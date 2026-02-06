@@ -31,35 +31,29 @@
     <!-- Game Info -->
     <div class="game-info" id="game-info">
       <div class="game-stats">
-        <span>Score: <strong id="score">0</strong></span>
-        <span>Streak: <strong id="streak">0</strong> 🔥</span>
+        <span>Round: <strong id="round-display">1/5</strong></span>
+        <span>Points: <strong id="score">0</strong></span>
         <span id="game-status"></span>
       </div>
     </div>
 
-    <!-- Mode Toggles -->
+    <!-- Mode Toggles - Side by Side -->
     <div class="mode-toggles" id="mode-toggles">
-      <div class="toggle-container">
-        <label class="toggle-switch">
-          <input type="checkbox" id="easy-mode-toggle">
-          <span class="toggle-slider"></span>
-        </label>
-        <span class="toggle-label">Easy Mode</span>
-        <p class="toggle-description" id="toggle-description">
-          <span class="current-mode">🎯 <strong>Song title</strong> only</span>
-          <span class="mode-action">Enable to show artist in search</span>
-        </p>
-      </div>
-      <div class="toggle-container">
-        <label class="toggle-switch">
-          <input type="checkbox" id="multiple-choice-toggle">
-          <span class="toggle-slider"></span>
-        </label>
-        <span class="toggle-label">Multiple Choice</span>
-        <p class="toggle-description" id="mc-toggle-description">
-          <span class="current-mode">⌨️ <strong>Type</strong> your answer</span>
-          <span class="mode-action">Enable for 4 choices</span>
-        </p>
+      <div class="toggle-row">
+        <div class="toggle-container compact">
+          <label class="toggle-switch">
+            <input type="checkbox" id="easy-mode-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">Easy Mode</span>
+        </div>
+        <div class="toggle-container compact">
+          <label class="toggle-switch">
+            <input type="checkbox" id="multiple-choice-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">Multiple Choice</span>
+        </div>
       </div>
     </div>
 
@@ -107,24 +101,51 @@
       </div>
     </div>
 
-    <!-- Result Section -->
+    <!-- Result Section (per song) -->
     <div class="result-section" id="result-section" style="display: none;">
       <div class="result-card" id="result-card">
         <div class="result-icon" id="result-icon">✅</div>
         <div class="result-info">
           <div class="result-title" id="result-title">Song Title</div>
           <div class="result-artist" id="result-artist">Artist Name</div>
+          <div class="result-points" id="result-points"></div>
         </div>
       </div>
       <div class="result-actions">
         <button id="next-btn" class="submit-btn">Next Song</button>
-        <button id="play-again-btn" class="submit-btn secondary">Play Random</button>
       </div>
     </div>
 
-    <!-- Share Section -->
-    <div class="share-section" id="share-section" style="display: none;">
-      <button id="share-results-btn" class="submit-btn">Share Score</button>
+    <!-- Match Summary Section (after 5 songs) -->
+    <div class="match-summary" id="match-summary" style="display: none;">
+      <h2 class="summary-title">🎧 Match Complete!</h2>
+      <div class="summary-score">
+        <span class="score-label">Total Score</span>
+        <span class="score-value" id="summary-score">0</span>
+        <span class="score-max">/ 500</span>
+      </div>
+      <div class="summary-stats">
+        <div class="stat-item">
+          <span class="stat-value" id="summary-correct">0</span>
+          <span class="stat-label">Correct</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="summary-wrong">0</span>
+          <span class="stat-label">Wrong</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="summary-avg-time">0s</span>
+          <span class="stat-label">Avg Time</span>
+        </div>
+      </div>
+      <div class="summary-mode" id="summary-mode"></div>
+      <div class="summary-results" id="summary-results">
+        <!-- Individual song results will be shown here -->
+      </div>
+      <div class="summary-actions">
+        <button id="share-results-btn" class="submit-btn">📋 Share Results</button>
+        <button id="play-random-match-btn" class="submit-btn secondary">🎲 Play Random Match</button>
+      </div>
     </div>
 
     <!-- How to Play -->
@@ -133,8 +154,8 @@
       <ul>
         <li><strong>🎧 Listen:</strong> Press play to hear a 30-second sample</li>
         <li><strong>🔍 Guess:</strong> Type the song title or pick from choices</li>
-        <li><strong>✅ Score:</strong> Earn points for correct guesses</li>
-        <li><strong>🔥 Streak:</strong> Keep your streak going!</li>
+        <li><strong>⚡ Fast = More Points:</strong> Guess quickly for up to 100 points per song!</li>
+        <li><strong>🎯 5 Songs:</strong> Complete a match of 5 songs and share your score</li>
       </ul>
     </div>
   </main>

@@ -37,6 +37,12 @@
       </div>
     </div>
 
+    <!-- Share Section (hidden until game ends) - positioned at top for visibility -->
+    <div class="share-section" id="share-section" style="display: none;">
+      <button id="share-results-btn" class="submit-btn">📋 Share Results</button>
+      <button id="play-random-btn" class="submit-btn secondary">🎲 Play Random</button>
+    </div>
+
     <!-- Easy Mode Toggle -->
     <div class="mode-toggle" id="mode-toggle" style="display: none;">
       <div class="toggle-container">
@@ -93,12 +99,6 @@
       </div>
     </div>
 
-    <!-- Share Results -->
-    <div class="share-section" id="share-section" style="display: none;">
-      <button id="share-results-btn" class="submit-btn">Share Results</button>
-      <button id="play-random-btn" class="submit-btn secondary">🎲 Play Random</button>
-    </div>
-
     <!-- Guesses History -->
     <div class="guesses-container" id="guesses-container">
       <!-- Guesses will be displayed here -->
@@ -115,6 +115,15 @@
       </ul>
     </div>
   </main>
+
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="image-lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-image" src="" alt="">
+      <div id="lightbox-title" class="lightbox-title"></div>
+    </div>
+  </div>
 
   <footer style="text-align: center; padding: 20px; color: #888; font-size: 0.85rem;">
     <p>A new song every day! 🎵</p>
@@ -163,12 +172,32 @@
   <script>
     function openFeedback(){document.getElementById('feedback-overlay').classList.add('open');document.getElementById('feedback-modal').classList.add('open');document.getElementById('feedback-page').value=window.location.pathname}
     function closeFeedback(){document.getElementById('feedback-overlay').classList.remove('open');document.getElementById('feedback-modal').classList.remove('open')}
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeFeedback()});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeFeedback();closeLightbox();}});
     // Update page field when "General / Website" is selected
     document.querySelector('.feedback-modal select[name="about"]').addEventListener('change', function() {
       var pageField = document.getElementById('feedback-page');
       pageField.value = this.value === 'General / Website' ? '/general' : window.location.pathname;
     });
+    
+    // Lightbox functions
+    function openLightbox(imageUrl, title) {
+      const lightbox = document.getElementById('image-lightbox');
+      const img = document.getElementById('lightbox-image');
+      const titleEl = document.getElementById('lightbox-title');
+      img.src = imageUrl;
+      img.alt = title;
+      titleEl.textContent = title;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(event) {
+      if (event && event.target.tagName === 'IMG') return;
+      const lightbox = document.getElementById('image-lightbox');
+      if (lightbox) {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
   </script>
 
   <script src="js/music.js"></script>

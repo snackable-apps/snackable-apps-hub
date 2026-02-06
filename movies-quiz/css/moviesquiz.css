@@ -701,6 +701,41 @@ main {
   line-height: 1.2;
 }
 
+/* Placeholder avatar for actors without images */
+.actor-placeholder {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+/* Answer reveal cast section */
+.answer-cast {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.answer-cast-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.answer-cast-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.answer-cast-grid .actor {
+  flex: 0 0 auto;
+}
+
+.answer-actor .actor-avatar {
+  border: 2px solid var(--accent-gold);
+}
+
 /* Text-only actor pills for cast overflow (actors beyond first 10) */
 .cast-overflow {
   width: 100%;

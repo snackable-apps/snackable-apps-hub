@@ -19,17 +19,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultIcon = document.getElementById("result-icon");
   const resultTitle = document.getElementById("result-title");
   const resultArtist = document.getElementById("result-artist");
+  const resultPoints = document.getElementById("result-points");
   const nextBtn = document.getElementById("next-btn");
-  const playAgainBtn = document.getElementById("play-again-btn");
   const scoreEl = document.getElementById("score");
-  const streakEl = document.getElementById("streak");
+  const roundDisplay = document.getElementById("round-display");
   const gameStatusEl = document.getElementById("game-status");
+  
+  // Match summary elements
+  const matchSummary = document.getElementById("match-summary");
+  const summaryScore = document.getElementById("summary-score");
+  const summaryCorrect = document.getElementById("summary-correct");
+  const summaryWrong = document.getElementById("summary-wrong");
+  const summaryAvgTime = document.getElementById("summary-avg-time");
+  const summaryMode = document.getElementById("summary-mode");
+  const summaryResults = document.getElementById("summary-results");
+  const summaryActions = document.querySelector(".summary-actions");
+  const shareResultsBtn = document.getElementById("share-results-btn");
+  const playRandomMatchBtn = document.getElementById("play-random-match-btn");
   
   // Toggle elements
   const easyModeToggle = document.getElementById("easy-mode-toggle");
   const multipleChoiceToggle = document.getElementById("multiple-choice-toggle");
-  const toggleDescription = document.getElementById("toggle-description");
-  const mcToggleDescription = document.getElementById("mc-toggle-description");
+  const modeToggles = document.getElementById("mode-toggles");
+  const playerSection = document.getElementById("player-section");
+
+  // Constants
+  const SONGS_PER_MATCH = 5;
+  const MAX_POINTS_PER_SONG = 100;
+  const API_URL = 'https://snackable-api.vercel.app/api/songs';
 
   // State
   let allSongs = [];
@@ -38,11 +55,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let isPlaying = false;
   let easyModeEnabled = false;
   let multipleChoiceEnabled = false;
-  let score = 0;
-  let streak = 0;
-  let isFirstRound = true;
-  let dailySongIndex = null;
   let hasAnswered = false;
+  
+  // Match state
+  let isFirstMatch = true;
+  let currentRound = 0;
+  let matchScore = 0;
+  let matchResults = []; // Array of { song, correct, points, timeUsed }
+  let dailySongs = []; // 5 daily songs for the first match
+  let songStartTime = 0; // When the song started (for scoring)
 
   // Autocomplete state
   let autocompleteState = {
@@ -50,8 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
     filteredSongs: [],
     isOpen: false
   };
-
-  const API_URL = 'https://snackable-api.vercel.app/api/songs';
 
   // Text normalization
   function normalizeText(text) {
@@ -65,6 +84,41 @@ document.addEventListener("DOMContentLoaded", () => {
   function getDateString() {
     const date = new Date();
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  }
+
+  // Seeded random for consistent daily songs
+  function seededRandom(seed) {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
+
+  // Get daily songs (5 consistent songs for today)
+  function getDailySongs() {
+    const dateString = getDateString();
+    const dateSeed = parseInt(dateString.replace(/-/g, ''), 10);
+    
+    const dailyIndexes = [];
+    const available = [...songsWithPreview];
+    
+    for (let i = 0; i < SONGS_PER_MATCH && available.length > 0; i++) {
+      const randomIndex = Math.floor(seededRandom(dateSeed + i * 1000) * available.length);
+      dailyIndexes.push(available.splice(randomIndex, 1)[0]);
+    }
+    
+    return dailyIndexes;
+  }
+
+  // Calculate points based on time used
+  // Max 100 points if guessed instantly, decreasing to ~20 points at 30 seconds
+  function calculatePoints(timeUsed, isCorrect) {
+    if (!isCorrect) return 0;
+    
+    const maxTime = 30; // 30 seconds max
+    const minPoints = 20;
+    const timeRatio = Math.min(timeUsed, maxTime) / maxTime;
+    const points = Math.round(MAX_POINTS_PER_SONG - (MAX_POINTS_PER_SONG - minPoints) * timeRatio);
+    
+    return Math.max(minPoints, points);
   }
 
   // Load songs from API
@@ -94,18 +148,15 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log('Songs loaded:', allSongs.length);
       console.log('Songs with preview:', songsWithPreview.length);
       
-      if (songsWithPreview.length === 0) {
-        alert('No songs with audio previews available.');
+      if (songsWithPreview.length < SONGS_PER_MATCH) {
+        alert('Not enough songs with audio previews available.');
         return;
       }
       
-      // Calculate daily song index
-      const dateString = getDateString();
-      const date = new Date(dateString);
-      const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-      dailySongIndex = dayOfYear % songsWithPreview.length;
+      // Get daily songs for first match
+      dailySongs = getDailySongs();
       
-      initializeGame();
+      startMatch(true);
       
     } catch (error) {
       console.error('Failed to load songs:', error);
@@ -113,19 +164,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Initialize game
-  function initializeGame() {
-    if (isFirstRound) {
-      // First round is the daily song
-      currentSong = songsWithPreview[dailySongIndex];
-      isFirstRound = false;
+  // Start a new match
+  function startMatch(isDaily) {
+    isFirstMatch = isDaily;
+    currentRound = 0;
+    matchScore = 0;
+    matchResults = [];
+    
+    // Hide summary, show game
+    matchSummary.style.display = 'none';
+    modeToggles.style.display = 'flex';
+    playerSection.style.display = 'flex';
+    
+    startRound();
+  }
+
+  // Start a new round within a match
+  function startRound() {
+    currentRound++;
+    
+    if (isFirstMatch) {
+      currentSong = dailySongs[currentRound - 1];
     } else {
-      // Random song for subsequent rounds
-      const randomIndex = Math.floor(Math.random() * songsWithPreview.length);
-      currentSong = songsWithPreview[randomIndex];
+      // Random song for random matches
+      const usedSongIds = matchResults.map(r => r.song.id);
+      const available = songsWithPreview.filter(s => !usedSongIds.includes(s.id));
+      const randomIndex = Math.floor(Math.random() * available.length);
+      currentSong = available[randomIndex] || songsWithPreview[0];
     }
     
     hasAnswered = false;
+    songStartTime = 0;
+    
+    // Update round display
+    roundDisplay.textContent = `${currentRound}/${SONGS_PER_MATCH}`;
+    scoreEl.textContent = matchScore;
+    gameStatusEl.textContent = '';
     
     // Reset UI
     resetUI();
@@ -135,16 +209,17 @@ document.addEventListener("DOMContentLoaded", () => {
       generateChoices();
     }
     
-    // Track game start
+    // Track round start
     if (typeof gtag === 'function') {
       gtag('event', 'blindtest_round_start', {
         song: currentSong.title,
-        is_daily: isFirstRound
+        round: currentRound,
+        is_daily: isFirstMatch
       });
     }
   }
 
-  // Reset UI
+  // Reset UI for new round
   function resetUI() {
     // Hide result, show input
     resultSection.style.display = 'none';
@@ -334,29 +409,47 @@ document.addEventListener("DOMContentLoaded", () => {
     showResult(false, true);
   }
 
-  // Show result
+  // Show result for current round
   function showResult(isCorrect, skipped = false) {
     // Stop audio
     audioPlayer.pause();
     isPlaying = false;
     playBtn.classList.remove('playing');
     
-    // Update score and streak
+    // Calculate time used and points
+    const timeUsed = songStartTime > 0 ? audioPlayer.currentTime : 0;
+    const points = calculatePoints(timeUsed, isCorrect);
+    
+    // Update match score
     if (isCorrect) {
-      score++;
-      streak++;
+      matchScore += points;
+    }
+    
+    // Record result
+    matchResults.push({
+      song: currentSong,
+      correct: isCorrect,
+      skipped,
+      points,
+      timeUsed
+    });
+    
+    // Update display
+    if (isCorrect) {
       resultIcon.textContent = '✅';
+      resultPoints.textContent = `+${points} points`;
+      resultPoints.style.color = 'var(--success-color)';
       gameStatusEl.textContent = 'Correct!';
       gameStatusEl.style.color = 'var(--success-color)';
     } else {
-      streak = 0;
       resultIcon.textContent = skipped ? '⏭️' : '❌';
+      resultPoints.textContent = '+0 points';
+      resultPoints.style.color = 'var(--text-muted)';
       gameStatusEl.textContent = skipped ? 'Skipped' : 'Wrong!';
       gameStatusEl.style.color = 'var(--error-color)';
     }
     
-    scoreEl.textContent = score;
-    streakEl.textContent = streak;
+    scoreEl.textContent = matchScore;
     
     // Show album art
     if (currentSong.albumImage) {
@@ -373,13 +466,146 @@ document.addEventListener("DOMContentLoaded", () => {
     choicesSection.style.display = 'none';
     resultSection.style.display = 'flex';
     
+    // Update next button text
+    if (currentRound < SONGS_PER_MATCH) {
+      nextBtn.textContent = `Next Song (${currentRound + 1}/${SONGS_PER_MATCH})`;
+    } else {
+      nextBtn.textContent = 'See Results';
+    }
+    
     // Track result
     if (typeof gtag === 'function') {
       gtag('event', 'blindtest_answer', {
         song: currentSong.title,
         correct: isCorrect,
         skipped: skipped,
-        streak: streak
+        points: points,
+        round: currentRound,
+        is_daily: isFirstMatch
+      });
+    }
+  }
+
+  // Proceed to next round or show summary
+  function nextRoundOrSummary() {
+    if (currentRound < SONGS_PER_MATCH) {
+      startRound();
+    } else {
+      showMatchSummary();
+    }
+  }
+
+  // Show match summary
+  function showMatchSummary() {
+    // Hide game sections
+    resultSection.style.display = 'none';
+    guessSection.style.display = 'none';
+    choicesSection.style.display = 'none';
+    modeToggles.style.display = 'none';
+    playerSection.style.display = 'none';
+    
+    // Calculate stats
+    const correctCount = matchResults.filter(r => r.correct).length;
+    const wrongCount = matchResults.filter(r => !r.correct).length;
+    const avgTime = matchResults.reduce((sum, r) => sum + r.timeUsed, 0) / SONGS_PER_MATCH;
+    
+    // Update summary display
+    summaryScore.textContent = matchScore;
+    summaryCorrect.textContent = correctCount;
+    summaryWrong.textContent = wrongCount;
+    summaryAvgTime.textContent = `${avgTime.toFixed(1)}s`;
+    
+    // Mode description
+    const modes = [];
+    if (multipleChoiceEnabled) modes.push('Multiple Choice');
+    if (easyModeEnabled) modes.push('Easy Mode');
+    summaryMode.textContent = modes.length > 0 ? modes.join(' + ') : 'Hard Mode (Type Only)';
+    
+    // Build results list
+    summaryResults.innerHTML = '';
+    matchResults.forEach(result => {
+      const div = document.createElement('div');
+      div.className = 'song-result';
+      div.innerHTML = `
+        <span class="result-emoji">${result.correct ? '✅' : (result.skipped ? '⏭️' : '❌')}</span>
+        <div class="song-info">
+          <div class="song-name">${result.song.title}</div>
+          <div class="song-artist">${result.song.artist}</div>
+        </div>
+        <span class="song-points ${result.points === 0 ? 'zero' : ''}">${result.points > 0 ? '+' : ''}${result.points}</span>
+      `;
+      summaryResults.appendChild(div);
+    });
+    
+    // Show/hide share button based on whether this is the daily match
+    if (isFirstMatch) {
+      summaryActions.classList.remove('no-share');
+      shareResultsBtn.style.display = '';
+    } else {
+      summaryActions.classList.add('no-share');
+      shareResultsBtn.style.display = 'none';
+    }
+    
+    // Show summary
+    matchSummary.style.display = 'block';
+    
+    // Track match complete
+    if (typeof gtag === 'function') {
+      gtag('event', 'blindtest_match_complete', {
+        score: matchScore,
+        correct: correctCount,
+        is_daily: isFirstMatch,
+        easy_mode: easyModeEnabled,
+        multiple_choice: multipleChoiceEnabled
+      });
+    }
+  }
+
+  // Generate share text
+  function generateShareText() {
+    const dateString = getDateString();
+    const correctCount = matchResults.filter(r => r.correct).length;
+    
+    // Emoji representation
+    const emojis = matchResults.map(r => r.correct ? '🟢' : '🔴').join('');
+    
+    // Mode indicator
+    let modeText = '';
+    if (multipleChoiceEnabled && easyModeEnabled) modeText = ' (Easy + MC)';
+    else if (multipleChoiceEnabled) modeText = ' (Multiple Choice)';
+    else if (easyModeEnabled) modeText = ' (Easy)';
+    
+    return `🎧 Blind Test ${dateString}${modeText}
+
+${emojis}
+Score: ${matchScore}/500 (${correctCount}/${SONGS_PER_MATCH})
+
+Play at snackable-games.com/blind-test/`;
+  }
+
+  // Share results
+  function shareResults() {
+    const shareText = generateShareText();
+    
+    if (navigator.share) {
+      navigator.share({
+        title: 'Blind Test Score',
+        text: shareText
+      }).catch(console.error);
+    } else {
+      navigator.clipboard.writeText(shareText).then(() => {
+        const originalText = shareResultsBtn.textContent;
+        shareResultsBtn.textContent = '✓ Copied!';
+        setTimeout(() => {
+          shareResultsBtn.textContent = originalText;
+        }, 2000);
+      }).catch(console.error);
+    }
+    
+    if (typeof gtag === 'function') {
+      gtag('event', 'blindtest_share', {
+        score: matchScore,
+        is_daily: isFirstMatch
       });
     }
   }
@@ -392,6 +618,10 @@ document.addEventListener("DOMContentLoaded", () => {
       playBtn.classList.remove('playing');
       playBtn.querySelector('.play-text').textContent = 'Play Sample';
     } else {
+      // Track when song starts playing (for scoring)
+      if (songStartTime === 0) {
+        songStartTime = Date.now();
+      }
       audioPlayer.play().catch(e => console.error('Play error:', e));
       isPlaying = true;
       playBtn.classList.add('playing');
@@ -425,26 +655,19 @@ document.addEventListener("DOMContentLoaded", () => {
   submitBtn.addEventListener('click', submitGuess);
   skipBtn.addEventListener('click', skipSong);
   
-  nextBtn.addEventListener('click', initializeGame);
-  playAgainBtn.addEventListener('click', initializeGame);
+  nextBtn.addEventListener('click', nextRoundOrSummary);
+  
+  shareResultsBtn.addEventListener('click', shareResults);
+  playRandomMatchBtn.addEventListener('click', () => startMatch(false));
   
   // Easy mode toggle
   easyModeToggle.addEventListener('change', (e) => {
     easyModeEnabled = e.target.checked;
     
-    if (easyModeEnabled) {
-      toggleDescription.innerHTML = `
-        <span class="current-mode">🎤 <strong>Song + Artist</strong> search</span>
-        <span class="mode-action">Disable to search by title only</span>
-      `;
-      songInput.placeholder = 'Type a song or artist name...';
-    } else {
-      toggleDescription.innerHTML = `
-        <span class="current-mode">🎯 <strong>Song title</strong> only</span>
-        <span class="mode-action">Enable to show artist in search</span>
-      `;
-      songInput.placeholder = 'Type a song title...';
-    }
+    // Update placeholder
+    songInput.placeholder = easyModeEnabled 
+      ? 'Type a song or artist name...'
+      : 'Type a song title...';
     
     // Refresh choices if in multiple choice mode
     if (multipleChoiceEnabled && !hasAnswered) {
@@ -462,18 +685,10 @@ document.addEventListener("DOMContentLoaded", () => {
     multipleChoiceEnabled = e.target.checked;
     
     if (multipleChoiceEnabled) {
-      mcToggleDescription.innerHTML = `
-        <span class="current-mode">🎯 <strong>4 choices</strong> to pick from</span>
-        <span class="mode-action">Disable to type your answer</span>
-      `;
       guessSection.style.display = 'none';
       choicesSection.style.display = 'block';
       if (!hasAnswered) generateChoices();
     } else {
-      mcToggleDescription.innerHTML = `
-        <span class="current-mode">⌨️ <strong>Type</strong> your answer</span>
-        <span class="mode-action">Enable for 4 choices</span>
-      `;
       choicesSection.style.display = 'none';
       guessSection.style.display = 'block';
     }

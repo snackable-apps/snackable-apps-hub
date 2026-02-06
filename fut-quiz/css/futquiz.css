@@ -600,9 +600,7 @@ main {
 
 .clue-value { font-size: 0.8rem; font-weight: 600; color: var(--text-color); }
 .clue-item.confirmed .clue-value { color: var(--success-color); }
-.clue-item.narrowed .clue-value { color: var(--warning-color); }
-
-.clues-tags { align-items: center; gap: 6px; }
+.clue-item.narrowed .clue-value { color: var(--warning-color); }.clues-tags { align-items: center; gap: 6px; }
 .clue-tags { display: flex; gap: 4px; flex-wrap: wrap; }
 .clue-tag { padding: 2px 8px; border-radius: 12px; font-size: 0.65rem; font-weight: 500; background: rgba(34, 197, 94, 0.25); color: #22c55e; border: 1px solid #22c55e; }.clues-excluded { padding-top: 8px; border-top: 1px solid var(--border-color); align-items: center; gap: 6px; }
 .clues-excluded .clue-label { display: inline; margin-bottom: 0; font-size: 0.65rem; color: var(--error-color); }
