@@ -691,6 +691,11 @@ main {
   opacity: 0.7;
 }
 
+.actor-different .actor-avatar img,
+.actor-different .actor-img {
+  filter: grayscale(100%);
+}
+
 .actor-name {
   word-break: break-word;
   line-height: 1.2;
