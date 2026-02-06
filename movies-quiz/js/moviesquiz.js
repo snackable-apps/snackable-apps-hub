@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const submitBtn = document.getElementById("submit-guess");
   const giveUpBtn = document.getElementById("give-up-btn");
   const shareResultsBtn = document.getElementById("share-results-btn");
+  const playRandomBtn = document.getElementById("play-random-btn");
   const shareSection = document.getElementById("share-section");
   const guessesContainer = document.getElementById("guesses-container");
   const guessCountEl = document.getElementById("guess-count");
@@ -733,9 +734,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(g => `<span class="genre ${g.match ? 'genre-match' : 'genre-different'}">${g.name}</span>`)
       .join('');
     
-    // Movie poster for the guessed movie
+    // Movie poster for the guessed movie (clickable to view large)
     const guessPosterHtml = guess.posterUrl 
-      ? `<img src="${guess.posterUrl}" alt="${guess.title}" class="guess-poster" onerror="this.style.display='none'">`
+      ? `<img src="${guess.posterUrl}" alt="${guess.title}" class="guess-poster clickable" onclick="openActorLightbox('${guess.posterUrl.replace(/'/g, "\\'")}', '${guess.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
       : '';
     
     card.innerHTML = `
@@ -798,7 +799,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const castList = allCast.map(a => formatActorName(a)).join(', ');
     
     const posterHtml = movie.posterUrl 
-      ? `<img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster" onerror="this.style.display='none'">`
+      ? `<img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster clickable" onclick="openActorLightbox('${movie.posterUrl.replace(/'/g, "\\'")}', '${movie.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
       : '';
     
     answerDiv.innerHTML = `
@@ -967,6 +968,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
+  
+  // Play Random - start a new game with a random movie
+  if (playRandomBtn) {
+    playRandomBtn.addEventListener('click', playRandom);
+  }
+
+  function playRandom() {
+    // Select a random movie from the pool (different from current)
+    const availableMovies = SECRET_POOL.filter(m => m.title !== gameState.secretMovie.title);
+    const randomIndex = Math.floor(Math.random() * availableMovies.length);
+    const randomMovie = availableMovies[randomIndex] || SECRET_POOL[0];
+    
+    // Reset game state
+    gameState.secretMovie = randomMovie;
+    gameState.guesses = [];
+    gameState.isSolved = false;
+    gameState.isGameOver = false;
+    gameState.gaveUp = false;
+    
+    // Reset clues
+    resetCluesState();
+    
+    // Reset UI
+    guessesContainer.innerHTML = '';
+    guessCountEl.textContent = '0';
+    gameStatusEl.textContent = '';
+    gameStatusEl.className = '';
+    guessSection.style.display = 'flex';
+    shareSection.style.display = 'none';
+    movieInput.value = '';
+    autocompleteDropdown.style.display = 'none';
+    
+    // Track random play
+    if (typeof gtag === 'function') {
+      gtag('event', 'movies_play_random', {
+        movie: randomMovie.title
+      });
+    }
+  }
 
   // Clues panel toggle
   if (cluesHeader) {

@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Books Quiz | Snackable Games</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
-  <link rel="stylesheet" href="css/booksquiz.css" />
+  <title>Blind Test | Snackable Games</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎧</text></svg>">
+  <link rel="stylesheet" href="css/blindtest.css" />
 
   <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQHMLZW50Z"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DCKR2HQ4K8"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-FQHMLZW50Z');
+    gtag('config', 'G-DCKR2HQ4K8');
   </script>
 
   <!-- AdSense -->
@@ -22,23 +22,23 @@
 </head>
 <body>
   <header>
-    <h1>📚 Books Quiz: Guess the Book</h1>
-    <p>Guess the classic book using logical clues!</p>
+    <h1>🎧 Blind Test</h1>
+    <p>Listen to the song sample and guess the title!</p>
     <a href="/">← Back to menu</a>
   </header>
 
   <main>
     <!-- Game Info -->
-    <div class="game-info" id="game-info" style="display: none;">
-      <p>Each day, a secret book is selected. Make guesses and use the clues to find it!</p>
+    <div class="game-info" id="game-info">
       <div class="game-stats">
-        <span>Guesses: <strong id="guess-count">0</strong></span>
+        <span>Score: <strong id="score">0</strong></span>
+        <span>Streak: <strong id="streak">0</strong> 🔥</span>
         <span id="game-status"></span>
       </div>
     </div>
 
-    <!-- Easy Mode Toggle -->
-    <div class="mode-toggle" id="mode-toggle" style="display: none;">
+    <!-- Mode Toggles -->
+    <div class="mode-toggles" id="mode-toggles">
       <div class="toggle-container">
         <label class="toggle-switch">
           <input type="checkbox" id="easy-mode-toggle">
@@ -46,78 +46,103 @@
         </label>
         <span class="toggle-label">Easy Mode</span>
         <p class="toggle-description" id="toggle-description">
-          <span class="current-mode">📖 <strong>Book title</strong> search only</span>
-          <span class="mode-action">Enable to also search by author</span>
+          <span class="current-mode">🎯 <strong>Song title</strong> only</span>
+          <span class="mode-action">Enable to show artist in search</span>
+        </p>
+      </div>
+      <div class="toggle-container">
+        <label class="toggle-switch">
+          <input type="checkbox" id="multiple-choice-toggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-label">Multiple Choice</span>
+        <p class="toggle-description" id="mc-toggle-description">
+          <span class="current-mode">⌨️ <strong>Type</strong> your answer</span>
+          <span class="mode-action">Enable for 4 choices</span>
         </p>
       </div>
     </div>
 
-    <!-- Guess Input -->
+    <!-- Album Art & Player -->
+    <div class="player-section" id="player-section">
+      <div class="album-art-container">
+        <div class="album-art" id="album-art">
+          <div class="album-placeholder">🎵</div>
+        </div>
+        <div class="album-revealed" id="album-revealed" style="display: none;">
+          <img id="album-image" src="" alt="Album Art">
+        </div>
+      </div>
+      <div class="audio-player">
+        <button id="play-btn" class="play-btn">
+          <span class="play-icon">▶</span>
+          <span class="play-text">Play Sample</span>
+        </button>
+        <div class="progress-bar" id="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <span class="time-display" id="time-display">0:00 / 0:30</span>
+      </div>
+      <audio id="audio-player" preload="auto"></audio>
+    </div>
+
+    <!-- Search Mode Input -->
     <div class="guess-section" id="guess-section">
-      <label for="book-input">Make a guess:</label>
+      <label for="song-input">What's this song?</label>
       <div class="autocomplete-wrapper">
-        <input type="text" id="book-input" placeholder="Type a book title..." autocomplete="off" />
+        <input type="text" id="song-input" placeholder="Type a song title..." autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
       </div>
       <div class="button-group">
         <button id="submit-guess" class="submit-btn">Submit Guess</button>
-        <button id="give-up-btn" class="submit-btn secondary">Give Up</button>
+        <button id="skip-btn" class="submit-btn secondary">Skip</button>
       </div>
     </div>
 
-    <!-- Clues Summary Panel -->
-    <div id="clues-panel" class="clues-panel" style="display: none;">
-      <div class="clues-header" id="clues-header">
-        <span class="clues-title">🔍 Clues Summary</span>
-        <button class="clues-toggle" id="clues-toggle">▼</button>
-      </div>
-      <div class="clues-content" id="clues-content">
-        <div class="clues-row clues-ranges">
-          <div class="clue-item" id="clue-year"><span class="clue-label">Published</span><span class="clue-value" id="clue-year-value">?</span></div>
-          <div class="clue-item" id="clue-pages"><span class="clue-label">Pages</span><span class="clue-value" id="clue-pages-value">?</span></div>
-        </div>
-        <div class="clues-row clues-confirmed">
-          <div class="clue-item" id="clue-author"><span class="clue-label">Author</span><span class="clue-value" id="clue-author-value">?</span></div>
-          <div class="clue-item" id="clue-nationality"><span class="clue-label">Author From</span><span class="clue-value" id="clue-nationality-value">?</span></div>
-        </div>
-        <div class="clues-row clues-confirmed">
-          <div class="clue-item" id="clue-genre"><span class="clue-label">Genre</span><span class="clue-value" id="clue-genre-value">?</span></div>
-          <div class="clue-item" id="clue-language"><span class="clue-label">Language</span><span class="clue-value" id="clue-language-value">?</span></div>
-        </div>
-        <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
-          <span class="clue-label">❌ Not:</span>
-          <span class="clue-excluded-values" id="clue-excluded"></span>
-        </div>
+    <!-- Multiple Choice Mode -->
+    <div class="choices-section" id="choices-section" style="display: none;">
+      <p class="choices-label">Choose the correct song:</p>
+      <div class="choices-grid" id="choices-grid">
+        <!-- Choices will be inserted here -->
       </div>
     </div>
 
-    <!-- Share Results -->
+    <!-- Result Section -->
+    <div class="result-section" id="result-section" style="display: none;">
+      <div class="result-card" id="result-card">
+        <div class="result-icon" id="result-icon">✅</div>
+        <div class="result-info">
+          <div class="result-title" id="result-title">Song Title</div>
+          <div class="result-artist" id="result-artist">Artist Name</div>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button id="next-btn" class="submit-btn">Next Song</button>
+        <button id="play-again-btn" class="submit-btn secondary">Play Random</button>
+      </div>
+    </div>
+
+    <!-- Share Section -->
     <div class="share-section" id="share-section" style="display: none;">
-      <button id="share-results-btn" class="submit-btn">Share Results</button>
-      <button id="play-random-btn" class="submit-btn secondary">🎲 Play Random</button>
-    </div>
-
-    <!-- Guesses History -->
-    <div class="guesses-container" id="guesses-container">
-      <!-- Guesses will be displayed here -->
+      <button id="share-results-btn" class="submit-btn">Share Score</button>
     </div>
 
     <!-- How to Play -->
     <div class="how-to-play">
       <h3>How to Play</h3>
       <ul>
-        <li><strong>✅ Match:</strong> The attribute matches the secret book</li>
-        <li><strong>🔼 Higher:</strong> The secret book has a higher value</li>
-        <li><strong>🔽 Lower:</strong> The secret book has a lower value</li>
-        <li><strong>❌ Different:</strong> The attribute doesn't match</li>
+        <li><strong>🎧 Listen:</strong> Press play to hear a 30-second sample</li>
+        <li><strong>🔍 Guess:</strong> Type the song title or pick from choices</li>
+        <li><strong>✅ Score:</strong> Earn points for correct guesses</li>
+        <li><strong>🔥 Streak:</strong> Keep your streak going!</li>
       </ul>
     </div>
   </main>
 
   <footer style="text-align: center; padding: 20px; color: #888; font-size: 0.85rem;">
-    <p>A new book every day! 📚</p>
+    <p>Test your music knowledge! 🎧</p>
     <p><a href="../about.html" style="color: #00d4ff;">About</a> | <a href="../privacy.html" style="color: #00d4ff;">Privacy</a></p>
-    <p class="data-attribution">Data provided by <a href="https://openlibrary.org" target="_blank" rel="noopener" style="color: #00d4ff;">Open Library</a></p>
+    <p class="data-attribution">Data provided by <a href="https://www.apple.com/itunes/" target="_blank" rel="noopener" style="color: #00d4ff;">iTunes</a></p>
   </footer>
 
   <!-- Feedback Button & Modal -->
@@ -131,13 +156,10 @@
       <input type="hidden" name="_page" id="feedback-page">
       <label>About:</label>
       <select name="about" required>
-        <option value="F1 Quiz">F1 Quiz</option>
-        <option value="Tennis Quiz">Tennis Quiz</option>
-        <option value="FutQuiz">FutQuiz</option>
+        <option value="Blind Test" selected>Blind Test</option>
         <option value="Music Quiz">Music Quiz</option>
-        <option value="Animal Quiz">Animal Quiz</option>
-        <option value="Books Quiz" selected>Books Quiz</option>
-        <option value="Sudoku">Sudoku</option>
+        <option value="Movies Quiz">Movies Quiz</option>
+        <option value="Books Quiz">Books Quiz</option>
         <option value="General / Website">General / Website</option>
       </select>
       <label>Your feedback:</label>
@@ -164,18 +186,8 @@
     function openFeedback(){document.getElementById('feedback-overlay').classList.add('open');document.getElementById('feedback-modal').classList.add('open');document.getElementById('feedback-page').value=window.location.pathname}
     function closeFeedback(){document.getElementById('feedback-overlay').classList.remove('open');document.getElementById('feedback-modal').classList.remove('open')}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeFeedback()});
-    document.querySelector('.feedback-modal select[name="about"]').addEventListener('change', function() {
-      var pageField = document.getElementById('feedback-page');
-      pageField.value = this.value === 'General / Website' ? '/general' : window.location.pathname;
-    });
   </script>
 
-  <script src="js/booksquiz.js"></script>
-  
-  <!-- Initialize Ads -->
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+  <script src="js/blindtest.js"></script>
 </body>
 </html>

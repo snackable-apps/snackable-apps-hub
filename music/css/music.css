@@ -271,13 +271,15 @@ main {
 
 .share-section {
   margin-top: 1.5rem;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .share-section .submit-btn {
-  width: 100%;
-  max-width: 300px;
+  min-width: 140px;
 }
 
 /* Guesses Container */

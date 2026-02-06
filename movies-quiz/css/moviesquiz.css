@@ -770,7 +770,10 @@ main {
 /* Share Section */
 .share-section {
   margin-top: 20px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .btn-share {
@@ -788,6 +791,16 @@ main {
 .btn-share:hover {
   transform: scale(1.02);
   box-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
+}
+
+.btn-share.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+}
+
+.btn-share.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Answer Reveal */
@@ -1264,6 +1277,19 @@ footer a:hover {
 
 .clue-actor-img.clickable:hover {
   transform: scale(1.15);
+}
+
+/* Make posters clickable */
+.guess-poster.clickable,
+.movie-poster.clickable {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.guess-poster.clickable:hover,
+.movie-poster.clickable:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 /* Mobile adjustments for lightbox */

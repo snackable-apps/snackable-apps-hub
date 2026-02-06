@@ -22,6 +22,7 @@ const COLUMNS = {
         { key: 'releaseYear', label: 'Year', filterable: true, type: 'number' },
         { key: 'genres', label: 'Genres', filterable: true, type: 'array' },
         { key: 'imdbRating', label: 'Rating', filterable: true, type: 'number' },
+        { key: 'numVotes', label: 'Votes', filterable: false, type: 'number' },
         { key: 'runtime', label: 'Runtime', filterable: false, type: 'number' },
         { key: 'country', label: 'Country', filterable: true, type: 'text' },
         { key: 'cast', label: 'Cast', filterable: true, type: 'array' },

@@ -1,0 +1,578 @@
+/* Blind Test - Snackable Games */
+:root {
+  --bg-color: #0f0f1a;
+  --card-bg: #1a1a2e;
+  --text-color: #e0e0e0;
+  --text-muted: #888;
+  --primary-color: #00d4ff;
+  --secondary-color: #ff6b6b;
+  --success-color: #22c55e;
+  --warning-color: #eab308;
+  --error-color: #ef4444;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+header a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+header a:hover {
+  text-decoration: underline;
+}
+
+main {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Game Info */
+.game-info {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.game-stats span {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.game-stats strong {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+#game-status {
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+/* Mode Toggles */
+.mode-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toggle-container {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 26px;
+  transition: 0.3s;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .toggle-slider {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(22px);
+}
+
+.toggle-label {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.toggle-description {
+  width: 100%;
+  margin-left: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.85rem;
+}
+
+.toggle-description .current-mode {
+  color: var(--text-muted);
+}
+
+.toggle-description .mode-action {
+  color: var(--text-muted);
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+/* Player Section */
+.player-section {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.album-art-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.album-art {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2a2a4e, #1a1a2e);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.album-revealed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.album-revealed img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.audio-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.play-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--primary-color), #0099cc);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+}
+
+.play-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 24px rgba(0, 212, 255, 0.4);
+}
+
+.play-btn.playing {
+  background: linear-gradient(135deg, var(--secondary-color), #cc4444);
+}
+
+.play-btn.playing .play-icon::before {
+  content: "⏸";
+}
+
+.play-icon {
+  font-size: 1.2rem;
+}
+
+.progress-bar {
+  width: 100%;
+  max-width: 300px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+.time-display {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Guess Section */
+.guess-section {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.guess-section label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.autocomplete-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+#song-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+#song-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+#song-input::placeholder {
+  color: var(--text-muted);
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+}
+
+.autocomplete-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.selected {
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.autocomplete-item .song-title {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.autocomplete-item .artist-name {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+}
+
+.submit-btn {
+  flex: 1;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn:not(.secondary) {
+  background: linear-gradient(135deg, var(--primary-color), #0099cc);
+  color: white;
+}
+
+.submit-btn.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Choices Section (Multiple Choice) */
+.choices-section {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.choices-label {
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.choices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.choice-btn {
+  padding: 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.choice-btn:hover {
+  border-color: var(--primary-color);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.choice-btn.correct {
+  border-color: var(--success-color);
+  background: rgba(34, 197, 94, 0.2);
+}
+
+.choice-btn.wrong {
+  border-color: var(--error-color);
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.choice-btn .choice-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.choice-btn .choice-artist {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Result Section */
+.result-section {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.result-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-color);
+  border-radius: 12px;
+  width: 100%;
+}
+
+.result-icon {
+  font-size: 2.5rem;
+}
+
+.result-info {
+  flex: 1;
+}
+
+.result-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.result-artist {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.result-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Share Section */
+.share-section {
+  display: flex;
+  justify-content: center;
+}
+
+/* How to Play */
+.how-to-play {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+.how-to-play h3 {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  color: var(--primary-color);
+}
+
+.how-to-play ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.how-to-play li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.how-to-play strong {
+  color: var(--text-color);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 500px) {
+  body {
+    padding: 12px;
+  }
+  
+  header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .game-stats {
+    gap: 16px;
+  }
+  
+  .toggle-description {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+  
+  .album-art-container {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .choices-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .result-actions {
+    flex-direction: column;
+  }
+}
