@@ -9,7 +9,9 @@ function normalizeText(text) {
 }
 
 const API_ENDPOINTS = {
-    movies: 'https://snackable-api.vercel.app/api/movies'
+    movies: 'https://snackable-api.vercel.app/api/movies',
+    books: 'https://snackable-api.vercel.app/api/books',
+    songs: 'https://snackable-api.vercel.app/api/songs'
 };
 
 // Column definitions for each database
@@ -23,6 +25,25 @@ const COLUMNS = {
         { key: 'runtime', label: 'Runtime', filterable: false, type: 'number' },
         { key: 'country', label: 'Country', filterable: true, type: 'text' },
         { key: 'cast', label: 'Cast', filterable: true, type: 'array' },
+        { key: 'difficulty', label: 'Difficulty', filterable: true, type: 'select', options: ['easy', 'medium', 'hard'] }
+    ],
+    books: [
+        { key: 'title', label: 'Title', filterable: true, type: 'text' },
+        { key: 'author', label: 'Author', filterable: true, type: 'text' },
+        { key: 'publicationYear', label: 'Year', filterable: true, type: 'number' },
+        { key: 'genres', label: 'Genres', filterable: true, type: 'array' },
+        { key: 'rating', label: 'Rating', filterable: true, type: 'number' },
+        { key: 'pages', label: 'Pages', filterable: false, type: 'number' },
+        { key: 'language', label: 'Language', filterable: true, type: 'text' },
+        { key: 'difficulty', label: 'Difficulty', filterable: true, type: 'select', options: ['easy', 'medium', 'hard'] }
+    ],
+    songs: [
+        { key: 'title', label: 'Title', filterable: true, type: 'text' },
+        { key: 'artist', label: 'Artist', filterable: true, type: 'text' },
+        { key: 'album', label: 'Album', filterable: true, type: 'text' },
+        { key: 'releaseYear', label: 'Year', filterable: true, type: 'number' },
+        { key: 'genres', label: 'Genres', filterable: true, type: 'array' },
+        { key: 'durationSeconds', label: 'Duration', filterable: false, type: 'duration' },
         { key: 'difficulty', label: 'Difficulty', filterable: true, type: 'select', options: ['easy', 'medium', 'hard'] }
     ]
 };
@@ -61,8 +82,20 @@ async function loadData() {
         const response = await fetch(endpoint);
         const data = await response.json();
         
-        if (data.success && data.movies) {
-            allData = data.movies;
+        // Handle different response structures
+        let items = null;
+        if (data.success) {
+            if (currentDatabase === 'movies' && data.movies) {
+                items = data.movies;
+            } else if (currentDatabase === 'books' && data.books) {
+                items = data.books;
+            } else if (currentDatabase === 'songs' && data.songs) {
+                items = data.songs;
+            }
+        }
+        
+        if (items) {
+            allData = items;
             filteredData = [...allData];
             
             renderFilters();
@@ -267,6 +300,21 @@ function formatCell(value, col) {
         const hours = Math.floor(mins / 60);
         const remainingMins = mins % 60;
         return hours > 0 ? `${hours}h ${remainingMins}m` : `${mins}m`;
+    }
+    
+    if (col.type === 'duration' || col.key === 'durationSeconds') {
+        const secs = parseInt(value) || 0;
+        if (secs === 0) return '—';
+        const mins = Math.floor(secs / 60);
+        const remainingSecs = secs % 60;
+        return `${mins}:${String(remainingSecs).padStart(2, '0')}`;
+    }
+    
+    if (col.key === 'rating' && currentDatabase === 'books') {
+        const rating = parseFloat(value) || 0;
+        if (rating === 0) return '—';
+        const ratingClass = rating >= 4 ? 'high' : (rating >= 3 ? 'medium' : 'low');
+        return `<span class="rating ${ratingClass}">${rating.toFixed(1)}</span>`;
     }
     
     if (col.key === 'difficulty') {
