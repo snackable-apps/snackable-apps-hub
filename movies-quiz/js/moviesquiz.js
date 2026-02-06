@@ -193,15 +193,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const guessCast = guess.cast || [];
     const guessCastWithImages = guess.castWithImages || [];
     
-    // For each actor in guess, check if they're in secret (ALL actors, not just first 10)
+    // For each actor in guess, check if they're in secret
     comparisons.castDetails = guessCast.map((actor, idx) => {
       const imageData = guessCastWithImages[idx];
       return {
         name: actor.split(' ').pop(), // Last name only for display
         fullName: actor,
         match: secretCast.has(actor.toLowerCase()),
-        image: idx < 10 ? (imageData?.image || null) : null, // Only first 10 get images
-        showImage: idx < 10 // Flag to show image card vs text-only
+        image: imageData?.image || null, // All actors can have images
+        showImage: !!(imageData?.image) // Show image card if image available
       };
     });
     

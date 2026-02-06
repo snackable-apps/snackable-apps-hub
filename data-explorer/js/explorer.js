@@ -32,9 +32,8 @@ const COLUMNS = {
         { key: 'author', label: 'Author', filterable: true, type: 'text' },
         { key: 'publicationYear', label: 'Year', filterable: true, type: 'number' },
         { key: 'genres', label: 'Genres', filterable: true, type: 'array' },
-        { key: 'rating', label: 'Rating', filterable: true, type: 'number' },
-        { key: 'pages', label: 'Pages', filterable: false, type: 'number' },
         { key: 'language', label: 'Language', filterable: true, type: 'text' },
+        { key: 'editionCount', label: 'Editions', filterable: false, type: 'number' },
         { key: 'difficulty', label: 'Difficulty', filterable: true, type: 'select', options: ['easy', 'medium', 'hard'] }
     ],
     songs: [
@@ -44,6 +43,7 @@ const COLUMNS = {
         { key: 'releaseYear', label: 'Year', filterable: true, type: 'number' },
         { key: 'genres', label: 'Genres', filterable: true, type: 'array' },
         { key: 'durationSeconds', label: 'Duration', filterable: false, type: 'duration' },
+        { key: 'popularity', label: 'Popularity', filterable: false, type: 'number' },
         { key: 'difficulty', label: 'Difficulty', filterable: true, type: 'select', options: ['easy', 'medium', 'hard'] }
     ]
 };

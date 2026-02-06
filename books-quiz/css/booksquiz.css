@@ -635,3 +635,14 @@ main {
 .clues-excluded { padding-top: 8px; border-top: 1px solid var(--border-color); align-items: center; gap: 6px; }
 .clues-excluded .clue-label { display: inline; margin-bottom: 0; font-size: 0.65rem; color: var(--error-color); }
 .clue-excluded-values { font-size: 0.7rem; color: var(--text-muted); }
+
+/* Book Cover Image */
+.book-cover-small {
+  width: 30px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 3px;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}

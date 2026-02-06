@@ -57,17 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       // Transform API data to match expected format
+      // Note: Open Library doesn't provide authorNationality or reliable pageCount
       ALL_BOOKS = data.books.map(book => ({
         title: book.title,
         author: book.author,
-        authorNationality: 'Unknown', // Not available from Open Library
         genre: book.genres && book.genres.length > 0 ? book.genres[0] : 'Fiction',
         publicationYear: book.publicationYear || 0,
-        pageCount: book.pages || 0,
         originalLanguage: book.language || 'en',
         coverImage: book.coverImage,
         description: book.description,
-        difficulty: book.difficulty || 'medium'
+        difficulty: book.difficulty || 'medium',
+        editionCount: book.editionCount || 0 // Used for difficulty calculation
       }));
       
       console.log('Books loaded from API:', ALL_BOOKS.length);
@@ -106,8 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Clues State
   let cluesState = {
     yearMin: null, yearMax: null, yearConfirmed: null,
-    pagesMin: null, pagesMax: null, pagesConfirmed: null,
-    authorConfirmed: null, nationalityConfirmed: null, genreConfirmed: null, languageConfirmed: null,
+    authorConfirmed: null, genreConfirmed: null, languageConfirmed: null,
     excludedAuthors: new Set(), excludedGenres: new Set()
   };
 
@@ -137,9 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Author
     comparisons.author = secret.author === guess.author ? 'match' : 'different';
     
-    // Author Nationality
-    comparisons.authorNationality = secret.authorNationality === guess.authorNationality ? 'match' : 'different';
-    
     // Genre
     comparisons.genre = secret.genre === guess.genre ? 'match' : 'different';
     
@@ -152,15 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
       comparisons.publicationYear = 'higher';
     }
     
-    // Page Count
-    if (secret.pageCount === guess.pageCount) {
-      comparisons.pageCount = 'match';
-    } else if (guess.pageCount > secret.pageCount) {
-      comparisons.pageCount = 'lower';
-    } else {
-      comparisons.pageCount = 'higher';
-    }
-    
     // Original Language
     comparisons.originalLanguage = secret.originalLanguage === guess.originalLanguage ? 'match' : 'different';
     
@@ -170,10 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function getFeedbackText(property, comparison, value) {
     const propertyNames = {
       'author': 'Author',
-      'authorNationality': 'Author From',
       'genre': 'Genre',
       'publicationYear': 'Published',
-      'pageCount': 'Pages',
       'originalLanguage': 'Language'
     };
     const propertyName = propertyNames[property] || property;
@@ -206,14 +191,9 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (comparisons.publicationYear === 'higher') { if (cluesState.yearMin === null || guess.publicationYear > cluesState.yearMin) cluesState.yearMin = guess.publicationYear; }
     else if (comparisons.publicationYear === 'lower') { if (cluesState.yearMax === null || guess.publicationYear < cluesState.yearMax) cluesState.yearMax = guess.publicationYear; }
 
-    if (comparisons.pageCount === 'match') cluesState.pagesConfirmed = guess.pageCount;
-    else if (comparisons.pageCount === 'higher') { if (cluesState.pagesMin === null || guess.pageCount > cluesState.pagesMin) cluesState.pagesMin = guess.pageCount; }
-    else if (comparisons.pageCount === 'lower') { if (cluesState.pagesMax === null || guess.pageCount < cluesState.pagesMax) cluesState.pagesMax = guess.pageCount; }
-
     if (comparisons.author === 'match') cluesState.authorConfirmed = guess.author;
     else cluesState.excludedAuthors.add(guess.author);
 
-    if (comparisons.authorNationality === 'match') cluesState.nationalityConfirmed = guess.authorNationality;
     if (comparisons.genre === 'match') cluesState.genreConfirmed = guess.genre;
     else cluesState.excludedGenres.add(guess.genre);
     if (comparisons.originalLanguage === 'match') cluesState.languageConfirmed = guess.originalLanguage;
@@ -226,6 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderRange(itemId, valueId, min, max, confirmed) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
+      if (!item || !value) return; // Skip if element doesn't exist
       if (confirmed !== null) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
       else if (min !== null || max !== null) {
         item.className = 'clue-item narrowed';
@@ -236,30 +217,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     renderRange('clue-year', 'clue-year-value', cluesState.yearMin, cluesState.yearMax, cluesState.yearConfirmed);
-    renderRange('clue-pages', 'clue-pages-value', cluesState.pagesMin, cluesState.pagesMax, cluesState.pagesConfirmed);
 
     function renderCategorical(itemId, valueId, confirmed) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
+      if (!item || !value) return; // Skip if element doesn't exist
       if (confirmed) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
       else { item.className = 'clue-item'; value.textContent = '?'; }
     }
 
     renderCategorical('clue-author', 'clue-author-value', cluesState.authorConfirmed);
-    renderCategorical('clue-nationality', 'clue-nationality-value', cluesState.nationalityConfirmed);
     renderCategorical('clue-genre', 'clue-genre-value', cluesState.genreConfirmed);
     renderCategorical('clue-language', 'clue-language-value', cluesState.languageConfirmed);
 
     const excludedRow = document.getElementById('clue-excluded-row');
     const excludedContainer = document.getElementById('clue-excluded');
-    const allExcluded = [];
-    if (!cluesState.genreConfirmed) allExcluded.push(...[...cluesState.excludedGenres].slice(0, 3));
-    if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.join(', '); }
-    else { excludedRow.style.display = 'none'; }
+    if (excludedRow && excludedContainer) {
+      const allExcluded = [];
+      if (!cluesState.genreConfirmed) allExcluded.push(...[...cluesState.excludedGenres].slice(0, 3));
+      if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.join(', '); }
+      else { excludedRow.style.display = 'none'; }
+    }
   }
 
   function resetCluesState() {
-    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, pagesMin: null, pagesMax: null, pagesConfirmed: null, authorConfirmed: null, nationalityConfirmed: null, genreConfirmed: null, languageConfirmed: null, excludedAuthors: new Set(), excludedGenres: new Set() };
+    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, authorConfirmed: null, genreConfirmed: null, languageConfirmed: null, excludedAuthors: new Set(), excludedGenres: new Set() };
   }
 
   function displayGuess(guess, comparisons) {
@@ -268,19 +250,18 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const isCorrect = guess.title === gameState.secretBook.title;
     const bookNameClass = isCorrect ? 'guess-book-header correct' : 'guess-book-header';
+    const coverImg = guess.coverImage ? `<img src="${guess.coverImage}" alt="${guess.title}" class="book-cover-small" onerror="this.style.display='none'">` : '<span class="book-emoji-inline">📖</span>';
     
     guessCard.innerHTML = `
       <div class="guess-line">
         <span class="${bookNameClass}">
-          <span class="book-emoji-inline">📖</span>
+          ${coverImg}
           <span class="book-name-inline">${guess.title}</span>
           ${isCorrect ? '<span class="correct-badge">🎉</span>' : '<span class="wrong-badge">❌</span>'}
         </span>
         <span class="property-feedback ${getFeedbackClass(comparisons.author)}">${getFeedbackText('author', comparisons.author, guess.author)}</span>
-        <span class="property-feedback ${getFeedbackClass(comparisons.authorNationality)}">${getFeedbackText('authorNationality', comparisons.authorNationality, guess.authorNationality)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.genre)}">${getFeedbackText('genre', comparisons.genre, guess.genre)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.publicationYear)}">${getFeedbackText('publicationYear', comparisons.publicationYear, guess.publicationYear)}</span>
-        <span class="property-feedback ${getFeedbackClass(comparisons.pageCount)}">${getFeedbackText('pageCount', comparisons.pageCount, guess.pageCount)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.originalLanguage)}">${getFeedbackText('originalLanguage', comparisons.originalLanguage, guess.originalLanguage)}</span>
       </div>
     `;
@@ -415,10 +396,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function getAnswerFeedbackText(property, value) {
     const propertyNames = {
       'author': 'Author',
-      'authorNationality': 'Author From',
       'genre': 'Genre',
       'publicationYear': 'Published',
-      'pageCount': 'Pages',
       'originalLanguage': 'Language'
     };
     const propertyName = propertyNames[property] || property;
@@ -429,19 +408,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const answerCard = document.createElement('div');
     answerCard.className = 'guess-card answer-reveal';
     const secret = gameState.secretBook;
+    const coverImg = secret.coverImage ? `<img src="${secret.coverImage}" alt="${secret.title}" class="book-cover-small" onerror="this.style.display='none'">` : '<span class="book-emoji-inline">📖</span>';
     
     answerCard.innerHTML = `
       <div class="guess-line">
         <span class="guess-book-header answer-reveal-header">
-          <span class="book-emoji-inline">📖</span>
+          ${coverImg}
           <span class="book-name-inline">${secret.title}</span>
           <span>😔</span>
         </span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('author', secret.author)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('authorNationality', secret.authorNationality)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('genre', secret.genre)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('publicationYear', secret.publicationYear)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('pageCount', secret.pageCount)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('originalLanguage', secret.originalLanguage)}</span>
       </div>
     `;

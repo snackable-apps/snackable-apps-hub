@@ -538,9 +538,7 @@ main {
   opacity: 0;
   width: 0;
   height: 0;
-}
-
-.toggle-slider {
+}.toggle-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -708,3 +706,14 @@ main {
 .clues-excluded .clue-label { display: inline; margin-bottom: 0; font-size: 0.65rem; color: var(--error-color); }
 .clue-excluded-values { font-size: 0.7rem; color: var(--text-muted); }
 @media (max-width: 500px) { .clues-ranges, .clues-confirmed { grid-template-columns: repeat(3, 1fr); } .clue-item { padding: 6px 4px; } .clue-value { font-size: 0.7rem; } }
+
+/* Album Cover Image */
+.album-cover-small {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}

@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       // Transform API data to match expected format
+      // Note: iTunes doesn't provide artistCountry, groupMembers, or language
       ALL_SONGS = data.songs.map(song => {
         // Calculate decade from release year
         const releaseYear = song.releaseYear || 2000;
@@ -72,14 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return {
           name: song.title,
           artist: song.artist,
-          artistCountry: 'Unknown', // Not available from iTunes
-          groupMembers: 1, // Default, not available from iTunes
           releaseYear: releaseYear,
           decade: decade,
           primaryGenre: song.genres && song.genres.length > 0 ? song.genres[0] : 'Pop',
-          language: 'English', // Default, not available from iTunes
           duration: durationMinutes,
           albumImage: song.albumImage,
+          album: song.album,
           previewUrl: song.previewUrl,
           difficulty: song.difficulty || 'medium'
         };
@@ -122,21 +121,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // Clues State
   let cluesState = {
     yearMin: null, yearMax: null, yearConfirmed: null,
-    membersMin: null, membersMax: null, membersConfirmed: null,
     durationMin: null, durationMax: null, durationConfirmed: null,
     artistConfirmed: null, genreConfirmed: null, decadeConfirmed: null,
-    matchedCountries: new Set(), excludedGenres: new Set()
+    excludedGenres: new Set()
   };
 
   const cluesPanel = document.getElementById('clues-panel');
   const cluesContent = document.getElementById('clues-content');
   const cluesHeader = document.getElementById('clues-header');
   const cluesToggle = document.getElementById('clues-toggle');
-
-  // Helper function to get emoji for music
-  function getMusicEmoji(songName) {
-    return "🎵"; // Default music emoji
-  }
 
   // Utility Functions
   function getDateString() {
@@ -153,48 +146,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return SECRET_POOL[index];
   }
 
-  function formatGroupMembers(members) {
-    if (members === 1) return "Solo";
-    if (members === 2) return "Duo";
-    return members.toString();
-  }
-
   function formatDuration(duration) {
     const minutes = Math.floor(duration);
     const seconds = Math.round((duration - minutes) * 60);
     return `${minutes}:${String(seconds).padStart(2, '0')}`;
-  }
-
-  // Helper function to normalize property value (handle both string and array)
-  function normalizeProperty(value) {
-    if (Array.isArray(value)) {
-      return value;
-    }
-    return [value];
-  }
-
-  // Helper function to compare array properties
-  function compareArrayProperty(secretValue, guessValue) {
-    const secretArray = normalizeProperty(secretValue);
-    const guessArray = normalizeProperty(guessValue);
-    
-    const matches = [];
-    const nonMatches = [];
-    
-    guessArray.forEach(guessItem => {
-      if (secretArray.includes(guessItem)) {
-        matches.push(guessItem);
-      } else {
-        nonMatches.push(guessItem);
-      }
-    });
-    
-    return {
-      matches: matches,
-      nonMatches: nonMatches,
-      hasMatch: matches.length > 0,
-      allMatch: matches.length === guessArray.length && matches.length === secretArray.length
-    };
   }
 
   function compareProperties(secret, guess) {
@@ -202,19 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Artist - categorical
     comparisons.artist = secret.artist === guess.artist ? 'match' : 'different';
-    
-    // Artist Country - can be array or string
-    const artistCountryComparison = compareArrayProperty(secret.artistCountry, guess.artistCountry);
-    comparisons.artistCountry = artistCountryComparison;
-    
-    // Group Members - numeric (inverted)
-    if (secret.groupMembers === guess.groupMembers) {
-      comparisons.groupMembers = 'match';
-    } else if (guess.groupMembers > secret.groupMembers) {
-      comparisons.groupMembers = 'lower';
-    } else {
-      comparisons.groupMembers = 'higher';
-    }
     
     // Release Year - numeric (inverted)
     if (secret.releaseYear === guess.releaseYear) {
@@ -231,10 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Primary Genre - categorical
     comparisons.primaryGenre = secret.primaryGenre === guess.primaryGenre ? 'match' : 'different';
     
-    // Language - can be array or string
-    const languageComparison = compareArrayProperty(secret.language, guess.language);
-    comparisons.language = languageComparison;
-    
     // Duration - numeric (inverted)
     if (secret.duration === guess.duration) {
       comparisons.duration = 'match';
@@ -250,27 +188,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function getFeedbackText(property, comparison, value) {
     const propertyNames = {
       'artist': 'Artist',
-      'artistCountry': 'Artist Country',
-      'groupMembers': 'Group Members',
       'releaseYear': 'Release Year',
       'decade': 'Decade',
-      'primaryGenre': 'Primary Genre',
-      'language': 'Language',
+      'primaryGenre': 'Genre',
       'duration': 'Duration'
     };
     const propertyName = propertyNames[property] || property;
     const formattedValue = formatPropertyValue(property, value);
-    
-    // Handle array comparison objects (for artistCountry, language)
-    if (typeof comparison === 'object' && comparison.hasMatch !== undefined) {
-      if (comparison.allMatch) {
-        return '✅ ' + propertyName + ': ' + formattedValue;
-      } else if (comparison.hasMatch) {
-        return '🔶 ' + propertyName + ': ' + formattedValue; // Partial match
-      } else {
-        return '❌ ' + propertyName + ': ' + formattedValue;
-      }
-    }
     
     if (comparison === 'match') {
       return '✅ ' + propertyName + ': ' + formattedValue;
@@ -284,17 +208,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getFeedbackClass(comparison) {
-    // Handle array comparison objects
-    if (typeof comparison === 'object' && comparison.hasMatch !== undefined) {
-      if (comparison.allMatch) {
-        return 'feedback-match';
-      } else if (comparison.hasMatch) {
-        return 'feedback-partial-match'; // New class for partial matches
-      } else {
-        return 'feedback-different';
-      }
-    }
-    
     if (comparison === 'match') {
       return 'feedback-match';
     } else if (comparison === 'higher') {
@@ -311,10 +224,6 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (comparisons.releaseYear === 'higher') { if (cluesState.yearMin === null || guess.releaseYear > cluesState.yearMin) cluesState.yearMin = guess.releaseYear; }
     else if (comparisons.releaseYear === 'lower') { if (cluesState.yearMax === null || guess.releaseYear < cluesState.yearMax) cluesState.yearMax = guess.releaseYear; }
 
-    if (comparisons.groupMembers === 'match') cluesState.membersConfirmed = guess.groupMembers;
-    else if (comparisons.groupMembers === 'higher') { if (cluesState.membersMin === null || guess.groupMembers > cluesState.membersMin) cluesState.membersMin = guess.groupMembers; }
-    else if (comparisons.groupMembers === 'lower') { if (cluesState.membersMax === null || guess.groupMembers < cluesState.membersMax) cluesState.membersMax = guess.groupMembers; }
-
     if (comparisons.duration === 'match') cluesState.durationConfirmed = guess.duration;
     else if (comparisons.duration === 'higher') { if (cluesState.durationMin === null || guess.duration > cluesState.durationMin) cluesState.durationMin = guess.duration; }
     else if (comparisons.duration === 'lower') { if (cluesState.durationMax === null || guess.duration < cluesState.durationMax) cluesState.durationMax = guess.duration; }
@@ -323,10 +232,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (comparisons.primaryGenre === 'match') cluesState.genreConfirmed = guess.primaryGenre;
     else cluesState.excludedGenres.add(guess.primaryGenre);
     if (comparisons.decade === 'match') cluesState.decadeConfirmed = guess.decade;
-
-    if (comparisons.artistCountry && comparisons.artistCountry.matches) {
-      comparisons.artistCountry.matches.forEach(c => cluesState.matchedCountries.add(c));
-    }
   }
 
   function renderCluesPanel() {
@@ -336,6 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderRange(itemId, valueId, min, max, confirmed, formatter = v => v) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
+      if (!item || !value) return; // Skip if element doesn't exist
       if (confirmed !== null) { item.className = 'clue-item confirmed'; value.textContent = formatter(confirmed); }
       else if (min !== null || max !== null) {
         item.className = 'clue-item narrowed';
@@ -346,12 +252,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     renderRange('clue-year', 'clue-year-value', cluesState.yearMin, cluesState.yearMax, cluesState.yearConfirmed);
-    renderRange('clue-members', 'clue-members-value', cluesState.membersMin, cluesState.membersMax, cluesState.membersConfirmed, formatGroupMembers);
     renderRange('clue-duration', 'clue-duration-value', cluesState.durationMin, cluesState.durationMax, cluesState.durationConfirmed, formatDuration);
 
     function renderCategorical(itemId, valueId, confirmed) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
+      if (!item || !value) return; // Skip if element doesn't exist
       if (confirmed) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
       else { item.className = 'clue-item'; value.textContent = '?'; }
     }
@@ -360,28 +266,21 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCategorical('clue-genre', 'clue-genre-value', cluesState.genreConfirmed);
     renderCategorical('clue-decade', 'clue-decade-value', cluesState.decadeConfirmed);
 
-    const countriesRow = document.getElementById('clue-countries-row');
-    const countriesContainer = document.getElementById('clue-countries');
-    if (cluesState.matchedCountries.size > 0) {
-      countriesRow.style.display = 'flex';
-      countriesContainer.innerHTML = [...cluesState.matchedCountries].map(c => `<span class="clue-tag">${c}</span>`).join('');
-    } else { countriesRow.style.display = 'none'; }
-
     const excludedRow = document.getElementById('clue-excluded-row');
     const excludedContainer = document.getElementById('clue-excluded');
-    const allExcluded = [...cluesState.excludedGenres].filter(g => g !== cluesState.genreConfirmed).slice(0, 5);
-    if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.join(', '); }
-    else { excludedRow.style.display = 'none'; }
+    if (excludedRow && excludedContainer) {
+      const allExcluded = [...cluesState.excludedGenres].filter(g => g !== cluesState.genreConfirmed).slice(0, 5);
+      if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.join(', '); }
+      else { excludedRow.style.display = 'none'; }
+    }
   }
 
   function resetCluesState() {
-    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, membersMin: null, membersMax: null, membersConfirmed: null, durationMin: null, durationMax: null, durationConfirmed: null, artistConfirmed: null, genreConfirmed: null, decadeConfirmed: null, matchedCountries: new Set(), excludedGenres: new Set() };
+    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, durationMin: null, durationMax: null, durationConfirmed: null, artistConfirmed: null, genreConfirmed: null, decadeConfirmed: null, excludedGenres: new Set() };
   }
 
   function formatPropertyValue(property, value) {
-    if (property === 'groupMembers') {
-      return formatGroupMembers(value);
-    } else if (property === 'duration') {
+    if (property === 'duration') {
       return formatDuration(value);
     } else if (property === 'releaseYear') {
       return value.toString();
@@ -395,22 +294,19 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const isCorrect = guess.name === gameState.secretSong.name;
     const songNameClass = isCorrect ? 'guess-animal-name correct' : 'guess-animal-name';
-    const emoji = getMusicEmoji(guess.name);
+    const albumImg = guess.albumImage ? `<img src="${guess.albumImage}" alt="${guess.name}" class="album-cover-small" onerror="this.style.display='none'">` : '<span class="animal-emoji-inline">🎵</span>';
     
     guessCard.innerHTML = `
       <div class="guess-line">
         <span class="guess-animal-header ${songNameClass}">
-          <span class="animal-emoji-inline">${emoji}</span>
+          ${albumImg}
           <span class="animal-name-inline">${guess.name}</span>
           ${isCorrect ? '<span class="correct-badge">🎉</span>' : '<span class="wrong-badge">😞</span>'}
         </span>
         <span class="property-feedback ${getFeedbackClass(comparisons.artist)}">${getFeedbackText('artist', comparisons.artist, guess.artist)}</span>
-        <span class="property-feedback ${getFeedbackClass(comparisons.artistCountry)}">${getFeedbackText('artistCountry', comparisons.artistCountry, guess.artistCountry)}</span>
-        <span class="property-feedback ${getFeedbackClass(comparisons.groupMembers)}">${getFeedbackText('groupMembers', comparisons.groupMembers, guess.groupMembers)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.releaseYear)}">${getFeedbackText('releaseYear', comparisons.releaseYear, guess.releaseYear)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.decade)}">${getFeedbackText('decade', comparisons.decade, guess.decade)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.primaryGenre)}">${getFeedbackText('primaryGenre', comparisons.primaryGenre, guess.primaryGenre)}</span>
-        <span class="property-feedback ${getFeedbackClass(comparisons.language)}">${getFeedbackText('language', comparisons.language, guess.language)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.duration)}">${getFeedbackText('duration', comparisons.duration, guess.duration)}</span>
       </div>
     `;
@@ -553,46 +449,34 @@ document.addEventListener("DOMContentLoaded", () => {
   function getAnswerFeedbackText(property, value) {
     const propertyNames = {
       'artist': 'Artist',
-      'artistCountry': 'Artist Country',
-      'groupMembers': 'Group Members',
       'releaseYear': 'Release Year',
       'decade': 'Decade',
-      'primaryGenre': 'Primary Genre',
-      'language': 'Language',
+      'primaryGenre': 'Genre',
       'duration': 'Duration'
     };
     const propertyName = propertyNames[property] || property;
-    
-    // Handle array properties
-    if ((property === 'artistCountry' || property === 'language') && Array.isArray(value)) {
-      return propertyName + ': ' + value.join(', ');
-    }
-    
     const formattedValue = formatPropertyValue(property, value);
     return propertyName + ': ' + formattedValue;
   }
 
   function displayAnswer() {
-    // Display the answer with all properties in black (no emojis)
+    // Display the answer with all properties
     const answerCard = document.createElement('div');
     answerCard.className = 'guess-card answer-reveal';
-    const emoji = getMusicEmoji(gameState.secretSong.name);
     const secret = gameState.secretSong;
+    const albumImg = secret.albumImage ? `<img src="${secret.albumImage}" alt="${secret.name}" class="album-cover-small" onerror="this.style.display='none'">` : '<span class="animal-emoji-inline">🎵</span>';
     
     answerCard.innerHTML = `
       <div class="guess-line">
         <span class="guess-animal-header guess-animal-name answer-reveal-header">
-          <span class="animal-emoji-inline">${emoji}</span>
+          ${albumImg}
           <span class="animal-name-inline">${secret.name}</span>
           <span>😞</span>
         </span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('artist', secret.artist)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('artistCountry', secret.artistCountry)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('groupMembers', secret.groupMembers)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('releaseYear', secret.releaseYear)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('decade', secret.decade)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('primaryGenre', secret.primaryGenre)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('language', secret.language)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('duration', secret.duration)}</span>
       </div>
     `;
