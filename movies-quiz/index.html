@@ -10,13 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Google Analytics -->
+  <!-- Google Analytics - Game + Hub -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C4MDJKZPMC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-C4MDJKZPMC');
+    gtag('config', 'G-C4MDJKZPMC'); // Movies Quiz property
+    gtag('config', 'G-Z9BWP9G3HS'); // Hub property (for cross-game tracking)
   </script>
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733" crossorigin="anonymous"></script>
@@ -25,7 +26,7 @@
   <div class="container">
     <header>
       <div class="header-row">
-        <a href="../" class="back-link">← Back</a>
+        <a href="../" class="back-link">← <span data-i18n="common.back">Back</span></a>
         <div class="header-controls">
           <div class="language-selector">
             <select id="language-selector">
@@ -59,8 +60,14 @@
         <button id="play-random-btn" class="btn-share secondary">🎲 <span data-i18n="common.playRandom">Play Random</span></button>
       </div>
 
+      <!-- Loading State -->
+      <div id="loading-state" class="loading-state">
+        <div class="loading-spinner"></div>
+        <span data-i18n="common.loading">Loading movies...</span>
+      </div>
+
       <!-- Guess Input Section -->
-      <div id="guess-section" class="guess-section">
+      <div id="guess-section" class="guess-section" style="display: none;">
         <div class="input-wrapper">
           <input 
             type="text" 
@@ -71,7 +78,7 @@
           >
           <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
         </div>
-        <button id="submit-guess" class="btn-primary" data-i18n="common.submit">Guess</button>
+        <button id="submit-guess" class="btn-primary" data-i18n="common.guess">Guess</button>
         <button id="give-up-btn" class="btn-secondary" data-i18n="common.giveUp">Give Up</button>
       </div>
 
@@ -199,6 +206,7 @@
   <script src="../shared/js/game-storage.js"></script>
   <script src="../shared/js/i18n.js"></script>
   <script src="../shared/js/stats-modal.js"></script>
+  <script src="../shared/js/hub-analytics.js"></script>
   
   <script src="js/moviesquiz.js"></script>
   <script>

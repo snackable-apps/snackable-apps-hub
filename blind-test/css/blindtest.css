@@ -802,7 +802,7 @@ input:checked + .toggle-slider:before {
   background: var(--card-bg);
   border-radius: 20px;
   padding: 40px;
-  max-width: 400px;
+  max-width: 480px;
   width: 100%;
 }
 
@@ -828,14 +828,54 @@ input:checked + .toggle-slider:before {
 }
 
 .start-options {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
   margin-bottom: 24px;
 }
 
-.start-options .toggle-container {
+.option-row {
+  display: flex;
+  gap: 16px;
   justify-content: center;
+}
+
+.option-item {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: left;
+  max-width: 180px;
+}
+
+.toggle-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.toggle-header .toggle-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.option-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .option-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .option-item {
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 .start-btn {

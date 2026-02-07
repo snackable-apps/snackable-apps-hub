@@ -111,6 +111,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     console.log('Secret pool (easy+medium):', SECRET_POOL.length);
     
+    // Hide loading state, show game
+    const loadingState = document.getElementById('loading-state');
+    if (loadingState) loadingState.style.display = 'none';
+    guessSection.style.display = 'flex';
+    
     if (SECRET_POOL.length > 0) {
       // If daily was already completed, start in random mode or show completed message
       if (dailyCompleted) {

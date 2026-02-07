@@ -210,6 +210,7 @@ class I18n {
       en: {
         common: {
           submit: 'Submit',
+          guess: 'Guess',
           skip: 'Skip',
           giveUp: 'Give Up',
           playAgain: 'Play Again',
@@ -278,7 +279,9 @@ class I18n {
             subtitle: 'Listen and guess the song',
             inputPlaceholder: 'Type a song title...',
             easyMode: 'Easy Mode',
+            easyModeDesc: 'Album cover gradually revealed as hint',
             multipleChoice: 'Multiple Choice',
+            multipleChoiceDesc: 'Pick from 4 options instead of typing',
             round: 'Round',
             matchComplete: 'Match Complete!',
             totalScore: 'Total Score',
@@ -315,6 +318,7 @@ class I18n {
       fr: {
         common: {
           submit: 'Valider',
+          guess: 'Deviner',
           skip: 'Passer',
           giveUp: 'Abandonner',
           playAgain: 'Rejouer',
@@ -383,7 +387,9 @@ class I18n {
             subtitle: 'Ecoutez et devinez la chanson',
             inputPlaceholder: 'Tapez un titre...',
             easyMode: 'Mode facile',
+            easyModeDesc: 'La pochette se devoile progressivement',
             multipleChoice: 'Choix multiples',
+            multipleChoiceDesc: 'Choisissez parmi 4 options',
             round: 'Manche',
             matchComplete: 'Match termine !',
             totalScore: 'Score total',
@@ -420,6 +426,7 @@ class I18n {
       'pt-br': {
         common: {
           submit: 'Enviar',
+          guess: 'Adivinhar',
           skip: 'Pular',
           giveUp: 'Desistir',
           playAgain: 'Jogar novamente',
@@ -488,7 +495,9 @@ class I18n {
             subtitle: 'Ouca e adivinhe a musica',
             inputPlaceholder: 'Digite o titulo...',
             easyMode: 'Modo facil',
+            easyModeDesc: 'Capa do album revelada gradualmente',
             multipleChoice: 'Multipla escolha',
+            multipleChoiceDesc: 'Escolha entre 4 opcoes',
             round: 'Rodada',
             matchComplete: 'Partida completa!',
             totalScore: 'Pontuacao total',
@@ -525,6 +534,7 @@ class I18n {
       it: {
         common: {
           submit: 'Invia',
+          guess: 'Indovina',
           skip: 'Salta',
           giveUp: 'Arrendersi',
           playAgain: 'Gioca ancora',
@@ -593,7 +603,9 @@ class I18n {
             subtitle: 'Ascolta e indovina la canzone',
             inputPlaceholder: 'Scrivi il titolo...',
             easyMode: 'Modalità facile',
+            easyModeDesc: 'Copertina album rivelata gradualmente',
             multipleChoice: 'Scelta multipla',
+            multipleChoiceDesc: 'Scegli tra 4 opzioni',
             round: 'Round',
             matchComplete: 'Match completo!',
             totalScore: 'Punteggio totale',
@@ -630,6 +642,7 @@ class I18n {
       es: {
         common: {
           submit: 'Enviar',
+          guess: 'Adivinar',
           skip: 'Saltar',
           giveUp: 'Rendirse',
           playAgain: 'Jugar de nuevo',
@@ -698,7 +711,9 @@ class I18n {
             subtitle: 'Escucha y adivina la canción',
             inputPlaceholder: 'Escribe el título...',
             easyMode: 'Modo fácil',
+            easyModeDesc: 'Portada del álbum revelada gradualmente',
             multipleChoice: 'Opción múltiple',
+            multipleChoiceDesc: 'Elige entre 4 opciones',
             round: 'Ronda',
             matchComplete: '¡Partida completa!',
             totalScore: 'Puntuación total',

@@ -15,6 +15,7 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-FQHMLZW50Z');
+    gtag('config', 'G-Z9BWP9G3HS'); // Hub property (for cross-game tracking)
   </script>
 
   <!-- AdSense -->
@@ -24,7 +25,7 @@
 <body>
   <header>
     <div class="header-row">
-      <a href="/" class="back-link">← Back</a>
+      <a href="/" class="back-link">← <span data-i18n="common.back">Back</span></a>
       <div class="header-controls">
         <div class="language-selector">
           <select id="language-selector">
@@ -48,15 +49,15 @@
     <div class="game-info" id="game-info" style="display: none;">
       <p>Each day, a secret book is selected. Make guesses and use the clues to find it!</p>
       <div class="game-stats">
-        <span>Guesses: <strong id="guess-count">0</strong></span>
+        <span><span data-i18n="common.guesses">Guesses</span>: <strong id="guess-count">0</strong></span>
         <span id="game-status"></span>
       </div>
     </div>
 
     <!-- Share Section (hidden until game ends) - positioned at top for visibility -->
     <div class="share-section" id="share-section" style="display: none;">
-      <button id="share-results-btn" class="submit-btn">📋 Share Results</button>
-      <button id="play-random-btn" class="submit-btn secondary">🎲 Play Random</button>
+      <button id="share-results-btn" class="submit-btn">📋 <span data-i18n="common.shareResults">Share Results</span></button>
+      <button id="play-random-btn" class="submit-btn secondary">🎲 <span data-i18n="common.playRandom">Play Random</span></button>
     </div>
 
     <!-- Easy Mode Toggle -->
@@ -82,8 +83,8 @@
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
       </div>
       <div class="button-group">
-        <button id="submit-guess" class="submit-btn">Submit Guess</button>
-        <button id="give-up-btn" class="submit-btn secondary">Give Up</button>
+        <button id="submit-guess" class="submit-btn" data-i18n="common.guess">Guess</button>
+        <button id="give-up-btn" class="submit-btn secondary" data-i18n="common.giveUp">Give Up</button>
       </div>
     </div>
 
@@ -219,6 +220,7 @@
   <script src="../shared/js/game-storage.js"></script>
   <script src="../shared/js/i18n.js"></script>
   <script src="../shared/js/stats-modal.js"></script>
+  <script src="../shared/js/hub-analytics.js"></script>
   
   <script src="js/booksquiz.js"></script>
   
