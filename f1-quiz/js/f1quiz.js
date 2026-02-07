@@ -95,7 +95,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
       
       if (SECRET_POOL.length > 0) {
-        initializeGame();
+        // Check if daily is completed - show result instead of restarting
+        if (dailyCompleted && dailyState) {
+          restoreDailyResult();
+        } else {
+          initializeGame();
+        }
         console.log('Game initialized');
       } else {
         console.error('No drivers available in secret pool');
@@ -104,6 +109,84 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
       console.error('Error loading driver data:', error);
       alert('Failed to load driver data: ' + error.message);
+    }
+  }
+  
+  // Restore and display the completed daily game result
+  function restoreDailyResult() {
+    const todaysDriver = getDailyDriver();
+    
+    gameState.secretDriver = todaysDriver;
+    gameState.currentDate = getDateString();
+    gameState.isGameOver = true;
+    gameState.isRandomMode = false;
+    
+    // Restore guesses and state from storage
+    if (dailyState.gameData) {
+      gameState.guesses = dailyState.gameData.guesses || [];
+      gameState.isSolved = dailyState.gameData.won;
+      gameState.gaveUp = !dailyState.gameData.won;
+    } else {
+      // Fallback if no detailed data
+      gameState.guesses = [];
+      gameState.isSolved = dailyState.won || false;
+      gameState.gaveUp = !gameState.isSolved;
+    }
+    
+    // Rebuild clues state from guesses
+    resetCluesState();
+    gameState.guesses.forEach(guess => {
+      if (guess.comparisons) {
+        updateCluesState(guess, guess.comparisons);
+      }
+    });
+    
+    // Hide guess section, show share section
+    guessSection.style.display = 'none';
+    shareSection.style.display = 'flex';
+    
+    // Update UI to show result
+    updateUI();
+  }
+  
+  // Play Random - start a new random game
+  function playRandom() {
+    const currentName = gameState.secretDriver ? gameState.secretDriver.name : null;
+    const availableDrivers = SECRET_POOL.filter(d => d.name !== currentName);
+    const randomIndex = Math.floor(Math.random() * availableDrivers.length);
+    const randomDriver = availableDrivers[randomIndex] || SECRET_POOL[0];
+    
+    // Reset game state
+    gameState.secretDriver = randomDriver;
+    gameState.currentDate = getDateString();
+    gameState.guesses = [];
+    gameState.isSolved = false;
+    gameState.isGameOver = false;
+    gameState.gaveUp = false;
+    gameState.isRandomMode = true;
+    
+    // Reset clues
+    resetCluesState();
+    
+    // Reset UI
+    guessesContainer.innerHTML = '';
+    guessCountEl.textContent = '0';
+    gameStatusEl.textContent = '';
+    gameStatusEl.className = '';
+    guessSection.style.display = 'flex';
+    shareSection.style.display = 'none';
+    driverInput.value = '';
+    driverInput.disabled = false;
+    autocompleteDropdown.style.display = 'none';
+    if (cluesPanel) cluesPanel.style.display = 'none';
+    
+    // Focus input
+    setTimeout(() => driverInput.focus(), 100);
+    
+    console.log('playRandom: starting random game with driver:', randomDriver.name);
+    
+    if (typeof gtag === 'function') {
+      gtag('event', 'f1_play_random', { driver: randomDriver.name });
     }
   }
 
@@ -115,6 +198,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     isGameOver: false,
     gaveUp: false,
     currentDate: null,
+    isRandomMode: dailyCompleted,
     // Timing tracking
     sessionStartTime: null,
     firstGuessTime: null
@@ -580,8 +664,33 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameStatusEl.className = 'game-over';
     }
     
+    // Save game result to storage
+    if (!dailyCompleted && !gameState.isRandomMode) {
+      gameStorage.completeDailyGame({
+        won: solved,
+        guesses: gameState.guesses.length,
+        driver: gameState.secretDriver.name,
+        gameData: {
+          won: solved,
+          guesses: gameState.guesses.map(g => ({
+            name: g.name,
+            nationality: g.nationality,
+            currentTeam: g.currentTeam,
+            worldChampionships: g.worldChampionships,
+            wins: g.wins,
+            podiums: g.podiums,
+            birthdate: g.birthdate,
+            deathDate: g.deathDate,
+            comparisons: g.comparisons,
+            isCorrect: g.isCorrect
+          }))
+        }
+      });
+      dailyCompleted = true;
+    }
+    
     guessSection.style.display = 'none';
-    shareSection.style.display = 'block';
+    shareSection.style.display = 'flex';
   }
 
   function shareResults() {
@@ -667,6 +776,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   submitBtn.addEventListener('click', submitGuess);
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
+  
+  const playRandomBtn = document.getElementById('play-random-btn');
+  if (playRandomBtn) {
+    playRandomBtn.addEventListener('click', playRandom);
+  }
   
   driverInput.addEventListener('input', (e) => {
     const results = filterDrivers(e.target.value);

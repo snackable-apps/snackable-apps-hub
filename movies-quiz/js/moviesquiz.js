@@ -192,8 +192,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     guessSection.style.display = 'flex';
     shareSection.style.display = 'none';
     movieInput.value = '';
+    movieInput.disabled = false;
     autocompleteDropdown.style.display = 'none';
+    autocompleteDropdown.classList.remove('active');
     cluesPanel.style.display = 'none';
+    
+    // Focus input for better UX
+    setTimeout(() => movieInput.focus(), 100);
+    
+    // Log for debugging
+    console.log('playRandom: starting random game with movie:', randomMovie.title);
     
     // Track random play
     if (typeof gtag === 'function') {

@@ -83,7 +83,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       // Auto-initialize game
       if (SECRET_POOL.length > 0) {
-        initializeGame();
+        // Check if daily is completed - show result instead of restarting
+        if (dailyCompleted && dailyState) {
+          restoreDailyResult();
+        } else {
+          initializeGame();
+        }
         console.log('Game initialized');
       } else {
         console.error('No animals available in secret pool');
@@ -102,6 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     isSolved: false,
     isGameOver: false,
     gaveUp: false,
+    isRandomMode: dailyCompleted,
     currentDate: null
   };
 
@@ -118,6 +124,73 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cluesContent = document.getElementById('clues-content');
   const cluesHeader = document.getElementById('clues-header');
   const cluesToggle = document.getElementById('clues-toggle');
+  
+  // Restore and display the completed daily game result
+  function restoreDailyResult() {
+    const todaysAnimal = getDailyAnimal();
+    
+    gameState.secretAnimal = todaysAnimal;
+    gameState.currentDate = getDateString();
+    gameState.isGameOver = true;
+    gameState.isRandomMode = false;
+    
+    if (dailyState.gameData) {
+      gameState.guesses = dailyState.gameData.guesses || [];
+      gameState.isSolved = dailyState.gameData.won;
+      gameState.gaveUp = !dailyState.gameData.won;
+    } else {
+      gameState.guesses = [];
+      gameState.isSolved = dailyState.won || false;
+      gameState.gaveUp = !gameState.isSolved;
+    }
+    
+    resetCluesState();
+    gameState.guesses.forEach(guess => {
+      if (guess.comparisons) {
+        updateCluesState(guess, guess.comparisons);
+      }
+    });
+    
+    guessSection.style.display = 'none';
+    shareSection.style.display = 'flex';
+    
+    updateUI();
+  }
+  
+  // Play Random
+  function playRandom() {
+    const currentName = gameState.secretAnimal ? gameState.secretAnimal.name : null;
+    const availableAnimals = SECRET_POOL.filter(a => a.name !== currentName);
+    const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+    const randomAnimal = availableAnimals[randomIndex] || SECRET_POOL[0];
+    
+    gameState.secretAnimal = randomAnimal;
+    gameState.currentDate = getDateString();
+    gameState.guesses = [];
+    gameState.isSolved = false;
+    gameState.isGameOver = false;
+    gameState.gaveUp = false;
+    gameState.isRandomMode = true;
+    
+    resetCluesState();
+    
+    guessesContainer.innerHTML = '';
+    guessCountEl.textContent = '0';
+    gameStatusEl.textContent = '';
+    gameStatusEl.className = '';
+    guessSection.style.display = 'flex';
+    shareSection.style.display = 'none';
+    animalInput.value = '';
+    animalInput.disabled = false;
+    autocompleteDropdown.style.display = 'none';
+    if (cluesPanel) cluesPanel.style.display = 'none';
+    
+    setTimeout(() => animalInput.focus(), 100);
+    
+    if (typeof gtag === 'function') {
+      gtag('event', 'animal_play_random', { animal: randomAnimal.name });
+    }
+  }
 
   // Helper function to get image path
   function getImagePath(animalName) {
@@ -651,8 +724,31 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
     
+    // Save game result to storage
+    if (!dailyCompleted && !gameState.isRandomMode) {
+      gameStorage.completeDailyGame({
+        won: solved,
+        guesses: gameState.guesses.length,
+        animal: gameState.secretAnimal.name,
+        gameData: {
+          won: solved,
+          guesses: gameState.guesses.map(g => ({
+            name: g.name,
+            class: g.class,
+            diet: g.diet,
+            activity: g.activity,
+            weight: g.weight,
+            lifespan: g.lifespan,
+            comparisons: g.comparisons,
+            isCorrect: g.isCorrect
+          }))
+        }
+      });
+      dailyCompleted = true;
+    }
+    
     guessSection.style.display = 'none';
-    shareSection.style.display = 'block';
+    shareSection.style.display = 'flex';
   }
 
   function shareResults() {
@@ -762,6 +858,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   submitBtn.addEventListener('click', submitGuess);
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
+  
+  const playRandomBtn = document.getElementById('play-random-btn');
+  if (playRandomBtn) {
+    playRandomBtn.addEventListener('click', playRandom);
+  }
   
   animalInput.addEventListener('input', (e) => {
     const query = e.target.value;

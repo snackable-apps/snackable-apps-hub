@@ -212,7 +212,19 @@ class I18n {
           title: 'Snackable Games',
           subtitle: 'Quick, fun games you can play in minutes',
           about: 'About',
-          privacy: 'Privacy'
+          privacy: 'Privacy',
+          featured: 'Featured',
+          games: {
+            blindtest: { title: 'Blind Test', desc: 'Listen to song samples and guess the title. Test your music knowledge!' },
+            movies: { title: 'Movie Quiz', desc: 'Guess the film using clues about director, genre, and rating.' },
+            f1: { title: 'F1 Quiz', desc: 'Guess the Formula 1 driver using clues about their career stats.' },
+            fut: { title: 'FutQuiz', desc: 'Guess the football player using clues about their career.' },
+            music: { title: 'Music Quiz', desc: 'Guess the song using hints about artist, genre, and era.' },
+            animal: { title: 'Animal Quiz', desc: 'Guess the mystery animal from habitat, diet, and trait clues.' },
+            sudoku: { title: 'Sudoku', desc: 'Classic number puzzle. Clean design, no distractions.' },
+            tennis: { title: 'Tennis Quiz', desc: 'Guess the tennis player using clues about their career and stats.' },
+            books: { title: 'Books Quiz', desc: 'Guess the classic book using clues about author and publication.' }
+          }
         },
         common: {
           submit: 'Submit',
@@ -337,7 +349,19 @@ class I18n {
           title: 'Snackable Games',
           subtitle: 'Des jeux rapides et amusants',
           about: 'A propos',
-          privacy: 'Confidentialite'
+          privacy: 'Confidentialite',
+          featured: 'A la une',
+          games: {
+            blindtest: { title: 'Blind Test', desc: 'Ecoutez des extraits et devinez le titre. Testez vos connaissances musicales !' },
+            movies: { title: 'Quiz Films', desc: 'Devinez le film grace aux indices sur le realisateur, le genre et la note.' },
+            f1: { title: 'Quiz F1', desc: 'Devinez le pilote de Formule 1 grace aux indices sur sa carriere.' },
+            fut: { title: 'FutQuiz', desc: 'Devinez le joueur de football grace aux indices sur sa carriere.' },
+            music: { title: 'Quiz Musique', desc: 'Devinez la chanson grace aux indices sur l\'artiste et l\'epoque.' },
+            animal: { title: 'Quiz Animaux', desc: 'Devinez l\'animal mystere grace aux indices sur son habitat et son regime.' },
+            sudoku: { title: 'Sudoku', desc: 'Le puzzle de chiffres classique. Design epure, sans distractions.' },
+            tennis: { title: 'Quiz Tennis', desc: 'Devinez le joueur de tennis grace aux indices sur sa carriere.' },
+            books: { title: 'Quiz Livres', desc: 'Devinez le livre classique grace aux indices sur l\'auteur et la publication.' }
+          }
         },
         common: {
           submit: 'Valider',
@@ -462,7 +486,19 @@ class I18n {
           title: 'Snackable Games',
           subtitle: 'Jogos rapidos e divertidos',
           about: 'Sobre',
-          privacy: 'Privacidade'
+          privacy: 'Privacidade',
+          featured: 'Destaque',
+          games: {
+            blindtest: { title: 'Blind Test', desc: 'Ouca trechos de musicas e adivinhe o titulo. Teste seus conhecimentos!' },
+            movies: { title: 'Quiz de Filmes', desc: 'Adivinhe o filme usando dicas sobre diretor, genero e nota.' },
+            f1: { title: 'Quiz F1', desc: 'Adivinhe o piloto de Formula 1 usando dicas sobre sua carreira.' },
+            fut: { title: 'FutQuiz', desc: 'Adivinhe o jogador de futebol usando dicas sobre sua carreira.' },
+            music: { title: 'Quiz de Musica', desc: 'Adivinhe a musica usando dicas sobre artista, genero e epoca.' },
+            animal: { title: 'Quiz de Animais', desc: 'Adivinhe o animal misterioso usando dicas sobre habitat e dieta.' },
+            sudoku: { title: 'Sudoku', desc: 'O classico puzzle de numeros. Design limpo, sem distracoes.' },
+            tennis: { title: 'Quiz de Tenis', desc: 'Adivinhe o jogador de tenis usando dicas sobre sua carreira.' },
+            books: { title: 'Quiz de Livros', desc: 'Adivinhe o livro classico usando dicas sobre autor e publicacao.' }
+          }
         },
         common: {
           submit: 'Enviar',
@@ -587,7 +623,19 @@ class I18n {
           title: 'Snackable Games',
           subtitle: 'Giochi veloci e divertenti',
           about: 'Chi siamo',
-          privacy: 'Privacy'
+          privacy: 'Privacy',
+          featured: 'In evidenza',
+          games: {
+            blindtest: { title: 'Blind Test', desc: 'Ascolta estratti musicali e indovina il titolo. Metti alla prova le tue conoscenze!' },
+            movies: { title: 'Quiz Film', desc: 'Indovina il film usando indizi su regista, genere e valutazione.' },
+            f1: { title: 'Quiz F1', desc: 'Indovina il pilota di Formula 1 usando indizi sulla sua carriera.' },
+            fut: { title: 'FutQuiz', desc: 'Indovina il calciatore usando indizi sulla sua carriera.' },
+            music: { title: 'Quiz Musica', desc: 'Indovina la canzone usando indizi su artista, genere ed epoca.' },
+            animal: { title: 'Quiz Animali', desc: 'Indovina l\'animale misterioso usando indizi su habitat e dieta.' },
+            sudoku: { title: 'Sudoku', desc: 'Il classico puzzle numerico. Design pulito, senza distrazioni.' },
+            tennis: { title: 'Quiz Tennis', desc: 'Indovina il tennista usando indizi sulla sua carriera.' },
+            books: { title: 'Quiz Libri', desc: 'Indovina il libro classico usando indizi su autore e pubblicazione.' }
+          }
         },
         common: {
           submit: 'Invia',
@@ -712,7 +760,19 @@ class I18n {
           title: 'Snackable Games',
           subtitle: 'Juegos rapidos y divertidos',
           about: 'Acerca de',
-          privacy: 'Privacidad'
+          privacy: 'Privacidad',
+          featured: 'Destacado',
+          games: {
+            blindtest: { title: 'Blind Test', desc: 'Escucha fragmentos de canciones y adivina el titulo. ¡Pon a prueba tus conocimientos!' },
+            movies: { title: 'Quiz de Peliculas', desc: 'Adivina la pelicula usando pistas sobre director, genero y puntuacion.' },
+            f1: { title: 'Quiz F1', desc: 'Adivina el piloto de Formula 1 usando pistas sobre su carrera.' },
+            fut: { title: 'FutQuiz', desc: 'Adivina el jugador de futbol usando pistas sobre su carrera.' },
+            music: { title: 'Quiz de Musica', desc: 'Adivina la cancion usando pistas sobre artista, genero y epoca.' },
+            animal: { title: 'Quiz de Animales', desc: 'Adivina el animal misterioso usando pistas sobre habitat y dieta.' },
+            sudoku: { title: 'Sudoku', desc: 'El clasico puzzle numerico. Diseno limpio, sin distracciones.' },
+            tennis: { title: 'Quiz de Tenis', desc: 'Adivina el tenista usando pistas sobre su carrera.' },
+            books: { title: 'Quiz de Libros', desc: 'Adivina el libro clasico usando pistas sobre autor y publicacion.' }
+          }
         },
         common: {
           submit: 'Enviar',

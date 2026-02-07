@@ -94,7 +94,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       // Initialize game
       if (DAILY_ELIGIBLE_PLAYERS.length > 0) {
-        initializeGame();
+        // Check if daily is completed - show result instead of restarting
+        if (dailyCompleted && dailyState) {
+          restoreDailyResult();
+        } else {
+          initializeGame();
+        }
         console.log('Jogo inicializado');
       } else {
         console.error('Nenhum jogador disponível');
@@ -113,8 +118,87 @@ document.addEventListener("DOMContentLoaded", async () => {
     isSolved: false,
     isGameOver: false,
     gaveUp: false,
-    currentDate: null
+    currentDate: null,
+    isRandomMode: dailyCompleted
   };
+  
+  // Restore and display the completed daily game result
+  function restoreDailyResult() {
+    const todaysPlayer = getDailyPlayer();
+    
+    gameState.secretPlayer = todaysPlayer;
+    gameState.currentDate = getDateString();
+    gameState.isGameOver = true;
+    gameState.isRandomMode = false;
+    
+    // Restore guesses and state from storage
+    if (dailyState.gameData) {
+      gameState.guesses = dailyState.gameData.guesses || [];
+      gameState.isSolved = dailyState.gameData.won;
+      gameState.gaveUp = !dailyState.gameData.won;
+    } else {
+      // Fallback if no detailed data
+      gameState.guesses = [];
+      gameState.isSolved = dailyState.won || false;
+      gameState.gaveUp = !gameState.isSolved;
+    }
+    
+    // Rebuild clues state from guesses
+    resetCluesState();
+    gameState.guesses.forEach(guess => {
+      if (guess.comparisons) {
+        updateCluesState(guess, guess.comparisons);
+      }
+    });
+    
+    // Hide guess section, show share section
+    guessSection.style.display = 'none';
+    shareSection.style.display = 'flex';
+    
+    // Update UI to show result
+    updateUI();
+  }
+  
+  // Play Random - start a new random game
+  function playRandom() {
+    const currentName = gameState.secretPlayer ? gameState.secretPlayer.name : null;
+    const availablePlayers = DAILY_ELIGIBLE_PLAYERS.filter(p => p.name !== currentName);
+    const randomIndex = Math.floor(Math.random() * availablePlayers.length);
+    const randomPlayer = availablePlayers[randomIndex] || DAILY_ELIGIBLE_PLAYERS[0];
+    
+    // Reset game state
+    gameState.secretPlayer = randomPlayer;
+    gameState.currentDate = getDateString();
+    gameState.guesses = [];
+    gameState.isSolved = false;
+    gameState.isGameOver = false;
+    gameState.gaveUp = false;
+    gameState.isRandomMode = true;
+    
+    // Reset clues
+    resetCluesState();
+    
+    // Reset UI
+    guessesContainer.innerHTML = '';
+    guessCountEl.textContent = '0';
+    gameStatusEl.textContent = '';
+    gameStatusEl.className = '';
+    guessSection.style.display = 'flex';
+    shareSection.style.display = 'none';
+    playerInput.value = '';
+    playerInput.disabled = false;
+    autocompleteDropdown.style.display = 'none';
+    if (cluesPanel) cluesPanel.style.display = 'none';
+    
+    // Focus input
+    setTimeout(() => playerInput.focus(), 100);
+    
+    console.log('playRandom: starting random game with player:', randomPlayer.name);
+    
+    if (typeof gtag === 'function') {
+      gtag('event', 'futquiz_play_random', { player: randomPlayer.name });
+    }
+  }
 
   // Clues State
   let cluesState = {
@@ -757,8 +841,33 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameStatusEl.className = 'game-over';
     }
     
+    // Save game result to storage
+    if (!dailyCompleted && !gameState.isRandomMode) {
+      gameStorage.completeDailyGame({
+        won: solved,
+        guesses: gameState.guesses.length,
+        player: gameState.secretPlayer.name,
+        gameData: {
+          won: solved,
+          guesses: gameState.guesses.map(g => ({
+            name: g.name,
+            nationality: g.nationality,
+            club: g.club,
+            position: g.position,
+            foot: g.foot,
+            height: g.height,
+            birthdate: g.birthdate,
+            worldCup: g.worldCup,
+            comparisons: g.comparisons,
+            isCorrect: g.isCorrect
+          }))
+        }
+      });
+      dailyCompleted = true;
+    }
+    
     guessSection.style.display = 'none';
-    shareSection.style.display = 'block';
+    shareSection.style.display = 'flex';
   }
 
   function shareResults() {
@@ -882,6 +991,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   submitBtn.addEventListener('click', submitGuess);
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
+  
+  const playRandomBtn = document.getElementById('play-random-btn');
+  if (playRandomBtn) {
+    playRandomBtn.addEventListener('click', playRandom);
+  }
   
   playerInput.addEventListener('input', (e) => {
     const query = e.target.value;

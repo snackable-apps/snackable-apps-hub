@@ -8,8 +8,70 @@ This document defines the core features and structure that ALL games (except Sud
 - [ ] Each game has a **daily challenge** that's the same for all players
 - [ ] Daily challenge uses seeded random based on date
 - [ ] After completing daily, players can only play **random mode**
-- [ ] Returning players see their completed daily result (not replay)
+- [ ] **Returning players behavior**: When a player returns after completing the daily:
+  - Show the completed daily result (all guesses, final state)
+  - Display share section and "Play Random" button
+  - Do NOT show input/guess section until they click "Play Random"
+  - Store full game data (guesses with comparisons) for restoration
 - [ ] Clear indication of which mode player is in
+
+#### Returning Player Implementation
+```javascript
+// On page load, check if daily is completed
+const dailyState = gameStorage.getDailyState();
+const dailyCompleted = dailyState && dailyState.completed;
+
+// In loadData function:
+if (dailyCompleted && dailyState) {
+  restoreDailyResult();
+} else {
+  initializeGame();
+}
+
+// Restore function:
+function restoreDailyResult() {
+  // Set the secret item to today's daily item
+  gameState.secretItem = getDailyItem();
+  gameState.isGameOver = true;
+  gameState.isRandomMode = false;
+  
+  // Restore guesses from storage
+  if (dailyState.gameData) {
+    gameState.guesses = dailyState.gameData.guesses || [];
+    gameState.isSolved = dailyState.gameData.won;
+    gameState.gaveUp = !dailyState.gameData.won;
+  }
+  
+  // Rebuild clues from guesses
+  resetCluesState();
+  gameState.guesses.forEach(guess => {
+    if (guess.comparisons) {
+      updateCluesState(guess, guess.comparisons);
+    }
+  });
+  
+  // Hide input, show share section
+  guessSection.style.display = 'none';
+  shareSection.style.display = 'block';
+  
+  updateUI();
+}
+
+// Save game data when completing:
+gameStorage.completeDailyGame({
+  won: true/false,
+  guesses: gameState.guesses.length,
+  gameData: {
+    won: true/false,
+    guesses: gameState.guesses.map(g => ({
+      // Include all relevant data for restoration
+      ...guessData,
+      comparisons: g.comparisons,
+      isCorrect: g.isCorrect
+    }))
+  }
+});
+```
 
 ### 2. User Persistence (localStorage)
 - [ ] Track if daily was completed today
