@@ -1,5 +1,35 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // DOM Elements
+document.addEventListener("DOMContentLoaded", async () => {
+  // ========== SHARED UTILITIES INTEGRATION ==========
+  const i18n = new I18n();
+  await i18n.init();
+  
+  const gameStorage = new GameStorage('tennis');
+  gameStorage.cleanupOldStates();
+  
+  const statsModal = new StatsModal(gameStorage, i18n);
+  window.statsModal = statsModal;
+  
+  const statsBtn = document.getElementById('stats-btn');
+  if (statsBtn) {
+    statsBtn.addEventListener('click', () => statsModal.show());
+  }
+  
+  function updateStreakDisplay() {
+    const streakEl = document.getElementById('streak-display');
+    if (!streakEl) return;
+    const streak = gameStorage.getStreak();
+    if (streak.currentStreak > 0) {
+      streakEl.innerHTML = `<span class="streak-badge"><span class="streak-icon">🔥</span> ${streak.currentStreak}</span>`;
+    } else {
+      streakEl.innerHTML = '';
+    }
+  }
+  updateStreakDisplay();
+  
+  const dailyState = gameStorage.getDailyState();
+  let dailyCompleted = dailyState && dailyState.completed;
+  
+  // ========== DOM ELEMENTS ==========
   const playerInput = document.getElementById("player-input");
   const autocompleteDropdown = document.getElementById("autocomplete-dropdown");
   const submitBtn = document.getElementById("submit-guess");

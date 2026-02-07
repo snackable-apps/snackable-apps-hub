@@ -6,6 +6,7 @@
   <title>Blind Test | Snackable Games</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎧</text></svg>">
   <link rel="stylesheet" href="css/blindtest.css" />
+  <link rel="stylesheet" href="../shared/css/shared.css" />
 
   <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DCKR2HQ4K8"></script>
@@ -22,9 +23,24 @@
 </head>
 <body>
   <header>
-    <h1>🎧 Blind Test</h1>
-    <p>Listen to the song sample and guess the title!</p>
-    <a href="/">← Back to menu</a>
+    <div class="header-row">
+      <a href="/" class="back-link">← Back</a>
+      <div class="header-controls">
+        <div class="language-selector">
+          <select id="language-selector">
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+            <option value="pt-br">PT</option>
+            <option value="it">IT</option>
+            <option value="es">ES</option>
+          </select>
+        </div>
+        <button class="stats-btn" id="stats-btn" title="Statistics">📊</button>
+      </div>
+    </div>
+    <h1 data-i18n="games.blindtest.title">🎧 Blind Test</h1>
+    <p data-i18n="games.blindtest.subtitle">Listen to the song sample and guess the title!</p>
+    <div class="streak-display" id="streak-display"></div>
   </header>
 
   <main>
@@ -205,6 +221,11 @@
     document.addEventListener('keydown',function(e){if(e.key==='Escape')closeFeedback()});
   </script>
 
+  <!-- Shared utilities -->
+  <script src="../shared/js/game-storage.js"></script>
+  <script src="../shared/js/i18n.js"></script>
+  <script src="../shared/js/stats-modal.js"></script>
+  
   <script src="js/blindtest.js"></script>
 </body>
 </html>

@@ -55,6 +55,34 @@ header a:hover {
   text-decoration: underline;
 }
 
+/* Header row with back link and controls */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.back-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.streak-display {
+  margin-top: 8px;
+}
+
 main {
   max-width: 600px;
   margin: 0 auto;

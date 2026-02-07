@@ -6,6 +6,7 @@
   <title>Movie Quiz - Guess the Film | Snackable Games</title>
   <meta name="description" content="Guess the secret movie! Compare director, genre, rating, and more. A daily movie guessing game.">
   <link rel="stylesheet" href="css/moviesquiz.css">
+  <link rel="stylesheet" href="../shared/css/shared.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,9 +24,24 @@
 <body>
   <div class="container">
     <header>
-      <a href="../" class="back-link">← Back to Games</a>
-      <h1>🎬 Movie Quiz</h1>
-      <p class="subtitle">Guess the secret film!</p>
+      <div class="header-row">
+        <a href="../" class="back-link">← Back</a>
+        <div class="header-controls">
+          <div class="language-selector">
+            <select id="language-selector">
+              <option value="en">EN</option>
+              <option value="fr">FR</option>
+              <option value="pt-br">PT</option>
+              <option value="it">IT</option>
+              <option value="es">ES</option>
+            </select>
+          </div>
+          <button class="stats-btn" id="stats-btn" title="Statistics">📊</button>
+        </div>
+      </div>
+      <h1 data-i18n="games.movies.title">🎬 Movie Quiz</h1>
+      <p class="subtitle" data-i18n="games.movies.subtitle">Guess the secret film!</p>
+      <div class="streak-display" id="streak-display"></div>
     </header>
 
     <main>
@@ -178,6 +194,11 @@
     </footer>
   </div>
 
+  <!-- Shared utilities -->
+  <script src="../shared/js/game-storage.js"></script>
+  <script src="../shared/js/i18n.js"></script>
+  <script src="../shared/js/stats-modal.js"></script>
+  
   <script src="js/moviesquiz.js"></script>
   <script>
     function openFeedback() {

@@ -1,5 +1,44 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // DOM Elements
+document.addEventListener("DOMContentLoaded", async () => {
+  // ========== SHARED UTILITIES INTEGRATION ==========
+  
+  // Initialize i18n (internationalization)
+  const i18n = new I18n();
+  await i18n.init();
+  
+  // Initialize game storage for persistence
+  const gameStorage = new GameStorage('movies');
+  gameStorage.cleanupOldStates();
+  
+  // Initialize stats modal
+  const statsModal = new StatsModal(gameStorage, i18n);
+  window.statsModal = statsModal;
+  
+  // Stats button handler
+  const statsBtn = document.getElementById('stats-btn');
+  if (statsBtn) {
+    statsBtn.addEventListener('click', () => statsModal.show());
+  }
+  
+  // Update streak display
+  function updateStreakDisplay() {
+    const streakEl = document.getElementById('streak-display');
+    if (!streakEl) return;
+    
+    const streak = gameStorage.getStreak();
+    if (streak.currentStreak > 0) {
+      streakEl.innerHTML = `<span class="streak-badge"><span class="streak-icon">🔥</span> ${streak.currentStreak}</span>`;
+    } else {
+      streakEl.innerHTML = '';
+    }
+  }
+  updateStreakDisplay();
+  
+  // Check if daily game was already completed
+  const dailyState = gameStorage.getDailyState();
+  let dailyCompleted = dailyState && dailyState.completed;
+  
+  // ========== DOM ELEMENTS ==========
+  
   const movieInput = document.getElementById("movie-input");
   const autocompleteDropdown = document.getElementById("autocomplete-dropdown");
   const submitBtn = document.getElementById("submit-guess");
@@ -86,7 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
     isSolved: false,
     isGameOver: false,
     gaveUp: false,
-    currentDate: null
+    currentDate: null,
+    isRandomMode: dailyCompleted // Start in random mode if daily already done
   };
 
   // Clues State - aggregated info from all guesses
@@ -675,6 +715,22 @@ document.addEventListener("DOMContentLoaded", () => {
           guesses: gameState.guesses.length
         });
       }
+      
+      // Save game result to storage
+      if (!dailyCompleted && !gameState.isRandomMode) {
+        gameStorage.completeDailyGame({
+          won: true,
+          guesses: gameState.guesses.length,
+          movie: gameState.secretMovie.title
+        });
+        dailyCompleted = true;
+        updateStreakDisplay();
+      } else {
+        gameStorage.updateStats({
+          won: true,
+          guesses: gameState.guesses.length
+        });
+      }
     }
     
     movieInput.value = '';
@@ -686,6 +742,22 @@ document.addEventListener("DOMContentLoaded", () => {
     
     gameState.gaveUp = true;
     gameState.isGameOver = true;
+    
+    // Save game result to storage (gave up = loss)
+    if (!dailyCompleted && !gameState.isRandomMode) {
+      gameStorage.completeDailyGame({
+        won: false,
+        guesses: gameState.guesses.length,
+        movie: gameState.secretMovie.title
+      });
+      dailyCompleted = true;
+      updateStreakDisplay();
+    } else {
+      gameStorage.updateStats({
+        won: false,
+        guesses: gameState.guesses.length
+      });
+    }
     
     if (typeof gtag === 'function') {
       gtag('event', 'movie_gave_up', {
@@ -988,6 +1060,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
+    gameState.isRandomMode = true; // Mark as random mode
     
     // Reset clues
     resetCluesState();

@@ -6,6 +6,7 @@
   <title>FutQuiz: o quiz diário da bola | Snackable Games</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
   <link rel="stylesheet" href="css/futquiz.css" />
+  <link rel="stylesheet" href="../shared/css/shared.css" />
 
   <!-- GA4 - FutQuiz Property -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z5XCYGGR6Y"></script>
@@ -22,9 +23,24 @@
 </head>
 <body>
   <header>
-    <h1>⚽ FutQuiz: o quiz diário da bola</h1>
-    <p>Adivinhe o jogador usando pistas lógicas!</p>
-    <a href="/">← Voltar ao menu</a>
+    <div class="header-row">
+      <a href="/" class="back-link">← Back</a>
+      <div class="header-controls">
+        <div class="language-selector">
+          <select id="language-selector">
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+            <option value="pt-br">PT</option>
+            <option value="it">IT</option>
+            <option value="es">ES</option>
+          </select>
+        </div>
+        <button class="stats-btn" id="stats-btn" title="Statistics">📊</button>
+      </div>
+    </div>
+    <h1 data-i18n="games.football.title">⚽ Football Quiz</h1>
+    <p data-i18n="games.football.subtitle">Guess the football player!</p>
+    <div class="streak-display" id="streak-display"></div>
   </header>
 
   <main>
@@ -160,6 +176,11 @@
   </script>
 
   <script src="data/players_data.js"></script>
+  <!-- Shared utilities -->
+  <script src="../shared/js/game-storage.js"></script>
+  <script src="../shared/js/i18n.js"></script>
+  <script src="../shared/js/stats-modal.js"></script>
+  
   <script src="js/futquiz.js"></script>
   
   <!-- Initialize Ads -->

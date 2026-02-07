@@ -1,5 +1,44 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // DOM Elements
+document.addEventListener("DOMContentLoaded", async () => {
+  // ========== SHARED UTILITIES ==========
+  
+  // Initialize i18n (internationalization)
+  const i18n = new I18n();
+  await i18n.init();
+  
+  // Initialize game storage for persistence
+  const gameStorage = new GameStorage('blindtest');
+  gameStorage.cleanupOldStates();
+  
+  // Initialize stats modal
+  const statsModal = new StatsModal(gameStorage, i18n);
+  window.statsModal = statsModal; // For onclick handlers
+  
+  // Stats button handler
+  const statsBtn = document.getElementById('stats-btn');
+  if (statsBtn) {
+    statsBtn.addEventListener('click', () => statsModal.show());
+  }
+  
+  // Update streak display
+  function updateStreakDisplay() {
+    const streakEl = document.getElementById('streak-display');
+    if (!streakEl) return;
+    
+    const streak = gameStorage.getStreak();
+    if (streak.currentStreak > 0) {
+      streakEl.innerHTML = `<span class="streak-badge"><span class="streak-icon">🔥</span> ${streak.currentStreak}</span>`;
+    } else {
+      streakEl.innerHTML = '';
+    }
+  }
+  updateStreakDisplay();
+  
+  // Check if daily game was already completed
+  const dailyState = gameStorage.getDailyState();
+  const dailyCompleted = dailyState && dailyState.completed;
+  
+  // ========== DOM ELEMENTS ==========
+  
   const songInput = document.getElementById("song-input");
   const autocompleteDropdown = document.getElementById("autocomplete-dropdown");
   const submitBtn = document.getElementById("submit-guess");
@@ -54,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let hasAnswered = false;
   
   // Match state
-  let isFirstMatch = true;
+  let isFirstMatch = !dailyCompleted; // If daily completed, start with random
   let currentRound = 0;
   let matchScore = 0;
   let matchResults = []; // Array of { song, correct, points, timeUsed }
@@ -518,6 +557,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const wrongCount = matchResults.filter(r => !r.correct).length;
     const avgTime = matchResults.reduce((sum, r) => sum + r.timeUsed, 0) / SONGS_PER_MATCH;
     
+    // Save game result to storage
+    const won = correctCount >= Math.ceil(SONGS_PER_MATCH / 2); // Won if got majority correct
+    const result = {
+      won: won,
+      score: matchScore,
+      correctCount: correctCount,
+      wrongCount: wrongCount,
+      avgTime: avgTime,
+      isDaily: isFirstMatch
+    };
+    
+    // If this was the first (daily) match, mark it as completed
+    if (isFirstMatch) {
+      gameStorage.completeDailyGame(result);
+      isFirstMatch = false; // Next game will be random
+      updateStreakDisplay();
+    } else {
+      // For random matches, just update stats
+      gameStorage.updateStats(result);
+    }
+    
     // Update summary display
     summaryScore.textContent = matchScore;
     summaryCorrect.textContent = correctCount;
@@ -526,8 +586,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Mode description
     const modes = [];
-    if (multipleChoiceEnabled) modes.push('Multiple Choice');
-    if (easyModeEnabled) modes.push('Easy Mode');
+    if (multipleChoiceEnabled) modes.push(i18n.t('games.blindtest.multipleChoice'));
+    if (easyModeEnabled) modes.push(i18n.t('games.blindtest.easyMode'));
     summaryMode.textContent = modes.length > 0 ? modes.join(' + ') : 'Hard Mode (Type Only)';
     
     // Build results list
