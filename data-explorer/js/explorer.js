@@ -265,9 +265,9 @@ function renderTableBody() {
         html += '<tr>';
         columns.forEach(col => {
             const value = item[col.key];
-            // Add wrap class to cast column for wrapping
-            const wrapClass = col.key === 'cast' ? ' class="wrap"' : '';
-            html += `<td${wrapClass}>${formatCell(value, col)}</td>`;
+            // Add scroll-x class to cast column for horizontal scrolling
+            const cellClass = col.key === 'cast' ? ' class="scroll-x"' : '';
+            html += `<td${cellClass}>${formatCell(value, col)}</td>`;
         });
         html += '</tr>';
     });
