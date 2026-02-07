@@ -26,8 +26,19 @@
 </head>
 <body>
   <header>
-    <h1>Snackable Games</h1>
-    <p>Quick, fun games you can play in minutes</p>
+    <div class="header-controls">
+      <div class="language-selector">
+        <select id="language-selector">
+          <option value="en">EN</option>
+          <option value="fr">FR</option>
+          <option value="pt-br">PT</option>
+          <option value="it">IT</option>
+          <option value="es">ES</option>
+        </select>
+      </div>
+    </div>
+    <h1 data-i18n="hub.title">Snackable Games</h1>
+    <p data-i18n="hub.subtitle">Quick, fun games you can play in minutes</p>
   </header>
 
   <div class="page-wrapper">
@@ -120,8 +131,8 @@
 
   <footer>
     <p>
-      <a href="about.html">About</a> · 
-      <a href="privacy.html">Privacy</a>
+      <a href="about.html" data-i18n="hub.about">About</a> · 
+      <a href="privacy.html" data-i18n="hub.privacy">Privacy</a>
     </p>
   </footer>
 
@@ -351,6 +362,16 @@
       // Clean URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
+  </script>
+  
+  <!-- i18n for Hub -->
+  <script src="shared/js/i18n.js"></script>
+  <script>
+    // Initialize i18n for Hub
+    (async function() {
+      const i18n = new I18n();
+      await i18n.init();
+    })();
   </script>
 </body>
 </html>

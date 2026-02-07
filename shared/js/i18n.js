@@ -208,6 +208,12 @@ class I18n {
   getInlineTranslations(locale) {
     const translations = {
       en: {
+        hub: {
+          title: 'Snackable Games',
+          subtitle: 'Quick, fun games you can play in minutes',
+          about: 'About',
+          privacy: 'Privacy'
+        },
         common: {
           submit: 'Submit',
           guess: 'Guess',
@@ -231,7 +237,15 @@ class I18n {
           daily: 'Daily',
           random: 'Random',
           startGame: 'Start Game',
-          back: 'Back'
+          back: 'Back',
+          dailyComplete: "Today's daily is complete!",
+          playingRandom: 'Playing random mode.',
+          solvedIn: 'Solved in {count} guess!',
+          solvedInPlural: 'Solved in {count} guesses!',
+          gaveUpAfter: 'Gave up after {count} guess',
+          gaveUpAfterPlural: 'Gave up after {count} guesses',
+          newDaily: 'A new challenge every day!',
+          dataProvider: 'Data provided by {source}'
         },
         stats: {
           gamesPlayed: 'Games Played',
@@ -255,7 +269,10 @@ class I18n {
             actors: 'Actors',
             rating: 'IMDB',
             runtime: 'Runtime',
-            genres: 'Genres'
+            genres: 'Genres',
+            loadingMessage: '🎬 Finishing the tournage...',
+            newMovieDaily: 'A new movie every day! 🎬',
+            dataAttribution: 'Data provided by IMDb API on RapidAPI'
           },
           books: {
             title: 'Books Quiz',
@@ -316,6 +333,12 @@ class I18n {
         }
       },
       fr: {
+        hub: {
+          title: 'Snackable Games',
+          subtitle: 'Des jeux rapides et amusants',
+          about: 'A propos',
+          privacy: 'Confidentialite'
+        },
         common: {
           submit: 'Valider',
           guess: 'Deviner',
@@ -339,7 +362,15 @@ class I18n {
           daily: 'Quotidien',
           random: 'Aleatoire',
           startGame: 'Commencer',
-          back: 'Retour'
+          back: 'Retour',
+          dailyComplete: 'Le defi du jour est termine !',
+          playingRandom: 'Mode aleatoire.',
+          solvedIn: 'Resolu en {count} essai !',
+          solvedInPlural: 'Resolu en {count} essais !',
+          gaveUpAfter: 'Abandonne apres {count} essai',
+          gaveUpAfterPlural: 'Abandonne apres {count} essais',
+          newDaily: 'Un nouveau defi chaque jour !',
+          dataProvider: 'Donnees fournies par {source}'
         },
         stats: {
           gamesPlayed: 'Parties jouees',
@@ -363,7 +394,10 @@ class I18n {
             actors: 'Acteurs',
             rating: 'IMDB',
             runtime: 'Duree',
-            genres: 'Genres'
+            genres: 'Genres',
+            loadingMessage: '🎬 Fin du tournage...',
+            newMovieDaily: 'Un nouveau film chaque jour ! 🎬',
+            dataAttribution: 'Donnees fournies par IMDb API sur RapidAPI'
           },
           books: {
             title: 'Quiz Livres',
@@ -424,6 +458,12 @@ class I18n {
         }
       },
       'pt-br': {
+        hub: {
+          title: 'Snackable Games',
+          subtitle: 'Jogos rapidos e divertidos',
+          about: 'Sobre',
+          privacy: 'Privacidade'
+        },
         common: {
           submit: 'Enviar',
           guess: 'Adivinhar',
@@ -447,7 +487,15 @@ class I18n {
           daily: 'Diario',
           random: 'Aleatorio',
           startGame: 'Comecar',
-          back: 'Voltar'
+          back: 'Voltar',
+          dailyComplete: 'O desafio de hoje esta completo!',
+          playingRandom: 'Modo aleatorio.',
+          solvedIn: 'Resolvido em {count} tentativa!',
+          solvedInPlural: 'Resolvido em {count} tentativas!',
+          gaveUpAfter: 'Desistiu apos {count} tentativa',
+          gaveUpAfterPlural: 'Desistiu apos {count} tentativas',
+          newDaily: 'Um novo desafio todo dia!',
+          dataProvider: 'Dados fornecidos por {source}'
         },
         stats: {
           gamesPlayed: 'Jogos',
@@ -471,7 +519,10 @@ class I18n {
             actors: 'Atores',
             rating: 'IMDB',
             runtime: 'Duracao',
-            genres: 'Generos'
+            genres: 'Generos',
+            loadingMessage: '🎬 Finalizando as filmagens...',
+            newMovieDaily: 'Um novo filme todo dia! 🎬',
+            dataAttribution: 'Dados fornecidos por IMDb API no RapidAPI'
           },
           books: {
             title: 'Quiz de Livros',
@@ -532,6 +583,12 @@ class I18n {
         }
       },
       it: {
+        hub: {
+          title: 'Snackable Games',
+          subtitle: 'Giochi veloci e divertenti',
+          about: 'Chi siamo',
+          privacy: 'Privacy'
+        },
         common: {
           submit: 'Invia',
           guess: 'Indovina',
@@ -555,7 +612,15 @@ class I18n {
           daily: 'Giornaliero',
           random: 'Casuale',
           startGame: 'Inizia',
-          back: 'Indietro'
+          back: 'Indietro',
+          dailyComplete: 'La sfida di oggi è completa!',
+          playingRandom: 'Modalità casuale.',
+          solvedIn: 'Risolto in {count} tentativo!',
+          solvedInPlural: 'Risolto in {count} tentativi!',
+          gaveUpAfter: 'Arreso dopo {count} tentativo',
+          gaveUpAfterPlural: 'Arreso dopo {count} tentativi',
+          newDaily: 'Una nuova sfida ogni giorno!',
+          dataProvider: 'Dati forniti da {source}'
         },
         stats: {
           gamesPlayed: 'Partite',
@@ -579,7 +644,10 @@ class I18n {
             actors: 'Attori',
             rating: 'IMDB',
             runtime: 'Durata',
-            genres: 'Generi'
+            genres: 'Generi',
+            loadingMessage: '🎬 Fine delle riprese...',
+            newMovieDaily: 'Un nuovo film ogni giorno! 🎬',
+            dataAttribution: 'Dati forniti da IMDb API su RapidAPI'
           },
           books: {
             title: 'Quiz Libri',
@@ -640,6 +708,12 @@ class I18n {
         }
       },
       es: {
+        hub: {
+          title: 'Snackable Games',
+          subtitle: 'Juegos rapidos y divertidos',
+          about: 'Acerca de',
+          privacy: 'Privacidad'
+        },
         common: {
           submit: 'Enviar',
           guess: 'Adivinar',
@@ -663,7 +737,15 @@ class I18n {
           daily: 'Diario',
           random: 'Aleatorio',
           startGame: 'Empezar',
-          back: 'Volver'
+          back: 'Volver',
+          dailyComplete: '¡El reto de hoy esta completo!',
+          playingRandom: 'Modo aleatorio.',
+          solvedIn: '¡Resuelto en {count} intento!',
+          solvedInPlural: '¡Resuelto en {count} intentos!',
+          gaveUpAfter: 'Rendido despues de {count} intento',
+          gaveUpAfterPlural: 'Rendido despues de {count} intentos',
+          newDaily: '¡Un nuevo reto cada dia!',
+          dataProvider: 'Datos proporcionados por {source}'
         },
         stats: {
           gamesPlayed: 'Partidas',
@@ -687,7 +769,10 @@ class I18n {
             actors: 'Actores',
             rating: 'IMDB',
             runtime: 'Duración',
-            genres: 'Géneros'
+            genres: 'Géneros',
+            loadingMessage: '🎬 Finalizando el rodaje...',
+            newMovieDaily: '¡Una nueva película cada día! 🎬',
+            dataAttribution: 'Datos proporcionados por IMDb API en RapidAPI'
           },
           books: {
             title: 'Quiz de Libros',

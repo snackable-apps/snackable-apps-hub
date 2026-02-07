@@ -117,17 +117,52 @@ document.addEventListener("DOMContentLoaded", async () => {
     guessSection.style.display = 'flex';
     
     if (SECRET_POOL.length > 0) {
-      // If daily was already completed, start in random mode or show completed message
-      if (dailyCompleted) {
-        // Start a random game instead
-        playRandom();
-        gameStatusEl.textContent = "Today's daily is complete! Playing random mode.";
+      // If daily was already completed, show the result and allow random play
+      if (dailyCompleted && dailyState) {
+        restoreDailyResult();
       } else {
         initializeGame();
       }
     } else {
       alert('No movies available.');
     }
+  }
+  
+  // Restore and display the completed daily game result
+  function restoreDailyResult() {
+    const todaysMovie = getDailyMovie();
+    
+    gameState.secretMovie = todaysMovie;
+    gameState.currentDate = getDateString();
+    gameState.isGameOver = true;
+    gameState.isRandomMode = false;
+    
+    // Restore guesses and state from storage
+    if (dailyState.gameData) {
+      gameState.guesses = dailyState.gameData.guesses || [];
+      gameState.isSolved = dailyState.gameData.won;
+      gameState.gaveUp = !dailyState.gameData.won;
+    } else {
+      // Fallback if no detailed data
+      gameState.guesses = [];
+      gameState.isSolved = dailyState.won || false;
+      gameState.gaveUp = !gameState.isSolved;
+    }
+    
+    // Rebuild clues state from guesses
+    resetCluesState();
+    gameState.guesses.forEach(guess => {
+      if (guess.comparisons) {
+        updateCluesState(guess, guess.comparisons);
+      }
+    });
+    
+    // Hide guess section, show share section
+    guessSection.style.display = 'none';
+    shareSection.style.display = 'block';
+    
+    // Update UI to show result
+    updateUI();
   }
   
   function playRandom() {
@@ -782,7 +817,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         gameStorage.completeDailyGame({
           won: true,
           guesses: gameState.guesses.length,
-          movie: gameState.secretMovie.title
+          movie: gameState.secretMovie.title,
+          gameData: {
+            won: true,
+            guesses: gameState.guesses.map(g => ({
+              title: g.title,
+              director: g.director,
+              releaseYear: g.releaseYear,
+              runtimeMinutes: g.runtimeMinutes,
+              imdbRating: g.imdbRating,
+              country: g.country,
+              genres: g.genres,
+              cast: g.cast,
+              castWithImages: g.castWithImages,
+              posterUrl: g.posterUrl,
+              comparisons: g.comparisons,
+              isCorrect: g.isCorrect
+            }))
+          }
         });
         dailyCompleted = true;
         // updateStreakDisplay(); // Disabled
@@ -809,7 +861,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameStorage.completeDailyGame({
         won: false,
         guesses: gameState.guesses.length,
-        movie: gameState.secretMovie.title
+        movie: gameState.secretMovie.title,
+        gameData: {
+          won: false,
+          guesses: gameState.guesses.map(g => ({
+            title: g.title,
+            director: g.director,
+            releaseYear: g.releaseYear,
+            runtimeMinutes: g.runtimeMinutes,
+            imdbRating: g.imdbRating,
+            country: g.country,
+            genres: g.genres,
+            cast: g.cast,
+            castWithImages: g.castWithImages,
+            posterUrl: g.posterUrl,
+            comparisons: g.comparisons,
+            isCorrect: g.isCorrect
+          }))
+        }
       });
       dailyCompleted = true;
       // updateStreakDisplay(); // Disabled
@@ -964,10 +1033,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Update game status
     if (gameState.isSolved) {
-      gameStatusEl.textContent = `🎉 Solved in ${gameState.guesses.length} ${gameState.guesses.length === 1 ? 'guess' : 'guesses'}!`;
+      const solvedKey = gameState.guesses.length === 1 ? 'common.solvedIn' : 'common.solvedInPlural';
+      gameStatusEl.textContent = `🎉 ${i18n.t(solvedKey).replace('{count}', gameState.guesses.length)}`;
       gameStatusEl.style.color = '#2ecc71';
     } else if (gameState.gaveUp) {
-      gameStatusEl.textContent = '😔 Better luck tomorrow!';
+      const gaveUpKey = gameState.guesses.length === 1 ? 'common.gaveUpAfter' : 'common.gaveUpAfterPlural';
+      gameStatusEl.textContent = `😔 ${i18n.t(gaveUpKey).replace('{count}', gameState.guesses.length)}`;
       gameStatusEl.style.color = '#e74c3c';
     } else {
       gameStatusEl.textContent = '';
@@ -1024,9 +1095,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(() => {
-        shareResultsBtn.textContent = '✅ Copied!';
+        shareResultsBtn.innerHTML = `✅ ${i18n.t('share.copiedToClipboard')}`;
         setTimeout(() => {
-          shareResultsBtn.textContent = '📋 Share Results';
+          shareResultsBtn.innerHTML = `📋 <span data-i18n="common.shareResults">${i18n.t('common.shareResults')}</span>`;
         }, 2000);
       });
     }
