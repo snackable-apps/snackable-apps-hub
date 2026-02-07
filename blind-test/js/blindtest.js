@@ -99,8 +99,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let matchResults = []; // Array of { song, correct, points, timeUsed }
   let dailySongs = []; // 5 daily songs for the first match
   
-  // Default modes ON
-  let easyModeEnabled = true;
+  // Default modes: Display Artist OFF, Multiple Choice ON
+  let easyModeEnabled = false;
   let multipleChoiceEnabled = true;
 
   // Autocomplete state
@@ -193,10 +193,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Get daily songs for first match
       dailySongs = getDailySongs();
       
-      // Set default toggles to ON
-      easyModeToggle.checked = true;
+      // Set default toggles: Display Artist OFF, Multiple Choice ON
+      easyModeToggle.checked = false;
       multipleChoiceToggle.checked = true;
-      songInput.placeholder = 'Type a song or artist name...';
+      songInput.placeholder = 'Type a song title...';
       
       // Show start screen instead of auto-starting
       showStartScreen();
@@ -667,7 +667,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Mode description
     const modes = [];
     if (multipleChoiceEnabled) modes.push(i18n.t('games.blindtest.multipleChoice'));
-    if (easyModeEnabled) modes.push(i18n.t('games.blindtest.easyMode'));
+    if (easyModeEnabled) modes.push(i18n.t('games.blindtest.displayArtist'));
     summaryMode.textContent = modes.length > 0 ? modes.join(' + ') : 'Hard Mode (Type Only)';
     
     // Build results list
@@ -720,9 +720,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Mode indicator
     let modeText = '';
-    if (multipleChoiceEnabled && easyModeEnabled) modeText = ' (Easy + MC)';
+    if (multipleChoiceEnabled && easyModeEnabled) modeText = ' (Artist + MC)';
     else if (multipleChoiceEnabled) modeText = ' (Multiple Choice)';
-    else if (easyModeEnabled) modeText = ' (Easy)';
+    else if (easyModeEnabled) modeText = ' (Artist Hint)';
     
     return `🎧 Blind Test ${dateString}${modeText}
 
