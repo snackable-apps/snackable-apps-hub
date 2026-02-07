@@ -332,12 +332,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       generateChoices();
     }
     
-    // Track round start
+    // Track round start (send only to Blind Test property, not Hub)
     if (typeof gtag === 'function') {
       gtag('event', 'blindtest_round_start', {
         song: currentSong.title,
         round: currentRound,
-        is_daily: isFirstMatch
+        is_daily: isFirstMatch,
+        send_to: 'G-KW4DNXXF1X'
       });
     }
   }
@@ -597,12 +598,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       nextBtn.textContent = 'See Results';
     }
     
-    // Track result
+    // Track result (send only to Blind Test property)
     if (typeof gtag === 'function') {
       gtag('event', 'blindtest_answer', {
         song: currentSong.title,
         correct: isCorrect,
         skipped: skipped,
+        send_to: 'G-KW4DNXXF1X',
         points: points,
         round: currentRound,
         is_daily: isFirstMatch
@@ -698,12 +700,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Show summary
     matchSummary.style.display = 'block';
     
-    // Track match complete
+    // Track match complete (send only to Blind Test property)
     if (typeof gtag === 'function') {
       gtag('event', 'blindtest_match_complete', {
         score: matchScore,
         correct: correctCount,
         is_daily: isFirstMatch,
+        send_to: 'G-KW4DNXXF1X',
         easy_mode: easyModeEnabled,
         multiple_choice: multipleChoiceEnabled
       });
@@ -754,7 +757,8 @@ Play at snackable-games.com/blind-test/`;
     if (typeof gtag === 'function') {
       gtag('event', 'blindtest_share', {
         score: matchScore,
-        is_daily: isFirstMatch
+        is_daily: isFirstMatch,
+        send_to: 'G-KW4DNXXF1X'
       });
     }
   }
