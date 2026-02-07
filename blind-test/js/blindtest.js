@@ -4,9 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const autocompleteDropdown = document.getElementById("autocomplete-dropdown");
   const submitBtn = document.getElementById("submit-guess");
   const skipBtn = document.getElementById("skip-btn");
-  const playBtn = document.getElementById("play-btn");
   const audioPlayer = document.getElementById("audio-player");
-  const progressBar = document.getElementById("progress-bar");
   const progressFill = document.getElementById("progress-fill");
   const timeDisplay = document.getElementById("time-display");
   const albumArt = document.getElementById("album-art");
@@ -46,15 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Constants
   const SONGS_PER_MATCH = 5;
   const MAX_POINTS_PER_SONG = 100;
+  const SONG_DURATION = 30; // 30 seconds max
   const API_URL = 'https://snackable-api.vercel.app/api/songs';
 
   // State
   let allSongs = [];
   let songsWithPreview = [];
   let currentSong = null;
-  let isPlaying = false;
-  let easyModeEnabled = false;
-  let multipleChoiceEnabled = false;
   let hasAnswered = false;
   
   // Match state
@@ -63,7 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let matchScore = 0;
   let matchResults = []; // Array of { song, correct, points, timeUsed }
   let dailySongs = []; // 5 daily songs for the first match
-  let songStartTime = 0; // When the song started (for scoring)
+  
+  // Default modes ON
+  let easyModeEnabled = true;
+  let multipleChoiceEnabled = true;
 
   // Autocomplete state
   let autocompleteState = {
@@ -113,9 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function calculatePoints(timeUsed, isCorrect) {
     if (!isCorrect) return 0;
     
-    const maxTime = 30; // 30 seconds max
     const minPoints = 20;
-    const timeRatio = Math.min(timeUsed, maxTime) / maxTime;
+    const timeRatio = Math.min(timeUsed, SONG_DURATION) / SONG_DURATION;
     const points = Math.round(MAX_POINTS_PER_SONG - (MAX_POINTS_PER_SONG - minPoints) * timeRatio);
     
     return Math.max(minPoints, points);
@@ -156,6 +154,11 @@ document.addEventListener("DOMContentLoaded", () => {
       // Get daily songs for first match
       dailySongs = getDailySongs();
       
+      // Set default toggles to ON
+      easyModeToggle.checked = true;
+      multipleChoiceToggle.checked = true;
+      songInput.placeholder = 'Type a song or artist name...';
+      
       startMatch(true);
       
     } catch (error) {
@@ -194,7 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     hasAnswered = false;
-    songStartTime = 0;
     
     // Update round display
     roundDisplay.textContent = `${currentRound}/${SONGS_PER_MATCH}`;
@@ -203,7 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Reset UI
     resetUI();
-    loadAudio();
+    
+    // Load and auto-play audio
+    loadAndPlayAudio();
     
     if (multipleChoiceEnabled) {
       generateChoices();
@@ -236,15 +240,13 @@ document.addEventListener("DOMContentLoaded", () => {
     songInput.value = '';
     autocompleteDropdown.style.display = 'none';
     
-    // Reset album art
+    // Reset album art (hidden during play)
     albumArt.style.display = 'flex';
     albumRevealed.style.display = 'none';
     
-    // Reset audio
+    // Reset progress
     progressFill.style.width = '0%';
     timeDisplay.textContent = '0:00 / 0:30';
-    playBtn.classList.remove('playing');
-    playBtn.querySelector('.play-text').textContent = 'Play Sample';
     
     // Reset choices
     const choiceBtns = choicesGrid.querySelectorAll('.choice-btn');
@@ -254,11 +256,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Load audio
-  function loadAudio() {
+  // Load and auto-play audio
+  function loadAndPlayAudio() {
     if (currentSong && currentSong.previewUrl) {
       audioPlayer.src = currentSong.previewUrl;
       audioPlayer.load();
+      
+      // Auto-play when loaded
+      audioPlayer.addEventListener('canplaythrough', function onCanPlay() {
+        audioPlayer.removeEventListener('canplaythrough', onCanPlay);
+        audioPlayer.play().catch(e => console.error('Auto-play error:', e));
+      }, { once: true });
     }
   }
 
@@ -409,15 +417,12 @@ document.addEventListener("DOMContentLoaded", () => {
     showResult(false, true);
   }
 
-  // Show result for current round
+  // Show result for current round (song keeps playing!)
   function showResult(isCorrect, skipped = false) {
-    // Stop audio
-    audioPlayer.pause();
-    isPlaying = false;
-    playBtn.classList.remove('playing');
+    // DON'T stop audio - let it keep playing during result
     
     // Calculate time used and points
-    const timeUsed = songStartTime > 0 ? audioPlayer.currentTime : 0;
+    const timeUsed = audioPlayer.currentTime || 0;
     const points = calculatePoints(timeUsed, isCorrect);
     
     // Update match score
@@ -488,6 +493,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Proceed to next round or show summary
   function nextRoundOrSummary() {
+    // Stop current audio before moving on
+    audioPlayer.pause();
+    audioPlayer.currentTime = 0;
+    
     if (currentRound < SONGS_PER_MATCH) {
       startRound();
     } else {
@@ -610,28 +619,9 @@ Play at snackable-games.com/blind-test/`;
     }
   }
 
-  // Audio player controls
-  function togglePlay() {
-    if (isPlaying) {
-      audioPlayer.pause();
-      isPlaying = false;
-      playBtn.classList.remove('playing');
-      playBtn.querySelector('.play-text').textContent = 'Play Sample';
-    } else {
-      // Track when song starts playing (for scoring)
-      if (songStartTime === 0) {
-        songStartTime = Date.now();
-      }
-      audioPlayer.play().catch(e => console.error('Play error:', e));
-      isPlaying = true;
-      playBtn.classList.add('playing');
-      playBtn.querySelector('.play-text').textContent = 'Pause';
-    }
-  }
-
-  // Update progress
+  // Update progress display
   function updateProgress() {
-    const duration = audioPlayer.duration || 30;
+    const duration = audioPlayer.duration || SONG_DURATION;
     const currentTime = audioPlayer.currentTime;
     const percent = (currentTime / duration) * 100;
     progressFill.style.width = `${percent}%`;
@@ -644,12 +634,14 @@ Play at snackable-games.com/blind-test/`;
   }
 
   // Event Listeners
-  playBtn.addEventListener('click', togglePlay);
   audioPlayer.addEventListener('timeupdate', updateProgress);
+  
+  // When song ends naturally (30s), auto-skip if not answered
   audioPlayer.addEventListener('ended', () => {
-    isPlaying = false;
-    playBtn.classList.remove('playing');
-    playBtn.querySelector('.play-text').textContent = 'Play Again';
+    if (!hasAnswered) {
+      hasAnswered = true;
+      showResult(false, true); // Treat as skipped
+    }
   });
   
   submitBtn.addEventListener('click', submitGuess);
@@ -736,14 +728,6 @@ Play at snackable-games.com/blind-test/`;
     if (!songInput.contains(e.target) && !autocompleteDropdown.contains(e.target)) {
       autocompleteDropdown.style.display = 'none';
       autocompleteState.isOpen = false;
-    }
-  });
-  
-  // Keyboard shortcut to play
-  document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' && document.activeElement !== songInput) {
-      e.preventDefault();
-      togglePlay();
     }
   });
   
