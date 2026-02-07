@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       streakEl.innerHTML = '';
     }
   }
-  updateStreakDisplay();
+  // // updateStreakDisplay(); // Disabled // Disabled - not ready yet
   
   // Check if daily game was already completed
   const dailyState = gameStorage.getDailyState();
@@ -112,9 +112,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log('Secret pool (easy+medium):', SECRET_POOL.length);
     
     if (SECRET_POOL.length > 0) {
-      initializeGame();
+      // If daily was already completed, start in random mode or show completed message
+      if (dailyCompleted) {
+        // Start a random game instead
+        playRandom();
+        gameStatusEl.textContent = "Today's daily is complete! Playing random mode.";
+      } else {
+        initializeGame();
+      }
     } else {
       alert('No movies available.');
+    }
+  }
+  
+  function playRandom() {
+    // Select a random movie from the pool (different from current if exists)
+    const currentTitle = gameState.secretMovie ? gameState.secretMovie.title : null;
+    const availableMovies = SECRET_POOL.filter(m => m.title !== currentTitle);
+    const randomIndex = Math.floor(Math.random() * availableMovies.length);
+    const randomMovie = availableMovies[randomIndex] || SECRET_POOL[0];
+    
+    // Reset game state
+    gameState.secretMovie = randomMovie;
+    gameState.currentDate = getDateString();
+    gameState.guesses = [];
+    gameState.isSolved = false;
+    gameState.isGameOver = false;
+    gameState.gaveUp = false;
+    gameState.isRandomMode = true; // Mark as random mode
+    
+    // Reset clues
+    resetCluesState();
+    
+    // Reset UI
+    guessesContainer.innerHTML = '';
+    guessCountEl.textContent = '0';
+    gameStatusEl.textContent = '';
+    gameStatusEl.className = '';
+    guessSection.style.display = 'flex';
+    shareSection.style.display = 'none';
+    movieInput.value = '';
+    autocompleteDropdown.style.display = 'none';
+    cluesPanel.style.display = 'none';
+    
+    // Track random play
+    if (typeof gtag === 'function') {
+      gtag('event', 'movies_play_random', {
+        movie: randomMovie.title
+      });
     }
   }
 
@@ -171,6 +216,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
     const index = dayOfYear % SECRET_POOL.length;
     return SECRET_POOL[index];
+  }
+
+  // Convert 2-letter country code to flag emoji
+  function countryCodeToFlag(code) {
+    if (!code || code.length !== 2) return code || '';
+    const upper = code.toUpperCase();
+    // Convert each letter to regional indicator symbol
+    const flag = String.fromCodePoint(
+      ...upper.split('').map(c => 0x1F1E6 + c.charCodeAt(0) - 65)
+    );
+    return `${upper} ${flag}`;
   }
 
   function compareProperties(secret, guess) {
@@ -468,7 +524,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const countryValue = document.getElementById('clue-country-value');
     if (cluesState.countryConfirmed) {
       countryItem.className = 'clue-item confirmed';
-      countryValue.textContent = cluesState.countryConfirmed;
+      countryValue.textContent = countryCodeToFlag(cluesState.countryConfirmed);
     } else {
       countryItem.className = 'clue-item';
       countryValue.textContent = '?';
@@ -724,7 +780,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           movie: gameState.secretMovie.title
         });
         dailyCompleted = true;
-        updateStreakDisplay();
+        // updateStreakDisplay(); // Disabled
       } else {
         gameStorage.updateStats({
           won: true,
@@ -751,7 +807,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         movie: gameState.secretMovie.title
       });
       dailyCompleted = true;
-      updateStreakDisplay();
+      // updateStreakDisplay(); // Disabled
     } else {
       gameStorage.updateStats({
         won: false,
@@ -805,38 +861,38 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="guess-title">🎬 ${guess.title}</div>
           <div class="guess-properties">
             <div class="property ${guess.comparisons.director}">
-              <div class="property-label">Director</div>
+              <div class="property-label">${i18n.t('games.movies.director')}</div>
               <div class="property-value">
                 ${getFeedbackText(guess.comparisons.director)} ${formatActorName(guess.director)}
               </div>
             </div>
             <div class="property ${guess.comparisons.releaseYear}">
-              <div class="property-label">Year</div>
+              <div class="property-label">${i18n.t('games.movies.year')}</div>
               <div class="property-value">
                 ${getFeedbackText(guess.comparisons.releaseYear)} ${guess.releaseYear}
               </div>
             </div>
             <div class="property ${guess.comparisons.runtime}">
-              <div class="property-label">Runtime</div>
+              <div class="property-label">${i18n.t('games.movies.runtime')}</div>
               <div class="property-value">
                 ${getFeedbackText(guess.comparisons.runtime)} ${formatRuntime(guess.runtimeMinutes)}
               </div>
             </div>
             <div class="property ${guess.comparisons.imdbRating}">
-              <div class="property-label">IMDB</div>
+              <div class="property-label">${i18n.t('games.movies.rating')}</div>
               <div class="property-value">
                 ${getFeedbackText(guess.comparisons.imdbRating)} ${guess.imdbRating}
               </div>
             </div>
             <div class="property ${guess.comparisons.country}">
-              <div class="property-label">Country</div>
+              <div class="property-label">${i18n.t('games.movies.country')}</div>
               <div class="property-value">
-                ${getFeedbackText(guess.comparisons.country)} ${guess.country}
+                ${getFeedbackText(guess.comparisons.country)} ${countryCodeToFlag(guess.country)}
               </div>
             </div>
           </div>
           <div class="guess-genres">
-            <span class="details-label">Genres:</span> ${genresHtml}
+            <span class="details-label">${i18n.t('games.movies.genres')}:</span> ${genresHtml}
           </div>
         </div>
       </div>
@@ -882,7 +938,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="movie-details">
             <span>${movie.releaseYear}</span> • 
             <span>${movie.director}</span> • 
-            <span>${movie.country}</span>
+            <span>${countryCodeToFlag(movie.country)}</span>
           </div>
         </div>
       </div>
@@ -929,7 +985,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (gameState.isGameOver) {
       guessSection.style.display = 'none';
       shareSection.style.display = 'block';
-      cluesPanel.style.display = 'none'; // Hide clues when game ends
+      // Keep clues panel visible after game over so user can see the summary
     }
   }
 
@@ -1046,41 +1102,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Play Random - start a new game with a random movie
   if (playRandomBtn) {
     playRandomBtn.addEventListener('click', playRandom);
-  }
-
-  function playRandom() {
-    // Select a random movie from the pool (different from current)
-    const availableMovies = SECRET_POOL.filter(m => m.title !== gameState.secretMovie.title);
-    const randomIndex = Math.floor(Math.random() * availableMovies.length);
-    const randomMovie = availableMovies[randomIndex] || SECRET_POOL[0];
-    
-    // Reset game state
-    gameState.secretMovie = randomMovie;
-    gameState.guesses = [];
-    gameState.isSolved = false;
-    gameState.isGameOver = false;
-    gameState.gaveUp = false;
-    gameState.isRandomMode = true; // Mark as random mode
-    
-    // Reset clues
-    resetCluesState();
-    
-    // Reset UI
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
-    movieInput.value = '';
-    autocompleteDropdown.style.display = 'none';
-    
-    // Track random play
-    if (typeof gtag === 'function') {
-      gtag('event', 'movies_play_random', {
-        movie: randomMovie.title
-      });
-    }
   }
 
   // Clues panel toggle

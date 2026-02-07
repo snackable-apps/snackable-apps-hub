@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       streakEl.innerHTML = '';
     }
   }
-  updateStreakDisplay();
+  // // updateStreakDisplay(); // Disabled // Disabled - not ready yet
   
   // Check if daily game was already completed
   const dailyState = gameStorage.getDailyState();
@@ -198,12 +198,47 @@ document.addEventListener("DOMContentLoaded", async () => {
       multipleChoiceToggle.checked = true;
       songInput.placeholder = 'Type a song or artist name...';
       
-      startMatch(true);
+      // Show start screen instead of auto-starting
+      showStartScreen();
       
     } catch (error) {
       console.error('Failed to load songs:', error);
       alert('Failed to load songs. Please refresh the page.');
     }
+  }
+
+  // Start screen elements
+  const startScreen = document.getElementById('start-screen');
+  const startGameBtn = document.getElementById('start-game-btn');
+  const startEasyMode = document.getElementById('start-easy-mode');
+  const startMultipleChoice = document.getElementById('start-multiple-choice');
+
+  // Show start screen
+  function showStartScreen() {
+    startScreen.style.display = 'flex';
+    document.getElementById('game-info').style.display = 'none';
+    modeToggles.style.display = 'none';
+    playerSection.style.display = 'none';
+    guessSection.style.display = 'none';
+    choicesSection.style.display = 'none';
+    matchSummary.style.display = 'none';
+  }
+
+  // Start game button handler
+  if (startGameBtn) {
+    startGameBtn.addEventListener('click', () => {
+      // Apply settings from start screen
+      easyModeEnabled = startEasyMode.checked;
+      multipleChoiceEnabled = startMultipleChoice.checked;
+      easyModeToggle.checked = easyModeEnabled;
+      multipleChoiceToggle.checked = multipleChoiceEnabled;
+      
+      // Hide start screen, show game
+      startScreen.style.display = 'none';
+      document.getElementById('game-info').style.display = 'block';
+      
+      startMatch(true);
+    });
   }
 
   // Start a new match
@@ -215,10 +250,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Hide summary, show game
     matchSummary.style.display = 'none';
+    startScreen.style.display = 'none';
+    document.getElementById('game-info').style.display = 'block';
     modeToggles.style.display = 'flex';
     playerSection.style.display = 'flex';
     
     startRound();
+  }
+
+  // Get truly random songs with artist diversity (no same artist twice in a match)
+  function getRandomSongsWithDiversity(count, excludeIds = []) {
+    const selected = [];
+    const usedArtists = new Set();
+    const available = songsWithPreview.filter(s => !excludeIds.includes(s.id));
+    
+    // Shuffle available songs
+    const shuffled = [...available].sort(() => Math.random() - 0.5);
+    
+    for (const song of shuffled) {
+      if (selected.length >= count) break;
+      
+      // Skip if we already have a song from this artist
+      const artistKey = song.artist.toLowerCase();
+      if (usedArtists.has(artistKey)) continue;
+      
+      selected.push(song);
+      usedArtists.add(artistKey);
+    }
+    
+    // If we couldn't get enough diverse songs, fill with any remaining
+    if (selected.length < count) {
+      for (const song of shuffled) {
+        if (selected.length >= count) break;
+        if (!selected.find(s => s.id === song.id)) {
+          selected.push(song);
+        }
+      }
+    }
+    
+    return selected;
   }
 
   // Start a new round within a match
@@ -228,11 +298,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (isFirstMatch) {
       currentSong = dailySongs[currentRound - 1];
     } else {
-      // Random song for random matches
+      // Random song with artist diversity
       const usedSongIds = matchResults.map(r => r.song.id);
-      const available = songsWithPreview.filter(s => !usedSongIds.includes(s.id));
-      const randomIndex = Math.floor(Math.random() * available.length);
-      currentSong = available[randomIndex] || songsWithPreview[0];
+      const usedArtists = new Set(matchResults.map(r => r.song.artist.toLowerCase()));
+      
+      // Get available songs, preferring different artists
+      const available = songsWithPreview.filter(s => 
+        !usedSongIds.includes(s.id) && !usedArtists.has(s.artist.toLowerCase())
+      );
+      
+      // If no diverse songs left, fall back to any unused song
+      const pool = available.length > 0 ? available : 
+        songsWithPreview.filter(s => !usedSongIds.includes(s.id));
+      
+      const randomIndex = Math.floor(Math.random() * pool.length);
+      currentSong = pool[randomIndex] || songsWithPreview[0];
     }
     
     hasAnswered = false;
@@ -572,7 +652,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (isFirstMatch) {
       gameStorage.completeDailyGame(result);
       isFirstMatch = false; // Next game will be random
-      updateStreakDisplay();
+      // updateStreakDisplay(); // Disabled
     } else {
       // For random matches, just update stats
       gameStorage.updateStats(result);

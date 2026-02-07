@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       streakEl.innerHTML = '';
     }
   }
-  updateStreakDisplay();
+  // // updateStreakDisplay(); // Disabled // Disabled - not ready yet
   
   const dailyState = gameStorage.getDailyState();
   let dailyCompleted = dailyState && dailyState.completed;
@@ -846,10 +846,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameStatusEl.className = '';
     }
     
-    // Hide clues panel when game ends
-    if (gameState.isGameOver && cluesPanel) {
-      cluesPanel.style.display = 'none';
-    }
+    // Keep clues panel visible after game over so user can see the summary
   }
 
   function initializeGame() {

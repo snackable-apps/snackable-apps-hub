@@ -44,8 +44,34 @@
   </header>
 
   <main>
-    <!-- Game Info -->
-    <div class="game-info" id="game-info">
+    <!-- Start Screen (shown before game starts) -->
+    <div class="start-screen" id="start-screen">
+      <div class="start-content">
+        <div class="start-icon">🎧</div>
+        <h2 data-i18n="games.blindtest.startTitle">Ready to play?</h2>
+        <p data-i18n="games.blindtest.startDesc">Listen to 5 song samples and guess the titles. The faster you answer, the more points you get!</p>
+        <div class="start-options">
+          <div class="toggle-container compact">
+            <label class="toggle-switch">
+              <input type="checkbox" id="start-easy-mode" checked>
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label" data-i18n="games.blindtest.easyMode">Easy Mode</span>
+          </div>
+          <div class="toggle-container compact">
+            <label class="toggle-switch">
+              <input type="checkbox" id="start-multiple-choice" checked>
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label" data-i18n="games.blindtest.multipleChoice">Multiple Choice</span>
+          </div>
+        </div>
+        <button class="start-btn" id="start-game-btn" data-i18n="common.startGame">Start Game</button>
+      </div>
+    </div>
+
+    <!-- Game Info (hidden until game starts) -->
+    <div class="game-info" id="game-info" style="display: none;">
       <div class="game-stats">
         <span>Round: <strong id="round-display">1/5</strong></span>
         <span>Points: <strong id="score">0</strong></span>
@@ -53,8 +79,8 @@
       </div>
     </div>
 
-    <!-- Mode Toggles - Side by Side -->
-    <div class="mode-toggles" id="mode-toggles">
+    <!-- Mode Toggles - Side by Side (hidden until game starts) -->
+    <div class="mode-toggles" id="mode-toggles" style="display: none;">
       <div class="toggle-row">
         <div class="toggle-container compact">
           <label class="toggle-switch">
@@ -73,8 +99,8 @@
       </div>
     </div>
 
-    <!-- Album Art & Player -->
-    <div class="player-section" id="player-section">
+    <!-- Album Art & Player (hidden until game starts) -->
+    <div class="player-section" id="player-section" style="display: none;">
       <div class="album-art-container">
         <div class="album-art" id="album-art">
           <div class="album-placeholder">🎵</div>

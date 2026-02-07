@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       streakEl.innerHTML = '';
     }
   }
-  updateStreakDisplay();
+  // // updateStreakDisplay(); // Disabled // Disabled - not ready yet
   
   const dailyState = gameStorage.getDailyState();
   let dailyCompleted = dailyState && dailyState.completed;
@@ -536,8 +536,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     gameState.isSolved = solved;
     gameState.isGameOver = true;
     
-    // Hide clues panel when game ends
-    if (cluesPanel) cluesPanel.style.display = 'none';
+    // Keep clues panel visible after game over so user can see the summary
     
     if (solved) {
       gameStatusEl.textContent = `🎉 Solved in ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}!`;
@@ -647,11 +646,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;
     
-    // Only show clues panel when game is in progress
-    if (gameState.isGameOver) {
-      if (cluesPanel) cluesPanel.style.display = 'none';
-    } else {
-      renderCluesPanel();
+    // Render clues panel (keep visible even after game over)
+    renderCluesPanel();
+    if (!gameState.isGameOver) {
       gameStatusEl.textContent = '';
       gameStatusEl.className = '';
     }

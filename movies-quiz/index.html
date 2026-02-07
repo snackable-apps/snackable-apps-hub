@@ -48,15 +48,15 @@
       <!-- Game Info -->
       <div id="game-info" class="game-info">
         <div class="info-row">
-          <span>Guesses: <strong id="guess-count">0</strong></span>
+          <span><span data-i18n="common.guesses">Guesses</span>: <strong id="guess-count">0</strong></span>
           <span id="game-status"></span>
         </div>
       </div>
 
       <!-- Share Section (hidden until game ends) - positioned at top for visibility -->
       <div id="share-section" class="share-section" style="display: none;">
-        <button id="share-results-btn" class="btn-share">📋 Share Results</button>
-        <button id="play-random-btn" class="btn-share secondary">🎲 Play Random</button>
+        <button id="share-results-btn" class="btn-share">📋 <span data-i18n="common.shareResults">Share Results</span></button>
+        <button id="play-random-btn" class="btn-share secondary">🎲 <span data-i18n="common.playRandom">Play Random</span></button>
       </div>
 
       <!-- Guess Input Section -->
@@ -66,70 +66,71 @@
             type="text" 
             id="movie-input" 
             placeholder="Type a movie title..." 
+            data-i18n-placeholder="games.movies.inputPlaceholder"
             autocomplete="off"
           >
           <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
         </div>
-        <button id="submit-guess" class="btn-primary">Guess</button>
-        <button id="give-up-btn" class="btn-secondary">Give Up</button>
+        <button id="submit-guess" class="btn-primary" data-i18n="common.submit">Guess</button>
+        <button id="give-up-btn" class="btn-secondary" data-i18n="common.giveUp">Give Up</button>
       </div>
 
       <!-- Clues Summary Panel -->
       <div id="clues-panel" class="clues-panel" style="display: none;">
         <div class="clues-header">
-          <span class="clues-title">🔍 Clues Summary</span>
+          <span class="clues-title">🔍 <span data-i18n="games.movies.cluesSummary">Clues Summary</span></span>
           <button class="clues-toggle" id="clues-toggle">▼</button>
         </div>
         <div class="clues-content" id="clues-content">
           <!-- Ranges Row -->
           <div class="clues-row clues-ranges">
             <div class="clue-item" id="clue-year">
-              <span class="clue-label">Year</span>
+              <span class="clue-label" data-i18n="games.movies.year">Year</span>
               <span class="clue-value" id="clue-year-value">?</span>
             </div>
             <div class="clue-item" id="clue-runtime">
-              <span class="clue-label">Runtime</span>
+              <span class="clue-label" data-i18n="games.movies.runtime">Runtime</span>
               <span class="clue-value" id="clue-runtime-value">?</span>
             </div>
             <div class="clue-item" id="clue-rating">
-              <span class="clue-label">IMDB</span>
+              <span class="clue-label" data-i18n="games.movies.rating">IMDB</span>
               <span class="clue-value" id="clue-rating-value">?</span>
             </div>
           </div>
           <!-- Confirmed Row -->
           <div class="clues-row clues-confirmed">
             <div class="clue-item" id="clue-director">
-              <span class="clue-label">Director</span>
+              <span class="clue-label" data-i18n="games.movies.director">Director</span>
               <span class="clue-value" id="clue-director-value">?</span>
             </div>
             <div class="clue-item" id="clue-country">
-              <span class="clue-label">Country</span>
+              <span class="clue-label" data-i18n="games.movies.country">Country</span>
               <span class="clue-value" id="clue-country-value">?</span>
             </div>
           </div>
           <!-- Genres & Cast -->
           <div class="clues-row clues-tags">
             <div class="clue-tags-group" id="clue-genres-group" style="display: none;">
-              <span class="clue-label">Genres:</span>
+              <span class="clue-label" data-i18n="games.movies.genres">Genres:</span>
               <span class="clue-tags" id="clue-genres"></span>
             </div>
             <div class="clue-tags-group" id="clue-cast-group" style="display: none;">
-              <span class="clue-label">Cast:</span>
+              <span class="clue-label" data-i18n="games.movies.cast">Cast:</span>
               <span class="clue-tags" id="clue-cast"></span>
             </div>
           </div>
           <!-- Excluded -->
           <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
             <div class="clue-excluded-section" id="clue-excluded-directors-section" style="display: none;">
-              <span class="clue-label">❌ Directors:</span>
+              <span class="clue-label">❌ <span data-i18n="games.movies.directors">Directors</span>:</span>
               <span class="clue-excluded-values" id="clue-excluded-directors"></span>
             </div>
             <div class="clue-excluded-section" id="clue-excluded-genres-section" style="display: none;">
-              <span class="clue-label">❌ Genres:</span>
+              <span class="clue-label">❌ <span data-i18n="games.movies.genres">Genres</span>:</span>
               <span class="clue-excluded-values" id="clue-excluded-genres"></span>
             </div>
             <div class="clue-excluded-section" id="clue-excluded-actors-section" style="display: none;">
-              <span class="clue-label">❌ Actors:</span>
+              <span class="clue-label">❌ <span data-i18n="games.movies.actors">Actors</span>:</span>
               <span class="clue-excluded-values" id="clue-excluded-actors"></span>
             </div>
           </div>

@@ -228,7 +228,9 @@ class I18n {
           stats: 'Statistics',
           howToPlay: 'How to Play',
           daily: 'Daily',
-          random: 'Random'
+          random: 'Random',
+          startGame: 'Start Game',
+          back: 'Back'
         },
         stats: {
           gamesPlayed: 'Games Played',
@@ -243,11 +245,16 @@ class I18n {
             title: 'Movies Quiz',
             subtitle: 'Guess the movie from the clues',
             inputPlaceholder: 'Type a movie title...',
+            cluesSummary: 'Clues Summary',
             director: 'Director',
+            directors: 'Directors',
             year: 'Year',
             country: 'Country',
             cast: 'Cast',
-            rating: 'Rating'
+            actors: 'Actors',
+            rating: 'IMDB',
+            runtime: 'Runtime',
+            genres: 'Genres'
           },
           books: {
             title: 'Books Quiz',
@@ -276,7 +283,9 @@ class I18n {
             matchComplete: 'Match Complete!',
             totalScore: 'Total Score',
             avgTime: 'Avg Time',
-            nextMatch: 'Play Random Match'
+            nextMatch: 'Play Random Match',
+            startTitle: 'Ready to play?',
+            startDesc: 'Listen to 5 song samples and guess the titles. The faster you answer, the more points you get!'
           },
           animals: {
             title: 'Animal Quiz',
@@ -324,7 +333,9 @@ class I18n {
           stats: 'Statistiques',
           howToPlay: 'Comment jouer',
           daily: 'Quotidien',
-          random: 'Aleatoire'
+          random: 'Aleatoire',
+          startGame: 'Commencer',
+          back: 'Retour'
         },
         stats: {
           gamesPlayed: 'Parties jouees',
@@ -339,11 +350,16 @@ class I18n {
             title: 'Quiz Films',
             subtitle: 'Devinez le film a partir des indices',
             inputPlaceholder: 'Tapez un titre de film...',
+            cluesSummary: 'Resume des indices',
             director: 'Realisateur',
+            directors: 'Realisateurs',
             year: 'Annee',
             country: 'Pays',
             cast: 'Casting',
-            rating: 'Note'
+            actors: 'Acteurs',
+            rating: 'IMDB',
+            runtime: 'Duree',
+            genres: 'Genres'
           },
           books: {
             title: 'Quiz Livres',
@@ -372,7 +388,9 @@ class I18n {
             matchComplete: 'Match termine !',
             totalScore: 'Score total',
             avgTime: 'Temps moyen',
-            nextMatch: 'Match aleatoire'
+            nextMatch: 'Match aleatoire',
+            startTitle: 'Pret a jouer ?',
+            startDesc: 'Ecoutez 5 extraits et devinez les titres. Plus vous repondez vite, plus vous gagnez de points !'
           },
           animals: {
             title: 'Quiz Animaux',
@@ -420,7 +438,9 @@ class I18n {
           stats: 'Estatisticas',
           howToPlay: 'Como jogar',
           daily: 'Diario',
-          random: 'Aleatorio'
+          random: 'Aleatorio',
+          startGame: 'Comecar',
+          back: 'Voltar'
         },
         stats: {
           gamesPlayed: 'Jogos',
@@ -435,11 +455,16 @@ class I18n {
             title: 'Quiz de Filmes',
             subtitle: 'Adivinhe o filme pelas dicas',
             inputPlaceholder: 'Digite o titulo do filme...',
+            cluesSummary: 'Resumo das dicas',
             director: 'Diretor',
+            directors: 'Diretores',
             year: 'Ano',
             country: 'Pais',
             cast: 'Elenco',
-            rating: 'Nota'
+            actors: 'Atores',
+            rating: 'IMDB',
+            runtime: 'Duracao',
+            genres: 'Generos'
           },
           books: {
             title: 'Quiz de Livros',
@@ -468,7 +493,9 @@ class I18n {
             matchComplete: 'Partida completa!',
             totalScore: 'Pontuacao total',
             avgTime: 'Tempo medio',
-            nextMatch: 'Partida aleatoria'
+            nextMatch: 'Partida aleatoria',
+            startTitle: 'Pronto para jogar?',
+            startDesc: 'Ouca 5 trechos e adivinhe os titulos. Quanto mais rapido responder, mais pontos voce ganha!'
           },
           animals: {
             title: 'Quiz de Animais',
@@ -516,7 +543,9 @@ class I18n {
           stats: 'Statistiche',
           howToPlay: 'Come giocare',
           daily: 'Giornaliero',
-          random: 'Casuale'
+          random: 'Casuale',
+          startGame: 'Inizia',
+          back: 'Indietro'
         },
         stats: {
           gamesPlayed: 'Partite',
@@ -531,11 +560,16 @@ class I18n {
             title: 'Quiz Film',
             subtitle: 'Indovina il film dagli indizi',
             inputPlaceholder: 'Scrivi il titolo del film...',
+            cluesSummary: 'Riepilogo indizi',
             director: 'Regista',
+            directors: 'Registi',
             year: 'Anno',
             country: 'Paese',
             cast: 'Cast',
-            rating: 'Voto'
+            actors: 'Attori',
+            rating: 'IMDB',
+            runtime: 'Durata',
+            genres: 'Generi'
           },
           books: {
             title: 'Quiz Libri',
@@ -564,7 +598,9 @@ class I18n {
             matchComplete: 'Match completo!',
             totalScore: 'Punteggio totale',
             avgTime: 'Tempo medio',
-            nextMatch: 'Match casuale'
+            nextMatch: 'Match casuale',
+            startTitle: 'Pronto a giocare?',
+            startDesc: 'Ascolta 5 estratti e indovina i titoli. Piu veloce rispondi, piu punti guadagni!'
           },
           animals: {
             title: 'Quiz Animali',
@@ -612,7 +648,9 @@ class I18n {
           stats: 'Estadísticas',
           howToPlay: 'Como jugar',
           daily: 'Diario',
-          random: 'Aleatorio'
+          random: 'Aleatorio',
+          startGame: 'Empezar',
+          back: 'Volver'
         },
         stats: {
           gamesPlayed: 'Partidas',
@@ -627,11 +665,16 @@ class I18n {
             title: 'Quiz de Películas',
             subtitle: 'Adivina la película por las pistas',
             inputPlaceholder: 'Escribe el título de la película...',
+            cluesSummary: 'Resumen de pistas',
             director: 'Director',
+            directors: 'Directores',
             year: 'Año',
             country: 'País',
             cast: 'Reparto',
-            rating: 'Nota'
+            actors: 'Actores',
+            rating: 'IMDB',
+            runtime: 'Duración',
+            genres: 'Géneros'
           },
           books: {
             title: 'Quiz de Libros',
@@ -660,7 +703,9 @@ class I18n {
             matchComplete: '¡Partida completa!',
             totalScore: 'Puntuación total',
             avgTime: 'Tiempo promedio',
-            nextMatch: 'Partida aleatoria'
+            nextMatch: 'Partida aleatoria',
+            startTitle: '¿Listo para jugar?',
+            startDesc: 'Escucha 5 fragmentos y adivina los títulos. ¡Cuanto más rápido respondas, más puntos ganas!'
           },
           animals: {
             title: 'Quiz de Animales',
