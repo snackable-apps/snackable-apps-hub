@@ -193,10 +193,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     movieInput.readOnly = false;
     movieInput.style.pointerEvents = 'auto';
     
-    // Clear autocomplete dropdown
+    // Clear and hide autocomplete dropdown completely
     autocompleteDropdown.innerHTML = '';
     autocompleteDropdown.style.display = 'none';
+    autocompleteDropdown.style.visibility = 'hidden';
     autocompleteDropdown.classList.remove('active');
+    
+    // Re-show after resetting (displayAutocomplete will handle visibility)
+    setTimeout(() => {
+      autocompleteDropdown.style.visibility = 'visible';
+    }, 100);
     
     // Hide clues panel
     if (cluesPanel) cluesPanel.style.display = 'none';
@@ -205,11 +211,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     shareSection.style.display = 'none';
     guessSection.style.display = 'flex';
     
+    // Ensure input is fully interactive
+    movieInput.removeAttribute('disabled');
+    movieInput.removeAttribute('readonly');
+    
+    // Force re-apply styles to ensure input is clickable
+    movieInput.style.cssText = movieInput.style.cssText;
+    
     // Focus input after a delay to ensure DOM is ready
     setTimeout(() => {
       movieInput.focus();
-      console.log('playRandom: input focused, disabled:', movieInput.disabled, 'value:', movieInput.value);
-    }, 150);
+      movieInput.click(); // Simulate click to ensure it's active
+      console.log('playRandom: input ready - disabled:', movieInput.disabled, 'readonly:', movieInput.readOnly, 'display:', guessSection.style.display, 'ALL_MOVIES:', ALL_MOVIES.length);
+    }, 200);
     
     // Log for debugging
     console.log('playRandom: starting random game with movie:', randomMovie.title, 'ALL_MOVIES count:', ALL_MOVIES.length);
