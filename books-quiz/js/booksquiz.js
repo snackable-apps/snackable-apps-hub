@@ -729,41 +729,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     playRandomBtn.addEventListener('click', playRandom);
   }
 
-  function playRandom() {
-    // Select a random book from the pool (different from current)
-    const availableBooks = SECRET_POOL.filter(b => b.title !== gameState.secretBook.title);
-    const randomIndex = Math.floor(Math.random() * availableBooks.length);
-    const randomBook = availableBooks[randomIndex] || SECRET_POOL[0];
-    
-    // Reset game state
-    gameState.secretBook = randomBook;
-    gameState.guesses = [];
-    gameState.isSolved = false;
-    gameState.isGameOver = false;
-    gameState.gaveUp = false;
-    
-    // Reset clues
-    resetCluesState();
-    
-    // Reset UI
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
-    bookInput.value = '';
-    autocompleteDropdown.style.display = 'none';
-    if (modeToggle) modeToggle.style.display = 'block';
-    
-    // Track random play
-    if (typeof gtag === 'function') {
-      gtag('event', 'books_play_random', {
-        book: randomBook.title
-      });
-    }
-  }
-  
   // Easy mode toggle
   if (easyModeToggle) {
     easyModeToggle.addEventListener('change', (e) => {

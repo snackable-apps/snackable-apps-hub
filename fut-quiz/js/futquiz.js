@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     shareSection.style.display = 'flex';
     
     // Update UI to show result
-    updateUI();
+    updateGameState();
   }
   
   // Play Random - start a new random game

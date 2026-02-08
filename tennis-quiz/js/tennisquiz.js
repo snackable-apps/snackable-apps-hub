@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     guessSection.style.display = 'none';
     shareSection.style.display = 'flex';
     
-    updateUI();
+    updateGameState();
   }
   
   // Play Random

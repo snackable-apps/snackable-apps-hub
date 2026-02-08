@@ -799,41 +799,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     playRandomBtn.addEventListener('click', playRandom);
   }
 
-  function playRandom() {
-    // Select a random song from the pool (different from current)
-    const availableSongs = SECRET_POOL.filter(s => s.name !== gameState.secretSong.name);
-    const randomIndex = Math.floor(Math.random() * availableSongs.length);
-    const randomSong = availableSongs[randomIndex] || SECRET_POOL[0];
-    
-    // Reset game state
-    gameState.secretSong = randomSong;
-    gameState.guesses = [];
-    gameState.isSolved = false;
-    gameState.isGameOver = false;
-    gameState.gaveUp = false;
-    
-    // Reset clues
-    resetCluesState();
-    
-    // Reset UI
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
-    musicInput.value = '';
-    autocompleteDropdown.style.display = 'none';
-    if (modeToggle) modeToggle.style.display = 'block';
-    
-    // Track random play
-    if (typeof gtag === 'function') {
-      gtag('event', 'music_play_random', {
-        song: randomSong.name
-      });
-    }
-  }
-  
   // Easy mode toggle
   if (easyModeToggle) {
     easyModeToggle.addEventListener('change', (e) => {
