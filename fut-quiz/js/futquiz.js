@@ -143,8 +143,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     guessSection.style.display = 'none';
     shareSection.style.display = 'flex';
     
+    // Hide clues panel when showing completed result
+    if (cluesPanel) cluesPanel.style.display = 'none';
+    
     // Update UI to show result
     updateGameState();
+    
+    // Ensure clues panel stays hidden after updateGameState
+    if (cluesPanel) cluesPanel.style.display = 'none';
   }
   
   // Play Random - start a new random game
@@ -856,6 +862,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     guessSection.style.display = 'none';
     shareSection.style.display = 'flex';
+    
+    // Hide clues panel when game ends
+    if (cluesPanel) cluesPanel.style.display = 'none';
   }
 
   function shareResults() {

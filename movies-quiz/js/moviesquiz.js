@@ -1092,7 +1092,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (gameState.isGameOver) {
       guessSection.style.display = 'none';
       shareSection.style.display = 'block';
-      // Keep clues panel visible after game over so user can see the summary
+      // Hide clues panel when game is over
+      if (cluesPanel) cluesPanel.style.display = 'none';
     }
   }
 
