@@ -224,13 +224,74 @@ document.addEventListener("DOMContentLoaded", async () => {
     matchSummary.style.display = 'none';
   }
 
-  // Update start screen if daily already completed
-  if (dailyCompleted) {
-    const startTitle = startScreen.querySelector('h2');
-    const startDesc = startScreen.querySelector('.start-content > p');
-    if (startTitle) startTitle.textContent = i18n.t('games.blindtest.dailyComplete') || "Today's Daily Complete!";
-    if (startDesc) startDesc.textContent = i18n.t('games.blindtest.playRandomDesc') || 'You can play as many random matches as you like.';
-    if (startGameBtn) startGameBtn.textContent = i18n.t('common.playRandom') || '🎲 Play Random';
+  // Restore and display the completed daily result
+  function restoreDailyResult() {
+    if (!dailyState || !dailyState.gameData) {
+      // No detailed data to restore, show start screen for random play
+      showStartScreen();
+      return;
+    }
+    
+    const data = dailyState.gameData;
+    const storedResults = data.matchResults || [];
+    
+    // Restore match state
+    matchScore = dailyState.score || 0;
+    matchResults = storedResults;
+    easyModeEnabled = data.easyModeEnabled || false;
+    multipleChoiceEnabled = data.multipleChoiceEnabled || false;
+    
+    // Calculate stats
+    const correctCount = dailyState.correctCount || storedResults.filter(r => r.correct).length;
+    const wrongCount = dailyState.wrongCount || storedResults.filter(r => !r.correct).length;
+    const avgTime = dailyState.avgTime || (storedResults.reduce((sum, r) => sum + (r.timeUsed || 0), 0) / storedResults.length);
+    
+    // Hide all sections, show match summary
+    startScreen.style.display = 'none';
+    document.getElementById('game-info').style.display = 'none';
+    modeToggles.style.display = 'none';
+    playerSection.style.display = 'none';
+    guessSection.style.display = 'none';
+    choicesSection.style.display = 'none';
+    resultSection.style.display = 'none';
+    matchSummary.style.display = 'flex';
+    
+    // Update summary display
+    summaryScore.textContent = matchScore;
+    summaryCorrect.textContent = correctCount;
+    summaryWrong.textContent = wrongCount;
+    summaryAvgTime.textContent = `${avgTime.toFixed(1)}s`;
+    
+    // Mode description
+    const modes = [];
+    if (multipleChoiceEnabled) modes.push(i18n.t('games.blindtest.multipleChoice'));
+    if (easyModeEnabled) modes.push(i18n.t('games.blindtest.displayArtist'));
+    summaryMode.textContent = modes.length > 0 ? modes.join(' + ') : 'Hard Mode (Type Only)';
+    
+    // Build results list
+    summaryResults.innerHTML = '';
+    storedResults.forEach(result => {
+      const div = document.createElement('div');
+      div.className = 'song-result';
+      div.innerHTML = `
+        <span class="result-emoji">${result.correct ? '✅' : (result.skipped ? '⏭️' : '❌')}</span>
+        <div class="song-info">
+          <div class="song-name">${result.song.title}</div>
+          <div class="song-artist">${result.song.artist}</div>
+        </div>
+        <span class="song-points ${result.points === 0 ? 'zero' : ''}">${result.points > 0 ? '+' : ''}${result.points}</span>
+      `;
+      summaryResults.appendChild(div);
+    });
+    
+    // Show both share and play random buttons
+    summaryActions.classList.remove('no-share');
+    shareResultsBtn.style.display = '';
+  }
+  
+  // If daily completed, show the result; otherwise show start screen
+  if (dailyCompleted && dailyState && dailyState.gameData) {
+    restoreDailyResult();
   }
   
   // Start game button handler
@@ -657,7 +718,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       correctCount: correctCount,
       wrongCount: wrongCount,
       avgTime: avgTime,
-      isDaily: isFirstMatch
+      isDaily: isFirstMatch,
+      gameData: {
+        matchResults: matchResults.map(r => ({
+          song: { title: r.song.title, artist: r.song.artist },
+          correct: r.correct,
+          skipped: r.skipped,
+          points: r.points,
+          timeUsed: r.timeUsed
+        })),
+        easyModeEnabled: easyModeEnabled,
+        multipleChoiceEnabled: multipleChoiceEnabled
+      }
     };
     
     // If this was the first (daily) match, mark it as completed

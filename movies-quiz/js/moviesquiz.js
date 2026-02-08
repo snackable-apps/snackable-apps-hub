@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const randomIndex = Math.floor(Math.random() * availableMovies.length);
     const randomMovie = availableMovies[randomIndex] || SECRET_POOL[0];
     
-    // Reset game state
+    // Reset game state completely
     gameState.secretMovie = randomMovie;
     gameState.currentDate = getDateString();
     gameState.guesses = [];
@@ -190,24 +190,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Reset clues
     resetCluesState();
     
+    // Reset autocomplete state
+    autocompleteState.selectedIndex = -1;
+    autocompleteState.filteredMovies = [];
+    autocompleteState.isOpen = false;
+    
     // Reset UI
     guessesContainer.innerHTML = '';
     guessCountEl.textContent = '0';
     gameStatusEl.textContent = '';
     gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
+    
+    // Make sure input is ready
     movieInput.value = '';
     movieInput.disabled = false;
+    movieInput.readOnly = false;
+    movieInput.style.pointerEvents = 'auto';
+    
+    // Clear autocomplete dropdown
+    autocompleteDropdown.innerHTML = '';
     autocompleteDropdown.style.display = 'none';
     autocompleteDropdown.classList.remove('active');
-    cluesPanel.style.display = 'none';
     
-    // Focus input for better UX
-    setTimeout(() => movieInput.focus(), 100);
+    // Hide clues panel
+    if (cluesPanel) cluesPanel.style.display = 'none';
+    
+    // Show/hide sections
+    shareSection.style.display = 'none';
+    guessSection.style.display = 'flex';
+    
+    // Focus input after a delay to ensure DOM is ready
+    setTimeout(() => {
+      movieInput.focus();
+      console.log('playRandom: input focused, disabled:', movieInput.disabled, 'value:', movieInput.value);
+    }, 150);
     
     // Log for debugging
-    console.log('playRandom: starting random game with movie:', randomMovie.title);
+    console.log('playRandom: starting random game with movie:', randomMovie.title, 'ALL_MOVIES count:', ALL_MOVIES.length);
     
     // Track random play
     if (typeof gtag === 'function') {
