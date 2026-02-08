@@ -1146,8 +1146,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Event Listeners
   movieInput.addEventListener('input', (e) => {
     const query = e.target.value.trim();
+    console.log('Input event fired, query:', query, 'ALL_MOVIES:', ALL_MOVIES.length);
     const movies = filterMovies(query);
+    console.log('Filtered movies:', movies.length);
     displayAutocomplete(movies);
+  });
+  
+  // Debug: Ensure input is receiving events
+  movieInput.addEventListener('focus', () => {
+    console.log('Input focused');
+  });
+  
+  movieInput.addEventListener('click', () => {
+    console.log('Input clicked');
   });
 
   movieInput.addEventListener('keydown', (e) => {
