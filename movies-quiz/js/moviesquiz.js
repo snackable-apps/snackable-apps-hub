@@ -159,10 +159,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Hide guess section, show share section
     guessSection.style.display = 'none';
-    shareSection.style.display = 'block';
+    shareSection.style.display = 'flex';
     
-    // Update UI to show result
+    // Hide clues panel when just showing the result
+    if (cluesPanel) cluesPanel.style.display = 'none';
+    
+    // Update UI to show result (but don't show clues panel)
     updateUI();
+    
+    // Ensure clues panel stays hidden after updateUI
+    if (cluesPanel) cluesPanel.style.display = 'none';
   }
   
   function playRandom() {

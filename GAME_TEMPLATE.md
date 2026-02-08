@@ -140,7 +140,7 @@ All UI text must be translatable. Supported languages: EN, FR, PT-BR, IT, ES
       <div class="language-selector">
         <select id="language-selector">...</select>
       </div>
-      <button class="stats-btn" id="stats-btn">📊</button>
+      <!-- Stats button removed - not yet implemented -->
     </div>
   </div>
   <h1 data-i18n="games.{game}.title">Game Title</h1>
@@ -181,7 +181,7 @@ All UI text must be translatable. Supported languages: EN, FR, PT-BR, IT, ES
 ```html
 <script src="../shared/js/game-storage.js"></script>
 <script src="../shared/js/i18n.js"></script>
-<script src="../shared/js/stats-modal.js"></script>
+<!-- <script src="../shared/js/stats-modal.js"></script> - Removed -->
 <script src="../shared/js/hub-analytics.js"></script>
 <script src="js/{game}.js"></script>
 ```

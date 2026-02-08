@@ -317,7 +317,9 @@ class I18n {
             avgTime: 'Avg Time',
             nextMatch: 'Play Random Match',
             startTitle: 'Ready to play?',
-            startDesc: 'Listen to 5 song samples and guess the titles. The faster you answer, the more points you get!'
+            startDesc: 'Listen to 5 song samples and guess the titles. The faster you answer, the more points you get!',
+            dailyComplete: "Today's Daily Complete!",
+            playRandomDesc: 'You can play as many random matches as you like.'
           },
           animals: {
             title: 'Animal Quiz',
@@ -454,7 +456,9 @@ class I18n {
             avgTime: 'Temps moyen',
             nextMatch: 'Match aleatoire',
             startTitle: 'Pret a jouer ?',
-            startDesc: 'Ecoutez 5 extraits et devinez les titres. Plus vous repondez vite, plus vous gagnez de points !'
+            startDesc: 'Ecoutez 5 extraits et devinez les titres. Plus vous repondez vite, plus vous gagnez de points !',
+            dailyComplete: 'Defi du jour termine !',
+            playRandomDesc: 'Vous pouvez jouer autant de matchs aleatoires que vous voulez.'
           },
           animals: {
             title: 'Quiz Animaux',
@@ -591,7 +595,9 @@ class I18n {
             avgTime: 'Tempo medio',
             nextMatch: 'Partida aleatoria',
             startTitle: 'Pronto para jogar?',
-            startDesc: 'Ouca 5 trechos e adivinhe os titulos. Quanto mais rapido responder, mais pontos voce ganha!'
+            startDesc: 'Ouca 5 trechos e adivinhe os titulos. Quanto mais rapido responder, mais pontos voce ganha!',
+            dailyComplete: 'Desafio diario completo!',
+            playRandomDesc: 'Voce pode jogar quantas partidas aleatorias quiser.'
           },
           animals: {
             title: 'Quiz de Animais',
@@ -728,7 +734,9 @@ class I18n {
             avgTime: 'Tempo medio',
             nextMatch: 'Match casuale',
             startTitle: 'Pronto a giocare?',
-            startDesc: 'Ascolta 5 estratti e indovina i titoli. Piu veloce rispondi, piu punti guadagni!'
+            startDesc: 'Ascolta 5 estratti e indovina i titoli. Piu veloce rispondi, piu punti guadagni!',
+            dailyComplete: 'Sfida giornaliera completata!',
+            playRandomDesc: 'Puoi giocare quanti match casuali vuoi.'
           },
           animals: {
             title: 'Quiz Animali',
@@ -865,7 +873,9 @@ class I18n {
             avgTime: 'Tiempo promedio',
             nextMatch: 'Partida aleatoria',
             startTitle: '¿Listo para jugar?',
-            startDesc: 'Escucha 5 fragmentos y adivina los títulos. ¡Cuanto más rápido respondas, más puntos ganas!'
+            startDesc: 'Escucha 5 fragmentos y adivina los títulos. ¡Cuanto más rápido respondas, más puntos ganas!',
+            dailyComplete: '¡Desafío diario completado!',
+            playRandomDesc: 'Puedes jugar tantas partidas aleatorias como quieras.'
           },
           animals: {
             title: 'Quiz de Animales',

@@ -36,7 +36,7 @@
             <option value="es">ES</option>
           </select>
         </div>
-        <button class="stats-btn" id="stats-btn" title="Statistics">📊</button>
+        <!-- Stats button removed -->
       </div>
     </div>
     <h1 data-i18n="games.blindtest.title">🎧 Blind Test</h1>
@@ -127,8 +127,8 @@
       <audio id="audio-player" preload="auto"></audio>
     </div>
 
-    <!-- Search Mode Input -->
-    <div class="guess-section" id="guess-section">
+    <!-- Search Mode Input (hidden until game starts) -->
+    <div class="guess-section" id="guess-section" style="display: none;">
       <label for="song-input">What's this song?</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="song-input" placeholder="Type a song title..." autocomplete="off" />

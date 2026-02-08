@@ -224,6 +224,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     matchSummary.style.display = 'none';
   }
 
+  // Update start screen if daily already completed
+  if (dailyCompleted) {
+    const startTitle = startScreen.querySelector('h2');
+    const startDesc = startScreen.querySelector('.start-content > p');
+    if (startTitle) startTitle.textContent = i18n.t('games.blindtest.dailyComplete') || "Today's Daily Complete!";
+    if (startDesc) startDesc.textContent = i18n.t('games.blindtest.playRandomDesc') || 'You can play as many random matches as you like.';
+    if (startGameBtn) startGameBtn.textContent = i18n.t('common.playRandom') || '🎲 Play Random';
+  }
+  
   // Start game button handler
   if (startGameBtn) {
     startGameBtn.addEventListener('click', () => {
@@ -237,7 +246,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       startScreen.style.display = 'none';
       document.getElementById('game-info').style.display = 'block';
       
-      startMatch(true);
+      // Start daily if not completed, otherwise random
+      startMatch(!dailyCompleted);
     });
   }
 
