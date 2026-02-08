@@ -664,17 +664,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function shareResults() {
     const gameUrl = window.location.origin + window.location.pathname;
+    const gameType = gameState.isRandomMode ? '🎲 Random' : getDateString();
     let shareText;
     
     if (gameState.isSolved) {
       const status = `Solved in ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}!`;
-      shareText = `🎉 Music of the Day 🎵\n${status}\n\nPlay at: ${gameUrl}`;
+      shareText = `🎉 Music Quiz ${gameType} 🎵\n${status}\n\nPlay at: ${gameUrl}`;
     } else if (gameState.gaveUp) {
       const status = `Gave up after ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}`;
-      shareText = `😞 Music of the Day 🎵\n${status}\n\nPlay at: ${gameUrl}`;
+      shareText = `😞 Music Quiz ${gameType} 🎵\n${status}\n\nPlay at: ${gameUrl}`;
     } else {
       const status = `Game Over after ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}`;
-      shareText = `❌ Music of the Day 🎵\n${status}\n\nPlay at: ${gameUrl}`;
+      shareText = `❌ Music Quiz ${gameType} 🎵\n${status}\n\nPlay at: ${gameUrl}`;
     }
     
     // Try to use Web Share API if available

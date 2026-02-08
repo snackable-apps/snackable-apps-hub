@@ -789,17 +789,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function shareResults() {
     const gameUrl = window.location.origin + window.location.pathname;
+    const gameType = gameState.isRandomMode ? '🎲' : getDateString();
     let shareText;
     
     if (gameState.isSolved) {
       const status = `Solved in ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}!`;
-      shareText = `🎉 Tennis Quiz 🎾\n${status}\n\nPlay at: ${gameUrl}`;
+      shareText = `🎉 Tennis Quiz ${gameType} 🎾\n${status}\n\nPlay at: ${gameUrl}`;
     } else if (gameState.gaveUp) {
       const status = `Gave up after ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}`;
-      shareText = `😞 Tennis Quiz 🎾\n${status}\n\nPlay at: ${gameUrl}`;
+      shareText = `😞 Tennis Quiz ${gameType} 🎾\n${status}\n\nPlay at: ${gameUrl}`;
     } else {
       const status = `Game Over after ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}`;
-      shareText = `❌ Tennis Quiz 🎾\n${status}\n\nPlay at: ${gameUrl}`;
+      shareText = `❌ Tennis Quiz ${gameType} 🎾\n${status}\n\nPlay at: ${gameUrl}`;
     }
     
     if (navigator.share) {

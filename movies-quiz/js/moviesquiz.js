@@ -1100,9 +1100,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       ].join('');
     }).join('\n');
     
+    const gameType = gameState.isRandomMode ? '🎲' : getDateString();
     const result = gameState.isSolved 
-      ? `🎬 Movie Quiz ${gameState.guesses.length}/∞`
-      : `🎬 Movie Quiz X/∞`;
+      ? `🎬 Movie Quiz ${gameType} ${gameState.guesses.length}/∞`
+      : `🎬 Movie Quiz ${gameType} X/∞`;
     
     return `${result}\n\n${emojis}\n\nhttps://snackable-games.com/movies-quiz/`;
   }

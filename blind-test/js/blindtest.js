@@ -755,14 +755,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       summaryResults.appendChild(div);
     });
     
-    // Show/hide share button based on whether this is the daily match
-    if (isFirstMatch) {
-      summaryActions.classList.remove('no-share');
-      shareResultsBtn.style.display = '';
-    } else {
-      summaryActions.classList.add('no-share');
-      shareResultsBtn.style.display = 'none';
-    }
+    // Show share button for both daily and random matches
+    summaryActions.classList.remove('no-share');
+    shareResultsBtn.style.display = '';
     
     // Show summary
     matchSummary.style.display = 'block';
@@ -782,7 +777,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Generate share text
   function generateShareText() {
-    const dateString = getDateString();
     const correctCount = matchResults.filter(r => r.correct).length;
     
     // Emoji representation
@@ -794,7 +788,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     else if (multipleChoiceEnabled) modeText = ' (Multiple Choice)';
     else if (easyModeEnabled) modeText = ' (Artist Hint)';
     
-    return `🎧 Blind Test ${dateString}${modeText}
+    // Daily vs Random indicator
+    const gameType = isFirstMatch ? getDateString() : '🎲 Random';
+    
+    return `🎧 Blind Test ${gameType}${modeText}
 
 ${emojis}
 Score: ${matchScore}/500 (${correctCount}/${SONGS_PER_MATCH})

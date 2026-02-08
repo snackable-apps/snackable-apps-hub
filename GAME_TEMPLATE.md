@@ -172,10 +172,23 @@ All UI text must be translatable. Supported languages: EN, FR, PT-BR, IT, ES
 - [ ] Shows confirmed values and ranges
 
 ### 8. Share Results
+- [ ] Share button visible for BOTH daily and random games
 - [ ] Emoji-based shareable text
-- [ ] Includes game name, date, guess count
+- [ ] Includes game name, date/random indicator, guess count
 - [ ] Copy to clipboard functionality
 - [ ] Show confirmation toast
+
+**Share text format:**
+- Daily games: `🎉 Game Name YYYY-MM-DD 🎮\n[Status]\n\nPlay at: [URL]`
+- Random games: `🎉 Game Name 🎲 Random 🎮\n[Status]\n\nPlay at: [URL]`
+
+**Implementation:**
+```javascript
+function shareResults() {
+  const gameType = gameState.isRandomMode ? '🎲 Random' : getDateString();
+  // Include gameType in share text
+}
+```
 
 ### 9. Required Scripts (in order)
 ```html

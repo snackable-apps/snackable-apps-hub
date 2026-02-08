@@ -860,19 +860,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function shareResults() {
     const gameUrl = window.location.origin + window.location.pathname;
+    const gameType = gameState.isRandomMode ? '🎲' : getDateString();
     let shareText;
     
     if (gameState.isSolved) {
       const guessText = gameState.guesses.length === 1 ? 'palpite' : 'palpites';
       const status = `Resolvido em ${gameState.guesses.length} ${guessText}!`;
-      shareText = `🎉 FutQuiz: o quiz diário da bola ⚽\n${status}\n\nJogue em: ${gameUrl}`;
+      shareText = `🎉 FutQuiz ${gameType} ⚽\n${status}\n\nJogue em: ${gameUrl}`;
     } else if (gameState.gaveUp) {
       const guessText = gameState.guesses.length === 1 ? 'palpite' : 'palpites';
       const status = `Desistiu após ${gameState.guesses.length} ${guessText}`;
-      shareText = `😞 FutQuiz: o quiz diário da bola ⚽\n${status}\n\nJogue em: ${gameUrl}`;
+      shareText = `😞 FutQuiz ${gameType} ⚽\n${status}\n\nJogue em: ${gameUrl}`;
     } else {
       const status = `Fim de Jogo após ${MAX_GUESSES} palpites`;
-      shareText = `❌ FutQuiz: o quiz diário da bola ⚽\n${status}\n\nJogue em: ${gameUrl}`;
+      shareText = `❌ FutQuiz ${gameType} ⚽\n${status}\n\nJogue em: ${gameUrl}`;
     }
     
     // Track share

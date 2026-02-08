@@ -684,12 +684,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   function shareResults() {
     const gameUrl = window.location.origin + window.location.pathname;
     const guessText = gameState.guesses.length === 1 ? 'guess' : 'guesses';
+    const gameType = gameState.isRandomMode ? '🎲 Random' : getDateString();
     
     let shareText;
     if (gameState.isSolved) {
-      shareText = `🏎️ F1 Quiz: Guess the Driver\n🏆 Solved in ${gameState.guesses.length} ${guessText}!\n\nPlay: ${gameUrl}`;
+      shareText = `🏎️ F1 Quiz ${gameType}\n🏆 Solved in ${gameState.guesses.length} ${guessText}!\n\nPlay: ${gameUrl}`;
     } else {
-      shareText = `🏎️ F1 Quiz: Guess the Driver\n😔 Gave up after ${gameState.guesses.length} ${guessText}\n\nPlay: ${gameUrl}`;
+      shareText = `🏎️ F1 Quiz ${gameType}\n😔 Gave up after ${gameState.guesses.length} ${guessText}\n\nPlay: ${gameUrl}`;
     }
     
     // Track share click
