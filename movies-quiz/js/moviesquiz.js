@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // ========== DOM ELEMENTS ==========
   
-  const movieInput = document.getElementById("movie-input");
+  let movieInput = document.getElementById("movie-input");
   const autocompleteDropdown = document.getElementById("autocomplete-dropdown");
   const submitBtn = document.getElementById("submit-guess");
   const giveUpBtn = document.getElementById("give-up-btn");
@@ -187,43 +187,92 @@ document.addEventListener("DOMContentLoaded", async () => {
     gameStatusEl.textContent = '';
     gameStatusEl.className = '';
     
-    // Make sure input is ready
-    movieInput.value = '';
-    movieInput.disabled = false;
-    movieInput.readOnly = false;
-    movieInput.style.pointerEvents = 'auto';
+    // Hide clues panel
+    if (cluesPanel) cluesPanel.style.display = 'none';
+    
+    // Show/hide sections - FIRST show sections before manipulating input
+    shareSection.style.display = 'none';
+    guessSection.style.display = 'flex';
     
     // Clear and hide autocomplete dropdown completely
     autocompleteDropdown.innerHTML = '';
     autocompleteDropdown.style.display = 'none';
-    autocompleteDropdown.style.visibility = 'hidden';
     autocompleteDropdown.classList.remove('active');
     
-    // Re-show after resetting (displayAutocomplete will handle visibility)
+    // Clone and replace the input to remove any lingering event handlers or state issues
+    const oldInput = movieInput;
+    const newInput = oldInput.cloneNode(true);
+    newInput.value = '';
+    newInput.disabled = false;
+    newInput.readOnly = false;
+    newInput.style.pointerEvents = 'auto';
+    oldInput.parentNode.replaceChild(newInput, oldInput);
+    
+    // Update the global movieInput reference to the new element
+    movieInput = newInput;
+    const freshInput = movieInput;
+    
+    // Re-attach ALL event listeners to the fresh input
+    freshInput.addEventListener('input', (e) => {
+      const query = e.target.value.trim();
+      console.log('Random mode input event, query:', query);
+      const movies = filterMovies(query);
+      displayAutocomplete(movies);
+    });
+    
+    freshInput.addEventListener('keydown', (e) => {
+      if (!autocompleteState.isOpen) {
+        if (e.key === 'Enter') {
+          const normalizedQuery = normalizeText(freshInput.value.trim());
+          const movie = ALL_MOVIES.find(m => normalizeText(m.title) === normalizedQuery);
+          if (movie) {
+            submitGuess(movie);
+          }
+        }
+        return;
+      }
+      
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          autocompleteState.selectedIndex = Math.min(
+            autocompleteState.selectedIndex + 1,
+            autocompleteState.filteredMovies.length - 1
+          );
+          updateAutocompleteSelection();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          autocompleteState.selectedIndex = Math.max(autocompleteState.selectedIndex - 1, -1);
+          updateAutocompleteSelection();
+          break;
+        case 'Enter':
+          e.preventDefault();
+          if (autocompleteState.selectedIndex >= 0) {
+            selectAutocompleteItem(autocompleteState.selectedIndex);
+          }
+          break;
+        case 'Escape':
+          autocompleteDropdown.classList.remove('active');
+          autocompleteState.isOpen = false;
+          break;
+      }
+    });
+    
+    freshInput.addEventListener('blur', () => {
+      setTimeout(() => {
+        if (!autocompleteDropdown.contains(document.activeElement)) {
+          autocompleteDropdown.classList.remove('active');
+          autocompleteState.isOpen = false;
+        }
+      }, 200);
+    });
+    
+    // Focus the fresh input
     setTimeout(() => {
-      autocompleteDropdown.style.visibility = 'visible';
+      freshInput.focus();
+      console.log('playRandom: fresh input ready, ALL_MOVIES:', ALL_MOVIES.length);
     }, 100);
-    
-    // Hide clues panel
-    if (cluesPanel) cluesPanel.style.display = 'none';
-    
-    // Show/hide sections
-    shareSection.style.display = 'none';
-    guessSection.style.display = 'flex';
-    
-    // Ensure input is fully interactive
-    movieInput.removeAttribute('disabled');
-    movieInput.removeAttribute('readonly');
-    
-    // Force re-apply styles to ensure input is clickable
-    movieInput.style.cssText = movieInput.style.cssText;
-    
-    // Focus input after a delay to ensure DOM is ready
-    setTimeout(() => {
-      movieInput.focus();
-      movieInput.click(); // Simulate click to ensure it's active
-      console.log('playRandom: input ready - disabled:', movieInput.disabled, 'readonly:', movieInput.readOnly, 'display:', guessSection.style.display, 'ALL_MOVIES:', ALL_MOVIES.length);
-    }, 200);
     
     // Log for debugging
     console.log('playRandom: starting random game with movie:', randomMovie.title, 'ALL_MOVIES count:', ALL_MOVIES.length);
