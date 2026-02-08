@@ -14,18 +14,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     statsBtn.addEventListener('click', () => statsModal.show());
   }
   
-  function updateStreakDisplay() {
-    const streakEl = document.getElementById('streak-display');
-    if (!streakEl) return;
-    const streak = gameStorage.getStreak();
-    if (streak.currentStreak > 0) {
-      streakEl.innerHTML = `<span class="streak-badge"><span class="streak-icon">🔥</span> ${streak.currentStreak}</span>`;
-    } else {
-      streakEl.innerHTML = '';
-    }
-  }
-  // // updateStreakDisplay(); // Disabled // Disabled - not ready yet
-  
   const dailyState = gameStorage.getDailyState();
   let dailyCompleted = dailyState && dailyState.completed;
   

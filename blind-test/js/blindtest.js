@@ -19,20 +19,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     statsBtn.addEventListener('click', () => statsModal.show());
   }
   
-  // Update streak display
-  function updateStreakDisplay() {
-    const streakEl = document.getElementById('streak-display');
-    if (!streakEl) return;
-    
-    const streak = gameStorage.getStreak();
-    if (streak.currentStreak > 0) {
-      streakEl.innerHTML = `<span class="streak-badge"><span class="streak-icon">🔥</span> ${streak.currentStreak}</span>`;
-    } else {
-      streakEl.innerHTML = '';
-    }
-  }
-  // // updateStreakDisplay(); // Disabled // Disabled - not ready yet
-  
   // Check if daily game was already completed
   const dailyState = gameStorage.getDailyState();
   const dailyCompleted = dailyState && dailyState.completed;
@@ -736,7 +722,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (isFirstMatch) {
       gameStorage.completeDailyGame(result);
       isFirstMatch = false; // Next game will be random
-      // updateStreakDisplay(); // Disabled
     } else {
       // For random matches, just update stats
       gameStorage.updateStats(result);

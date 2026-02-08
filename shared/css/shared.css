@@ -31,10 +31,6 @@ header .header-controls {
   gap: 8px;
 }
 
-header .streak-display {
-  margin-top: 8px;
-}
-
 /* ========== LANGUAGE SELECTOR ========== */
 
 .language-selector {
@@ -87,29 +83,6 @@ header .streak-display {
 .language-flag.active {
   opacity: 1;
   border-color: var(--accent, #f0ad4e);
-}
-
-/* ========== STREAK DISPLAY ========== */
-
-.streak-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-  border-radius: 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #fff;
-}
-
-.streak-badge .streak-icon {
-  font-size: 14px;
-}
-
-.streak-badge.no-streak {
-  background: var(--card-bg, #1a1a1a);
-  color: var(--text-secondary, #888);
 }
 
 /* ========== STATS BUTTON ========== */
