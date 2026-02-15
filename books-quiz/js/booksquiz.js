@@ -50,18 +50,100 @@ document.addEventListener("DOMContentLoaded", async () => {
   // API endpoint
   const API_URL = 'https://snackable-api.vercel.app/api/books';
 
-  // Text normalization for accent-insensitive search
-  function normalizeText(text) {
-    return text
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
-      .toLowerCase();
+  // Cache configuration
+  const CACHE_KEY = 'books_quiz_cache';
+  const CACHE_EXPIRY_HOURS = 24;
+
+  // Use centralized normalizeText from GameUtils
+  const normalizeText = GameUtils.normalizeText;
+
+  // Check if cached data is still valid
+  function isCacheValid() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return false;
+      const { timestamp } = JSON.parse(cached);
+      const ageHours = (Date.now() - timestamp) / (1000 * 60 * 60);
+      return ageHours < CACHE_EXPIRY_HOURS;
+    } catch {
+      return false;
+    }
   }
 
-  // Load books from API
+  // Load books from cache
+  function loadFromCache() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+      const { books } = JSON.parse(cached);
+      return books;
+    } catch (e) {
+      console.error('Cache read error:', e);
+      return null;
+    }
+  }
+
+  // Save books to cache
+  function saveToCache(books) {
+    try {
+      const cacheData = { books, timestamp: Date.now() };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    } catch (e) {
+      console.error('Cache write error:', e);
+    }
+  }
+
+  // Transform API book data
+  function transformBookData(books) {
+    return books.map(book => ({
+      title: book.title,
+      author: book.author,
+      genre: book.genres && book.genres.length > 0 ? book.genres[0] : 'Fiction',
+      publicationYear: book.publicationYear || 0,
+      originalLanguage: book.language || 'en',
+      coverImage: book.coverImage,
+      description: book.description,
+      difficulty: book.difficulty || 'medium',
+      editionCount: book.editionCount || 0
+    }));
+  }
+
+  // Initialize game after data is loaded
+  function initializeAfterLoad() {
+    SECRET_POOL = ALL_BOOKS.filter(book => 
+      book.difficulty === 'easy' || book.difficulty === 'medium'
+    );
+    
+    const loadingState = document.getElementById('loading-state');
+    if (loadingState) loadingState.style.display = 'none';
+    
+    if (SECRET_POOL.length > 0) {
+      if (dailyCompleted && dailyState) {
+        restoreDailyResult();
+      } else {
+        guessSection.style.display = 'flex';
+        initializeGame();
+      }
+    } else {
+      console.error('No books available in secret pool');
+      GameUtils.showError('common.noDataAvailable', true);
+    }
+  }
+
+  // Load books from API with localStorage caching
   async function loadBooksData() {
     try {
-      // Fetch from API
+      // Try to load from cache first for faster startup
+      if (isCacheValid()) {
+        const cachedBooks = loadFromCache();
+        if (cachedBooks && cachedBooks.length > 0) {
+          ALL_BOOKS = cachedBooks;
+          initializeAfterLoad();
+          return;
+        }
+      }
+      
+      // No valid cache - fetch from API
       const response = await fetch(API_URL);
       
       if (!response.ok) {
@@ -74,51 +156,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         throw new Error('No books returned from API');
       }
       
-      // Transform API data to match expected format
-      // Note: Open Library doesn't provide authorNationality or reliable pageCount
-      ALL_BOOKS = data.books.map(book => ({
-        title: book.title,
-        author: book.author,
-        genre: book.genres && book.genres.length > 0 ? book.genres[0] : 'Fiction',
-        publicationYear: book.publicationYear || 0,
-        originalLanguage: book.language || 'en',
-        coverImage: book.coverImage,
-        description: book.description,
-        difficulty: book.difficulty || 'medium',
-        editionCount: book.editionCount || 0 // Used for difficulty calculation
-      }));
-      
-      console.log('Books loaded from API:', ALL_BOOKS.length);
+      // Transform and cache
+      ALL_BOOKS = transformBookData(data.books);
+      saveToCache(ALL_BOOKS);
       
     } catch (apiError) {
       console.error('API fetch failed:', apiError.message);
-      alert('Failed to load book data. Please check your connection and refresh the page.');
-      return;
-    }
-    
-    // Secret pool: only easy + medium books
-    SECRET_POOL = ALL_BOOKS.filter(book => 
-      book.difficulty === 'easy' || book.difficulty === 'medium'
-    );
-    console.log('Secret pool (easy+medium):', SECRET_POOL.length);
-    
-    // Hide loading state, show game
-    const loadingState = document.getElementById('loading-state');
-    if (loadingState) loadingState.style.display = 'none';
-    
-    if (SECRET_POOL.length > 0) {
-      // Check if daily is completed - show result instead of restarting
-      if (dailyCompleted && dailyState) {
-        restoreDailyResult();
+      // Try cache as fallback even if expired
+      const fallbackCache = loadFromCache();
+      if (fallbackCache && fallbackCache.length > 0) {
+        ALL_BOOKS = fallbackCache;
       } else {
-        guessSection.style.display = 'flex';
-        initializeGame();
+        GameUtils.showError('common.loadError', true);
+        return;
       }
-      console.log('Game initialized');
-    } else {
-      console.error('No books available in secret pool');
-      alert('No books available.');
     }
+    
+    initializeAfterLoad();
   }
 
   // Game State
@@ -217,11 +271,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cluesHeader = document.getElementById('clues-header');
   const cluesToggle = document.getElementById('clues-toggle');
 
-  // Utility Functions
-  function getDateString() {
-    const date = new Date();
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  }
+  // Use centralized utility functions from GameUtils
+  const getDateString = GameUtils.getDateString.bind(GameUtils);
 
   function getDailyBook() {
     const dateString = getDateString();
@@ -475,12 +526,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const guess = ALL_BOOKS.find(b => b.title.toLowerCase() === inputValue.toLowerCase());
     if (!guess) {
-      alert('Book not found. Please select from the suggestions.');
+      GameUtils.showWarning(i18n.t('common.notFound', { item: i18n.t('games.books.title') }));
       return;
     }
     
     if (gameState.guesses.some(g => g.title === guess.title)) {
-      alert('You already guessed this book!');
+      GameUtils.showWarning(i18n.t('common.alreadyGuessed', { item: i18n.t('games.books.title') }));
       return;
     }
     
@@ -650,38 +701,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Legacy function kept for compatibility
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      const originalText = shareResultsBtn.textContent;
-      shareResultsBtn.textContent = 'Copied!';
-      shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-      setTimeout(() => {
-        shareResultsBtn.textContent = originalText;
-        shareResultsBtn.style.backgroundColor = '';
-      }, 2000);
-    }).catch(() => {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        const originalText = shareResultsBtn.textContent;
-        shareResultsBtn.textContent = 'Copied!';
-        shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-        setTimeout(() => {
-          shareResultsBtn.textContent = originalText;
-          shareResultsBtn.style.backgroundColor = '';
-        }, 2000);
-      } catch (err) {
-        alert('Failed to copy. Please copy manually:\n\n' + text);
-      }
-      document.body.removeChild(textarea);
-    });
-  }
+  // copyToClipboard removed - using GameUtils.shareGameResult instead
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;

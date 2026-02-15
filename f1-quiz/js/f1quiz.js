@@ -42,13 +42,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let ALL_DRIVERS_LIST = []; // All drivers (for guessing)
   let SECRET_POOL = []; // Easy + Medium drivers (for daily secret selection)
 
-  // Text normalization for accent-insensitive search
-  function normalizeText(text) {
-    return text
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
-      .toLowerCase();
-  }
+  // Use centralized normalizeText from GameUtils
+  const normalizeText = GameUtils.normalizeText;
 
   // Load embedded data
   function loadDriversData() {
@@ -59,13 +54,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       // All drivers available for guessing
       ALL_DRIVERS_LIST = DRIVERS_DATA;
-      console.log('Total drivers loaded:', ALL_DRIVERS_LIST.length);
       
       // Secret pool: only easy + medium drivers
       SECRET_POOL = ALL_DRIVERS_LIST.filter(driver => 
         driver.difficulty === 'easy' || driver.difficulty === 'medium'
       );
-      console.log('Secret pool (easy+medium):', SECRET_POOL.length);
       
       // Set data freshness info
       if (dataSeasonInfoEl) {
@@ -94,17 +87,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           guessSection.style.display = 'flex';
           initializeGame();
         }
-        console.log('Game initialized');
       } else {
         console.error('No drivers available in secret pool');
-        alert('No drivers available.');
+        GameUtils.showError('common.noDataAvailable', true);
       }
     } catch (error) {
       console.error('Error loading driver data:', error);
       // Hide loading on error too
       const loadingState = document.getElementById('loading-state');
       if (loadingState) loadingState.style.display = 'none';
-      alert('Failed to load driver data: ' + error.message);
+      GameUtils.showError('common.loadError', true);
     }
   }
   
@@ -185,8 +177,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Focus input
     setTimeout(() => driverInput.focus(), 100);
     
-    console.log('playRandom: starting random game with driver:', randomDriver.name);
-    
     if (typeof gtag === 'function') {
       gtag('event', 'f1_play_random', { driver: randomDriver.name });
     }
@@ -215,6 +205,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     nationalityConfirmed: null,
     teamConfirmed: null,
     matchedTeams: new Set(),
+    totalTeamsCount: 0,
     excludedNationalities: new Set(),
     excludedTeams: new Set()
   };
@@ -224,22 +215,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cluesHeader = document.getElementById('clues-header');
   const cluesToggle = document.getElementById('clues-toggle');
 
-  // Utility Functions
-  function getDateString() {
-    const date = new Date();
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  }
-
-  function calculateAge(birthdate, deathDate = null) {
-    const endDate = deathDate ? new Date(deathDate) : new Date();
-    const birth = new Date(birthdate);
-    let age = endDate.getFullYear() - birth.getFullYear();
-    const monthDiff = endDate.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && endDate.getDate() < birth.getDate())) {
-      age--;
-    }
-    return age;
-  }
+  // Use centralized utility functions from GameUtils
+  const getDateString = GameUtils.getDateString.bind(GameUtils);
+  const calculateAge = GameUtils.calculateAge;
 
   function getDailyDriver() {
     const dateString = getDateString();
@@ -387,6 +365,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (comparisons.currentTeam === 'match') cluesState.teamConfirmed = guess.currentTeam;
     else cluesState.excludedTeams.add(guess.currentTeam);
 
+    // Teams History - track total count on first guess
+    if (cluesState.totalTeamsCount === 0 && gameState.secretDriver && gameState.secretDriver.teamsHistory) {
+      cluesState.totalTeamsCount = gameState.secretDriver.teamsHistory.length;
+    }
     if (comparisons.teamsHistory && comparisons.teamsHistory.matches) {
       comparisons.teamsHistory.matches.forEach(t => cluesState.matchedTeams.add(t));
     }
@@ -425,9 +407,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const teamsRow = document.getElementById('clue-teams-row');
     const teamsContainer = document.getElementById('clue-teams');
-    if (cluesState.matchedTeams.size > 0) {
+    if (cluesState.totalTeamsCount > 0) {
       teamsRow.style.display = 'flex';
-      teamsContainer.innerHTML = [...cluesState.matchedTeams].map(t => `<span class="clue-tag">${t}</span>`).join('');
+      const unknownCount = cluesState.totalTeamsCount - cluesState.matchedTeams.size;
+      const matchedTags = [...cluesState.matchedTeams].map(t => `<span class="clue-tag">${t}</span>`);
+      const unknownTags = Array(unknownCount).fill('<span class="clue-tag unknown">????</span>');
+      teamsContainer.innerHTML = [...matchedTags, ...unknownTags].join('');
     } else { teamsRow.style.display = 'none'; }
 
     // Render excluded sections using centralized utility
@@ -453,7 +438,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function resetCluesState() {
-    cluesState = { ageMin: null, ageMax: null, ageConfirmed: null, wdcMin: null, wdcMax: null, wdcConfirmed: null, winsMin: null, winsMax: null, winsConfirmed: null, podiumsMin: null, podiumsMax: null, podiumsConfirmed: null, nationalityConfirmed: null, teamConfirmed: null, matchedTeams: new Set(), excludedNationalities: new Set(), excludedTeams: new Set() };
+    cluesState = { ageMin: null, ageMax: null, ageConfirmed: null, wdcMin: null, wdcMax: null, wdcConfirmed: null, winsMin: null, winsMax: null, winsConfirmed: null, podiumsMin: null, podiumsMax: null, podiumsConfirmed: null, nationalityConfirmed: null, teamConfirmed: null, matchedTeams: new Set(), totalTeamsCount: 0, excludedNationalities: new Set(), excludedTeams: new Set() };
   }
 
   function displayGuess(guess, comparisons) {
@@ -556,12 +541,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const guess = ALL_DRIVERS_LIST.find(d => d.name.toLowerCase() === inputValue.toLowerCase());
     if (!guess) {
-      alert('Driver not found. Please select from suggestions.');
+      GameUtils.showWarning(i18n.t('common.notFound', { item: i18n.t('games.f1.title') }));
       return;
     }
     
     if (gameState.guesses.some(g => g.name === guess.name)) {
-      alert('You already guessed this driver!');
+      GameUtils.showWarning(i18n.t('common.alreadyGuessed', { item: i18n.t('games.f1.title') }));
       return;
     }
     
@@ -737,20 +722,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Legacy function kept for compatibility but unused
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      const originalText = shareResultsBtn.textContent;
-      shareResultsBtn.textContent = 'Copied!';
-      shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-      setTimeout(() => {
-        shareResultsBtn.textContent = originalText;
-        shareResultsBtn.style.backgroundColor = '';
-      }, 2000);
-    }).catch(() => {
-      alert('Failed to copy. Please copy manually:\n\n' + text);
-    });
-  }
+  // copyToClipboard removed - using GameUtils.shareGameResult instead
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;

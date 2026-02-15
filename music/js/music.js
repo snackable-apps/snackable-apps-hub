@@ -52,18 +52,108 @@ document.addEventListener("DOMContentLoaded", async () => {
   // API endpoint
   const API_URL = 'https://snackable-api.vercel.app/api/songs';
 
-  // Text normalization for accent-insensitive search
-  function normalizeText(text) {
-    return text
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
-      .toLowerCase();
+  // Cache configuration
+  const CACHE_KEY = 'music_quiz_cache';
+  const CACHE_EXPIRY_HOURS = 24;
+
+  // Use centralized normalizeText from GameUtils
+  const normalizeText = GameUtils.normalizeText;
+
+  // Check if cached data is still valid
+  function isCacheValid() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return false;
+      const { timestamp } = JSON.parse(cached);
+      const ageHours = (Date.now() - timestamp) / (1000 * 60 * 60);
+      return ageHours < CACHE_EXPIRY_HOURS;
+    } catch {
+      return false;
+    }
   }
 
-  // Load songs from API
+  // Load songs from cache
+  function loadFromCache() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+      const { songs } = JSON.parse(cached);
+      return songs;
+    } catch (e) {
+      console.error('Cache read error:', e);
+      return null;
+    }
+  }
+
+  // Save songs to cache
+  function saveToCache(songs) {
+    try {
+      const cacheData = { songs, timestamp: Date.now() };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    } catch (e) {
+      console.error('Cache write error:', e);
+    }
+  }
+
+  // Transform API song data
+  function transformSongData(songs) {
+    return songs.map(song => {
+      const releaseYear = song.releaseYear || 2000;
+      const decade = Math.floor(releaseYear / 10) * 10 + 's';
+      const durationMinutes = song.durationSeconds ? 
+        Math.floor(song.durationSeconds / 60) + (song.durationSeconds % 60) / 100 : 3.30;
+      
+      return {
+        name: song.title,
+        artist: song.artist,
+        releaseYear: releaseYear,
+        decade: decade,
+        primaryGenre: song.genres && song.genres.length > 0 ? song.genres[0] : 'Pop',
+        duration: durationMinutes,
+        albumImage: song.albumImage,
+        album: song.album,
+        previewUrl: song.previewUrl,
+        difficulty: song.difficulty || 'medium'
+      };
+    });
+  }
+
+  // Initialize game after data is loaded
+  function initializeAfterLoad() {
+    SECRET_POOL = ALL_SONGS.filter(song => 
+      song.difficulty === 'easy' || song.difficulty === 'medium'
+    );
+    
+    const loadingState = document.getElementById('loading-state');
+    if (loadingState) loadingState.style.display = 'none';
+    
+    if (SECRET_POOL.length > 0) {
+      if (dailyCompleted && dailyState) {
+        restoreDailyResult();
+      } else {
+        guessSection.style.display = 'flex';
+        initializeGame();
+      }
+    } else {
+      console.error('No songs available in secret pool');
+      GameUtils.showError('common.noDataAvailable', true);
+    }
+  }
+
+  // Load songs from API with localStorage caching
   async function loadSongsData() {
     try {
-      // Fetch from API
+      // Try to load from cache first for faster startup
+      if (isCacheValid()) {
+        const cachedSongs = loadFromCache();
+        if (cachedSongs && cachedSongs.length > 0) {
+          ALL_SONGS = cachedSongs;
+          initializeAfterLoad();
+          return;
+        }
+      }
+      
+      // No valid cache - fetch from API
       const response = await fetch(API_URL);
       
       if (!response.ok) {
@@ -76,63 +166,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         throw new Error('No songs returned from API');
       }
       
-      // Transform API data to match expected format
-      // Note: iTunes doesn't provide artistCountry, groupMembers, or language
-      ALL_SONGS = data.songs.map(song => {
-        // Calculate decade from release year
-        const releaseYear = song.releaseYear || 2000;
-        const decade = Math.floor(releaseYear / 10) * 10 + 's';
-        
-        // Calculate duration in minutes.fraction format
-        const durationMinutes = song.durationSeconds ? 
-          Math.floor(song.durationSeconds / 60) + (song.durationSeconds % 60) / 100 : 3.30;
-        
-        return {
-          name: song.title,
-          artist: song.artist,
-          releaseYear: releaseYear,
-          decade: decade,
-          primaryGenre: song.genres && song.genres.length > 0 ? song.genres[0] : 'Pop',
-          duration: durationMinutes,
-          albumImage: song.albumImage,
-          album: song.album,
-          previewUrl: song.previewUrl,
-          difficulty: song.difficulty || 'medium'
-        };
-      });
-      
-      console.log('Songs loaded from API:', ALL_SONGS.length);
+      // Transform and cache
+      ALL_SONGS = transformSongData(data.songs);
+      saveToCache(ALL_SONGS);
       
     } catch (apiError) {
       console.error('API fetch failed:', apiError.message);
-      alert('Failed to load songs data. Please check your connection and refresh the page.');
-      return;
-    }
-    
-    // Secret pool: only easy + medium songs
-    SECRET_POOL = ALL_SONGS.filter(song => 
-      song.difficulty === 'easy' || song.difficulty === 'medium'
-    );
-    console.log('Secret pool (easy+medium):', SECRET_POOL.length);
-    
-    // Hide loading state, show game
-    const loadingState = document.getElementById('loading-state');
-    if (loadingState) loadingState.style.display = 'none';
-    
-    // Auto-initialize game
-    if (SECRET_POOL.length > 0) {
-      // Check if daily is completed - show result instead of restarting
-      if (dailyCompleted && dailyState) {
-        restoreDailyResult();
+      // Try cache as fallback even if expired
+      const fallbackCache = loadFromCache();
+      if (fallbackCache && fallbackCache.length > 0) {
+        ALL_SONGS = fallbackCache;
       } else {
-        guessSection.style.display = 'flex';
-        initializeGame();
+        GameUtils.showError('common.loadError', true);
+        return;
       }
-      console.log('Game initialized');
-    } else {
-      console.error('No songs available in secret pool');
-      alert('No songs available.');
     }
+    
+    initializeAfterLoad();
   }
 
   // Game State
@@ -232,11 +282,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cluesHeader = document.getElementById('clues-header');
   const cluesToggle = document.getElementById('clues-toggle');
 
-  // Utility Functions
-  function getDateString() {
-    const date = new Date();
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  }
+  // Use centralized utility functions from GameUtils
+  const getDateString = GameUtils.getDateString.bind(GameUtils);
 
   function getDailySong() {
     const dateString = getDateString();
@@ -517,13 +564,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Allow guessing any song from the entire database
     const guess = ALL_SONGS.find(s => s.name.toLowerCase() === inputValue.toLowerCase());
     if (!guess) {
-      alert('Song not found. Please select from the suggestions.');
+      GameUtils.showWarning(i18n.t('common.notFound', { item: i18n.t('games.music.title') }));
       return;
     }
     
     // Check if already guessed
     if (gameState.guesses.some(g => g.name === guess.name)) {
-      alert('You already guessed this song!');
+      GameUtils.showWarning(i18n.t('common.alreadyGuessed', { item: i18n.t('games.music.title') }));
       return;
     }
     
@@ -706,40 +753,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Legacy function kept for compatibility
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      // Show feedback
-      const originalText = shareResultsBtn.textContent;
-      shareResultsBtn.textContent = 'Copied!';
-      shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-      setTimeout(() => {
-        shareResultsBtn.textContent = originalText;
-        shareResultsBtn.style.backgroundColor = '';
-      }, 2000);
-    }).catch(err => {
-      // Fallback: create temporary textarea
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        const originalText = shareResultsBtn.textContent;
-        shareResultsBtn.textContent = 'Copied!';
-        shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-        setTimeout(() => {
-          shareResultsBtn.textContent = originalText;
-          shareResultsBtn.style.backgroundColor = '';
-        }, 2000);
-      } catch (err) {
-        alert('Failed to copy. Please copy manually:\n\n' + text);
-      }
-      document.body.removeChild(textarea);
-    });
-  }
+  // copyToClipboard removed - using GameUtils.shareGameResult instead
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;

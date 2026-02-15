@@ -365,6 +365,285 @@ header .header-controls {
   font-style: italic;
 }
 
+/* ========== GAME NOTIFICATIONS ========== */
+
+.game-notifications {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: 90%;
+}
+
+.game-notification {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: auto;
+  text-align: center;
+}
+
+.game-notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.game-notification.hide {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.game-notification-info {
+  background: var(--card-bg, #1a1a1a);
+  border: 1px solid var(--primary-color, #00d4ff);
+  color: var(--text, #fff);
+}
+
+.game-notification-success {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #fff;
+}
+
+.game-notification-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #000;
+}
+
+.game-notification-error {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: #fff;
+}
+
+/* ========== COMMON GAME CARD ========== */
+
+.game-card {
+  background: var(--card-bg, #1f1f2e);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow, 0 4px 6px -1px rgba(0, 0, 0, 0.3));
+  border: 1px solid var(--border-color, #2d2d3d);
+  width: 100%;
+}
+
+/* ========== COMMON INPUT STYLES ========== */
+
+.game-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--border-color, #2d2d3d);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--bg-color, #15151e);
+  color: var(--text-color, #fff);
+  transition: border-color 0.2s ease;
+}
+
+.game-input:focus {
+  outline: none;
+  border-color: var(--border-focus, var(--primary-color, #00d4ff));
+}
+
+.game-input::placeholder {
+  color: var(--text-muted, #9ca3af);
+}
+
+/* ========== AUTOCOMPLETE DROPDOWN ========== */
+
+.autocomplete-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card-bg, #1f1f2e);
+  border: 2px solid var(--border-color, #2d2d3d);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.4));
+  z-index: 1000;
+  display: none;
+}
+
+.autocomplete-item {
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid var(--border-color, #2d2d3d);
+  color: var(--text-color, #fff);
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.selected {
+  background: rgba(var(--primary-rgb, 0, 166, 81), 0.2);
+}
+
+/* ========== COMMON SUBMIT BUTTON ========== */
+
+.game-submit-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: var(--primary-color, #00d4ff);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.game-submit-btn:hover {
+  background: var(--primary-hover, #00b8e0);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.4));
+}
+
+.game-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========== GIVE UP BUTTON ========== */
+
+.give-up-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--error-color, #e10600);
+  background: transparent;
+  color: var(--error-color, #e10600);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.give-up-btn:hover {
+  background: var(--error-color, #e10600);
+  color: white;
+}
+
+/* ========== SHARE BUTTON ========== */
+
+.share-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.4));
+}
+
+/* ========== PLAY RANDOM BUTTON ========== */
+
+.play-random-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--primary-color, #00d4ff);
+  background: transparent;
+  color: var(--primary-color, #00d4ff);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.play-random-btn:hover {
+  background: var(--primary-color, #00d4ff);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ========== CLUES PANEL BASE ========== */
+
+.clues-panel {
+  background: var(--card-bg, #1f1f2e);
+  border: 1px solid var(--border-color, #2d2d3d);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.clues-panel-header {
+  padding: 0.75rem 1rem;
+  background: rgba(var(--primary-rgb, 0, 166, 81), 0.1);
+  border-bottom: 1px solid var(--border-color, #2d2d3d);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.clues-panel-header h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color, #fff);
+}
+
+.clues-panel-content {
+  padding: 1rem;
+}
+
+.clue-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color, #2d2d3d);
+}
+
+.clue-item:last-child {
+  border-bottom: none;
+}
+
+.clue-label {
+  color: var(--text-muted, #9ca3af);
+  font-size: 0.875rem;
+}
+
+.clue-value {
+  font-weight: 600;
+  color: var(--text-color, #fff);
+}
+
+.clue-item.confirmed .clue-value {
+  color: var(--success-color, #00d900);
+}
+
+.clue-item.narrowed .clue-value {
+  color: var(--warning-color, #ffb800);
+}
+
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 480px) {
@@ -378,5 +657,10 @@ header .header-controls {
   
   .stat-value {
     font-size: 24px;
+  }
+  
+  .game-notification {
+    padding: 10px 16px;
+    font-size: 13px;
   }
 }

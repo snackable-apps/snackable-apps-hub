@@ -96,19 +96,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     isOpen: false
   };
 
-  // Text normalization
-  function normalizeText(text) {
-    return text
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase();
-  }
-
-  // Get date string for daily song
-  function getDateString() {
-    const date = new Date();
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  }
+  // Use centralized utility functions from GameUtils
+  const normalizeText = GameUtils.normalizeText;
+  const getDateString = GameUtils.getDateString.bind(GameUtils);
 
   // Seeded random for consistent daily songs
   function seededRandom(seed) {
@@ -168,11 +158,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Filter songs that have preview URLs
       songsWithPreview = allSongs.filter(song => song.previewUrl && song.previewUrl.length > 0);
       
-      console.log('Songs loaded:', allSongs.length);
-      console.log('Songs with preview:', songsWithPreview.length);
-      
       if (songsWithPreview.length < SONGS_PER_MATCH) {
-        alert('Not enough songs with audio previews available.');
+        GameUtils.showError('common.noDataAvailable', true);
         return;
       }
       
@@ -200,7 +187,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Hide loading on error too
       const loadingState = document.getElementById('loading-state');
       if (loadingState) loadingState.style.display = 'none';
-      alert('Failed to load songs. Please refresh the page.');
+      GameUtils.showError('common.loadError', true);
     }
   }
 
@@ -606,7 +593,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     
     if (!guess) {
-      alert('Song not found. Please select from the suggestions.');
+      GameUtils.showWarning(i18n.t('common.notFound', { item: i18n.t('games.blindtest.title') }));
       return;
     }
     

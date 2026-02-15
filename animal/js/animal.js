@@ -43,13 +43,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let ALL_ANIMALS = []; // All animals (for guessing)
   let SECRET_POOL = []; // Easy + Medium animals (for daily secret selection)
 
-  // Text normalization for accent-insensitive search
-  function normalizeText(text) {
-    return text
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
-      .toLowerCase();
-  }
+  // Use centralized normalizeText from GameUtils
+  const normalizeText = GameUtils.normalizeText;
 
   // Load embedded data
   function loadAnimalsData() {
@@ -82,17 +77,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           guessSection.style.display = 'flex';
           initializeGame();
         }
-        console.log('Game initialized');
       } else {
         console.error('No animals available in secret pool');
-        alert('No animals available.');
+        GameUtils.showError('common.noDataAvailable', true);
       }
     } catch (error) {
       console.error('Error loading animals data:', error);
       // Hide loading on error too
       const loadingState = document.getElementById('loading-state');
       if (loadingState) loadingState.style.display = 'none';
-      alert('Failed to load animals data: ' + error.message + '. Please refresh the page.');
+      GameUtils.showError('common.loadError', true);
     }
   }
 
@@ -112,7 +106,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     weightMin: null, weightMax: null, weightConfirmed: null,
     lifespanMin: null, lifespanMax: null, lifespanConfirmed: null,
     classConfirmed: null, dietConfirmed: null, activityConfirmed: null,
-    matchedContinents: new Set(), matchedHabitats: new Set(),
+    matchedContinents: new Set(), totalContinentsCount: 0,
+    matchedHabitats: new Set(), totalHabitatsCount: 0,
     excludedClasses: new Set(), excludedDiets: new Set()
   };
 
@@ -228,11 +223,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return animal.emoji;
   }
 
-  // Utility Functions
-  function getDateString() {
-    const date = new Date();
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  }
+  // Use centralized utility functions from GameUtils
+  const getDateString = GameUtils.getDateString.bind(GameUtils);
 
   function getDailyAnimal() {
     const dateString = getDateString();
@@ -402,7 +394,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (comparisons.activity === 'match') cluesState.activityConfirmed = guess.activity;
 
+    // Continents - track total count on first guess
+    if (cluesState.totalContinentsCount === 0 && gameState.secretAnimal && gameState.secretAnimal.continents) {
+      cluesState.totalContinentsCount = gameState.secretAnimal.continents.length;
+    }
     if (comparisons.continent && comparisons.continent.matches) comparisons.continent.matches.forEach(c => cluesState.matchedContinents.add(c));
+    
+    // Habitats - track total count on first guess
+    if (cluesState.totalHabitatsCount === 0 && gameState.secretAnimal && gameState.secretAnimal.habitats) {
+      cluesState.totalHabitatsCount = gameState.secretAnimal.habitats.length;
+    }
     if (comparisons.habitat && comparisons.habitat.matches) comparisons.habitat.matches.forEach(h => cluesState.matchedHabitats.add(h));
   }
 
@@ -439,16 +440,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const continentsRow = document.getElementById('clue-continents-row');
     const continentsContainer = document.getElementById('clue-continents');
-    if (cluesState.matchedContinents.size > 0) {
+    if (cluesState.totalContinentsCount > 0) {
       continentsRow.style.display = 'flex';
-      continentsContainer.innerHTML = [...cluesState.matchedContinents].map(c => `<span class="clue-tag">${c}</span>`).join('');
+      const unknownContinents = cluesState.totalContinentsCount - cluesState.matchedContinents.size;
+      const matchedTags = [...cluesState.matchedContinents].map(c => `<span class="clue-tag">${c}</span>`);
+      const unknownTags = Array(unknownContinents).fill('<span class="clue-tag unknown">????</span>');
+      continentsContainer.innerHTML = [...matchedTags, ...unknownTags].join('');
     } else { continentsRow.style.display = 'none'; }
 
     const habitatsRow = document.getElementById('clue-habitats-row');
     const habitatsContainer = document.getElementById('clue-habitats');
-    if (cluesState.matchedHabitats.size > 0) {
+    if (cluesState.totalHabitatsCount > 0) {
       habitatsRow.style.display = 'flex';
-      habitatsContainer.innerHTML = [...cluesState.matchedHabitats].map(h => `<span class="clue-tag">${h}</span>`).join('');
+      const unknownHabitats = cluesState.totalHabitatsCount - cluesState.matchedHabitats.size;
+      const matchedTags = [...cluesState.matchedHabitats].map(h => `<span class="clue-tag">${h}</span>`);
+      const unknownTags = Array(unknownHabitats).fill('<span class="clue-tag unknown">????</span>');
+      habitatsContainer.innerHTML = [...matchedTags, ...unknownTags].join('');
     } else { habitatsRow.style.display = 'none'; }
 
     // Render excluded sections using centralized utility
@@ -474,7 +481,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function resetCluesState() {
-    cluesState = { weightMin: null, weightMax: null, weightConfirmed: null, lifespanMin: null, lifespanMax: null, lifespanConfirmed: null, classConfirmed: null, dietConfirmed: null, activityConfirmed: null, matchedContinents: new Set(), matchedHabitats: new Set(), excludedClasses: new Set(), excludedDiets: new Set() };
+    cluesState = { weightMin: null, weightMax: null, weightConfirmed: null, lifespanMin: null, lifespanMax: null, lifespanConfirmed: null, classConfirmed: null, dietConfirmed: null, activityConfirmed: null, matchedContinents: new Set(), totalContinentsCount: 0, matchedHabitats: new Set(), totalHabitatsCount: 0, excludedClasses: new Set(), excludedDiets: new Set() };
   }
 
   function formatPropertyValue(property, value) {
@@ -601,13 +608,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Allow guessing any animal from the entire database
     const guess = ALL_ANIMALS.find(a => a.name.toLowerCase() === inputValue.toLowerCase());
     if (!guess) {
-      alert('Animal not found. Please select from the suggestions.');
+      GameUtils.showWarning(i18n.t('common.notFound', { item: i18n.t('games.animal.title') }));
       return;
     }
     
     // Check if already guessed
     if (gameState.guesses.some(g => g.name === guess.name)) {
-      alert('You already guessed this animal!');
+      GameUtils.showWarning(i18n.t('common.alreadyGuessed', { item: i18n.t('games.animal.title') }));
       return;
     }
     
@@ -794,40 +801,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Legacy function kept for compatibility
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      // Show feedback
-      const originalText = shareResultsBtn.textContent;
-      shareResultsBtn.textContent = 'Copied!';
-      shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-      setTimeout(() => {
-        shareResultsBtn.textContent = originalText;
-        shareResultsBtn.style.backgroundColor = '';
-      }, 2000);
-    }).catch(err => {
-      // Fallback: create temporary textarea
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        const originalText = shareResultsBtn.textContent;
-        shareResultsBtn.textContent = 'Copied!';
-        shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-        setTimeout(() => {
-          shareResultsBtn.textContent = originalText;
-          shareResultsBtn.style.backgroundColor = '';
-        }, 2000);
-      } catch (err) {
-        alert('Failed to copy. Please copy manually:\n\n' + text);
-      }
-      document.body.removeChild(textarea);
-    });
-  }
+  // copyToClipboard removed - using GameUtils.shareGameResult instead
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;

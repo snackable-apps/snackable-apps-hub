@@ -44,30 +44,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   let ALL_PLAYERS = [];
   let DAILY_ELIGIBLE_PLAYERS = []; // Players eligible to be the daily secret (easy/medium)
 
-  // Text normalization for accent-insensitive search
-  function normalizeText(text) {
-    return text
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
-      .toLowerCase();
-  }
+  // Use centralized normalizeText from GameUtils
+  const normalizeText = GameUtils.normalizeText;
 
   // Load embedded data
   function loadPlayersData() {
     try {
       // Check if PLAYERS_DATA is available (loaded from data/players_data.js)
       if (typeof PLAYERS_DATA === 'undefined' || !PLAYERS_DATA || PLAYERS_DATA.length === 0) {
-        throw new Error('Dados dos jogadores não carregados. Por favor, verifique se data/players_data.js está incluído.');
+        throw new Error('Player data not loaded. Please check if data/players_data.js is included.');
       }
       
       ALL_PLAYERS = PLAYERS_DATA;
-      console.log('Jogadores carregados:', ALL_PLAYERS.length);
       
       // Filter for daily secret selection: only easy/medium difficulty
       DAILY_ELIGIBLE_PLAYERS = ALL_PLAYERS.filter(player => 
         player.difficulty === 'easy' || player.difficulty === 'medium'
       );
-      console.log('Jogadores elegíveis para segredo diário:', DAILY_ELIGIBLE_PLAYERS.length);
       
       // Display data update date
       if (typeof DATA_UPDATE_DATE !== 'undefined' && dataUpdateDateEl) {
@@ -93,17 +86,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           guessSection.style.display = 'flex';
           initializeGame();
         }
-        console.log('Jogo inicializado');
       } else {
-        console.error('Nenhum jogador disponível');
-        alert('Nenhum jogador disponível. Por favor, atualize a página.');
+        console.error('No players available');
+        GameUtils.showError('common.noDataAvailable', true);
       }
     } catch (error) {
-      console.error('Erro ao carregar dados dos jogadores:', error);
+      console.error('Error loading player data:', error);
       // Hide loading on error too
       const loadingState = document.getElementById('loading-state');
       if (loadingState) loadingState.style.display = 'none';
-      alert('Falha ao carregar dados dos jogadores: ' + error.message + '. Por favor, atualize a página.');
+      GameUtils.showError('common.loadError', true);
     }
   }
 
@@ -195,8 +187,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Focus input
     setTimeout(() => playerInput.focus(), 100);
     
-    console.log('playRandom: starting random game with player:', randomPlayer.name);
-    
     if (typeof gtag === 'function') {
       gtag('event', 'futquiz_play_random', { player: randomPlayer.name });
     }
@@ -226,22 +216,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cluesHeader = document.getElementById('clues-header');
   const cluesToggle = document.getElementById('clues-toggle');
 
-  // Utility Functions
-  function getDateString() {
-    const date = new Date();
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  }
-
-  function calculateAge(dateOfBirth, deathDate = null) {
-    const endDate = deathDate ? new Date(deathDate) : new Date();
-    const birthDate = new Date(dateOfBirth);
-    let age = endDate.getFullYear() - birthDate.getFullYear();
-    const monthDiff = endDate.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && endDate.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
-  }
+  // Use centralized utility functions from GameUtils
+  const getDateString = GameUtils.getDateString.bind(GameUtils);
+  const calculateAge = GameUtils.calculateAge;
 
   function getDailyPlayer() {
     const dateString = getDateString();
@@ -737,13 +714,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Allow guessing any player from the entire database
     const guess = ALL_PLAYERS.find(p => p.name.toLowerCase() === inputValue.toLowerCase());
     if (!guess) {
-      alert('Jogador não encontrado. Por favor, selecione das sugestões.');
+      GameUtils.showWarning(i18n.t('common.notFound', { item: i18n.t('games.football.title') }));
       return;
     }
     
     // Check if already guessed
     if (gameState.guesses.some(g => g.name === guess.name)) {
-      alert('Você já chutou este jogador!');
+      GameUtils.showWarning(i18n.t('common.alreadyGuessed', { item: i18n.t('games.football.title') }));
       return;
     }
     
@@ -909,23 +886,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     let shareText;
     
     if (gameState.isSolved) {
-      const guessText = gameState.guesses.length === 1 ? 'palpite' : 'palpites';
-      const status = `Resolvido em ${gameState.guesses.length} ${guessText}!`;
-      shareText = `🎉 FutQuiz ${gameType} ⚽\n${status}\n\nJogue em: ${gameUrl}`;
+      const statusKey = gameState.guesses.length === 1 ? 'common.solvedIn' : 'common.solvedInPlural';
+      const status = i18n.t(statusKey, { count: gameState.guesses.length });
+      shareText = `🎉 FutQuiz ${gameType} ⚽\n${status}\n\n${gameUrl}`;
     } else if (gameState.gaveUp) {
-      const guessText = gameState.guesses.length === 1 ? 'palpite' : 'palpites';
-      const status = `Desistiu após ${gameState.guesses.length} ${guessText}`;
-      shareText = `😞 FutQuiz ${gameType} ⚽\n${status}\n\nJogue em: ${gameUrl}`;
+      const statusKey = gameState.guesses.length === 1 ? 'common.gaveUpAfter' : 'common.gaveUpAfterPlural';
+      const status = i18n.t(statusKey, { count: gameState.guesses.length });
+      shareText = `😞 FutQuiz ${gameType} ⚽\n${status}\n\n${gameUrl}`;
     } else {
-      const status = `Fim de Jogo após ${MAX_GUESSES} palpites`;
-      shareText = `❌ FutQuiz ${gameType} ⚽\n${status}\n\nJogue em: ${gameUrl}`;
+      const status = i18n.t('common.gaveUpAfterPlural', { count: MAX_GUESSES });
+      shareText = `❌ FutQuiz ${gameType} ⚽\n${status}\n\n${gameUrl}`;
     }
     
     GameUtils.shareGameResult({
       text: shareText,
       title: 'FutQuiz Result',
       button: shareResultsBtn,
-      successMessage: '✅ Copiado!',
+      successMessage: '✅ ' + i18n.t('share.copiedToClipboard'),
       originalHTML: shareResultsBtn.innerHTML,
       analytics: {
         gtag: typeof gtag === 'function' ? gtag : null,
@@ -935,39 +912,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      // Show feedback
-      const originalText = shareResultsBtn.textContent;
-      shareResultsBtn.textContent = 'Copiado!';
-      shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-      setTimeout(() => {
-        shareResultsBtn.textContent = originalText;
-        shareResultsBtn.style.backgroundColor = '';
-      }, 2000);
-    }).catch(err => {
-      // Fallback: create temporary textarea
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        const originalText = shareResultsBtn.textContent;
-        shareResultsBtn.textContent = 'Copiado!';
-        shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-        setTimeout(() => {
-          shareResultsBtn.textContent = originalText;
-          shareResultsBtn.style.backgroundColor = '';
-        }, 2000);
-      } catch (err) {
-        alert('Falha ao copiar. Por favor, copie manualmente:\n\n' + text);
-      }
-      document.body.removeChild(textarea);
-    });
-  }
+  // copyToClipboard removed - using GameUtils.shareGameResult instead
 
   function updateGameState() {
     // Just show the count, no limit

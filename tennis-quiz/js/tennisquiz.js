@@ -41,13 +41,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let ALL_PLAYERS = [];
   let SECRET_POOL = [];
 
-  // Text normalization for accent-insensitive search
-  function normalizeText(text) {
-    return text
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
-      .toLowerCase();
-  }
+  // Use centralized normalizeText from GameUtils
+  const normalizeText = GameUtils.normalizeText;
 
   // Load embedded data
   function loadPlayersData() {
@@ -83,17 +78,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           guessSection.style.display = 'flex';
           initializeGame();
         }
-        console.log('Game initialized');
       } else {
         console.error('No players available in secret pool');
-        alert('No players available.');
+        GameUtils.showError('common.noDataAvailable', true);
       }
     } catch (error) {
       console.error('Error loading player data:', error);
       // Hide loading on error too
       const loadingState = document.getElementById('loading-state');
       if (loadingState) loadingState.style.display = 'none';
-      alert('Failed to load player data: ' + error.message);
+      GameUtils.showError('common.loadError', true);
     }
   }
 
@@ -205,22 +199,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cluesHeader = document.getElementById('clues-header');
   const cluesToggle = document.getElementById('clues-toggle');
 
-  // Utility Functions
-  function getDateString() {
-    const date = new Date();
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  }
-
-  function calculateAge(birthdate, deathDate = null) {
-    const endDate = deathDate ? new Date(deathDate) : new Date();
-    const birth = new Date(birthdate);
-    let age = endDate.getFullYear() - birth.getFullYear();
-    const monthDiff = endDate.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && endDate.getDate() < birth.getDate())) {
-      age--;
-    }
-    return age;
-  }
+  // Use centralized utility functions from GameUtils
+  const getDateString = GameUtils.getDateString.bind(GameUtils);
+  const calculateAge = GameUtils.calculateAge;
 
   function formatRanking(ranking) {
     // 9999 = Retired (from RETIRED_RANKING constant in data file)
@@ -663,12 +644,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const guess = ALL_PLAYERS.find(p => p.name.toLowerCase() === inputValue.toLowerCase());
     if (!guess) {
-      alert('Player not found. Please select from the suggestions.');
+      GameUtils.showWarning(i18n.t('common.notFound', { item: i18n.t('games.tennis.title') }));
       return;
     }
     
     if (gameState.guesses.some(g => g.name === guess.name)) {
-      alert('You already guessed this player!');
+      GameUtils.showWarning(i18n.t('common.alreadyGuessed', { item: i18n.t('games.tennis.title') }));
       return;
     }
     
@@ -843,38 +824,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Legacy function kept for compatibility
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      const originalText = shareResultsBtn.textContent;
-      shareResultsBtn.textContent = 'Copied!';
-      shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-      setTimeout(() => {
-        shareResultsBtn.textContent = originalText;
-        shareResultsBtn.style.backgroundColor = '';
-      }, 2000);
-    }).catch(() => {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        const originalText = shareResultsBtn.textContent;
-        shareResultsBtn.textContent = 'Copied!';
-        shareResultsBtn.style.backgroundColor = 'var(--success-color)';
-        setTimeout(() => {
-          shareResultsBtn.textContent = originalText;
-          shareResultsBtn.style.backgroundColor = '';
-        }, 2000);
-      } catch (err) {
-        alert('Failed to copy. Please copy manually:\n\n' + text);
-      }
-      document.body.removeChild(textarea);
-    });
-  }
+  // copyToClipboard removed - using GameUtils.shareGameResult instead
 
   function updateGameState() {
     guessCountEl.textContent = gameState.guesses.length;

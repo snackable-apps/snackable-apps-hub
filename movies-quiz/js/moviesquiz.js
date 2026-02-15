@@ -158,10 +158,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Try cache as fallback even if expired
       const fallbackCache = loadFromCache();
       if (fallbackCache && fallbackCache.length > 0) {
-        console.log('Using expired cache as fallback');
         ALL_MOVIES = fallbackCache;
       } else {
-        alert('Failed to load movie data. Please check your connection and refresh the page.');
+        GameUtils.showError('common.loadError', true);
         return;
       }
     }
@@ -214,7 +213,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         initializeGame();
       }
     } else {
-      alert('No movies available.');
+      GameUtils.showError('common.noDataAvailable', true);
     }
   }
   
@@ -358,11 +357,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cluesToggle = document.getElementById('clues-toggle');
   const cluesHeader = document.querySelector('.clues-header');
 
-  // Utility Functions
-  function getDateString() {
-    const date = new Date();
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  }
+  // Use centralized utility functions from GameUtils
+  const getDateString = GameUtils.getDateString.bind(GameUtils);
 
   function getDailyMovie() {
     const dateString = getDateString();
@@ -478,13 +474,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return '';
   }
 
-  // Normalize text for accent-insensitive search
-  function normalizeText(text) {
-    return text
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
-      .toLowerCase();
-  }
+  // Use centralized normalizeText from GameUtils
+  const normalizeText = GameUtils.normalizeText;
 
   function formatRuntime(minutes) {
     const hrs = Math.floor(minutes / 60);

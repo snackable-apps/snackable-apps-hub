@@ -412,6 +412,108 @@ const GameUtils = {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
+  },
+
+  // ========== NOTIFICATIONS ==========
+
+  /**
+   * Show a notification to the user (toast-style, not native alert)
+   * @param {Object} options - Notification options
+   * @param {string} options.message - Message to display (or i18n key)
+   * @param {string} options.type - Type: 'info', 'success', 'warning', 'error'
+   * @param {number} options.duration - Duration in ms (default: 3000)
+   * @param {boolean} options.isI18nKey - If true, message is treated as i18n key
+   * @param {Object} options.i18nParams - Parameters for i18n interpolation
+   */
+  showNotification({ message, type = 'info', duration = 3000, isI18nKey = false, i18nParams = {} }) {
+    // Get translated message if i18n key
+    let displayMessage = message;
+    if (isI18nKey && window.i18n && typeof window.i18n.t === 'function') {
+      displayMessage = window.i18n.t(message, i18nParams);
+    }
+
+    // Create or get notification container
+    let container = document.getElementById('game-notifications');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'game-notifications';
+      container.className = 'game-notifications';
+      document.body.appendChild(container);
+    }
+
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `game-notification game-notification-${type}`;
+    notification.textContent = displayMessage;
+
+    // Add to container
+    container.appendChild(notification);
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+      notification.classList.add('show');
+    });
+
+    // Auto-remove after duration
+    setTimeout(() => {
+      notification.classList.remove('show');
+      notification.classList.add('hide');
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }, duration);
+  },
+
+  /**
+   * Show error notification
+   * @param {string} message - Error message or i18n key
+   * @param {boolean} isI18nKey - If true, message is treated as i18n key
+   */
+  showError(message, isI18nKey = false) {
+    this.showNotification({ message, type: 'error', isI18nKey, duration: 4000 });
+  },
+
+  /**
+   * Show warning notification
+   * @param {string} message - Warning message or i18n key
+   * @param {boolean} isI18nKey - If true, message is treated as i18n key
+   */
+  showWarning(message, isI18nKey = false) {
+    this.showNotification({ message, type: 'warning', isI18nKey });
+  },
+
+  /**
+   * Show success notification
+   * @param {string} message - Success message or i18n key
+   * @param {boolean} isI18nKey - If true, message is treated as i18n key
+   */
+  showSuccess(message, isI18nKey = false) {
+    this.showNotification({ message, type: 'success', isI18nKey });
+  },
+
+  /**
+   * Show info notification
+   * @param {string} message - Info message or i18n key
+   * @param {boolean} isI18nKey - If true, message is treated as i18n key
+   */
+  showInfo(message, isI18nKey = false) {
+    this.showNotification({ message, type: 'info', isI18nKey });
+  },
+
+  // ========== DURATION FORMATTING ==========
+
+  /**
+   * Format duration in seconds to MM:SS format
+   * @param {number} duration - Duration in seconds
+   * @returns {string} Formatted duration
+   */
+  formatDuration(duration) {
+    if (!duration) return '?';
+    const minutes = Math.floor(duration / 60);
+    const seconds = duration % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }
 };
 
