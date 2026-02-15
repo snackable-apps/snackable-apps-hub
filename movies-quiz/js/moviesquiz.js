@@ -703,69 +703,48 @@ document.addEventListener("DOMContentLoaded", async () => {
       castGroup.style.display = 'none';
     }
 
-    // Excluded sections (NOT clues)
+    // Excluded sections (NOT clues) using centralized utility
     const excludedRow = document.getElementById('clue-excluded-row');
-    const excludedCountrySection = document.getElementById('clue-excluded-country-section');
-    const excludedCountryContainer = document.getElementById('clue-excluded-country');
-    const excludedDirectorsSection = document.getElementById('clue-excluded-directors-section');
-    const excludedDirectorsContainer = document.getElementById('clue-excluded-directors');
-    const excludedGenresSection = document.getElementById('clue-excluded-genres-section');
-    const excludedGenresContainer = document.getElementById('clue-excluded-genres');
-    const excludedActorsSection = document.getElementById('clue-excluded-actors-section');
-    const excludedActorsContainer = document.getElementById('clue-excluded-actors');
-
-    let hasAnyExcluded = false;
-
-    // Excluded countries (only if not confirmed)
-    if (!cluesState.countryConfirmed && cluesState.excludedCountries.size > 0) {
-      excludedCountrySection.style.display = 'flex';
-      excludedCountryContainer.innerHTML = [...cluesState.excludedCountries]
-        .slice(0, 6)
-        .map(c => countryCodeToFlag(c))
-        .join(' ');
-      hasAnyExcluded = true;
-    } else {
-      excludedCountrySection.style.display = 'none';
-    }
-
-    // Excluded directors (only if not confirmed)
-    if (!cluesState.directorConfirmed && cluesState.excludedDirectors.size > 0) {
-      excludedDirectorsSection.style.display = 'flex';
-      excludedDirectorsContainer.textContent = [...cluesState.excludedDirectors]
-        .map(d => formatActorName(d))
-        .slice(0, 5)
-        .join(', ') + (cluesState.excludedDirectors.size > 5 ? '...' : '');
-      hasAnyExcluded = true;
-    } else {
-      excludedDirectorsSection.style.display = 'none';
-    }
-
+    
+    // Excluded countries
+    const hasCountry = GameUtils.renderExcludedSection({
+      containerEl: document.getElementById('clue-excluded-country-section'),
+      excludedSet: cluesState.excludedCountries,
+      confirmedValue: cluesState.countryConfirmed,
+      maxItems: 6,
+      formatFn: c => countryCodeToFlag(c),
+      separator: ' '
+    });
+    
+    // Excluded directors
+    const hasDirector = GameUtils.renderExcludedSection({
+      containerEl: document.getElementById('clue-excluded-directors-section'),
+      excludedSet: cluesState.excludedDirectors,
+      confirmedValue: cluesState.directorConfirmed,
+      maxItems: 5,
+      formatFn: d => formatActorName(d)
+    });
+    
     // Excluded genres (hide if all genres found)
     const allGenresFound = cluesState.totalGenreCount > 0 && cluesState.matchedGenres.size >= cluesState.totalGenreCount;
-    if (!allGenresFound && cluesState.excludedGenres.size > 0) {
-      excludedGenresSection.style.display = 'flex';
-      excludedGenresContainer.textContent = [...cluesState.excludedGenres]
-        .slice(0, 8)
-        .join(', ') + (cluesState.excludedGenres.size > 8 ? '...' : '');
-      hasAnyExcluded = true;
-    } else {
-      excludedGenresSection.style.display = 'none';
-    }
-
+    const hasGenre = GameUtils.renderExcludedSection({
+      containerEl: document.getElementById('clue-excluded-genres-section'),
+      excludedSet: cluesState.excludedGenres,
+      allMatched: allGenresFound,
+      maxItems: 8
+    });
+    
     // Excluded actors (hide if all actors found)
     const allActorsFound = cluesState.totalCastCount > 0 && cluesState.matchedCast.size >= cluesState.totalCastCount;
-    if (!allActorsFound && cluesState.excludedActors.size > 0) {
-      excludedActorsSection.style.display = 'flex';
-      excludedActorsContainer.textContent = [...cluesState.excludedActors]
-        .map(a => formatActorName(a))
-        .slice(0, 6)
-        .join(', ') + (cluesState.excludedActors.size > 6 ? '...' : '');
-      hasAnyExcluded = true;
-    } else {
-      excludedActorsSection.style.display = 'none';
-    }
+    const hasActor = GameUtils.renderExcludedSection({
+      containerEl: document.getElementById('clue-excluded-actors-section'),
+      excludedSet: cluesState.excludedActors,
+      allMatched: allActorsFound,
+      maxItems: 6,
+      formatFn: a => formatActorName(a)
+    });
 
-    excludedRow.style.display = hasAnyExcluded ? 'flex' : 'none';
+    excludedRow.style.display = (hasCountry || hasDirector || hasGenre || hasActor) ? 'flex' : 'none';
   }
 
   // Reset clues state

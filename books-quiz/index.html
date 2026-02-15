@@ -74,8 +74,14 @@
       </div>
     </div>
 
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+      <div class="loading-spinner"></div>
+      <span data-i18n="games.books.loadingMessage">📚 Opening the library...</span>
+    </div>
+
     <!-- Guess Input -->
-    <div class="guess-section" id="guess-section">
+    <div class="guess-section" id="guess-section" style="display: none;">
       <label for="book-input">Make a guess:</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="book-input" placeholder="Type a book title..." autocomplete="off" />
@@ -107,8 +113,14 @@
           <div class="clue-item" id="clue-language"><span class="clue-label">Language</span><span class="clue-value" id="clue-language-value">?</span></div>
         </div>
         <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
-          <span class="clue-label">❌ Not:</span>
-          <span class="clue-excluded-values" id="clue-excluded"></span>
+          <div class="clue-excluded-section" id="clue-excluded-author-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notAuthor">❌ Author:</span>
+            <span class="clue-excluded-values" id="clue-excluded-author"></span>
+          </div>
+          <div class="clue-excluded-section" id="clue-excluded-genre-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notGenre">❌ Genre:</span>
+            <span class="clue-excluded-values" id="clue-excluded-genre"></span>
+          </div>
         </div>
       </div>
     </div>

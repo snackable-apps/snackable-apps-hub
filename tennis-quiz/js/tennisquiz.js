@@ -71,11 +71,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
       console.log('Secret pool (easy+medium):', SECRET_POOL.length);
       
+      // Hide loading state, show game
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
+      
       if (SECRET_POOL.length > 0) {
         // Check if daily is completed - show result instead of restarting
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
+          guessSection.style.display = 'flex';
           initializeGame();
         }
         console.log('Game initialized');
@@ -85,6 +90,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     } catch (error) {
       console.error('Error loading player data:', error);
+      // Hide loading on error too
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
       alert('Failed to load player data: ' + error.message);
     }
   }
@@ -507,20 +515,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCategorical('clue-hand', 'clue-hand-value', cluesState.handConfirmed);
     renderCategorical('clue-backhand', 'clue-backhand-value', cluesState.backhandConfirmed);
 
-    // Excluded
+    // Render excluded sections using centralized utility
     const excludedRow = document.getElementById('clue-excluded-row');
-    const excludedContainer = document.getElementById('clue-excluded');
-    const allExcluded = [];
-    if (!cluesState.nationalityConfirmed) allExcluded.push(...cluesState.excludedNationalities);
-    if (!cluesState.handConfirmed) allExcluded.push(...cluesState.excludedHands);
-    if (!cluesState.backhandConfirmed) allExcluded.push(...cluesState.excludedBackhands);
+    const nationalitySection = document.getElementById('clue-excluded-nationality-section');
+    const handSection = document.getElementById('clue-excluded-hand-section');
+    const backhandSection = document.getElementById('clue-excluded-backhand-section');
     
-    if (allExcluded.length > 0) {
-      excludedRow.style.display = 'flex';
-      excludedContainer.textContent = allExcluded.slice(0, 10).join(', ') + (allExcluded.length > 10 ? '...' : '');
-    } else {
-      excludedRow.style.display = 'none';
-    }
+    const hasNationality = GameUtils.renderExcludedSection({
+      containerEl: nationalitySection,
+      excludedSet: cluesState.excludedNationalities,
+      confirmedValue: cluesState.nationalityConfirmed,
+      maxItems: 5
+    });
+    
+    const hasHand = GameUtils.renderExcludedSection({
+      containerEl: handSection,
+      excludedSet: cluesState.excludedHands,
+      confirmedValue: cluesState.handConfirmed,
+      maxItems: 2
+    });
+    
+    const hasBackhand = GameUtils.renderExcludedSection({
+      containerEl: backhandSection,
+      excludedSet: cluesState.excludedBackhands,
+      confirmedValue: cluesState.backhandConfirmed,
+      maxItems: 2
+    });
+    
+    excludedRow.style.display = (hasNationality || hasHand || hasBackhand) ? 'flex' : 'none';
   }
 
   // Reset clues state

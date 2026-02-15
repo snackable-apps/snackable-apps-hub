@@ -82,11 +82,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       }
       
+      // Hide loading state, show game
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
+      
       if (SECRET_POOL.length > 0) {
         // Check if daily is completed - show result instead of restarting
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
+          guessSection.style.display = 'flex';
           initializeGame();
         }
         console.log('Game initialized');
@@ -96,6 +101,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     } catch (error) {
       console.error('Error loading driver data:', error);
+      // Hide loading on error too
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
       alert('Failed to load driver data: ' + error.message);
     }
   }
@@ -422,13 +430,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       teamsContainer.innerHTML = [...cluesState.matchedTeams].map(t => `<span class="clue-tag">${t}</span>`).join('');
     } else { teamsRow.style.display = 'none'; }
 
+    // Render excluded sections using centralized utility
     const excludedRow = document.getElementById('clue-excluded-row');
-    const excludedContainer = document.getElementById('clue-excluded');
-    const allExcluded = [];
-    if (!cluesState.nationalityConfirmed) allExcluded.push(...cluesState.excludedNationalities);
-    if (!cluesState.teamConfirmed) allExcluded.push(...[...cluesState.excludedTeams].slice(0, 3));
-    if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.slice(0, 8).join(', '); }
-    else { excludedRow.style.display = 'none'; }
+    const nationalitySection = document.getElementById('clue-excluded-nationality-section');
+    const teamSection = document.getElementById('clue-excluded-team-section');
+    
+    const hasNationality = GameUtils.renderExcludedSection({
+      containerEl: nationalitySection,
+      excludedSet: cluesState.excludedNationalities,
+      confirmedValue: cluesState.nationalityConfirmed,
+      maxItems: 5
+    });
+    
+    const hasTeam = GameUtils.renderExcludedSection({
+      containerEl: teamSection,
+      excludedSet: cluesState.excludedTeams,
+      confirmedValue: cluesState.teamConfirmed,
+      maxItems: 4
+    });
+    
+    excludedRow.style.display = (hasNationality || hasTeam) ? 'flex' : 'none';
   }
 
   function resetCluesState() {

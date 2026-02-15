@@ -184,11 +184,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       multipleChoiceToggle.checked = true;
       songInput.placeholder = 'Type a song title...';
       
-      // Show start screen instead of auto-starting
-      showStartScreen();
+      // Hide loading state
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
+      
+      // Check if daily is completed - show results, otherwise show start screen
+      if (dailyCompleted && dailyState) {
+        restoreDailyResult();
+      } else {
+        showStartScreen();
+      }
       
     } catch (error) {
       console.error('Failed to load songs:', error);
+      // Hide loading on error too
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
       alert('Failed to load songs. Please refresh the page.');
     }
   }

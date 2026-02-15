@@ -58,8 +58,14 @@
       </div>
     </div>
 
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+      <div class="loading-spinner"></div>
+      <span data-i18n="games.tennis.loadingMessage">🎾 Stretching up...</span>
+    </div>
+
     <!-- Guess Input -->
-    <div class="guess-section" id="guess-section">
+    <div class="guess-section" id="guess-section" style="display: none;">
       <label for="player-input">Make a guess:</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="player-input" placeholder="Type a player name..." autocomplete="off" />
@@ -94,9 +100,17 @@
           <div class="clue-item" id="clue-backhand"><span class="clue-label">Backhand</span><span class="clue-value" id="clue-backhand-value">?</span></div>
         </div>
         <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
-          <div class="clue-excluded-section" id="clue-excluded-section">
-            <span class="clue-label">❌ Not:</span>
-            <span class="clue-excluded-values" id="clue-excluded"></span>
+          <div class="clue-excluded-section" id="clue-excluded-nationality-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notNationality">❌ Nationality:</span>
+            <span class="clue-excluded-values" id="clue-excluded-nationality"></span>
+          </div>
+          <div class="clue-excluded-section" id="clue-excluded-hand-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notHand">❌ Hand:</span>
+            <span class="clue-excluded-values" id="clue-excluded-hand"></span>
+          </div>
+          <div class="clue-excluded-section" id="clue-excluded-backhand-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notBackhand">❌ Backhand:</span>
+            <span class="clue-excluded-values" id="clue-excluded-backhand"></span>
           </div>
         </div>
       </div>

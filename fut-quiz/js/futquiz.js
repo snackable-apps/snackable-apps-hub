@@ -80,12 +80,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         dataUpdateDateEl.textContent = formattedDate;
       }
       
+      // Hide loading state, show game
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
+      
       // Initialize game
       if (DAILY_ELIGIBLE_PLAYERS.length > 0) {
         // Check if daily is completed - show result instead of restarting
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
+          guessSection.style.display = 'flex';
           initializeGame();
         }
         console.log('Jogo inicializado');
@@ -95,6 +100,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     } catch (error) {
       console.error('Erro ao carregar dados dos jogadores:', error);
+      // Hide loading on error too
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
       alert('Falha ao carregar dados dos jogadores: ' + error.message + '. Por favor, atualize a página.');
     }
   }
@@ -538,20 +546,34 @@ document.addEventListener("DOMContentLoaded", async () => {
       titlesRow.style.display = 'none';
     }
 
-    // Excluded
+    // Render excluded sections using centralized utility
     const excludedRow = document.getElementById('clue-excluded-row');
-    const excludedContainer = document.getElementById('clue-excluded');
-    const allExcluded = [];
-    if (!cluesState.nationalityConfirmed) allExcluded.push(...cluesState.excludedNationalities);
-    if (!cluesState.clubConfirmed) allExcluded.push(...[...cluesState.excludedClubs].slice(0, 3));
-    if (!cluesState.positionConfirmed) allExcluded.push(...cluesState.excludedPositions);
+    const nationalitySection = document.getElementById('clue-excluded-nationality-section');
+    const clubSection = document.getElementById('clue-excluded-club-section');
+    const positionSection = document.getElementById('clue-excluded-position-section');
     
-    if (allExcluded.length > 0) {
-      excludedRow.style.display = 'flex';
-      excludedContainer.textContent = allExcluded.slice(0, 8).join(', ') + (allExcluded.length > 8 ? '...' : '');
-    } else {
-      excludedRow.style.display = 'none';
-    }
+    const hasNationality = GameUtils.renderExcludedSection({
+      containerEl: nationalitySection,
+      excludedSet: cluesState.excludedNationalities,
+      confirmedValue: cluesState.nationalityConfirmed,
+      maxItems: 5
+    });
+    
+    const hasClub = GameUtils.renderExcludedSection({
+      containerEl: clubSection,
+      excludedSet: cluesState.excludedClubs,
+      confirmedValue: cluesState.clubConfirmed,
+      maxItems: 4
+    });
+    
+    const hasPosition = GameUtils.renderExcludedSection({
+      containerEl: positionSection,
+      excludedSet: cluesState.excludedPositions,
+      confirmedValue: cluesState.positionConfirmed,
+      maxItems: 4
+    });
+    
+    excludedRow.style.display = (hasNationality || hasClub || hasPosition) ? 'flex' : 'none';
   }
 
   function resetCluesState() {

@@ -52,8 +52,14 @@
       </div>
     </div>
 
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+      <div class="loading-spinner"></div>
+      <span data-i18n="games.football.loadingMessage">⚽ Warming up on the pitch...</span>
+    </div>
+
     <!-- Guess Input -->
-    <div class="guess-section" id="guess-section">
+    <div class="guess-section" id="guess-section" style="display: none;">
       <div class="autocomplete-wrapper">
         <input type="text" id="player-input" placeholder="Type a player name..." data-i18n-placeholder="games.football.inputPlaceholder" autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
@@ -93,8 +99,18 @@
           <span class="clue-tags" id="clue-titles"></span>
         </div>
         <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
-          <span class="clue-label">❌ Não é:</span>
-          <span class="clue-excluded-values" id="clue-excluded"></span>
+          <div class="clue-excluded-section" id="clue-excluded-nationality-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notNationality">❌ Nacionalidade:</span>
+            <span class="clue-excluded-values" id="clue-excluded-nationality"></span>
+          </div>
+          <div class="clue-excluded-section" id="clue-excluded-club-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notClub">❌ Clube:</span>
+            <span class="clue-excluded-values" id="clue-excluded-club"></span>
+          </div>
+          <div class="clue-excluded-section" id="clue-excluded-position-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notPosition">❌ Posição:</span>
+            <span class="clue-excluded-values" id="clue-excluded-position"></span>
+          </div>
         </div>
       </div>
     </div>

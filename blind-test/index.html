@@ -44,8 +44,14 @@
   </header>
 
   <main>
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+      <div class="loading-spinner"></div>
+      <span data-i18n="games.blindtest.loadingMessage">🎧 Plugging in the headphones...</span>
+    </div>
+
     <!-- Start Screen (shown before game starts) -->
-    <div class="start-screen" id="start-screen">
+    <div class="start-screen" id="start-screen" style="display: none;">
       <div class="start-content">
         <div class="start-icon">🎧</div>
         <h2 data-i18n="games.blindtest.startTitle">Ready to play?</h2>

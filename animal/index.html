@@ -53,8 +53,14 @@
       </div>
     </div>
 
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+      <div class="loading-spinner"></div>
+      <span data-i18n="games.animal.loadingMessage">🐾 On safari...</span>
+    </div>
+
     <!-- Guess Input -->
-    <div class="guess-section" id="guess-section">
+    <div class="guess-section" id="guess-section" style="display: none;">
       <label for="animal-input">Make a guess:</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="animal-input" placeholder="Type an animal name..." autocomplete="off" />
@@ -91,8 +97,14 @@
           <span class="clue-tags" id="clue-habitats"></span>
         </div>
         <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
-          <span class="clue-label">❌ Not:</span>
-          <span class="clue-excluded-values" id="clue-excluded"></span>
+          <div class="clue-excluded-section" id="clue-excluded-class-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notClass">❌ Class:</span>
+            <span class="clue-excluded-values" id="clue-excluded-class"></span>
+          </div>
+          <div class="clue-excluded-section" id="clue-excluded-diet-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notDiet">❌ Diet:</span>
+            <span class="clue-excluded-values" id="clue-excluded-diet"></span>
+          </div>
         </div>
       </div>
     </div>

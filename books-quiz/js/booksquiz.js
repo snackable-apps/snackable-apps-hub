@@ -102,11 +102,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     console.log('Secret pool (easy+medium):', SECRET_POOL.length);
     
+    // Hide loading state, show game
+    const loadingState = document.getElementById('loading-state');
+    if (loadingState) loadingState.style.display = 'none';
+    
     if (SECRET_POOL.length > 0) {
       // Check if daily is completed - show result instead of restarting
       if (dailyCompleted && dailyState) {
         restoreDailyResult();
       } else {
+        guessSection.style.display = 'flex';
         initializeGame();
       }
       console.log('Game initialized');
@@ -327,14 +332,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCategorical('clue-genre', 'clue-genre-value', cluesState.genreConfirmed);
     renderCategorical('clue-language', 'clue-language-value', cluesState.languageConfirmed);
 
+    // Render excluded sections using centralized utility
     const excludedRow = document.getElementById('clue-excluded-row');
-    const excludedContainer = document.getElementById('clue-excluded');
-    if (excludedRow && excludedContainer) {
-      const allExcluded = [];
-      if (!cluesState.genreConfirmed) allExcluded.push(...[...cluesState.excludedGenres].slice(0, 3));
-      if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.join(', '); }
-      else { excludedRow.style.display = 'none'; }
-    }
+    const authorSection = document.getElementById('clue-excluded-author-section');
+    const genreSection = document.getElementById('clue-excluded-genre-section');
+    
+    const hasAuthor = GameUtils.renderExcludedSection({
+      containerEl: authorSection,
+      excludedSet: cluesState.excludedAuthors,
+      confirmedValue: cluesState.authorConfirmed,
+      maxItems: 3
+    });
+    
+    const hasGenre = GameUtils.renderExcludedSection({
+      containerEl: genreSection,
+      excludedSet: cluesState.excludedGenres,
+      confirmedValue: cluesState.genreConfirmed,
+      maxItems: 4
+    });
+    
+    excludedRow.style.display = (hasAuthor || hasGenre) ? 'flex' : 'none';
   }
 
   function resetCluesState() {

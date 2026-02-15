@@ -291,6 +291,61 @@ header .header-controls {
   opacity: 0.9;
 }
 
+/* ========== LOADING STATE ========== */
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  color: var(--text-muted, #888);
+  font-size: 1rem;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--primary-color, #00d4ff);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========== CLUES EXCLUDED SECTIONS ========== */
+
+.clue-excluded-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.clue-excluded-section .clue-label {
+  color: var(--text-muted, #888);
+  white-space: nowrap;
+}
+
+.clue-excluded-values {
+  color: var(--text, #fff);
+  opacity: 0.9;
+}
+
+.clues-excluded {
+  flex-direction: column;
+  gap: 4px;
+}
+
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 480px) {

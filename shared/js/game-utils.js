@@ -273,6 +273,145 @@ const GameUtils = {
         document.body.removeChild(textarea);
       }
     }
+  },
+
+  // ========== LOADING STATE ==========
+
+  /**
+   * Create and inject a loading state element into a container
+   * @param {string} containerId - ID of container element
+   * @param {string} gameKey - i18n key for the game (e.g., 'f1', 'tennis')
+   * @param {string} defaultMessage - Default loading message if i18n not available
+   * @returns {HTMLElement} The created loading element
+   */
+  createLoadingState(containerId, gameKey, defaultMessage) {
+    const container = document.getElementById(containerId);
+    if (!container) return null;
+    
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'loading-state';
+    loadingDiv.className = 'loading-state';
+    loadingDiv.innerHTML = `
+      <div class="loading-spinner"></div>
+      <span data-i18n="games.${gameKey}.loadingMessage">${defaultMessage}</span>
+    `;
+    
+    container.insertBefore(loadingDiv, container.firstChild);
+    return loadingDiv;
+  },
+
+  /**
+   * Show loading state and hide game content
+   * @param {string} loadingId - ID of loading element (default: 'loading-state')
+   * @param {string[]} hideIds - Array of element IDs to hide
+   */
+  showLoading(loadingId = 'loading-state', hideIds = []) {
+    const loading = document.getElementById(loadingId);
+    if (loading) loading.style.display = 'flex';
+    
+    hideIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+  },
+
+  /**
+   * Hide loading state and show game content
+   * @param {string} loadingId - ID of loading element (default: 'loading-state')
+   * @param {Object[]} showElements - Array of {id, display} objects
+   */
+  hideLoading(loadingId = 'loading-state', showElements = []) {
+    const loading = document.getElementById(loadingId);
+    if (loading) loading.style.display = 'none';
+    
+    showElements.forEach(({id, display = 'block'}) => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = display;
+    });
+  },
+
+  // ========== CLUES SUMMARY UTILITIES ==========
+
+  /**
+   * Create a clues state object for tracking game progress
+   * @param {Object} config - Configuration with field names to track
+   * @returns {Object} Clues state object
+   */
+  createCluesState(config = {}) {
+    const state = {
+      // Common numeric range fields
+      ...(config.numericFields || []).reduce((acc, field) => {
+        acc[`${field}Min`] = null;
+        acc[`${field}Max`] = null;
+        acc[`${field}Confirmed`] = null;
+        return acc;
+      }, {}),
+      
+      // Common confirmed value fields
+      ...(config.confirmedFields || []).reduce((acc, field) => {
+        acc[`${field}Confirmed`] = null;
+        acc[`excluded${field.charAt(0).toUpperCase() + field.slice(1)}s`] = new Set();
+        return acc;
+      }, {}),
+      
+      // Array fields (matched + total count)
+      ...(config.arrayFields || []).reduce((acc, field) => {
+        acc[`matched${field.charAt(0).toUpperCase() + field.slice(1)}`] = new Set();
+        acc[`total${field.charAt(0).toUpperCase() + field.slice(1)}Count`] = 0;
+        acc[`excluded${field.charAt(0).toUpperCase() + field.slice(1)}`] = new Set();
+        return acc;
+      }, {})
+    };
+    
+    return state;
+  },
+
+  /**
+   * Render an excluded section (NOT section) in the clues panel
+   * @param {Object} options - Rendering options
+   * @returns {boolean} Whether the section has content
+   */
+  renderExcludedSection({
+    containerEl,
+    excludedSet,
+    confirmedValue = null,
+    allMatched = false,
+    maxItems = 6,
+    formatFn = (x) => x,
+    separator = ', '
+  }) {
+    if (!containerEl) return false;
+    
+    // Hide if confirmed or all matched
+    if (confirmedValue !== null || allMatched || excludedSet.size === 0) {
+      containerEl.style.display = 'none';
+      return false;
+    }
+    
+    containerEl.style.display = 'flex';
+    const valueContainer = containerEl.querySelector('.clue-excluded-values');
+    if (valueContainer) {
+      const items = [...excludedSet].slice(0, maxItems);
+      const formatted = items.map(formatFn);
+      valueContainer.innerHTML = formatted.join(separator) + 
+        (excludedSet.size > maxItems ? '...' : '');
+    }
+    
+    return true;
+  },
+
+  /**
+   * Fisher-Yates shuffle for uniform randomness
+   * @param {Array} array - Array to shuffle
+   * @returns {Array} New shuffled array
+   */
+  shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
   }
 };
 

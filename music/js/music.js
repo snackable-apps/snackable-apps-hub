@@ -115,12 +115,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     console.log('Secret pool (easy+medium):', SECRET_POOL.length);
     
+    // Hide loading state, show game
+    const loadingState = document.getElementById('loading-state');
+    if (loadingState) loadingState.style.display = 'none';
+    
     // Auto-initialize game
     if (SECRET_POOL.length > 0) {
       // Check if daily is completed - show result instead of restarting
       if (dailyCompleted && dailyState) {
         restoreDailyResult();
       } else {
+        guessSection.style.display = 'flex';
         initializeGame();
       }
       console.log('Game initialized');
@@ -362,13 +367,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCategorical('clue-genre', 'clue-genre-value', cluesState.genreConfirmed);
     renderCategorical('clue-decade', 'clue-decade-value', cluesState.decadeConfirmed);
 
+    // Render excluded sections using centralized utility
     const excludedRow = document.getElementById('clue-excluded-row');
-    const excludedContainer = document.getElementById('clue-excluded');
-    if (excludedRow && excludedContainer) {
-      const allExcluded = [...cluesState.excludedGenres].filter(g => g !== cluesState.genreConfirmed).slice(0, 5);
-      if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.join(', '); }
-      else { excludedRow.style.display = 'none'; }
-    }
+    const genreSection = document.getElementById('clue-excluded-genre-section');
+    
+    const hasGenre = GameUtils.renderExcludedSection({
+      containerEl: genreSection,
+      excludedSet: cluesState.excludedGenres,
+      confirmedValue: cluesState.genreConfirmed,
+      maxItems: 5
+    });
+    
+    excludedRow.style.display = hasGenre ? 'flex' : 'none';
   }
 
   function resetCluesState() {

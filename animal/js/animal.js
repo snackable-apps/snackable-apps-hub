@@ -69,12 +69,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
       console.log('Secret pool (easy+medium):', SECRET_POOL.length);
       
+      // Hide loading state, show game
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
+      
       // Auto-initialize game
       if (SECRET_POOL.length > 0) {
         // Check if daily is completed - show result instead of restarting
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
+          guessSection.style.display = 'flex';
           initializeGame();
         }
         console.log('Game initialized');
@@ -84,6 +89,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     } catch (error) {
       console.error('Error loading animals data:', error);
+      // Hide loading on error too
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
       alert('Failed to load animals data: ' + error.message + '. Please refresh the page.');
     }
   }
@@ -443,13 +451,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       habitatsContainer.innerHTML = [...cluesState.matchedHabitats].map(h => `<span class="clue-tag">${h}</span>`).join('');
     } else { habitatsRow.style.display = 'none'; }
 
+    // Render excluded sections using centralized utility
     const excludedRow = document.getElementById('clue-excluded-row');
-    const excludedContainer = document.getElementById('clue-excluded');
-    const allExcluded = [];
-    if (!cluesState.classConfirmed) allExcluded.push(...cluesState.excludedClasses);
-    if (!cluesState.dietConfirmed) allExcluded.push(...cluesState.excludedDiets);
-    if (allExcluded.length > 0) { excludedRow.style.display = 'flex'; excludedContainer.textContent = allExcluded.slice(0, 8).join(', '); }
-    else { excludedRow.style.display = 'none'; }
+    const classSection = document.getElementById('clue-excluded-class-section');
+    const dietSection = document.getElementById('clue-excluded-diet-section');
+    
+    const hasClass = GameUtils.renderExcludedSection({
+      containerEl: classSection,
+      excludedSet: cluesState.excludedClasses,
+      confirmedValue: cluesState.classConfirmed,
+      maxItems: 4
+    });
+    
+    const hasDiet = GameUtils.renderExcludedSection({
+      containerEl: dietSection,
+      excludedSet: cluesState.excludedDiets,
+      confirmedValue: cluesState.dietConfirmed,
+      maxItems: 4
+    });
+    
+    excludedRow.style.display = (hasClass || hasDiet) ? 'flex' : 'none';
   }
 
   function resetCluesState() {

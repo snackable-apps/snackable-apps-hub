@@ -74,6 +74,12 @@
       </div>
     </div>
 
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+      <div class="loading-spinner"></div>
+      <span data-i18n="games.music.loadingMessage">🎵 Tuning the instruments...</span>
+    </div>
+
     <!-- Guess Input -->
     <div class="guess-section" id="guess-section" style="display: none;">
       <label for="music-input" id="input-label">Make a guess:</label>
@@ -109,8 +115,10 @@
           <span class="clue-tags" id="clue-countries"></span>
         </div>
         <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
-          <span class="clue-label">❌ Not:</span>
-          <span class="clue-excluded-values" id="clue-excluded"></span>
+          <div class="clue-excluded-section" id="clue-excluded-genre-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notGenre">❌ Genre:</span>
+            <span class="clue-excluded-values" id="clue-excluded-genre"></span>
+          </div>
         </div>
       </div>
     </div>

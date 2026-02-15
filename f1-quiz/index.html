@@ -56,8 +56,14 @@
       </div>
     </div>
 
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+      <div class="loading-spinner"></div>
+      <span data-i18n="games.f1.loadingMessage">🏎️ Warming up the tires...</span>
+    </div>
+
     <!-- Guess Input -->
-    <div class="guess-section" id="guess-section">
+    <div class="guess-section" id="guess-section" style="display: none;">
       <label for="driver-input">Make a guess:</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="driver-input" placeholder="Type a driver name..." autocomplete="off" />
@@ -91,8 +97,14 @@
           <span class="clue-tags" id="clue-teams"></span>
         </div>
         <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
-          <span class="clue-label">❌ Not:</span>
-          <span class="clue-excluded-values" id="clue-excluded"></span>
+          <div class="clue-excluded-section" id="clue-excluded-nationality-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notNationality">❌ Nationality:</span>
+            <span class="clue-excluded-values" id="clue-excluded-nationality"></span>
+          </div>
+          <div class="clue-excluded-section" id="clue-excluded-team-section" style="display: none;">
+            <span class="clue-label" data-i18n="common.notTeam">❌ Team:</span>
+            <span class="clue-excluded-values" id="clue-excluded-team"></span>
+          </div>
         </div>
       </div>
     </div>
