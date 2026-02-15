@@ -346,6 +346,25 @@ header .header-controls {
   gap: 4px;
 }
 
+/* ========== CLUE TAGS ========== */
+
+.clue-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  background: rgba(46, 204, 113, 0.15);
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+.clue-tag.unknown {
+  background: rgba(150, 150, 150, 0.15);
+  color: #888;
+  border: 1px dashed #666;
+  font-style: italic;
+}
+
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 480px) {

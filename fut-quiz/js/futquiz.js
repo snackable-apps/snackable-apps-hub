@@ -212,7 +212,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     footConfirmed: null,
     worldCupConfirmed: null,
     matchedLeagues: new Set(),
+    totalLeaguesCount: 0,
     matchedTeamTitles: new Set(),
+    totalTitlesCount: 0,
     excludedNationalities: new Set(),
     excludedClubs: new Set(),
     excludedPositions: new Set()
@@ -463,12 +465,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       cluesState.worldCupConfirmed = guess.playedWorldCup ? 'Sim' : 'Não';
     }
 
-    // Leagues
+    // Leagues - track total count on first guess
+    if (cluesState.totalLeaguesCount === 0 && gameState.secretPlayer && gameState.secretPlayer.leaguesPlayed) {
+      cluesState.totalLeaguesCount = gameState.secretPlayer.leaguesPlayed.length;
+    }
     if (comparisons.leaguesPlayed && comparisons.leaguesPlayed.matches) {
       comparisons.leaguesPlayed.matches.forEach(l => cluesState.matchedLeagues.add(l));
     }
 
-    // Team Titles
+    // Team Titles - track total count on first guess
+    if (cluesState.totalTitlesCount === 0 && gameState.secretPlayer && gameState.secretPlayer.teamTitles) {
+      cluesState.totalTitlesCount = gameState.secretPlayer.teamTitles.length;
+    }
     if (comparisons.teamTitles && comparisons.teamTitles.matches) {
       comparisons.teamTitles.matches.forEach(t => cluesState.matchedTeamTitles.add(t));
     }
@@ -524,24 +532,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCategorical('clue-foot', 'clue-foot-value', cluesState.footConfirmed);
     renderCategorical('clue-worldcup', 'clue-worldcup-value', cluesState.worldCupConfirmed);
 
-    // Matched leagues
+    // Matched leagues with ???? for undiscovered
     const leaguesRow = document.getElementById('clue-leagues-row');
     const leaguesContainer = document.getElementById('clue-leagues');
-    if (cluesState.matchedLeagues.size > 0) {
+    if (cluesState.totalLeaguesCount > 0) {
       leaguesRow.style.display = 'flex';
-      leaguesContainer.innerHTML = [...cluesState.matchedLeagues]
-        .map(l => `<span class="clue-tag">${l}</span>`).join('');
+      const unknownCount = cluesState.totalLeaguesCount - cluesState.matchedLeagues.size;
+      const matchedTags = [...cluesState.matchedLeagues].map(l => `<span class="clue-tag">${l}</span>`);
+      const unknownTags = Array(unknownCount).fill('<span class="clue-tag unknown">????</span>');
+      leaguesContainer.innerHTML = [...matchedTags, ...unknownTags].join('');
     } else {
       leaguesRow.style.display = 'none';
     }
 
-    // Matched team titles
+    // Matched team titles with ???? for undiscovered
     const titlesRow = document.getElementById('clue-titles-row');
     const titlesContainer = document.getElementById('clue-titles');
-    if (cluesState.matchedTeamTitles.size > 0) {
+    if (cluesState.totalTitlesCount > 0) {
       titlesRow.style.display = 'flex';
-      titlesContainer.innerHTML = [...cluesState.matchedTeamTitles]
-        .map(t => `<span class="clue-tag">${t}</span>`).join('');
+      const unknownCount = cluesState.totalTitlesCount - cluesState.matchedTeamTitles.size;
+      const matchedTags = [...cluesState.matchedTeamTitles].map(t => `<span class="clue-tag">${t}</span>`);
+      const unknownTags = Array(unknownCount).fill('<span class="clue-tag unknown">????</span>');
+      titlesContainer.innerHTML = [...matchedTags, ...unknownTags].join('');
     } else {
       titlesRow.style.display = 'none';
     }
@@ -586,7 +598,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       footConfirmed: null,
       worldCupConfirmed: null,
       matchedLeagues: new Set(),
+      totalLeaguesCount: 0,
       matchedTeamTitles: new Set(),
+      totalTitlesCount: 0,
       excludedNationalities: new Set(),
       excludedClubs: new Set(),
       excludedPositions: new Set()

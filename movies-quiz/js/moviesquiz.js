@@ -50,11 +50,89 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // API endpoint
   const API_URL = 'https://snackable-api.vercel.app/api/movies';
+  const CACHE_KEY = 'snackable_movies_cache';
+  const CACHE_EXPIRY_HOURS = 24;
 
-  // Load movies from API (with fallback to embedded data)
+  // Transform raw API movie data to internal format
+  function transformMovieData(movies) {
+    return movies.map(movie => ({
+      title: movie.title,
+      director: movie.director,
+      directorNationality: movie.directorNationality,
+      genres: movie.genres,
+      releaseYear: movie.releaseYear,
+      runtimeMinutes: movie.runtime || movie.runtimeMinutes,
+      imdbRating: movie.imdbRating,
+      country: movie.country,
+      cast: movie.cast,
+      castWithImages: movie.castWithImages || [],
+      posterUrl: movie.posterUrl || null,
+      difficulty: movie.difficulty
+    }));
+  }
+
+  // Check if cached data is still valid
+  function isCacheValid() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return false;
+      
+      const { timestamp } = JSON.parse(cached);
+      const ageHours = (Date.now() - timestamp) / (1000 * 60 * 60);
+      return ageHours < CACHE_EXPIRY_HOURS;
+    } catch {
+      return false;
+    }
+  }
+
+  // Load movies from cache
+  function loadFromCache() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+      
+      const { movies, timestamp } = JSON.parse(cached);
+      const ageHours = ((Date.now() - timestamp) / (1000 * 60 * 60)).toFixed(1);
+      console.log(`Movies loaded from cache (${movies.length} movies, ${ageHours}h old)`);
+      return movies;
+    } catch (e) {
+      console.error('Cache read error:', e);
+      return null;
+    }
+  }
+
+  // Save movies to cache
+  function saveToCache(movies) {
+    try {
+      const cacheData = {
+        movies: movies,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+      console.log('Movies saved to cache');
+    } catch (e) {
+      console.error('Cache write error (quota exceeded?):', e);
+    }
+  }
+
+  // Load movies from API with localStorage caching
   async function loadMoviesData() {
     try {
-      // Try fetching from API first
+      // Try to load from cache first for faster startup
+      if (isCacheValid()) {
+        const cachedMovies = loadFromCache();
+        if (cachedMovies && cachedMovies.length > 0) {
+          ALL_MOVIES = cachedMovies;
+          initializeAfterLoad();
+          
+          // Refresh cache in background (don't block UI)
+          refreshCacheInBackground();
+          return;
+        }
+      }
+      
+      // No valid cache - fetch from API
+      console.log('Fetching movies from API...');
       const response = await fetch(API_URL);
       
       if (!response.ok) {
@@ -67,29 +145,55 @@ document.addEventListener("DOMContentLoaded", async () => {
         throw new Error('No movies returned from API');
       }
       
-      // Transform API data to match expected format
-      ALL_MOVIES = data.movies.map(movie => ({
-        title: movie.title,
-        director: movie.director,
-        directorNationality: movie.directorNationality,
-        genres: movie.genres,
-        releaseYear: movie.releaseYear,
-        runtimeMinutes: movie.runtime, // API returns 'runtime', we use 'runtimeMinutes'
-        imdbRating: movie.imdbRating,
-        country: movie.country,
-        cast: movie.cast,
-        castWithImages: movie.castWithImages || [], // Cast with image URLs
-        posterUrl: movie.posterUrl || null, // Movie poster
-        difficulty: movie.difficulty
-      }));
-      
+      // Transform and store
+      ALL_MOVIES = transformMovieData(data.movies);
       console.log('Movies loaded from API:', ALL_MOVIES.length);
+      
+      // Save to cache for next time
+      saveToCache(ALL_MOVIES);
       
     } catch (apiError) {
       console.error('API fetch failed:', apiError.message);
-      alert('Failed to load movie data. Please check your connection and refresh the page.');
-      return;
+      
+      // Try cache as fallback even if expired
+      const fallbackCache = loadFromCache();
+      if (fallbackCache && fallbackCache.length > 0) {
+        console.log('Using expired cache as fallback');
+        ALL_MOVIES = fallbackCache;
+      } else {
+        alert('Failed to load movie data. Please check your connection and refresh the page.');
+        return;
+      }
     }
+    
+    initializeAfterLoad();
+  }
+
+  // Background cache refresh (doesn't block UI)
+  async function refreshCacheInBackground() {
+    try {
+      const response = await fetch(API_URL);
+      if (!response.ok) return;
+      
+      const data = await response.json();
+      if (!data.success || !data.movies) return;
+      
+      const freshMovies = transformMovieData(data.movies);
+      saveToCache(freshMovies);
+      
+      // Update in-memory data if significantly different
+      if (Math.abs(freshMovies.length - ALL_MOVIES.length) > 10) {
+        console.log('Cache refreshed with new data');
+        ALL_MOVIES = freshMovies;
+      }
+    } catch (e) {
+      // Silent fail for background refresh
+      console.log('Background cache refresh failed (not critical)');
+    }
+  }
+
+  // Initialize game after movies are loaded
+  function initializeAfterLoad() {
     
     // Secret pool: only easy + medium movies
     SECRET_POOL = ALL_MOVIES.filter(movie => 
@@ -164,14 +268,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const randomIndex = Math.floor(Math.random() * availableMovies.length);
     const randomMovie = availableMovies[randomIndex] || SECRET_POOL[0];
     
-    // Reset game state completely
+    // Reset game state
     gameState.secretMovie = randomMovie;
     gameState.currentDate = getDateString();
     gameState.guesses = [];
     gameState.isSolved = false;
     gameState.isGameOver = false;
     gameState.gaveUp = false;
-    gameState.isRandomMode = true; // Mark as random mode
+    gameState.isRandomMode = true;
     
     // Reset clues
     resetCluesState();
@@ -186,102 +290,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     guessCountEl.textContent = '0';
     gameStatusEl.textContent = '';
     gameStatusEl.className = '';
-    
-    // Hide clues panel
-    if (cluesPanel) cluesPanel.style.display = 'none';
-    
-    // Show/hide sections - FIRST show sections before manipulating input
-    shareSection.style.display = 'none';
     guessSection.style.display = 'flex';
+    shareSection.style.display = 'none';
     
-    // Clear and hide autocomplete dropdown completely
+    // Reset input (simple approach like tennis quiz)
+    movieInput.value = '';
+    movieInput.disabled = false;
     autocompleteDropdown.innerHTML = '';
     autocompleteDropdown.style.display = 'none';
     autocompleteDropdown.classList.remove('active');
     
-    // Clone and replace the input to remove any lingering event handlers or state issues
-    const oldInput = movieInput;
-    const newInput = oldInput.cloneNode(true);
-    newInput.value = '';
-    newInput.disabled = false;
-    newInput.readOnly = false;
-    newInput.style.pointerEvents = 'auto';
-    oldInput.parentNode.replaceChild(newInput, oldInput);
+    // Hide clues panel
+    if (cluesPanel) cluesPanel.style.display = 'none';
     
-    // Update the global movieInput reference to the new element
-    movieInput = newInput;
-    const freshInput = movieInput;
+    // Focus input
+    setTimeout(() => movieInput.focus(), 100);
     
-    // Re-attach ALL event listeners to the fresh input
-    freshInput.addEventListener('input', (e) => {
-      const query = e.target.value.trim();
-      console.log('Random mode input event, query:', query);
-      const movies = filterMovies(query);
-      displayAutocomplete(movies);
-    });
-    
-    freshInput.addEventListener('keydown', (e) => {
-      if (!autocompleteState.isOpen) {
-        if (e.key === 'Enter') {
-          const normalizedQuery = normalizeText(freshInput.value.trim());
-          const movie = ALL_MOVIES.find(m => normalizeText(m.title) === normalizedQuery);
-          if (movie) {
-            submitGuess(movie);
-          }
-        }
-        return;
-      }
-      
-      switch (e.key) {
-        case 'ArrowDown':
-          e.preventDefault();
-          autocompleteState.selectedIndex = Math.min(
-            autocompleteState.selectedIndex + 1,
-            autocompleteState.filteredMovies.length - 1
-          );
-          updateAutocompleteSelection();
-          break;
-        case 'ArrowUp':
-          e.preventDefault();
-          autocompleteState.selectedIndex = Math.max(autocompleteState.selectedIndex - 1, -1);
-          updateAutocompleteSelection();
-          break;
-        case 'Enter':
-          e.preventDefault();
-          if (autocompleteState.selectedIndex >= 0) {
-            selectAutocompleteItem(autocompleteState.selectedIndex);
-          }
-          break;
-        case 'Escape':
-          autocompleteDropdown.classList.remove('active');
-          autocompleteState.isOpen = false;
-          break;
-      }
-    });
-    
-    freshInput.addEventListener('blur', () => {
-      setTimeout(() => {
-        if (!autocompleteDropdown.contains(document.activeElement)) {
-          autocompleteDropdown.classList.remove('active');
-          autocompleteState.isOpen = false;
-        }
-      }, 200);
-    });
-    
-    // Focus the fresh input
-    setTimeout(() => {
-      freshInput.focus();
-      console.log('playRandom: fresh input ready, ALL_MOVIES:', ALL_MOVIES.length);
-    }, 100);
-    
-    // Log for debugging
     console.log('playRandom: starting random game with movie:', randomMovie.title, 'ALL_MOVIES count:', ALL_MOVIES.length);
     
     // Track random play
     if (typeof gtag === 'function') {
-      gtag('event', 'movies_play_random', {
-        movie: randomMovie.title
-      });
+      gtag('event', 'movies_play_random', { movie: randomMovie.title });
     }
   }
 
