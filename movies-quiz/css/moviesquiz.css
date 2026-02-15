@@ -408,6 +408,13 @@ main {
   border: 1px solid #2ecc71;
 }
 
+.clue-tag.unknown {
+  background: rgba(150, 150, 150, 0.15);
+  color: #888;
+  border: 1px dashed #666;
+  font-style: italic;
+}
+
 /* Clue Actor Cards with Images */
 .clue-actor {
   display: inline-flex;

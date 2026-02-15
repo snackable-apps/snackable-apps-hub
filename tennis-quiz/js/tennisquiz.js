@@ -812,18 +812,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       shareText = `❌ Tennis Quiz ${gameType} 🎾\n${status}\n\nPlay at: ${gameUrl}`;
     }
     
-    if (navigator.share) {
-      navigator.share({
-        title: 'Tennis Quiz',
-        text: shareText
-      }).catch(() => {
-        copyToClipboard(shareText);
-      });
-    } else {
-      copyToClipboard(shareText);
-    }
+    GameUtils.shareGameResult({
+      text: shareText,
+      title: 'Tennis Quiz Result',
+      button: shareResultsBtn,
+      successMessage: '✅ Copied!',
+      originalHTML: shareResultsBtn.innerHTML
+    });
   }
 
+  // Legacy function kept for compatibility
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
       const originalText = shareResultsBtn.textContent;

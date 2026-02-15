@@ -803,28 +803,18 @@ Play at snackable-games.com/blind-test/`;
   function shareResults() {
     const shareText = generateShareText();
     
-    if (navigator.share) {
-      navigator.share({
-        title: 'Blind Test Score',
-        text: shareText
-      }).catch(console.error);
-    } else {
-      navigator.clipboard.writeText(shareText).then(() => {
-        const originalText = shareResultsBtn.textContent;
-        shareResultsBtn.textContent = '✓ Copied!';
-        setTimeout(() => {
-          shareResultsBtn.textContent = originalText;
-        }, 2000);
-      }).catch(console.error);
-    }
-    
-    if (typeof gtag === 'function') {
-      gtag('event', 'blindtest_share', {
-        score: matchScore,
-        is_daily: isFirstMatch,
-        send_to: 'G-KW4DNXXF1X'
-      });
-    }
+    GameUtils.shareGameResult({
+      text: shareText,
+      title: 'Blind Test Score',
+      button: shareResultsBtn,
+      successMessage: '✅ Copied!',
+      originalHTML: shareResultsBtn.innerHTML,
+      analytics: {
+        gtag: typeof gtag === 'function' ? gtag : null,
+        event: 'blindtest_share',
+        params: { score: matchScore, is_daily: isFirstMatch, send_to: 'G-KW4DNXXF1X' }
+      }
+    });
   }
 
   // Update progress display

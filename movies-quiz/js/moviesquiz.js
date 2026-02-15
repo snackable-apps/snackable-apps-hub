@@ -311,9 +311,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Confirmed values
     directorConfirmed: null,
     countryConfirmed: null,
-    // Matched genres and cast
+    // Matched genres and cast (with total counts for displaying unknown slots)
     matchedGenres: new Set(),
+    totalGenreCount: 0,
     matchedCast: new Map(), // Map of name -> {name, image}
+    totalCastCount: 0,
     // Excluded values (for testing)
     excludedDirectors: new Set(),
     excludedGenres: new Set(),
@@ -542,6 +544,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Genres - track matches and exclusions
+    // Set total genre count from secret movie on first guess
+    if (cluesState.totalGenreCount === 0 && gameState.secretMovie && gameState.secretMovie.genres) {
+      cluesState.totalGenreCount = gameState.secretMovie.genres.length;
+    }
     comparisons.genreDetails.forEach(g => {
       if (g.match) {
         cluesState.matchedGenres.add(g.name);
@@ -551,6 +557,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // Cast - track matches and exclusions (with images for matched)
+    // Set total cast count from secret movie on first guess
+    if (cluesState.totalCastCount === 0 && gameState.secretMovie && gameState.secretMovie.cast) {
+      cluesState.totalCastCount = gameState.secretMovie.cast.length;
+    }
     comparisons.castDetails.forEach(a => {
       if (a.match) {
         // Store with image URL for display in clues panel
@@ -652,14 +662,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       countryValue.textContent = '?';
     }
 
-    // Genres
+    // Genres - show total count with "????" for undiscovered
     const genresGroup = document.getElementById('clue-genres-group');
     const genresContainer = document.getElementById('clue-genres');
-    if (cluesState.matchedGenres.size > 0) {
+    if (cluesState.totalGenreCount > 0) {
       genresGroup.style.display = 'flex';
-      genresContainer.innerHTML = [...cluesState.matchedGenres]
-        .map(g => `<span class="clue-tag match">${g}</span>`)
-        .join('');
+      const matchedArray = [...cluesState.matchedGenres];
+      const unknownCount = cluesState.totalGenreCount - matchedArray.length;
+      const genreSlots = [
+        ...matchedArray.map(g => `<span class="clue-tag match">${g}</span>`),
+        ...Array(unknownCount).fill('<span class="clue-tag unknown">????</span>')
+      ];
+      genresContainer.innerHTML = genreSlots.join('');
     } else {
       genresGroup.style.display = 'none';
     }
@@ -750,7 +764,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       directorConfirmed: null,
       countryConfirmed: null,
       matchedGenres: new Set(),
+      totalGenreCount: 0,
       matchedCast: new Map(),
+      totalCastCount: 0,
       excludedDirectors: new Set(),
       excludedGenres: new Set(),
       excludedActors: new Set()
@@ -1175,22 +1191,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   function shareResults() {
     const text = generateShareText();
     
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(() => {
-        shareResultsBtn.innerHTML = `✅ ${i18n.t('share.copiedToClipboard')}`;
-        setTimeout(() => {
-          shareResultsBtn.innerHTML = `📋 <span data-i18n="common.shareResults">${i18n.t('common.shareResults')}</span>`;
-        }, 2000);
-      });
-    }
-    
-    if (typeof gtag === 'function') {
-      gtag('event', 'share_clicked', {
-        game: 'movies-quiz',
-        solved: gameState.isSolved,
-        guesses: gameState.guesses.length
-      });
-    }
+    GameUtils.shareGameResult({
+      text: text,
+      title: 'Movie Quiz Result',
+      button: shareResultsBtn,
+      successMessage: `✅ ${i18n.t('share.copiedToClipboard')}`,
+      originalHTML: `📋 <span data-i18n="common.shareResults">${i18n.t('common.shareResults')}</span>`,
+      analytics: {
+        gtag: typeof gtag === 'function' ? gtag : null,
+        event: 'share_clicked',
+        params: {
+          game: 'movies-quiz',
+          solved: gameState.isSolved,
+          guesses: gameState.guesses.length
+        }
+      }
+    });
   }
 
   // Event Listeners

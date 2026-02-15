@@ -624,18 +624,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       shareText = `❌ Books Quiz ${gameType} 📚\n${status}\n\nPlay at: ${gameUrl}`;
     }
     
-    if (navigator.share) {
-      navigator.share({
-        title: 'Books Quiz',
-        text: shareText
-      }).catch(() => {
-        copyToClipboard(shareText);
-      });
-    } else {
-      copyToClipboard(shareText);
-    }
+    GameUtils.shareGameResult({
+      text: shareText,
+      title: 'Books Quiz Result',
+      button: shareResultsBtn,
+      successMessage: '✅ Copied!',
+      originalHTML: shareResultsBtn.innerHTML
+    });
   }
 
+  // Legacy function kept for compatibility
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
       const originalText = shareResultsBtn.textContent;

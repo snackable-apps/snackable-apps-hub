@@ -885,27 +885,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       shareText = `❌ FutQuiz ${gameType} ⚽\n${status}\n\nJogue em: ${gameUrl}`;
     }
     
-    // Track share
-    if (typeof gtag === 'function') {
-      gtag('event', 'share_clicked', {
-        solved: gameState.isSolved,
-        guesses: gameState.guesses.length
-      });
-    }
-    
-    // Try to use Web Share API if available
-    if (navigator.share) {
-      navigator.share({
-        title: 'FutQuiz: o quiz diário da bola',
-        text: shareText
-      }).catch(err => {
-        // Fallback to clipboard
-        copyToClipboard(shareText);
-      });
-    } else {
-      // Fallback to clipboard
-      copyToClipboard(shareText);
-    }
+    GameUtils.shareGameResult({
+      text: shareText,
+      title: 'FutQuiz Result',
+      button: shareResultsBtn,
+      successMessage: '✅ Copiado!',
+      originalHTML: shareResultsBtn.innerHTML,
+      analytics: {
+        gtag: typeof gtag === 'function' ? gtag : null,
+        event: 'share_clicked',
+        params: { solved: gameState.isSolved, guesses: gameState.guesses.length }
+      }
+    });
   }
 
   function copyToClipboard(text) {

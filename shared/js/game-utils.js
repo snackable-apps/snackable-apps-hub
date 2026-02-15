@@ -177,6 +177,102 @@ const GameUtils = {
   getComparisonClass(guessValue, targetValue) {
     if (guessValue === targetValue) return 'correct';
     return 'incorrect';
+  },
+
+  /**
+   * Check if running on a mobile device
+   * @returns {boolean} True if mobile
+   */
+  isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+  },
+
+  /**
+   * Share game results - uses native share on mobile, clipboard on desktop
+   * 
+   * @param {Object} options - Share options
+   * @param {string} options.text - Text to share
+   * @param {string} options.title - Share title (for native share)
+   * @param {HTMLElement} options.button - Button element for feedback
+   * @param {string} options.successMessage - Success message (default: 'Copied!')
+   * @param {string} options.originalHTML - Original button HTML to restore
+   * @param {Object} options.analytics - Analytics options { gtag, event, params }
+   * @returns {Promise<boolean>} True if successful
+   */
+  async shareGameResult(options) {
+    const {
+      text,
+      title = 'Game Result',
+      button,
+      successMessage = '✅ Copied!',
+      originalHTML = null,
+      analytics = null
+    } = options;
+
+    // Track share attempt
+    if (analytics && analytics.gtag && typeof analytics.gtag === 'function') {
+      analytics.gtag('event', analytics.event || 'share_clicked', analytics.params || {});
+    }
+
+    // Mobile: Try native share first
+    if (this.isMobile() && navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: text
+        });
+        return true;
+      } catch (err) {
+        // User cancelled or share failed - fall through to clipboard
+        if (err.name === 'AbortError') {
+          return false; // User cancelled, don't show feedback
+        }
+        // Fall through to clipboard for other errors
+      }
+    }
+
+    // Desktop (or mobile fallback): Copy to clipboard
+    try {
+      await navigator.clipboard.writeText(text);
+      
+      if (button) {
+        const restoreHTML = originalHTML || button.innerHTML;
+        button.innerHTML = successMessage;
+        button.classList.add('copied');
+        setTimeout(() => {
+          button.innerHTML = restoreHTML;
+          button.classList.remove('copied');
+        }, 2000);
+      }
+      return true;
+    } catch (err) {
+      // Fallback: create temporary textarea
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        if (button) {
+          const restoreHTML = originalHTML || button.innerHTML;
+          button.innerHTML = successMessage;
+          button.classList.add('copied');
+          setTimeout(() => {
+            button.innerHTML = restoreHTML;
+            button.classList.remove('copied');
+          }, 2000);
+        }
+        return true;
+      } catch (e) {
+        console.error('Failed to copy:', e);
+        return false;
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
   }
 };
 

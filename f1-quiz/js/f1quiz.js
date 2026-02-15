@@ -702,21 +702,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       shareText = `🏎️ F1 Quiz ${gameType}\n😔 Gave up after ${gameState.guesses.length} ${guessText}\n\nPlay: ${gameUrl}`;
     }
     
-    // Track share click
-    if (typeof gtag === 'function') {
-      gtag('event', 'share_clicked', {
-        solved: gameState.isSolved,
-        guesses: gameState.guesses.length
-      });
-    }
-    
-    if (navigator.share) {
-      navigator.share({ title: 'F1 Quiz', text: shareText }).catch(() => copyToClipboard(shareText));
-    } else {
-      copyToClipboard(shareText);
-    }
+    GameUtils.shareGameResult({
+      text: shareText,
+      title: 'F1 Quiz Result',
+      button: shareResultsBtn,
+      successMessage: '✅ Copied!',
+      originalHTML: shareResultsBtn.innerHTML,
+      analytics: {
+        gtag: typeof gtag === 'function' ? gtag : null,
+        event: 'share_clicked',
+        params: { solved: gameState.isSolved, guesses: gameState.guesses.length }
+      }
+    });
   }
 
+  // Legacy function kept for compatibility but unused
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
       const originalText = shareResultsBtn.textContent;

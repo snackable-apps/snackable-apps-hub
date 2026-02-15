@@ -764,21 +764,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       shareText = `❌ Animal Quiz ${gameType} 🐾\n${status}\n\nPlay at: ${gameUrl}`;
     }
     
-    // Try to use Web Share API if available
-    if (navigator.share) {
-      navigator.share({
-        title: 'Animal of the Day',
-        text: shareText
-      }).catch(err => {
-        // Fallback to clipboard
-        copyToClipboard(shareText);
-      });
-    } else {
-      // Fallback to clipboard
-      copyToClipboard(shareText);
-    }
+    GameUtils.shareGameResult({
+      text: shareText,
+      title: 'Animal Quiz Result',
+      button: shareResultsBtn,
+      successMessage: '✅ Copied!',
+      originalHTML: shareResultsBtn.innerHTML
+    });
   }
 
+  // Legacy function kept for compatibility
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
       // Show feedback
