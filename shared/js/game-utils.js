@@ -570,7 +570,8 @@ const GameUtils = {
           topic: data.topic || null,
           message: data.message,
           email: data.email || null,
-          pageUrl: window.location.href
+          pageUrl: window.location.href,
+          website: data.website || null // Honeypot field
         })
       });
 
@@ -625,6 +626,8 @@ const GameUtils = {
           <textarea name="message" rows="4" required placeholder="${t('feedback.messagePlaceholder', 'Tell us what you think...')}" data-i18n-placeholder="feedback.messagePlaceholder"></textarea>
           <label data-i18n="feedback.email">${t('feedback.email', 'Email (optional):')}</label>
           <input type="email" name="email" placeholder="${t('feedback.emailPlaceholder', 'your@email.com')}" data-i18n-placeholder="feedback.emailPlaceholder">
+          <!-- Honeypot field - hidden from humans, bots fill it -->
+          <input type="text" name="website" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" tabindex="-1" autocomplete="off">
           <button type="submit" data-i18n="feedback.send">${t('feedback.send', 'Send Feedback')}</button>
         </form>
       </div>
@@ -693,7 +696,8 @@ const GameUtils = {
         game: formData.get('game'),
         topic: formData.get('topic'),
         message: formData.get('message'),
-        email: formData.get('email')
+        email: formData.get('email'),
+        website: formData.get('website') // Honeypot field
       });
 
       submitBtn.disabled = false;
