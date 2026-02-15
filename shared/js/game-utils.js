@@ -514,6 +514,203 @@ const GameUtils = {
     const minutes = Math.floor(duration / 60);
     const seconds = duration % 60;
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  },
+
+  // ========== FEEDBACK SYSTEM ==========
+
+  /**
+   * API endpoint for feedback
+   */
+  FEEDBACK_API_URL: 'https://snackable-api.vercel.app/api/feedback',
+
+  /**
+   * List of all games for feedback dropdown
+   */
+  FEEDBACK_GAMES: [
+    { value: 'F1 Quiz', labelKey: 'games.f1.title' },
+    { value: 'Tennis Quiz', labelKey: 'games.tennis.title' },
+    { value: 'FutQuiz', labelKey: 'games.futquiz.title' },
+    { value: 'Music Quiz', labelKey: 'games.music.title' },
+    { value: 'Blind Test', labelKey: 'games.blindtest.title' },
+    { value: 'Movies Quiz', labelKey: 'games.movies.title' },
+    { value: 'Animal Quiz', labelKey: 'games.animal.title' },
+    { value: 'Books Quiz', labelKey: 'games.books.title' },
+    { value: 'Sudoku', labelKey: 'games.sudoku.title' },
+    { value: 'General / Website', labelKey: 'feedback.general' }
+  ],
+
+  /**
+   * Topic options for feedback
+   */
+  FEEDBACK_TOPICS: [
+    { value: 'bug', labelKey: 'feedback.topicBug' },
+    { value: 'suggestion', labelKey: 'feedback.topicSuggestion' },
+    { value: 'data', labelKey: 'feedback.topicData' },
+    { value: 'other', labelKey: 'feedback.topicOther' }
+  ],
+
+  /**
+   * Submit feedback to API
+   * @param {Object} data - Feedback data
+   * @param {string} data.game - Game name
+   * @param {string} data.topic - Feedback topic
+   * @param {string} data.message - Feedback message
+   * @param {string} data.email - Optional email
+   * @returns {Promise<{success: boolean, error?: string}>}
+   */
+  async submitFeedback(data) {
+    try {
+      const response = await fetch(this.FEEDBACK_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          game: data.game,
+          topic: data.topic || null,
+          message: data.message,
+          email: data.email || null,
+          pageUrl: window.location.href
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        return { success: false, error: result.error || 'Failed to submit feedback' };
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error('Feedback submission error:', error);
+      return { success: false, error: 'Network error. Please try again.' };
+    }
+  },
+
+  /**
+   * Generate feedback modal HTML
+   * @param {string} currentGame - The current game name to pre-select
+   * @returns {string} HTML string for feedback modal
+   */
+  generateFeedbackHTML(currentGame = null) {
+    const t = (key, fallback) => window.i18n ? (window.i18n.t(key) || fallback) : fallback;
+    
+    const gameOptions = this.FEEDBACK_GAMES.map(game => {
+      const label = t(game.labelKey, game.value);
+      const selected = currentGame === game.value ? 'selected' : '';
+      return `<option value="${game.value}" ${selected}>${label}</option>`;
+    }).join('');
+
+    const topicOptions = this.FEEDBACK_TOPICS.map(topic => {
+      const label = t(topic.labelKey, topic.value);
+      return `<option value="${topic.value}">${label}</option>`;
+    }).join('');
+
+    return `
+      <button class="feedback-btn" onclick="GameUtils.openFeedback()" aria-label="${t('feedback.title', 'Send Feedback')}">💬 Feedback</button>
+      <div class="feedback-overlay" id="feedback-overlay" onclick="GameUtils.closeFeedback()"></div>
+      <div class="feedback-modal" id="feedback-modal">
+        <button class="feedback-close" onclick="GameUtils.closeFeedback()">✕</button>
+        <h3>📬 <span data-i18n="feedback.title">${t('feedback.title', 'Send Feedback')}</span></h3>
+        <form id="feedback-form">
+          <label data-i18n="feedback.about">${t('feedback.about', 'About:')}</label>
+          <select name="game" id="feedback-game" required>
+            ${gameOptions}
+          </select>
+          <label data-i18n="feedback.topic">${t('feedback.topic', 'Topic:')}</label>
+          <select name="topic" id="feedback-topic">
+            ${topicOptions}
+          </select>
+          <label data-i18n="feedback.message">${t('feedback.message', 'Your feedback:')}</label>
+          <textarea name="message" rows="4" required placeholder="${t('feedback.messagePlaceholder', 'Tell us what you think...')}" data-i18n-placeholder="feedback.messagePlaceholder"></textarea>
+          <label data-i18n="feedback.email">${t('feedback.email', 'Email (optional):')}</label>
+          <input type="email" name="email" placeholder="${t('feedback.emailPlaceholder', 'your@email.com')}" data-i18n-placeholder="feedback.emailPlaceholder">
+          <button type="submit" data-i18n="feedback.send">${t('feedback.send', 'Send Feedback')}</button>
+        </form>
+      </div>
+    `;
+  },
+
+  /**
+   * Inject feedback modal into page
+   * @param {string} currentGame - The current game name to pre-select
+   */
+  injectFeedbackModal(currentGame = null) {
+    // Check if already injected
+    if (document.getElementById('feedback-modal')) return;
+
+    // Create container
+    const container = document.createElement('div');
+    container.id = 'feedback-container';
+    container.innerHTML = this.generateFeedbackHTML(currentGame);
+    document.body.appendChild(container);
+
+    // Initialize form handling
+    this.initFeedbackForm(currentGame);
+  },
+
+  /**
+   * Open feedback modal
+   */
+  openFeedback() {
+    const overlay = document.getElementById('feedback-overlay');
+    const modal = document.getElementById('feedback-modal');
+    if (overlay) overlay.classList.add('open');
+    if (modal) modal.classList.add('open');
+  },
+
+  /**
+   * Close feedback modal
+   */
+  closeFeedback() {
+    const overlay = document.getElementById('feedback-overlay');
+    const modal = document.getElementById('feedback-modal');
+    if (overlay) overlay.classList.remove('open');
+    if (modal) modal.classList.remove('open');
+  },
+
+  /**
+   * Initialize feedback form on a page
+   * @param {string} currentGame - The current game name to pre-select
+   */
+  initFeedbackForm(currentGame = null) {
+    const form = document.getElementById('feedback-form');
+    const gameSelect = document.getElementById('feedback-game');
+    
+    if (!form) return;
+
+    // Handle form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = window.i18n ? window.i18n.t('feedback.sending') : 'Sending...';
+
+      const formData = new FormData(form);
+      const result = await this.submitFeedback({
+        game: formData.get('game'),
+        topic: formData.get('topic'),
+        message: formData.get('message'),
+        email: formData.get('email')
+      });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+
+      if (result.success) {
+        this.showSuccess(window.i18n ? window.i18n.t('feedback.success') : 'Thank you for your feedback!');
+        form.reset();
+        // Re-select current game after reset
+        if (gameSelect && currentGame) {
+          gameSelect.value = currentGame;
+        }
+        this.closeFeedback();
+      } else {
+        this.showError(result.error);
+      }
+    });
   }
 };
 

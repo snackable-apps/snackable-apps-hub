@@ -6,6 +6,7 @@
   <title>Privacy Policy — Snackable Games</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="shared/css/shared.css" />
   <style>
     main { max-width: 700px; text-align: left; }
     section { margin-bottom: 2rem; }
@@ -31,65 +32,74 @@
 </head>
 <body>
   <header>
-    <a href="/" class="back-link">← Back to Games</a>
+    <a href="/" class="back-link" data-i18n="pages.backToGames">← Back to Games</a>
     <h1>Snackable Games</h1>
-    <p>Privacy Policy</p>
+    <p data-i18n="pages.privacy.title">Privacy Policy</p>
   </header>
 
   <div class="page-wrapper">
     <main>
-      <p class="small">Last updated: January 2026</p>
+      <p class="small" data-i18n="pages.privacy.lastUpdated">Last updated: January 2026</p>
 
       <section>
-        <h2>Introduction</h2>
-        <p>Snackable Games ("we", "us") provides web games at <a href="/">snackable-games.com</a>. We respect your privacy and aim to be transparent about what data we collect and why.</p>
+        <h2 data-i18n="pages.privacy.introTitle">Introduction</h2>
+        <p data-i18n="pages.privacy.introText">Snackable Games ("we", "us") provides web games at <a href="/">snackable-games.com</a>. We respect your privacy and aim to be transparent about what data we collect and why.</p>
       </section>
 
       <section>
-        <h2>Data we collect</h2>
+        <h2 data-i18n="pages.privacy.dataTitle">Data we collect</h2>
         <ul>
-          <li><strong>Analytics:</strong> We use Google Analytics 4 to measure usage (page views, game events). GA4 collects device information and anonymized IP data.</li>
-          <li><strong>Ads:</strong> We use Google AdSense to display ads. AdSense may use cookies to personalize ads and measure performance.</li>
+          <li><strong>Analytics:</strong> <span data-i18n="pages.privacy.dataAnalytics">We use Google Analytics 4 to measure usage (page views, game events). GA4 collects device information and anonymized IP data.</span></li>
+          <li><strong>Ads:</strong> <span data-i18n="pages.privacy.dataAds">We use Google AdSense to display ads. AdSense may use cookies to personalize ads and measure performance.</span></li>
         </ul>
       </section>
 
       <section>
-        <h2>Cookies</h2>
-        <p>Our site uses cookies and third-party cookies (Google) for analytics and advertising. You can control cookies via your browser settings. Blocking cookies may affect some functionality.</p>
+        <h2 data-i18n="pages.privacy.cookiesTitle">Cookies</h2>
+        <p data-i18n="pages.privacy.cookiesText">Our site uses cookies and third-party cookies (Google) for analytics and advertising. You can control cookies via your browser settings. Blocking cookies may affect some functionality.</p>
       </section>
 
       <section>
-        <h2>ads.txt</h2>
-        <p>We publish an <code>ads.txt</code> file to declare authorized ad sellers. See <a href="/ads.txt">/ads.txt</a>.</p>
+        <h2 data-i18n="pages.privacy.adsTxtTitle">ads.txt</h2>
+        <p><span data-i18n="pages.privacy.adsTxtText">We publish an <code>ads.txt</code> file to declare authorized ad sellers.</span> <a href="/ads.txt">/ads.txt</a></p>
       </section>
 
       <section>
-        <h2>Sharing</h2>
-        <p>We do not sell personal data. We share aggregated/anonymous analytics with Google. We only disclose data if required by law.</p>
+        <h2 data-i18n="pages.privacy.sharingTitle">Sharing</h2>
+        <p data-i18n="pages.privacy.sharingText">We do not sell personal data. We share aggregated/anonymous analytics with Google. We only disclose data if required by law.</p>
       </section>
 
       <section>
-        <h2>Feedback</h2>
-        <p>We offer an optional feedback form. If you submit feedback, we collect your message and optionally your email (if you provide it for follow-up). We use Formspree to process submissions.</p>
+        <h2 data-i18n="pages.privacy.feedbackTitle">Feedback</h2>
+        <p data-i18n="pages.privacy.feedbackText">We offer an optional feedback form. If you submit feedback, we collect your message and optionally your email (if you provide it for follow-up).</p>
       </section>
 
       <section>
-        <h2>Your rights</h2>
-        <p>Contact us to request access, correction, or deletion of your data: <strong>snackable.apps@gmail.com</strong></p>
+        <h2 data-i18n="pages.privacy.rightsTitle">Your rights</h2>
+        <p><span data-i18n="pages.privacy.rightsText">Contact us to request access, correction, or deletion of your data:</span> <strong>snackable.apps@gmail.com</strong></p>
       </section>
 
       <section>
-        <h2>Third-party links</h2>
-        <p>Our games may link to external sites. We are not responsible for their privacy practices.</p>
+        <h2 data-i18n="pages.privacy.linksTitle">Third-party links</h2>
+        <p data-i18n="pages.privacy.linksText">Our games may link to external sites. We are not responsible for their privacy practices.</p>
       </section>
     </main>
   </div>
 
   <footer>
     <p>
-      <a href="/">Home</a> · 
-      <a href="about.html">About</a>
+      <a href="/" data-i18n="pages.home">Home</a> · 
+      <a href="about.html" data-i18n="hub.about">About</a>
     </p>
   </footer>
+
+  <!-- i18n -->
+  <script src="shared/js/i18n.js"></script>
+  <script>
+    (async function() {
+      const i18n = new I18n();
+      await i18n.init();
+    })();
+  </script>
 </body>
 </html>

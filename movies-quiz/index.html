@@ -163,41 +163,6 @@
       </div>
     </div>
 
-    <!-- Feedback Button -->
-    <button class="feedback-btn" onclick="openFeedback()">💬 Feedback</button>
-    
-    <!-- Feedback Modal -->
-    <div id="feedback-modal" class="modal">
-      <div class="modal-content">
-        <span class="close-btn" onclick="closeFeedback()">&times;</span>
-        <h2>Send Feedback</h2>
-        <form action="https://formspree.io/f/xkoowdlo" method="POST">
-          <input type="hidden" name="_page" id="feedback-page" value="/movies-quiz">
-          <div class="form-group">
-            <label for="feedback-about">About:</label>
-            <select name="about" id="feedback-about" required>
-              <option value="Movies Quiz">Movies Quiz</option>
-              <option value="General / Website">General / Website</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="feedback-type">Type:</label>
-            <select name="type" id="feedback-type" required>
-              <option value="bug">Bug Report</option>
-              <option value="suggestion">Suggestion</option>
-              <option value="content">Content Issue</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="feedback-message">Message:</label>
-            <textarea name="message" id="feedback-message" rows="4" required placeholder="Describe your feedback..."></textarea>
-          </div>
-          <button type="submit" class="btn-primary">Send Feedback</button>
-        </form>
-      </div>
-    </div>
-
     <footer>
       <p data-i18n="games.movies.newMovieDaily">A new movie every day! 🎬</p>
       <p><a href="../about.html" data-i18n="hub.about">About</a> | <a href="../privacy.html" data-i18n="hub.privacy">Privacy</a></p>
@@ -213,27 +178,15 @@
   <script src="../shared/js/hub-analytics.js"></script>
   
   <script src="js/moviesquiz.js"></script>
+  
+  <!-- Initialize Feedback -->
   <script>
-    function openFeedback() {
-      document.getElementById('feedback-modal').style.display = 'flex';
-      if (typeof gtag === 'function') {
-        gtag('event', 'feedback_opened', { page: '/movies-quiz' });
-      }
-    }
-    function closeFeedback() {
-      document.getElementById('feedback-modal').style.display = 'none';
-    }
-    document.getElementById('feedback-about').addEventListener('change', function() {
-      const pageField = document.getElementById('feedback-page');
-      pageField.value = this.value === 'General / Website' ? '/general' : '/movies-quiz';
+    document.addEventListener('DOMContentLoaded', function() {
+      GameUtils.injectFeedbackModal('Movies Quiz');
     });
-    window.onclick = function(event) {
-      const modal = document.getElementById('feedback-modal');
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    }
-
+  </script>
+  
+  <script>
     // Actor Image Lightbox
     function openActorLightbox(imageUrl, actorName) {
       const lightbox = document.getElementById('actor-lightbox');

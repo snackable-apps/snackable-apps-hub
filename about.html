@@ -6,6 +6,7 @@
   <title>About — Snackable Games</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="shared/css/shared.css" />
   <style>
     main { max-width: 700px; text-align: left; }
     section { margin-bottom: 2rem; }
@@ -44,45 +45,54 @@
 </head>
 <body>
   <header>
-    <a href="/" class="back-link">← Back to Games</a>
+    <a href="/" class="back-link" data-i18n="pages.backToGames">← Back to Games</a>
     <h1>Snackable Games</h1>
-    <p>About us</p>
+    <p data-i18n="pages.about.title">About us</p>
   </header>
 
   <div class="page-wrapper">
     <main>
       <section>
-        <h2>What is Snackable Games?</h2>
-        <p>Snackable Games is a tiny studio that makes compact web games you can enjoy in minutes. We focus on fast load times, mobile friendliness, and simple mechanics: puzzles, quizzes, and micro-games.</p>
+        <h2 data-i18n="pages.about.whatIsTitle">What is Snackable Games?</h2>
+        <p data-i18n="pages.about.whatIsText">Snackable Games is a tiny studio that makes compact web games you can enjoy in minutes. We focus on fast load times, mobile friendliness, and simple mechanics: puzzles, quizzes, and micro-games.</p>
       </section>
 
       <section>
-        <h2>Our goals</h2>
+        <h2 data-i18n="pages.about.goalsTitle">Our goals</h2>
         <ul>
-          <li>Make fun, accessible games that load instantly in your browser.</li>
-          <li>Keep things privacy-respecting and ad-supported (so games stay free).</li>
-          <li>Ship often — small updates, fast experiments, quick learning.</li>
+          <li data-i18n="pages.about.goal1">Make fun, accessible games that load instantly in your browser.</li>
+          <li data-i18n="pages.about.goal2">Keep things privacy-respecting and ad-supported (so games stay free).</li>
+          <li data-i18n="pages.about.goal3">Ship often — small updates, fast experiments, quick learning.</li>
         </ul>
       </section>
 
       <section>
-        <h2>Where to play</h2>
-        <p>The main site is the best place: <a href="/">snackable-games.com</a>. Each game has its own page (like /f1-quiz/ or /sudoku/).</p>
+        <h2 data-i18n="pages.about.whereTitle">Where to play</h2>
+        <p data-i18n="pages.about.whereText">The main site is the best place: <a href="/">snackable-games.com</a>. Each game has its own page (like /f1-quiz/ or /sudoku/).</p>
       </section>
 
       <section>
-        <h2>Contact</h2>
-        <p>Want to reach out? Use the Feedback button — we read every message!</p>
-        <button class="feedback-inline-btn" onclick="window.location.href='/?feedback=open'">💬 Send Feedback</button>
+        <h2 data-i18n="pages.about.contactTitle">Contact</h2>
+        <p data-i18n="pages.about.contactText">Want to reach out? Use the Feedback button — we read every message!</p>
+        <button class="feedback-inline-btn" onclick="window.location.href='/?feedback=open'" data-i18n="pages.about.sendFeedback">💬 Send Feedback</button>
       </section>
     </main>
   </div>
 
   <footer>
     <p>
-      <a href="/">Home</a> · 
-      <a href="privacy.html">Privacy</a>
+      <a href="/" data-i18n="pages.home">Home</a> · 
+      <a href="privacy.html" data-i18n="hub.privacy">Privacy</a>
     </p>
   </footer>
+
+  <!-- i18n -->
+  <script src="shared/js/i18n.js"></script>
+  <script>
+    (async function() {
+      const i18n = new I18n();
+      await i18n.init();
+    })();
+  </script>
 </body>
 </html>

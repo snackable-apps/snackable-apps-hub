@@ -131,18 +131,54 @@
     </div>
 
     <script>
-        // Password protection
-        const PASS_HASH = 'DataExplorer'; // Simple check (not cryptographically secure)
+        // API-based password protection
+        const API_BASE = 'https://snackable-api.vercel.app/api';
         
-        function checkPassword() {
+        async function checkPassword() {
             const input = document.getElementById('auth-password').value;
-            if (input === PASS_HASH) {
-                document.getElementById('auth-overlay').classList.add('hidden');
-                document.getElementById('main-container').classList.remove('locked');
-                sessionStorage.setItem('data-explorer-auth', 'true');
-            } else {
-                document.getElementById('auth-error').classList.add('show');
-                document.getElementById('auth-password').value = '';
+            const errorEl = document.getElementById('auth-error');
+            errorEl.classList.remove('show');
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'login', password: input })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.token) {
+                    sessionStorage.setItem('admin-auth-token', data.token);
+                    document.getElementById('auth-overlay').classList.add('hidden');
+                    document.getElementById('main-container').classList.remove('locked');
+                } else {
+                    errorEl.classList.add('show');
+                    document.getElementById('auth-password').value = '';
+                }
+            } catch (e) {
+                errorEl.textContent = 'Connection error. Please try again.';
+                errorEl.classList.add('show');
+            }
+        }
+        
+        async function validateStoredToken() {
+            const token = sessionStorage.getItem('admin-auth-token');
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'validate', token })
+                });
+                const data = await response.json();
+                if (data.valid) {
+                    document.getElementById('auth-overlay').classList.add('hidden');
+                    document.getElementById('main-container').classList.remove('locked');
+                }
+            } catch (e) {
+                // Token validation failed, stay on login
             }
         }
         
@@ -152,10 +188,7 @@
         });
         
         // Check if already authenticated this session
-        if (sessionStorage.getItem('data-explorer-auth') === 'true') {
-            document.getElementById('auth-overlay').classList.add('hidden');
-            document.getElementById('main-container').classList.remove('locked');
-        }
+        validateStoredToken();
     </script>
     <script src="js/explorer.js"></script>
 </body>

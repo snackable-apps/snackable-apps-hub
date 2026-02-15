@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Admin - Snackable Games</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📬</text></svg>">
+  <link rel="stylesheet" href="../shared/css/shared.css">
+  <style>
+    :root {
+      --bg-color: #0f0f1a;
+      --card-bg: #1a1a2e;
+      --text-color: #fff;
+      --text-muted: #9ca3af;
+      --border-color: #2d2d3d;
+      --primary-color: #00d4ff;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --error-color: #ef4444;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    
+    .logout-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--error-color);
+      background: transparent;
+      color: var(--error-color);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .logout-btn:hover {
+      background: var(--error-color);
+      color: white;
+    }
+    
+    /* Login Screen */
+    .login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      gap: 20px;
+    }
+    
+    .login-box {
+      background: var(--card-bg);
+      padding: 32px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .login-box h2 {
+      margin: 0 0 20px;
+      text-align: center;
+    }
+    
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-color);
+      color: var(--text-color);
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .login-error {
+      color: var(--error-color);
+      text-align: center;
+      margin-top: 12px;
+      display: none;
+    }
+    
+    /* Dashboard */
+    .dashboard {
+      display: none;
+    }
+    
+    .dashboard.active {
+      display: block;
+    }
+    
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .filters select {
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-color);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .stat-card {
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+    
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .stat-card .label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    
+    /* Feedback List */
+    .feedback-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .feedback-item {
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .feedback-item.tackled {
+      opacity: 0.6;
+    }
+    
+    .feedback-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    
+    .feedback-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .feedback-game {
+      background: var(--primary-color);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .feedback-topic {
+      background: var(--border-color);
+      color: var(--text-color);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    
+    .feedback-date {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    
+    .feedback-message {
+      color: var(--text-color);
+      line-height: 1.5;
+      margin-bottom: 12px;
+      white-space: pre-wrap;
+    }
+    
+    .feedback-email {
+      color: var(--primary-color);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    
+    .feedback-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .feedback-actions button {
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--text-color);
+    }
+    
+    .feedback-actions button:hover {
+      background: var(--border-color);
+    }
+    
+    .feedback-actions .btn-tackle {
+      border-color: var(--success-color);
+      color: var(--success-color);
+    }
+    
+    .feedback-actions .btn-tackle:hover {
+      background: var(--success-color);
+      color: white;
+    }
+    
+    .feedback-actions .btn-delete {
+      border-color: var(--error-color);
+      color: var(--error-color);
+    }
+    
+    .feedback-actions .btn-delete:hover {
+      background: var(--error-color);
+      color: white;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+    
+    .no-feedback {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+    
+    @media (max-width: 600px) {
+      .filters {
+        flex-direction: column;
+      }
+      
+      .feedback-header {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Login Screen -->
+    <div class="login-screen" id="login-screen">
+      <div class="login-box">
+        <h2>📬 Feedback Admin</h2>
+        <input type="password" id="password-input" placeholder="Enter admin password" autofocus>
+        <button onclick="login()">Login</button>
+        <p class="login-error" id="login-error">Invalid password</p>
+      </div>
+    </div>
+    
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+      <header>
+        <h1>📬 Feedback Admin</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </header>
+      
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card">
+          <div class="value" id="stat-total">-</div>
+          <div class="label">Total</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="stat-new">-</div>
+          <div class="label">New</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="stat-tackled">-</div>
+          <div class="label">Tackled</div>
+        </div>
+      </div>
+      
+      <div class="filters">
+        <select id="filter-game" onchange="loadFeedback()">
+          <option value="">All Games</option>
+          <option value="F1 Quiz">F1 Quiz</option>
+          <option value="Tennis Quiz">Tennis Quiz</option>
+          <option value="FutQuiz">FutQuiz</option>
+          <option value="Music Quiz">Music Quiz</option>
+          <option value="Blind Test">Blind Test</option>
+          <option value="Movies Quiz">Movies Quiz</option>
+          <option value="Animal Quiz">Animal Quiz</option>
+          <option value="Books Quiz">Books Quiz</option>
+          <option value="Sudoku">Sudoku</option>
+          <option value="General / Website">General / Website</option>
+        </select>
+        <select id="filter-tackled" onchange="loadFeedback()">
+          <option value="">All Status</option>
+          <option value="false">New (Untackled)</option>
+          <option value="true">Tackled</option>
+        </select>
+      </div>
+      
+      <div class="feedback-list" id="feedback-list">
+        <div class="loading">Loading...</div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const API_BASE = 'https://snackable-api.vercel.app/api';
+    let authToken = null;
+    
+    // Check for existing session
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedToken = sessionStorage.getItem('feedback-admin-token');
+      if (savedToken) {
+        validateToken(savedToken);
+      }
+      
+      document.getElementById('password-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') login();
+      });
+    });
+    
+    async function validateToken(token) {
+      try {
+        const response = await fetch(`${API_BASE}/auth`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'validate', token })
+        });
+        const data = await response.json();
+        if (data.valid) {
+          authToken = token;
+          showDashboard();
+        }
+      } catch (e) {
+        console.error('Token validation failed:', e);
+      }
+    }
+    
+    async function login() {
+      const password = document.getElementById('password-input').value;
+      const errorEl = document.getElementById('login-error');
+      errorEl.style.display = 'none';
+      
+      try {
+        const response = await fetch(`${API_BASE}/auth`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'login', password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.token) {
+          authToken = data.token;
+          sessionStorage.setItem('feedback-admin-token', authToken);
+          showDashboard();
+        } else {
+          errorEl.style.display = 'block';
+          errorEl.textContent = data.error || 'Invalid password';
+        }
+      } catch (e) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'Connection error. Please try again.';
+      }
+    }
+    
+    function logout() {
+      authToken = null;
+      sessionStorage.removeItem('feedback-admin-token');
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('dashboard').classList.remove('active');
+      document.getElementById('password-input').value = '';
+    }
+    
+    function showDashboard() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('dashboard').classList.add('active');
+      loadFeedback();
+    }
+    
+    async function loadFeedback() {
+      const listEl = document.getElementById('feedback-list');
+      listEl.innerHTML = '<div class="loading">Loading...</div>';
+      
+      const game = document.getElementById('filter-game').value;
+      const tackled = document.getElementById('filter-tackled').value;
+      
+      const params = new URLSearchParams();
+      if (game) params.append('game', game);
+      if (tackled) params.append('tackled', tackled);
+      
+      try {
+        const response = await fetch(`${API_BASE}/feedback-admin?${params}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        
+        if (response.status === 401) {
+          logout();
+          return;
+        }
+        
+        const data = await response.json();
+        
+        // Update stats
+        document.getElementById('stat-total').textContent = data.total || 0;
+        const newCount = data.feedback?.filter(f => !f.tackled).length || 0;
+        const tackledCount = data.feedback?.filter(f => f.tackled).length || 0;
+        document.getElementById('stat-new').textContent = newCount;
+        document.getElementById('stat-tackled').textContent = tackledCount;
+        
+        // Render feedback
+        if (!data.feedback || data.feedback.length === 0) {
+          listEl.innerHTML = '<div class="no-feedback">No feedback found</div>';
+          return;
+        }
+        
+        listEl.innerHTML = data.feedback.map(f => renderFeedbackItem(f)).join('');
+      } catch (e) {
+        listEl.innerHTML = '<div class="no-feedback">Error loading feedback</div>';
+        console.error('Load error:', e);
+      }
+    }
+    
+    function renderFeedbackItem(feedback) {
+      const date = new Date(feedback.created_at).toLocaleString();
+      const tackledClass = feedback.tackled ? 'tackled' : '';
+      
+      return `
+        <div class="feedback-item ${tackledClass}" id="feedback-${feedback.id}">
+          <div class="feedback-header">
+            <div class="feedback-meta">
+              <span class="feedback-game">${escapeHtml(feedback.game)}</span>
+              ${feedback.topic ? `<span class="feedback-topic">${escapeHtml(feedback.topic)}</span>` : ''}
+              <span class="feedback-date">${date}</span>
+            </div>
+          </div>
+          <div class="feedback-message">${escapeHtml(feedback.message)}</div>
+          ${feedback.email ? `<div class="feedback-email">📧 ${escapeHtml(feedback.email)}</div>` : ''}
+          <div class="feedback-actions">
+            <button class="btn-tackle" onclick="toggleTackled('${feedback.id}', ${!feedback.tackled})">
+              ${feedback.tackled ? '↩️ Untackle' : '✓ Mark Tackled'}
+            </button>
+            <button class="btn-delete" onclick="deleteFeedback('${feedback.id}')">🗑️ Delete</button>
+          </div>
+        </div>
+      `;
+    }
+    
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    async function toggleTackled(id, tackled) {
+      try {
+        const response = await fetch(`${API_BASE}/feedback-admin`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({ id, tackled })
+        });
+        
+        if (response.ok) {
+          loadFeedback();
+        }
+      } catch (e) {
+        console.error('Update error:', e);
+      }
+    }
+    
+    async function deleteFeedback(id) {
+      if (!confirm('Are you sure you want to delete this feedback?')) return;
+      
+      try {
+        const response = await fetch(`${API_BASE}/feedback-admin`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({ id })
+        });
+        
+        if (response.ok) {
+          loadFeedback();
+        }
+      } catch (e) {
+        console.error('Delete error:', e);
+      }
+    }
+  </script>
+</body>
+</html>

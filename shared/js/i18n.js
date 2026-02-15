@@ -473,6 +473,63 @@ class I18n {
         },
         share: {
           copiedToClipboard: 'Copied to clipboard!'
+        },
+        feedback: {
+          title: 'Send Feedback',
+          about: 'About:',
+          topic: 'Topic:',
+          message: 'Your feedback:',
+          messagePlaceholder: 'Tell us what you think...',
+          email: 'Email (optional):',
+          emailPlaceholder: 'your@email.com',
+          send: 'Send Feedback',
+          sending: 'Sending...',
+          success: 'Thank you for your feedback!',
+          error: 'Failed to send feedback. Please try again.',
+          general: 'General / Website',
+          topicBug: 'Bug Report',
+          topicSuggestion: 'Suggestion',
+          topicData: 'Data Issue',
+          topicOther: 'Other'
+        },
+        pages: {
+          backToGames: '← Back to Games',
+          home: 'Home',
+          about: {
+            title: 'About us',
+            whatIsTitle: 'What is Snackable Games?',
+            whatIsText: 'Snackable Games is a tiny studio that makes compact web games you can enjoy in minutes. We focus on fast load times, mobile friendliness, and simple mechanics: puzzles, quizzes, and micro-games.',
+            goalsTitle: 'Our goals',
+            goal1: 'Make fun, accessible games that load instantly in your browser.',
+            goal2: 'Keep things privacy-respecting and ad-supported (so games stay free).',
+            goal3: 'Ship often — small updates, fast experiments, quick learning.',
+            whereTitle: 'Where to play',
+            whereText: 'The main site is the best place: snackable-games.com. Each game has its own page (like /f1-quiz/ or /sudoku/).',
+            contactTitle: 'Contact',
+            contactText: 'Want to reach out? Use the Feedback button — we read every message!',
+            sendFeedback: '💬 Send Feedback'
+          },
+          privacy: {
+            title: 'Privacy Policy',
+            lastUpdated: 'Last updated: January 2026',
+            introTitle: 'Introduction',
+            introText: 'Snackable Games ("we", "us") provides web games at snackable-games.com. We respect your privacy and aim to be transparent about what data we collect and why.',
+            dataTitle: 'Data we collect',
+            dataAnalytics: 'Analytics: We use Google Analytics 4 to measure usage (page views, game events). GA4 collects device information and anonymized IP data.',
+            dataAds: 'Ads: We use Google AdSense to display ads. AdSense may use cookies to personalize ads and measure performance.',
+            cookiesTitle: 'Cookies',
+            cookiesText: 'Our site uses cookies and third-party cookies (Google) for analytics and advertising. You can control cookies via your browser settings. Blocking cookies may affect some functionality.',
+            adsTxtTitle: 'ads.txt',
+            adsTxtText: 'We publish an ads.txt file to declare authorized ad sellers.',
+            sharingTitle: 'Sharing',
+            sharingText: 'We do not sell personal data. We share aggregated/anonymous analytics with Google. We only disclose data if required by law.',
+            feedbackTitle: 'Feedback',
+            feedbackText: 'We offer an optional feedback form. If you submit feedback, we collect your message and optionally your email (if you provide it for follow-up).',
+            rightsTitle: 'Your rights',
+            rightsText: 'Contact us to request access, correction, or deletion of your data:',
+            linksTitle: 'Third-party links',
+            linksText: 'Our games may link to external sites. We are not responsible for their privacy practices.'
+          }
         }
       },
       fr: {
@@ -675,6 +732,63 @@ class I18n {
         },
         share: {
           copiedToClipboard: 'Copie dans le presse-papiers !'
+        },
+        feedback: {
+          title: 'Envoyer un commentaire',
+          about: 'A propos de :',
+          topic: 'Sujet :',
+          message: 'Votre commentaire :',
+          messagePlaceholder: 'Dites-nous ce que vous pensez...',
+          email: 'Email (optionnel) :',
+          emailPlaceholder: 'votre@email.com',
+          send: 'Envoyer',
+          sending: 'Envoi en cours...',
+          success: 'Merci pour votre commentaire !',
+          error: 'Echec de l\'envoi. Veuillez reessayer.',
+          general: 'General / Site web',
+          topicBug: 'Signaler un bug',
+          topicSuggestion: 'Suggestion',
+          topicData: 'Probleme de donnees',
+          topicOther: 'Autre'
+        },
+        pages: {
+          backToGames: '← Retour aux jeux',
+          home: 'Accueil',
+          about: {
+            title: 'A propos',
+            whatIsTitle: 'Qu\'est-ce que Snackable Games ?',
+            whatIsText: 'Snackable Games est un petit studio qui cree des jeux web compacts que vous pouvez apprecier en quelques minutes. Nous nous concentrons sur des temps de chargement rapides, la compatibilite mobile et des mecaniques simples : puzzles, quiz et micro-jeux.',
+            goalsTitle: 'Nos objectifs',
+            goal1: 'Creer des jeux amusants et accessibles qui se chargent instantanement dans votre navigateur.',
+            goal2: 'Respecter la vie privee et supporter par la publicite (pour que les jeux restent gratuits).',
+            goal3: 'Livrer souvent — petites mises a jour, experiences rapides, apprentissage rapide.',
+            whereTitle: 'Ou jouer',
+            whereText: 'Le site principal est le meilleur endroit : snackable-games.com. Chaque jeu a sa propre page (comme /f1-quiz/ ou /sudoku/).',
+            contactTitle: 'Contact',
+            contactText: 'Envie de nous contacter ? Utilisez le bouton Feedback — nous lisons chaque message !',
+            sendFeedback: '💬 Envoyer un commentaire'
+          },
+          privacy: {
+            title: 'Politique de confidentialite',
+            lastUpdated: 'Derniere mise a jour : Janvier 2026',
+            introTitle: 'Introduction',
+            introText: 'Snackable Games ("nous") fournit des jeux web sur snackable-games.com. Nous respectons votre vie privee et visons a etre transparents sur les donnees que nous collectons et pourquoi.',
+            dataTitle: 'Donnees collectees',
+            dataAnalytics: 'Analytiques : Nous utilisons Google Analytics 4 pour mesurer l\'utilisation. GA4 collecte des informations sur l\'appareil et des donnees IP anonymisees.',
+            dataAds: 'Publicites : Nous utilisons Google AdSense pour afficher des publicites. AdSense peut utiliser des cookies pour personnaliser les publicites.',
+            cookiesTitle: 'Cookies',
+            cookiesText: 'Notre site utilise des cookies et des cookies tiers (Google) pour les analyses et la publicite. Vous pouvez controler les cookies via les parametres de votre navigateur.',
+            adsTxtTitle: 'ads.txt',
+            adsTxtText: 'Nous publions un fichier ads.txt pour declarer les vendeurs publicitaires autorises.',
+            sharingTitle: 'Partage',
+            sharingText: 'Nous ne vendons pas de donnees personnelles. Nous partageons des analyses agregees/anonymes avec Google.',
+            feedbackTitle: 'Feedback',
+            feedbackText: 'Nous proposons un formulaire de feedback optionnel. Si vous soumettez un feedback, nous collectons votre message et optionnellement votre email.',
+            rightsTitle: 'Vos droits',
+            rightsText: 'Contactez-nous pour demander l\'acces, la correction ou la suppression de vos donnees :',
+            linksTitle: 'Liens tiers',
+            linksText: 'Nos jeux peuvent contenir des liens vers des sites externes. Nous ne sommes pas responsables de leurs pratiques de confidentialite.'
+          }
         }
       },
       'pt-br': {
@@ -877,6 +991,63 @@ class I18n {
         },
         share: {
           copiedToClipboard: 'Copiado para a area de transferencia!'
+        },
+        feedback: {
+          title: 'Enviar Feedback',
+          about: 'Sobre:',
+          topic: 'Assunto:',
+          message: 'Seu feedback:',
+          messagePlaceholder: 'Conte-nos o que voce pensa...',
+          email: 'Email (opcional):',
+          emailPlaceholder: 'seu@email.com',
+          send: 'Enviar Feedback',
+          sending: 'Enviando...',
+          success: 'Obrigado pelo seu feedback!',
+          error: 'Falha ao enviar. Por favor, tente novamente.',
+          general: 'Geral / Site',
+          topicBug: 'Reportar Bug',
+          topicSuggestion: 'Sugestao',
+          topicData: 'Problema de Dados',
+          topicOther: 'Outro'
+        },
+        pages: {
+          backToGames: '← Voltar aos Jogos',
+          home: 'Inicio',
+          about: {
+            title: 'Sobre nos',
+            whatIsTitle: 'O que e Snackable Games?',
+            whatIsText: 'Snackable Games e um pequeno estudio que cria jogos web compactos que voce pode aproveitar em minutos. Focamos em carregamento rapido, compatibilidade movel e mecanicas simples: puzzles, quizzes e micro-jogos.',
+            goalsTitle: 'Nossos objetivos',
+            goal1: 'Criar jogos divertidos e acessiveis que carregam instantaneamente no seu navegador.',
+            goal2: 'Manter o respeito a privacidade e suporte por publicidade (para que os jogos permanecam gratuitos).',
+            goal3: 'Lancar frequentemente — pequenas atualizacoes, experimentos rapidos, aprendizado rapido.',
+            whereTitle: 'Onde jogar',
+            whereText: 'O site principal e o melhor lugar: snackable-games.com. Cada jogo tem sua propria pagina (como /f1-quiz/ ou /sudoku/).',
+            contactTitle: 'Contato',
+            contactText: 'Quer entrar em contato? Use o botao Feedback — lemos cada mensagem!',
+            sendFeedback: '💬 Enviar Feedback'
+          },
+          privacy: {
+            title: 'Politica de Privacidade',
+            lastUpdated: 'Ultima atualizacao: Janeiro 2026',
+            introTitle: 'Introducao',
+            introText: 'Snackable Games ("nos") fornece jogos web em snackable-games.com. Respeitamos sua privacidade e buscamos ser transparentes sobre quais dados coletamos e por que.',
+            dataTitle: 'Dados coletados',
+            dataAnalytics: 'Analytics: Usamos Google Analytics 4 para medir o uso. GA4 coleta informacoes do dispositivo e dados de IP anonimizados.',
+            dataAds: 'Anuncios: Usamos Google AdSense para exibir anuncios. AdSense pode usar cookies para personalizar anuncios.',
+            cookiesTitle: 'Cookies',
+            cookiesText: 'Nosso site usa cookies e cookies de terceiros (Google) para analytics e publicidade. Voce pode controlar cookies nas configuracoes do navegador.',
+            adsTxtTitle: 'ads.txt',
+            adsTxtText: 'Publicamos um arquivo ads.txt para declarar vendedores de anuncios autorizados.',
+            sharingTitle: 'Compartilhamento',
+            sharingText: 'Nao vendemos dados pessoais. Compartilhamos analytics agregados/anonimos com o Google.',
+            feedbackTitle: 'Feedback',
+            feedbackText: 'Oferecemos um formulario de feedback opcional. Se voce enviar feedback, coletamos sua mensagem e opcionalmente seu email.',
+            rightsTitle: 'Seus direitos',
+            rightsText: 'Entre em contato para solicitar acesso, correcao ou exclusao de seus dados:',
+            linksTitle: 'Links de terceiros',
+            linksText: 'Nossos jogos podem ter links para sites externos. Nao somos responsaveis por suas praticas de privacidade.'
+          }
         }
       },
       it: {
@@ -1079,6 +1250,63 @@ class I18n {
         },
         share: {
           copiedToClipboard: 'Copiato negli appunti!'
+        },
+        feedback: {
+          title: 'Invia Feedback',
+          about: 'Riguardo a:',
+          topic: 'Argomento:',
+          message: 'Il tuo feedback:',
+          messagePlaceholder: 'Dicci cosa ne pensi...',
+          email: 'Email (opzionale):',
+          emailPlaceholder: 'tua@email.com',
+          send: 'Invia Feedback',
+          sending: 'Invio in corso...',
+          success: 'Grazie per il tuo feedback!',
+          error: 'Invio fallito. Per favore riprova.',
+          general: 'Generale / Sito web',
+          topicBug: 'Segnala Bug',
+          topicSuggestion: 'Suggerimento',
+          topicData: 'Problema Dati',
+          topicOther: 'Altro'
+        },
+        pages: {
+          backToGames: '← Torna ai Giochi',
+          home: 'Home',
+          about: {
+            title: 'Chi siamo',
+            whatIsTitle: 'Cos\'e Snackable Games?',
+            whatIsText: 'Snackable Games e un piccolo studio che crea giochi web compatti che puoi goderti in pochi minuti. Ci concentriamo su tempi di caricamento rapidi, compatibilita mobile e meccaniche semplici: puzzle, quiz e micro-giochi.',
+            goalsTitle: 'I nostri obiettivi',
+            goal1: 'Creare giochi divertenti e accessibili che si caricano istantaneamente nel browser.',
+            goal2: 'Rispettare la privacy e supportarci con la pubblicita (cosi i giochi rimangono gratuiti).',
+            goal3: 'Rilasciare spesso — piccoli aggiornamenti, esperimenti rapidi, apprendimento veloce.',
+            whereTitle: 'Dove giocare',
+            whereText: 'Il sito principale e il posto migliore: snackable-games.com. Ogni gioco ha la sua pagina (come /f1-quiz/ o /sudoku/).',
+            contactTitle: 'Contatto',
+            contactText: 'Vuoi contattarci? Usa il pulsante Feedback — leggiamo ogni messaggio!',
+            sendFeedback: '💬 Invia Feedback'
+          },
+          privacy: {
+            title: 'Informativa sulla Privacy',
+            lastUpdated: 'Ultimo aggiornamento: Gennaio 2026',
+            introTitle: 'Introduzione',
+            introText: 'Snackable Games ("noi") fornisce giochi web su snackable-games.com. Rispettiamo la tua privacy e miriamo a essere trasparenti sui dati che raccogliamo e perche.',
+            dataTitle: 'Dati raccolti',
+            dataAnalytics: 'Analytics: Utilizziamo Google Analytics 4 per misurare l\'utilizzo. GA4 raccoglie informazioni sul dispositivo e dati IP anonimizzati.',
+            dataAds: 'Pubblicita: Utilizziamo Google AdSense per mostrare annunci. AdSense puo utilizzare cookie per personalizzare gli annunci.',
+            cookiesTitle: 'Cookie',
+            cookiesText: 'Il nostro sito utilizza cookie e cookie di terze parti (Google) per analytics e pubblicita. Puoi controllare i cookie tramite le impostazioni del browser.',
+            adsTxtTitle: 'ads.txt',
+            adsTxtText: 'Pubblichiamo un file ads.txt per dichiarare i venditori pubblicitari autorizzati.',
+            sharingTitle: 'Condivisione',
+            sharingText: 'Non vendiamo dati personali. Condividiamo analytics aggregati/anonimi con Google.',
+            feedbackTitle: 'Feedback',
+            feedbackText: 'Offriamo un modulo di feedback opzionale. Se invii un feedback, raccogliamo il tuo messaggio e opzionalmente la tua email.',
+            rightsTitle: 'I tuoi diritti',
+            rightsText: 'Contattaci per richiedere accesso, correzione o cancellazione dei tuoi dati:',
+            linksTitle: 'Link di terze parti',
+            linksText: 'I nostri giochi potrebbero contenere link a siti esterni. Non siamo responsabili delle loro pratiche sulla privacy.'
+          }
         }
       },
       es: {
@@ -1281,6 +1509,63 @@ class I18n {
         },
         share: {
           copiedToClipboard: '¡Copiado al portapapeles!'
+        },
+        feedback: {
+          title: 'Enviar Comentario',
+          about: 'Sobre:',
+          topic: 'Tema:',
+          message: 'Tu comentario:',
+          messagePlaceholder: 'Cuentanos lo que piensas...',
+          email: 'Email (opcional):',
+          emailPlaceholder: 'tu@email.com',
+          send: 'Enviar Comentario',
+          sending: 'Enviando...',
+          success: '¡Gracias por tu comentario!',
+          error: 'Error al enviar. Por favor, intentalo de nuevo.',
+          general: 'General / Sitio web',
+          topicBug: 'Reportar Error',
+          topicSuggestion: 'Sugerencia',
+          topicData: 'Problema de Datos',
+          topicOther: 'Otro'
+        },
+        pages: {
+          backToGames: '← Volver a los Juegos',
+          home: 'Inicio',
+          about: {
+            title: 'Sobre nosotros',
+            whatIsTitle: '¿Que es Snackable Games?',
+            whatIsText: 'Snackable Games es un pequeno estudio que crea juegos web compactos que puedes disfrutar en minutos. Nos enfocamos en tiempos de carga rapidos, compatibilidad movil y mecanicas simples: puzzles, quizzes y micro-juegos.',
+            goalsTitle: 'Nuestros objetivos',
+            goal1: 'Crear juegos divertidos y accesibles que cargan instantaneamente en tu navegador.',
+            goal2: 'Mantener el respeto a la privacidad y soporte por publicidad (para que los juegos sean gratuitos).',
+            goal3: 'Lanzar frecuentemente — pequenas actualizaciones, experimentos rapidos, aprendizaje rapido.',
+            whereTitle: 'Donde jugar',
+            whereText: 'El sitio principal es el mejor lugar: snackable-games.com. Cada juego tiene su propia pagina (como /f1-quiz/ o /sudoku/).',
+            contactTitle: 'Contacto',
+            contactText: '¿Quieres contactarnos? Usa el boton Feedback — ¡leemos cada mensaje!',
+            sendFeedback: '💬 Enviar Comentario'
+          },
+          privacy: {
+            title: 'Politica de Privacidad',
+            lastUpdated: 'Ultima actualizacion: Enero 2026',
+            introTitle: 'Introduccion',
+            introText: 'Snackable Games ("nosotros") proporciona juegos web en snackable-games.com. Respetamos tu privacidad y buscamos ser transparentes sobre que datos recopilamos y por que.',
+            dataTitle: 'Datos recopilados',
+            dataAnalytics: 'Analytics: Usamos Google Analytics 4 para medir el uso. GA4 recopila informacion del dispositivo y datos IP anonimizados.',
+            dataAds: 'Anuncios: Usamos Google AdSense para mostrar anuncios. AdSense puede usar cookies para personalizar anuncios.',
+            cookiesTitle: 'Cookies',
+            cookiesText: 'Nuestro sitio usa cookies y cookies de terceros (Google) para analytics y publicidad. Puedes controlar las cookies en la configuracion del navegador.',
+            adsTxtTitle: 'ads.txt',
+            adsTxtText: 'Publicamos un archivo ads.txt para declarar vendedores de anuncios autorizados.',
+            sharingTitle: 'Compartir',
+            sharingText: 'No vendemos datos personales. Compartimos analytics agregados/anonimos con Google.',
+            feedbackTitle: 'Feedback',
+            feedbackText: 'Ofrecemos un formulario de feedback opcional. Si envias feedback, recopilamos tu mensaje y opcionalmente tu email.',
+            rightsTitle: 'Tus derechos',
+            rightsText: 'Contactanos para solicitar acceso, correccion o eliminacion de tus datos:',
+            linksTitle: 'Enlaces de terceros',
+            linksText: 'Nuestros juegos pueden contener enlaces a sitios externos. No somos responsables de sus practicas de privacidad.'
+          }
         }
       }
     };
