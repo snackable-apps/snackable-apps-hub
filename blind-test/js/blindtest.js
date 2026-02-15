@@ -373,6 +373,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
     hasAnswered = false;
+    currentChoices = [];  // Reset choices for new round
     
     // Update round display
     roundDisplay.textContent = `${currentRound}/${SONGS_PER_MATCH}`;
@@ -386,7 +387,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadAndPlayAudio();
     
     if (multipleChoiceEnabled) {
-      generateChoices();
+      generateChoices(true);  // Generate fresh choices for new round
     }
     
     // Track round start (send only to Blind Test property, not Hub)
@@ -447,19 +448,35 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  // Fisher-Yates shuffle for uniform randomness
+  function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+  
+  // Store current choices to keep them consistent when toggling display mode
+  let currentChoices = [];
+  
   // Generate multiple choice options
-  function generateChoices() {
+  function generateChoices(forceNewChoices = true) {
     choicesGrid.innerHTML = '';
     
-    // Get 3 wrong answers
-    const otherSongs = songsWithPreview.filter(s => s.id !== currentSong.id);
-    const shuffled = otherSongs.sort(() => Math.random() - 0.5);
-    const wrongChoices = shuffled.slice(0, 3);
+    // Only generate new choices if forced or no choices exist
+    if (forceNewChoices || currentChoices.length === 0) {
+      // Get 3 wrong answers using Fisher-Yates shuffle
+      const otherSongs = songsWithPreview.filter(s => s.id !== currentSong.id);
+      const shuffledOthers = shuffleArray(otherSongs);
+      const wrongChoices = shuffledOthers.slice(0, 3);
+      
+      // Combine with correct answer and shuffle again
+      currentChoices = shuffleArray([...wrongChoices, currentSong]);
+    }
     
-    // Combine with correct answer and shuffle
-    const allChoices = [...wrongChoices, currentSong].sort(() => Math.random() - 0.5);
-    
-    allChoices.forEach(song => {
+    currentChoices.forEach(song => {
       const btn = document.createElement('button');
       btn.className = 'choice-btn';
       btn.dataset.songId = song.id;
@@ -859,9 +876,9 @@ Play at snackable-games.com/blind-test/`;
       ? 'Type a song or artist name...'
       : 'Type a song title...';
     
-    // Refresh choices if in multiple choice mode
+    // Refresh choices display if in multiple choice mode (keep same choices, just update display format)
     if (multipleChoiceEnabled && !hasAnswered) {
-      generateChoices();
+      generateChoices(false);  // false = keep same choices, just re-render with new display format
     }
     
     // Refresh autocomplete
@@ -877,7 +894,8 @@ Play at snackable-games.com/blind-test/`;
     if (multipleChoiceEnabled) {
       guessSection.style.display = 'none';
       choicesSection.style.display = 'block';
-      if (!hasAnswered) generateChoices();
+      // Use existing choices if available, otherwise generate new ones
+      if (!hasAnswered) generateChoices(currentChoices.length === 0);
     } else {
       choicesSection.style.display = 'none';
       guessSection.style.display = 'block';

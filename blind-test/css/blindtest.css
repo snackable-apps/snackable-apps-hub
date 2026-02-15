@@ -474,9 +474,25 @@ input:checked + .toggle-slider:before {
   text-align: center;
 }
 
-.choice-btn:hover {
-  border-color: var(--primary-color);
-  background: rgba(0, 212, 255, 0.1);
+/* Only apply hover on devices with hover capability (not touch) */
+@media (hover: hover) {
+  .choice-btn:hover {
+    border-color: var(--primary-color);
+    background: rgba(0, 212, 255, 0.1);
+  }
+}
+
+/* Touch devices - remove sticky hover state */
+@media (hover: none) {
+  .choice-btn:hover {
+    border-color: var(--border-color);
+    background: var(--bg-color);
+  }
+  
+  .choice-btn:active {
+    border-color: var(--primary-color);
+    background: rgba(0, 212, 255, 0.1);
+  }
 }
 
 .choice-btn.correct {

@@ -319,7 +319,26 @@ class I18n {
             startTitle: 'Ready to play?',
             startDesc: 'Listen to 5 song samples and guess the titles. The faster you answer, the more points you get!',
             dailyComplete: "Today's Daily Complete!",
-            playRandomDesc: 'You can play as many random matches as you like.'
+            playRandomDesc: 'You can play as many random matches as you like.',
+            loadingMessage: '🎧 Plugging in the headphones...'
+          },
+          f1: {
+            loadingMessage: '🏎️ Warming up the tires...'
+          },
+          tennis: {
+            loadingMessage: '🎾 Stretching up...'
+          },
+          music: {
+            loadingMessage: '🎵 Tuning the instruments...'
+          },
+          books: {
+            loadingMessage: '📚 Opening the library...'
+          },
+          animal: {
+            loadingMessage: '🐾 On safari...'
+          },
+          fut: {
+            loadingMessage: '⚽ Warming up on the pitch...'
           },
           animals: {
             title: 'Animal Quiz',
@@ -458,7 +477,26 @@ class I18n {
             startTitle: 'Pret a jouer ?',
             startDesc: 'Ecoutez 5 extraits et devinez les titres. Plus vous repondez vite, plus vous gagnez de points !',
             dailyComplete: 'Defi du jour termine !',
-            playRandomDesc: 'Vous pouvez jouer autant de matchs aleatoires que vous voulez.'
+            playRandomDesc: 'Vous pouvez jouer autant de matchs aleatoires que vous voulez.',
+            loadingMessage: '🎧 Branchement du casque...'
+          },
+          f1: {
+            loadingMessage: '🏎️ Chauffe des pneus...'
+          },
+          tennis: {
+            loadingMessage: '🎾 Echauffement en cours...'
+          },
+          music: {
+            loadingMessage: '🎵 Accordage des instruments...'
+          },
+          books: {
+            loadingMessage: '📚 Ouverture de la bibliotheque...'
+          },
+          animal: {
+            loadingMessage: '🐾 En safari...'
+          },
+          fut: {
+            loadingMessage: '⚽ Echauffement sur le terrain...'
           },
           animals: {
             title: 'Quiz Animaux',
@@ -597,7 +635,26 @@ class I18n {
             startTitle: 'Pronto para jogar?',
             startDesc: 'Ouca 5 trechos e adivinhe os titulos. Quanto mais rapido responder, mais pontos voce ganha!',
             dailyComplete: 'Desafio diario completo!',
-            playRandomDesc: 'Voce pode jogar quantas partidas aleatorias quiser.'
+            playRandomDesc: 'Voce pode jogar quantas partidas aleatorias quiser.',
+            loadingMessage: '🎧 Conectando os fones...'
+          },
+          f1: {
+            loadingMessage: '🏎️ Aquecendo os pneus...'
+          },
+          tennis: {
+            loadingMessage: '🎾 Aquecendo...'
+          },
+          music: {
+            loadingMessage: '🎵 Afinando os instrumentos...'
+          },
+          books: {
+            loadingMessage: '📚 Abrindo a biblioteca...'
+          },
+          animal: {
+            loadingMessage: '🐾 Em safari...'
+          },
+          fut: {
+            loadingMessage: '⚽ Aquecendo em campo...'
           },
           animals: {
             title: 'Quiz de Animais',
@@ -736,7 +793,26 @@ class I18n {
             startTitle: 'Pronto a giocare?',
             startDesc: 'Ascolta 5 estratti e indovina i titoli. Piu veloce rispondi, piu punti guadagni!',
             dailyComplete: 'Sfida giornaliera completata!',
-            playRandomDesc: 'Puoi giocare quanti match casuali vuoi.'
+            playRandomDesc: 'Puoi giocare quanti match casuali vuoi.',
+            loadingMessage: '🎧 Collegando le cuffie...'
+          },
+          f1: {
+            loadingMessage: '🏎️ Riscaldando le gomme...'
+          },
+          tennis: {
+            loadingMessage: '🎾 Riscaldamento...'
+          },
+          music: {
+            loadingMessage: '🎵 Accordando gli strumenti...'
+          },
+          books: {
+            loadingMessage: '📚 Aprendo la biblioteca...'
+          },
+          animal: {
+            loadingMessage: '🐾 In safari...'
+          },
+          fut: {
+            loadingMessage: '⚽ Riscaldamento in campo...'
           },
           animals: {
             title: 'Quiz Animali',
@@ -875,7 +951,26 @@ class I18n {
             startTitle: '¿Listo para jugar?',
             startDesc: 'Escucha 5 fragmentos y adivina los títulos. ¡Cuanto más rápido respondas, más puntos ganas!',
             dailyComplete: '¡Desafío diario completado!',
-            playRandomDesc: 'Puedes jugar tantas partidas aleatorias como quieras.'
+            playRandomDesc: 'Puedes jugar tantas partidas aleatorias como quieras.',
+            loadingMessage: '🎧 Conectando los auriculares...'
+          },
+          f1: {
+            loadingMessage: '🏎️ Calentando los neumáticos...'
+          },
+          tennis: {
+            loadingMessage: '🎾 Calentando...'
+          },
+          music: {
+            loadingMessage: '🎵 Afinando los instrumentos...'
+          },
+          books: {
+            loadingMessage: '📚 Abriendo la biblioteca...'
+          },
+          animal: {
+            loadingMessage: '🐾 En safari...'
+          },
+          fut: {
+            loadingMessage: '⚽ Calentando en el campo...'
           },
           animals: {
             title: 'Quiz de Animales',

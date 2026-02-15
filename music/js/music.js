@@ -202,12 +202,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     gameStatusEl.className = '';
     guessSection.style.display = 'flex';
     shareSection.style.display = 'none';
-    songInput.value = '';
-    songInput.disabled = false;
+    musicInput.value = '';
+    musicInput.disabled = false;
     autocompleteDropdown.style.display = 'none';
     if (cluesPanel) cluesPanel.style.display = 'none';
     
-    setTimeout(() => songInput.focus(), 100);
+    setTimeout(() => musicInput.focus(), 100);
     
     if (typeof gtag === 'function') {
       gtag('event', 'music_play_random', { song: randomSong.title });
