@@ -316,7 +316,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     totalGenreCount: 0,
     matchedCast: new Map(), // Map of name -> {name, image}
     totalCastCount: 0,
-    // Excluded values (for testing)
+    // Excluded values (for display)
+    excludedCountries: new Set(),
     excludedDirectors: new Set(),
     excludedGenres: new Set(),
     excludedActors: new Set()
@@ -541,6 +542,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Country
     if (comparisons.country === 'match') {
       cluesState.countryConfirmed = guess.country;
+    } else {
+      cluesState.excludedCountries.add(guess.country);
     }
 
     // Genres - track matches and exclusions
@@ -700,8 +703,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       castGroup.style.display = 'none';
     }
 
-    // Excluded sections
+    // Excluded sections (NOT clues)
     const excludedRow = document.getElementById('clue-excluded-row');
+    const excludedCountrySection = document.getElementById('clue-excluded-country-section');
+    const excludedCountryContainer = document.getElementById('clue-excluded-country');
     const excludedDirectorsSection = document.getElementById('clue-excluded-directors-section');
     const excludedDirectorsContainer = document.getElementById('clue-excluded-directors');
     const excludedGenresSection = document.getElementById('clue-excluded-genres-section');
@@ -710,6 +715,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const excludedActorsContainer = document.getElementById('clue-excluded-actors');
 
     let hasAnyExcluded = false;
+
+    // Excluded countries (only if not confirmed)
+    if (!cluesState.countryConfirmed && cluesState.excludedCountries.size > 0) {
+      excludedCountrySection.style.display = 'flex';
+      excludedCountryContainer.innerHTML = [...cluesState.excludedCountries]
+        .slice(0, 6)
+        .map(c => countryCodeToFlag(c))
+        .join(' ');
+      hasAnyExcluded = true;
+    } else {
+      excludedCountrySection.style.display = 'none';
+    }
 
     // Excluded directors (only if not confirmed)
     if (!cluesState.directorConfirmed && cluesState.excludedDirectors.size > 0) {
@@ -723,8 +740,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       excludedDirectorsSection.style.display = 'none';
     }
 
-    // Excluded genres
-    if (cluesState.excludedGenres.size > 0) {
+    // Excluded genres (hide if all genres found)
+    const allGenresFound = cluesState.totalGenreCount > 0 && cluesState.matchedGenres.size >= cluesState.totalGenreCount;
+    if (!allGenresFound && cluesState.excludedGenres.size > 0) {
       excludedGenresSection.style.display = 'flex';
       excludedGenresContainer.textContent = [...cluesState.excludedGenres]
         .slice(0, 8)
@@ -734,8 +752,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       excludedGenresSection.style.display = 'none';
     }
 
-    // Excluded actors
-    if (cluesState.excludedActors.size > 0) {
+    // Excluded actors (hide if all actors found)
+    const allActorsFound = cluesState.totalCastCount > 0 && cluesState.matchedCast.size >= cluesState.totalCastCount;
+    if (!allActorsFound && cluesState.excludedActors.size > 0) {
       excludedActorsSection.style.display = 'flex';
       excludedActorsContainer.textContent = [...cluesState.excludedActors]
         .map(a => formatActorName(a))
@@ -767,6 +786,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       totalGenreCount: 0,
       matchedCast: new Map(),
       totalCastCount: 0,
+      excludedCountries: new Set(),
       excludedDirectors: new Set(),
       excludedGenres: new Set(),
       excludedActors: new Set()
