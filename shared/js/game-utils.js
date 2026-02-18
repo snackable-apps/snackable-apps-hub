@@ -516,6 +516,166 @@ const GameUtils = {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   },
 
+  // ========== PLAY RANDOM UTILITIES ==========
+
+  /**
+   * Reset UI for starting a random game
+   * This centralizes the common reset logic used across all quiz games
+   * 
+   * @param {Object} options - Reset options
+   * @param {Object} options.elements - DOM elements to reset
+   * @param {HTMLElement} options.elements.guessSection - The guess input section
+   * @param {HTMLElement} options.elements.shareSection - The share/actions section
+   * @param {HTMLElement} options.elements.shareResultsBtn - The share results button
+   * @param {HTMLElement} options.elements.inputEl - The main input element
+   * @param {HTMLElement} options.elements.submitBtn - Submit button
+   * @param {HTMLElement} options.elements.giveUpBtn - Give up button
+   * @param {HTMLElement} options.elements.autocompleteDropdown - Autocomplete dropdown
+   * @param {HTMLElement} options.elements.guessesContainer - Container for guess cards
+   * @param {HTMLElement} options.elements.guessCountEl - Guess count display element
+   * @param {HTMLElement} options.elements.gameStatusEl - Game status display element
+   * @param {HTMLElement} options.elements.cluesPanel - Clues panel (optional)
+   * @param {HTMLElement} options.elements.modeToggle - Mode toggle section (optional)
+   * @param {Object} options.autocompleteState - Autocomplete state object to reset
+   * @param {boolean} options.focusInput - Whether to focus the input after reset (default: true)
+   * @param {number} options.focusDelay - Delay before focusing input in ms (default: 100)
+   */
+  resetForRandomPlay({
+    elements = {},
+    autocompleteState = null,
+    focusInput = true,
+    focusDelay = 100
+  }) {
+    const {
+      guessSection,
+      shareSection,
+      shareResultsBtn,
+      inputEl,
+      submitBtn,
+      giveUpBtn,
+      autocompleteDropdown,
+      guessesContainer,
+      guessCountEl,
+      gameStatusEl,
+      cluesPanel,
+      modeToggle
+    } = elements;
+
+    // Reset guess container
+    if (guessesContainer) {
+      guessesContainer.innerHTML = '';
+    }
+
+    // Reset guess count and status
+    if (guessCountEl) {
+      guessCountEl.textContent = '0';
+    }
+    if (gameStatusEl) {
+      gameStatusEl.textContent = '';
+      gameStatusEl.className = '';
+      gameStatusEl.style.color = '';
+    }
+
+    // Show guess section, hide share section
+    if (guessSection) {
+      guessSection.style.display = 'flex';
+      guessSection.style.visibility = 'visible';
+      guessSection.style.pointerEvents = 'auto';
+    }
+    if (shareSection) {
+      shareSection.style.display = 'none';
+    }
+
+    // Hide share button (random games can't share)
+    if (shareResultsBtn) {
+      shareResultsBtn.style.display = 'none';
+    }
+
+    // Reset input field
+    if (inputEl) {
+      inputEl.value = '';
+      inputEl.disabled = false;
+      inputEl.readOnly = false;
+      inputEl.style.pointerEvents = 'auto';
+      inputEl.style.opacity = '1';
+    }
+
+    // Reset buttons
+    if (submitBtn) {
+      submitBtn.disabled = false;
+    }
+    if (giveUpBtn) {
+      giveUpBtn.disabled = false;
+    }
+
+    // Reset autocomplete dropdown
+    if (autocompleteDropdown) {
+      autocompleteDropdown.innerHTML = '';
+      autocompleteDropdown.style.display = 'none';
+      autocompleteDropdown.classList.remove('active');
+    }
+
+    // Reset autocomplete state
+    if (autocompleteState) {
+      autocompleteState.selectedIndex = -1;
+      if (Array.isArray(autocompleteState.filteredMovies)) {
+        autocompleteState.filteredMovies = [];
+      }
+      if (Array.isArray(autocompleteState.filteredSongs)) {
+        autocompleteState.filteredSongs = [];
+      }
+      if (Array.isArray(autocompleteState.filteredItems)) {
+        autocompleteState.filteredItems = [];
+      }
+      autocompleteState.isOpen = false;
+    }
+
+    // Hide clues panel for fresh start
+    if (cluesPanel) {
+      cluesPanel.style.display = 'none';
+    }
+
+    // Show mode toggle if exists
+    if (modeToggle) {
+      modeToggle.style.display = 'block';
+    }
+
+    // Focus input after brief delay
+    if (focusInput && inputEl) {
+      setTimeout(() => {
+        inputEl.focus();
+      }, focusDelay);
+    }
+  },
+
+  /**
+   * Select a random item from a pool, excluding current item
+   * @param {Array} pool - Array of items to choose from
+   * @param {*} currentItem - Current item to exclude (optional)
+   * @param {string} idField - Field name to use for comparison (default: 'title')
+   * @returns {*} Randomly selected item
+   */
+  selectRandomFromPool(pool, currentItem = null, idField = 'title') {
+    if (!pool || pool.length === 0) {
+      console.error('selectRandomFromPool: Pool is empty!');
+      return null;
+    }
+
+    // Filter out current item if provided
+    let availableItems = pool;
+    if (currentItem && currentItem[idField]) {
+      availableItems = pool.filter(item => item[idField] !== currentItem[idField]);
+    }
+
+    // If all items filtered out, use full pool
+    if (availableItems.length === 0) {
+      availableItems = pool;
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableItems.length);
+    return availableItems[randomIndex];
+  },
+
   // ========== FEEDBACK SYSTEM ==========
 
   /**

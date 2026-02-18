@@ -144,11 +144,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Play Random
   function playRandom() {
-    const currentName = gameState.secretPlayer ? gameState.secretPlayer.name : null;
-    const availablePlayers = SECRET_POOL.filter(p => p.name !== currentName);
-    const randomIndex = Math.floor(Math.random() * availablePlayers.length);
-    const randomPlayer = availablePlayers[randomIndex] || SECRET_POOL[0];
+    // Select random player using centralized utility
+    const randomPlayer = GameUtils.selectRandomFromPool(SECRET_POOL, gameState.secretPlayer, 'name');
+    if (!randomPlayer) {
+      console.error('playRandom: No players available');
+      return;
+    }
     
+    // Reset game state
     gameState.secretPlayer = randomPlayer;
     gameState.currentDate = getDateString();
     gameState.guesses = [];
@@ -159,18 +162,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     resetCluesState();
     
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
-    playerInput.value = '';
-    playerInput.disabled = false;
-    autocompleteDropdown.style.display = 'none';
-    if (cluesPanel) cluesPanel.style.display = 'none';
-    
-    setTimeout(() => playerInput.focus(), 100);
+    // Use centralized UI reset
+    GameUtils.resetForRandomPlay({
+      elements: {
+        guessSection,
+        shareSection,
+        shareResultsBtn,
+        inputEl: playerInput,
+        submitBtn,
+        giveUpBtn,
+        autocompleteDropdown,
+        guessesContainer,
+        guessCountEl,
+        gameStatusEl,
+        cluesPanel
+      },
+      autocompleteState
+    });
     
     if (typeof gtag === 'function') {
       gtag('event', 'tennis_play_random', { player: randomPlayer.name });

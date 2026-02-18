@@ -155,10 +155,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Play Random - start a new random game
   function playRandom() {
-    const currentName = gameState.secretPlayer ? gameState.secretPlayer.name : null;
-    const availablePlayers = DAILY_ELIGIBLE_PLAYERS.filter(p => p.name !== currentName);
-    const randomIndex = Math.floor(Math.random() * availablePlayers.length);
-    const randomPlayer = availablePlayers[randomIndex] || DAILY_ELIGIBLE_PLAYERS[0];
+    // Select random player using centralized utility
+    const randomPlayer = GameUtils.selectRandomFromPool(DAILY_ELIGIBLE_PLAYERS, gameState.secretPlayer, 'name');
+    if (!randomPlayer) {
+      console.error('playRandom: No players available');
+      return;
+    }
     
     // Reset game state
     gameState.secretPlayer = randomPlayer;
@@ -172,19 +174,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Reset clues
     resetCluesState();
     
-    // Reset UI
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
-    playerInput.value = '';
-    playerInput.disabled = false;
-    autocompleteDropdown.style.display = 'none';
-    if (cluesPanel) cluesPanel.style.display = 'none';
+    // Use centralized UI reset
+    GameUtils.resetForRandomPlay({
+      elements: {
+        guessSection,
+        shareSection,
+        shareResultsBtn,
+        inputEl: playerInput,
+        submitBtn,
+        giveUpBtn,
+        autocompleteDropdown,
+        guessesContainer,
+        guessCountEl,
+        gameStatusEl,
+        cluesPanel
+      },
+      autocompleteState
+    });
     
-    // Focus input
+    // Focus input (already done by resetForRandomPlay)
     setTimeout(() => playerInput.focus(), 100);
     
     if (typeof gtag === 'function') {

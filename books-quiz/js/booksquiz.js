@@ -226,11 +226,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Play Random
   function playRandom() {
-    const currentTitle = gameState.secretBook ? gameState.secretBook.title : null;
-    const availableBooks = SECRET_POOL.filter(b => b.title !== currentTitle);
-    const randomIndex = Math.floor(Math.random() * availableBooks.length);
-    const randomBook = availableBooks[randomIndex] || SECRET_POOL[0];
+    // Select random book using centralized utility
+    const randomBook = GameUtils.selectRandomFromPool(SECRET_POOL, gameState.secretBook, 'title');
+    if (!randomBook) {
+      console.error('playRandom: No books available');
+      return;
+    }
     
+    // Reset game state
     gameState.secretBook = randomBook;
     gameState.currentDate = getDateString();
     gameState.guesses = [];
@@ -241,18 +244,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     resetCluesState();
     
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
-    bookInput.value = '';
-    bookInput.disabled = false;
-    autocompleteDropdown.style.display = 'none';
-    if (cluesPanel) cluesPanel.style.display = 'none';
-    
-    setTimeout(() => bookInput.focus(), 100);
+    // Use centralized UI reset
+    GameUtils.resetForRandomPlay({
+      elements: {
+        guessSection,
+        shareSection,
+        shareResultsBtn,
+        inputEl: bookInput,
+        submitBtn,
+        giveUpBtn,
+        autocompleteDropdown,
+        guessesContainer,
+        guessCountEl,
+        gameStatusEl,
+        cluesPanel,
+        modeToggle
+      },
+      autocompleteState
+    });
     
     if (typeof gtag === 'function') {
       gtag('event', 'books_play_random', { book: randomBook.title });

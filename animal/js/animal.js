@@ -156,11 +156,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Play Random
   function playRandom() {
-    const currentName = gameState.secretAnimal ? gameState.secretAnimal.name : null;
-    const availableAnimals = SECRET_POOL.filter(a => a.name !== currentName);
-    const randomIndex = Math.floor(Math.random() * availableAnimals.length);
-    const randomAnimal = availableAnimals[randomIndex] || SECRET_POOL[0];
+    // Select random animal using centralized utility
+    const randomAnimal = GameUtils.selectRandomFromPool(SECRET_POOL, gameState.secretAnimal, 'name');
+    if (!randomAnimal) {
+      console.error('playRandom: No animals available');
+      return;
+    }
     
+    // Reset game state
     gameState.secretAnimal = randomAnimal;
     gameState.currentDate = getDateString();
     gameState.guesses = [];
@@ -171,18 +174,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     resetCluesState();
     
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
-    animalInput.value = '';
-    animalInput.disabled = false;
-    autocompleteDropdown.style.display = 'none';
-    if (cluesPanel) cluesPanel.style.display = 'none';
-    
-    setTimeout(() => animalInput.focus(), 100);
+    // Use centralized UI reset
+    GameUtils.resetForRandomPlay({
+      elements: {
+        guessSection,
+        shareSection,
+        shareResultsBtn,
+        inputEl: animalInput,
+        submitBtn,
+        giveUpBtn,
+        autocompleteDropdown,
+        guessesContainer,
+        guessCountEl,
+        gameStatusEl,
+        cluesPanel
+      },
+      autocompleteState
+    });
     
     if (typeof gtag === 'function') {
       gtag('event', 'animal_play_random', { animal: randomAnimal.name });

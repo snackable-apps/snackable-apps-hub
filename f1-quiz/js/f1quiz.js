@@ -145,10 +145,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Play Random - start a new random game
   function playRandom() {
-    const currentName = gameState.secretDriver ? gameState.secretDriver.name : null;
-    const availableDrivers = SECRET_POOL.filter(d => d.name !== currentName);
-    const randomIndex = Math.floor(Math.random() * availableDrivers.length);
-    const randomDriver = availableDrivers[randomIndex] || SECRET_POOL[0];
+    // Select random driver using centralized utility
+    const randomDriver = GameUtils.selectRandomFromPool(SECRET_POOL, gameState.secretDriver, 'name');
+    if (!randomDriver) {
+      console.error('playRandom: No drivers available');
+      return;
+    }
     
     // Reset game state
     gameState.secretDriver = randomDriver;
@@ -162,19 +164,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Reset clues
     resetCluesState();
     
-    // Reset UI
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
-    driverInput.value = '';
-    driverInput.disabled = false;
-    autocompleteDropdown.style.display = 'none';
-    if (cluesPanel) cluesPanel.style.display = 'none';
+    // Use centralized UI reset
+    GameUtils.resetForRandomPlay({
+      elements: {
+        guessSection,
+        shareSection,
+        shareResultsBtn,
+        inputEl: driverInput,
+        submitBtn,
+        giveUpBtn,
+        autocompleteDropdown,
+        guessesContainer,
+        guessCountEl,
+        gameStatusEl,
+        cluesPanel
+      },
+      autocompleteState
+    });
     
-    // Focus input
+    // Focus input (already done by resetForRandomPlay)
     setTimeout(() => driverInput.focus(), 100);
     
     if (typeof gtag === 'function') {

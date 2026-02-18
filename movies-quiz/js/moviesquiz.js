@@ -261,19 +261,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   
   function playRandom() {
-    console.log('playRandom: Called');
-    
-    // Ensure we have movies loaded
-    if (SECRET_POOL.length === 0) {
-      console.error('playRandom: SECRET_POOL is empty!');
+    // Select random movie using centralized utility
+    const randomMovie = GameUtils.selectRandomFromPool(SECRET_POOL, gameState.secretMovie, 'title');
+    if (!randomMovie) {
+      console.error('playRandom: No movies available');
       return;
     }
-    
-    // Select a random movie from the pool (different from current if exists)
-    const currentTitle = gameState.secretMovie ? gameState.secretMovie.title : null;
-    const availableMovies = SECRET_POOL.filter(m => m.title !== currentTitle);
-    const randomIndex = Math.floor(Math.random() * availableMovies.length);
-    const randomMovie = availableMovies[randomIndex] || SECRET_POOL[0];
     
     // Reset game state
     gameState.secretMovie = randomMovie;
@@ -287,58 +280,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Reset clues
     resetCluesState();
     
-    // Reset autocomplete state
-    autocompleteState.selectedIndex = -1;
-    autocompleteState.filteredMovies = [];
-    autocompleteState.isOpen = false;
-    
-    // Reset UI elements
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    gameStatusEl.style.color = '';
-    
-    // Force show guess section, hide share section
-    guessSection.style.display = 'flex';
-    guessSection.style.visibility = 'visible';
-    guessSection.style.pointerEvents = 'auto';
-    shareSection.style.display = 'none';
-    
-    // Re-get input element in case DOM was modified
-    const inputEl = document.getElementById('movie-input');
-    if (inputEl) {
-      inputEl.value = '';
-      inputEl.disabled = false;
-      inputEl.readOnly = false;
-      inputEl.style.pointerEvents = 'auto';
-      inputEl.style.opacity = '1';
-    }
-    movieInput.value = '';
-    movieInput.disabled = false;
-    movieInput.readOnly = false;
-    submitBtn.disabled = false;
-    giveUpBtn.disabled = false;
-    
-    // Reset autocomplete dropdown
-    autocompleteDropdown.innerHTML = '';
-    autocompleteDropdown.style.display = 'none';
-    autocompleteDropdown.classList.remove('active');
-    
-    // Hide clues panel for fresh start
-    if (cluesPanel) cluesPanel.style.display = 'none';
-    
-    // Focus input after brief delay
-    setTimeout(() => {
-      movieInput.focus();
-      console.log('playRandom: Input focused');
-      console.log('playRandom: guessSection display:', guessSection.style.display);
-      console.log('playRandom: movieInput disabled:', movieInput.disabled);
-      console.log('playRandom: movieInput value:', movieInput.value);
-    }, 100);
-    
-    console.log('playRandom: Starting random game with movie:', randomMovie.title);
-    console.log('playRandom: ALL_MOVIES count:', ALL_MOVIES.length);
+    // Use centralized UI reset
+    GameUtils.resetForRandomPlay({
+      elements: {
+        guessSection,
+        shareSection,
+        shareResultsBtn,
+        inputEl: movieInput,
+        submitBtn,
+        giveUpBtn,
+        autocompleteDropdown,
+        guessesContainer,
+        guessCountEl,
+        gameStatusEl,
+        cluesPanel
+      },
+      autocompleteState
+    });
     
     // Track random play
     if (typeof gtag === 'function') {

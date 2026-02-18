@@ -254,11 +254,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Play Random
   function playRandom() {
-    const currentTitle = gameState.secretSong ? gameState.secretSong.title : null;
-    const availableSongs = SECRET_POOL.filter(s => s.title !== currentTitle);
-    const randomIndex = Math.floor(Math.random() * availableSongs.length);
-    const randomSong = availableSongs[randomIndex] || SECRET_POOL[0];
+    // Select random song using centralized utility
+    const randomSong = GameUtils.selectRandomFromPool(SECRET_POOL, gameState.secretSong, 'name');
+    if (!randomSong) {
+      console.error('playRandom: No songs available');
+      return;
+    }
     
+    // Reset game state
     gameState.secretSong = randomSong;
     gameState.currentDate = getDateString();
     gameState.guesses = [];
@@ -269,21 +272,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     resetCluesState();
     
-    guessesContainer.innerHTML = '';
-    guessCountEl.textContent = '0';
-    gameStatusEl.textContent = '';
-    gameStatusEl.className = '';
-    guessSection.style.display = 'flex';
-    shareSection.style.display = 'none';
-    musicInput.value = '';
-    musicInput.disabled = false;
-    autocompleteDropdown.style.display = 'none';
-    if (cluesPanel) cluesPanel.style.display = 'none';
-    
-    setTimeout(() => musicInput.focus(), 100);
+    // Use centralized UI reset
+    GameUtils.resetForRandomPlay({
+      elements: {
+        guessSection,
+        shareSection,
+        shareResultsBtn,
+        inputEl: musicInput,
+        submitBtn,
+        giveUpBtn,
+        autocompleteDropdown,
+        guessesContainer,
+        guessCountEl,
+        gameStatusEl,
+        cluesPanel,
+        modeToggle
+      },
+      autocompleteState
+    });
     
     if (typeof gtag === 'function') {
-      gtag('event', 'music_play_random', { song: randomSong.title });
+      gtag('event', 'music_play_random', { song: randomSong.name });
     }
   }
 
