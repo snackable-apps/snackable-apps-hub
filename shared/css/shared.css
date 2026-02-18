@@ -344,7 +344,7 @@ header .header-controls {
 .clues-excluded {
   flex-direction: column;
   gap: 4px;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* ========== CLUE TAGS ========== */

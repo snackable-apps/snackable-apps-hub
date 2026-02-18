@@ -737,6 +737,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     guessSection.style.display = 'none';
     shareSection.style.display = 'flex';
     
+    // Hide share button for random games (only daily results can be shared)
+    shareResultsBtn.style.display = gameState.isRandomMode ? 'none' : '';
+    
     // Hide mode toggle when game ends
     if (modeToggle) {
       modeToggle.style.display = 'none';
@@ -823,12 +826,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
   
-  const playRandomBtn = document.getElementById('play-random-btn');
-  if (playRandomBtn) {
-    playRandomBtn.addEventListener('click', playRandom);
-  }
-  
-  // Play Random button
   const playRandomBtn = document.getElementById('play-random-btn');
   if (playRandomBtn) {
     playRandomBtn.addEventListener('click', playRandom);

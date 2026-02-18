@@ -574,9 +574,7 @@ main {
 }
 
 .clues-ranges + .clues-confirmed {
-  margin-top: 2px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border-color);
+  margin-top: 6px;
 }
 
 .clue-item {

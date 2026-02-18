@@ -577,7 +577,7 @@ main {
 .clues-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .clues-ranges { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
 .clues-confirmed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.clues-ranges + .clues-confirmed { margin-top: 2px; padding-top: 8px; border-top: 1px solid var(--border-color); }
+.clues-ranges + .clues-confirmed { margin-top: 6px; }
 
 .clue-item {
   background: rgba(0,0,0,0.3);

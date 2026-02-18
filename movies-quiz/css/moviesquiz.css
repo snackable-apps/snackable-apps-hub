@@ -330,9 +330,7 @@ main {
 }
 
 .clues-ranges + .clues-confirmed {
-  margin-top: 2px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border);
+  margin-top: 6px;
 }
 
 .clue-item {

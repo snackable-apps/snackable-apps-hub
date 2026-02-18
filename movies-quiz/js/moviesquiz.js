@@ -261,6 +261,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   
   function playRandom() {
+    console.log('playRandom: Called');
+    
     // Ensure we have movies loaded
     if (SECRET_POOL.length === 0) {
       console.error('playRandom: SECRET_POOL is empty!');
@@ -295,13 +297,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     guessCountEl.textContent = '0';
     gameStatusEl.textContent = '';
     gameStatusEl.className = '';
+    gameStatusEl.style.color = '';
     
     // Force show guess section, hide share section
     guessSection.style.display = 'flex';
     guessSection.style.visibility = 'visible';
+    guessSection.style.pointerEvents = 'auto';
     shareSection.style.display = 'none';
     
-    // Reset input field
+    // Re-get input element in case DOM was modified
+    const inputEl = document.getElementById('movie-input');
+    if (inputEl) {
+      inputEl.value = '';
+      inputEl.disabled = false;
+      inputEl.readOnly = false;
+      inputEl.style.pointerEvents = 'auto';
+      inputEl.style.opacity = '1';
+    }
     movieInput.value = '';
     movieInput.disabled = false;
     movieInput.readOnly = false;
@@ -319,10 +331,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Focus input after brief delay
     setTimeout(() => {
       movieInput.focus();
-      console.log('playRandom: Input focused, guessSection display:', guessSection.style.display);
+      console.log('playRandom: Input focused');
+      console.log('playRandom: guessSection display:', guessSection.style.display);
+      console.log('playRandom: movieInput disabled:', movieInput.disabled);
+      console.log('playRandom: movieInput value:', movieInput.value);
     }, 100);
     
     console.log('playRandom: Starting random game with movie:', randomMovie.title);
+    console.log('playRandom: ALL_MOVIES count:', ALL_MOVIES.length);
     
     // Track random play
     if (typeof gtag === 'function') {
@@ -1216,6 +1232,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (gameState.isGameOver) {
       guessSection.style.display = 'none';
       shareSection.style.display = 'block';
+      // Hide share button for random games (only daily results can be shared)
+      shareResultsBtn.style.display = gameState.isRandomMode ? 'none' : '';
       // Hide clues panel when game is over
       if (cluesPanel) cluesPanel.style.display = 'none';
     }

@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     guessSection.style.display = 'none';
     choicesSection.style.display = 'none';
     resultSection.style.display = 'none';
-    matchSummary.style.display = 'flex';
+    matchSummary.style.display = 'block';
     
     // Update summary display
     summaryScore.textContent = matchScore;
@@ -770,9 +770,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       summaryResults.appendChild(div);
     });
     
-    // Show share button for both daily and random matches
-    summaryActions.classList.remove('no-share');
-    shareResultsBtn.style.display = '';
+    // Only show share button for daily matches (not random)
+    if (isFirstMatch) {
+      summaryActions.classList.remove('no-share');
+      shareResultsBtn.style.display = '';
+    } else {
+      shareResultsBtn.style.display = 'none';
+    }
     
     // Show summary
     matchSummary.style.display = 'block';

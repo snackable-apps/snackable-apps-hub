@@ -876,6 +876,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     guessSection.style.display = 'none';
     shareSection.style.display = 'flex';
     
+    // Hide share button for random games (only daily results can be shared)
+    shareResultsBtn.style.display = gameState.isRandomMode ? 'none' : '';
+    
     // Hide clues panel when game ends
     if (cluesPanel) cluesPanel.style.display = 'none';
   }
