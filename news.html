@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>News & Updates — Snackable Games</title>
+  <meta name="description" content="Latest news, updates, and announcements from Snackable Games. See what's new in our free browser-based games." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="shared/css/shared.css" />
+  <style>
+    main { max-width: 800px; text-align: left; }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent-primary); }
+    
+    .intro {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .intro p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary), transparent);
+    }
+    
+    .update {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .update:last-child {
+      border-bottom: none;
+    }
+    .update::before {
+      content: '';
+      position: absolute;
+      left: -26px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      border: 2px solid var(--bg-primary, #0f0f1a);
+    }
+    
+    .update-date {
+      color: var(--accent-primary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .update-tag {
+      background: rgba(0, 212, 255, 0.15);
+      color: var(--accent-primary);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .update-tag.feature { background: rgba(46, 204, 113, 0.15); color: #2ecc71; }
+    .update-tag.fix { background: rgba(231, 76, 60, 0.15); color: #e74c3c; }
+    .update-tag.new { background: rgba(155, 89, 182, 0.15); color: #9b59b6; }
+    
+    .update h3 {
+      color: var(--text-primary);
+      font-size: 1.15rem;
+      margin: 0 0 10px 0;
+    }
+    .update p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin: 0 0 10px 0;
+    }
+    .update ul {
+      color: var(--text-secondary);
+      padding-left: 20px;
+      margin: 0;
+    }
+    .update li {
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+  </style>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <a href="/" class="back-link" data-i18n="pages.backToGames">← Back to Games</a>
+    <h1>Snackable Games</h1>
+    <p>News & Updates</p>
+  </header>
+
+  <div class="page-wrapper">
+    <main>
+      
+      <div class="intro">
+        <p>Stay up to date with the latest improvements, new features, and game additions. We're constantly working to make Snackable Games better!</p>
+      </div>
+
+      <div class="timeline">
+        
+        <!-- February 2026 -->
+        <article class="update">
+          <div class="update-date">
+            February 2, 2026
+            <span class="update-tag feature">Enhancement</span>
+          </div>
+          <h3>Improved User Experience Across All Games</h3>
+          <p>We've made several improvements to enhance your gaming experience:</p>
+          <ul>
+            <li><strong>Expanded How to Play guides</strong> — Every game now has detailed instructions, tips, and strategies</li>
+            <li><strong>FAQ Page</strong> — Answers to common questions about gameplay, troubleshooting, and more</li>
+            <li><strong>Better clues display</strong> — Improved visual layout for game clues and feedback</li>
+            <li><strong>Feedback system upgrade</strong> — Easier way to report issues and suggest features</li>
+          </ul>
+        </article>
+
+        <article class="update">
+          <div class="update-date">
+            January 2026
+            <span class="update-tag new">New Game</span>
+          </div>
+          <h3>Books Quiz Launch</h3>
+          <p>For all the bookworms out there! Guess the mystery book using clues about the author, genre, publication year, and more. Features books from classic literature to modern bestsellers.</p>
+        </article>
+
+        <article class="update">
+          <div class="update-date">
+            December 2025
+            <span class="update-tag feature">Feature</span>
+          </div>
+          <h3>Movie Quiz Enhancements</h3>
+          <ul>
+            <li>Added actor images in clues panel</li>
+            <li>Improved genre matching display</li>
+            <li>Better visual feedback for guesses</li>
+            <li>Faster loading with local caching</li>
+          </ul>
+        </article>
+
+        <article class="update">
+          <div class="update-date">
+            November 2025
+            <span class="update-tag new">New Game</span>
+          </div>
+          <h3>Blind Test - Audio Music Quiz</h3>
+          <p>Listen to 30-second song samples and guess the title! Features multiple game modes, scoring based on speed, and songs spanning multiple decades and genres.</p>
+        </article>
+
+        <article class="update">
+          <div class="update-date">
+            October 2025
+            <span class="update-tag feature">Feature</span>
+          </div>
+          <h3>Multi-Language Support</h3>
+          <p>All games now support 5 languages: English, French, Portuguese, Spanish, and Italian. Use the language selector in the top-right corner to switch.</p>
+        </article>
+
+        <article class="update">
+          <div class="update-date">
+            September 2025
+            <span class="update-tag new">New Games</span>
+          </div>
+          <h3>Animal Quiz & Music Quiz Launch</h3>
+          <p>Two new quiz games added to the collection! Test your knowledge of the animal kingdom or your music library with our newest additions.</p>
+        </article>
+
+        <article class="update">
+          <div class="update-date">
+            August 2025
+            <span class="update-tag fix">Improvement</span>
+          </div>
+          <h3>Mobile Experience Overhaul</h3>
+          <ul>
+            <li>Redesigned layouts for smaller screens</li>
+            <li>Touch-friendly controls throughout</li>
+            <li>Faster load times on mobile networks</li>
+            <li>Fixed various display issues</li>
+          </ul>
+        </article>
+
+        <article class="update">
+          <div class="update-date">
+            July 2025
+            <span class="update-tag new">Launch</span>
+          </div>
+          <h3>Snackable Games Goes Live! 🎉</h3>
+          <p>The initial launch of Snackable Games featuring our first batch of games: F1 Quiz, FutQuiz (Football), Tennis Quiz, Movie Quiz, and Sudoku. All free, all fun!</p>
+        </article>
+
+      </div>
+
+    </main>
+  </div>
+
+  <footer>
+    <p>
+      <a href="/" data-i18n="pages.home">Home</a> · 
+      <a href="about.html" data-i18n="hub.about">About</a> ·
+      <a href="faq.html">FAQ</a> ·
+      <a href="privacy.html" data-i18n="hub.privacy">Privacy</a>
+    </p>
+  </footer>
+
+  <!-- i18n -->
+  <script src="shared/js/i18n.js"></script>
+  <script>
+    (async function() {
+      const i18n = new I18n();
+      await i18n.init();
+    })();
+  </script>
+</body>
+</html>

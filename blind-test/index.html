@@ -21,6 +21,30 @@
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
      crossorigin="anonymous"></script>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Blind Test - Music Guessing Game",
+    "description": "Listen to 30-second song samples and guess the title. Test your music knowledge across multiple decades and genres with this fun audio quiz game.",
+    "url": "https://snackable-games.com/blind-test/",
+    "applicationCategory": "GameApplication",
+    "genre": "Music Trivia",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Snackable Games",
+      "url": "https://snackable-games.com"
+    }
+  }
+  </script>
 </head>
 <body>
   <header>
@@ -201,15 +225,44 @@
     </div>
 
     <!-- How to Play -->
-    <div class="how-to-play">
-      <h3>How to Play</h3>
-      <ul>
-        <li><strong>🎧 Listen:</strong> Press play to hear a 30-second sample</li>
-        <li><strong>🔍 Guess:</strong> Type the song title or pick from choices</li>
-        <li><strong>⚡ Fast = More Points:</strong> Guess quickly for up to 100 points per song!</li>
-        <li><strong>🎯 5 Songs:</strong> Complete a match of 5 songs and share your score</li>
-      </ul>
-    </div>
+    <section class="how-to-play">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+        📖 How to Play
+      </button>
+      <div class="how-to-play-content">
+        <h2>📖 How to Play Blind Test</h2>
+        <p>Blind Test is an audio quiz game that challenges your music knowledge. Listen to song samples and guess the title as fast as you can to score maximum points!</p>
+        
+        <h3>🎯 Game Modes</h3>
+        <ul>
+          <li><strong>Easy Mode</strong> — The artist name is displayed. You just need to identify the song title.</li>
+          <li><strong>Hard Mode</strong> — No hints! You must recognize both the song and artist from the audio alone.</li>
+          <li><strong>Multiple Choice</strong> — Toggle this option to choose from 4 possible answers instead of typing.</li>
+        </ul>
+
+        <h3>⚡ Scoring System</h3>
+        <p>Speed matters! Your score depends on how quickly you answer:</p>
+        <ul>
+          <li><strong>100 points</strong> — Instant recognition (within 2 seconds)</li>
+          <li><strong>50-99 points</strong> — Fast answer (2-15 seconds)</li>
+          <li><strong>10-49 points</strong> — Slow but correct (15-30 seconds)</li>
+          <li><strong>0 points</strong> — Wrong answer or time runs out</li>
+        </ul>
+
+        <h3>🎵 How to Play</h3>
+        <ol>
+          <li>Press the <strong>play button</strong> to start the 30-second sample</li>
+          <li><strong>Type the song title</strong> in the search box (or pick from multiple choice)</li>
+          <li>Submit your answer before the timer runs out</li>
+          <li>Complete <strong>5 songs</strong> to finish a match</li>
+          <li>Share your score and challenge your friends!</li>
+        </ol>
+
+        <div class="tip">
+          <strong>💡 Pro tip:</strong> The sample plays from a random part of the song, so even familiar tracks might sound different. Listen for distinctive elements like the chorus or a unique instrument!
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer style="text-align: center; padding: 20px; color: #888; font-size: 0.85rem;">

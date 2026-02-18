@@ -21,6 +21,30 @@
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
      crossorigin="anonymous"></script>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Tennis Quiz - Guess the Player",
+    "description": "Guess the mystery tennis player using clues about Grand Slam wins, nationality, playing hand, and career statistics. A daily trivia game for tennis fans.",
+    "url": "https://snackable-games.com/tennis-quiz/",
+    "applicationCategory": "GameApplication",
+    "genre": "Sports Trivia",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Snackable Games",
+      "url": "https://snackable-games.com"
+    }
+  }
+  </script>
 </head>
 <body>
   <header>
@@ -128,15 +152,45 @@
     </div>
 
     <!-- How to Play -->
-    <div class="how-to-play">
-      <h3>How to Play</h3>
-      <ul>
-        <li><strong>✅ Match:</strong> The attribute matches the secret player</li>
-        <li><strong>🔼 Higher:</strong> The secret player has a higher value</li>
-        <li><strong>🔽 Lower:</strong> The secret player has a lower value</li>
-        <li><strong>❌ Different:</strong> The attribute doesn't match</li>
-      </ul>
-    </div>
+    <section class="how-to-play">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+        📖 How to Play
+      </button>
+      <div class="how-to-play-content">
+        <h2>📖 How to Play Tennis Quiz</h2>
+        <p>Tennis Quiz is a daily guessing game for tennis enthusiasts. Identify the mystery player by analyzing their Grand Slam record, playing style, and career achievements.</p>
+        
+        <h3>🎾 The Rules</h3>
+        <ol>
+          <li><strong>Enter a player name</strong> — Type any tennis player's name and select from the dropdown.</li>
+          <li><strong>Study the feedback</strong> — Each attribute reveals how close your guess is to the secret player.</li>
+          <li><strong>Deduce the answer</strong> — Use logic to narrow down the possibilities.</li>
+        </ol>
+
+        <h3>🎯 Understanding the Clues</h3>
+        <ul>
+          <li><strong>✅ Green (Match)</strong> — This attribute matches the secret player exactly.</li>
+          <li><strong>🔼 Higher</strong> — The secret player has a higher value (more titles, higher ranking, etc.).</li>
+          <li><strong>🔽 Lower</strong> — The secret player has a lower value.</li>
+          <li><strong>❌ Red (Different)</strong> — The attribute doesn't match.</li>
+        </ul>
+
+        <h3>📊 Available Clues</h3>
+        <p>Each guess reveals information about:</p>
+        <ul>
+          <li><strong>Nationality</strong> — The player's country</li>
+          <li><strong>Grand Slams</strong> — Number of major titles won</li>
+          <li><strong>Best Ranking</strong> — Highest ATP/WTA ranking achieved</li>
+          <li><strong>Playing Hand</strong> — Right-handed or left-handed</li>
+          <li><strong>Backhand Style</strong> — One-handed or two-handed backhand</li>
+          <li><strong>Active Years</strong> — Career span on tour</li>
+        </ul>
+
+        <div class="tip">
+          <strong>💡 Pro tip:</strong> The backhand style is often distinctive! Left-handed players and one-handed backhands are rarer, so use those clues to quickly narrow down your options.
+        </div>
+      </div>
+    </section>
   </main>
 
   <script src="data/players_data.js"></script>

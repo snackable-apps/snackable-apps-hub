@@ -6,6 +6,7 @@
   <title>Sudoku | Snackable Games</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍿</text></svg>">
   <link rel="stylesheet" href="css/sudoku.css" />
+  <link rel="stylesheet" href="../shared/css/shared.css" />
 
   <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-MKPC7JY0E7"></script>
@@ -19,6 +20,30 @@
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
      crossorigin="anonymous"></script>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sudoku - Free Online Puzzle",
+    "description": "Play Sudoku online for free. A classic number puzzle game that challenges your logic skills. Features hints, undo, and move tracking.",
+    "url": "https://snackable-games.com/sudoku/",
+    "applicationCategory": "GameApplication",
+    "genre": "Puzzle",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Snackable Games",
+      "url": "https://snackable-games.com"
+    }
+  }
+  </script>
 </head>
 <body>
   <header>
@@ -59,6 +84,52 @@
 
     <!-- Game Status -->
     <div id="game-status" aria-live="polite" class="status-message"></div>
+
+    <!-- How to Play -->
+    <section class="how-to-play">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+        📖 How to Play
+      </button>
+      <div class="how-to-play-content">
+        <h2>📖 How to Play Sudoku</h2>
+        <p>Sudoku is a classic logic-based number puzzle. Fill the 9×9 grid so that each row, column, and 3×3 box contains the digits 1-9 exactly once.</p>
+        
+        <h3>🧩 The Rules</h3>
+        <ol>
+          <li><strong>Each row</strong> must contain digits 1-9 with no repetition.</li>
+          <li><strong>Each column</strong> must contain digits 1-9 with no repetition.</li>
+          <li><strong>Each 3×3 box</strong> must contain digits 1-9 with no repetition.</li>
+        </ol>
+
+        <h3>🎮 Controls</h3>
+        <ul>
+          <li><strong>Click a cell</strong> — Select it for input</li>
+          <li><strong>Type 1-9</strong> — Enter a number in the selected cell</li>
+          <li><strong>Backspace/Delete</strong> — Clear the selected cell</li>
+          <li><strong>Arrow keys</strong> — Navigate between cells</li>
+        </ul>
+
+        <h3>🛠️ Game Features</h3>
+        <ul>
+          <li><strong>New Game</strong> — Start a fresh puzzle</li>
+          <li><strong>Get Tip</strong> — Reveal one correct cell when you're stuck</li>
+          <li><strong>Check</strong> — Verify if your current entries are correct</li>
+          <li><strong>Undo</strong> — Revert your last move</li>
+        </ul>
+
+        <h3>💡 Solving Strategies</h3>
+        <ul>
+          <li><strong>Scanning</strong> — Look for rows/columns/boxes with few empty cells</li>
+          <li><strong>Elimination</strong> — For each empty cell, eliminate impossible numbers</li>
+          <li><strong>Single candidate</strong> — If only one number fits, it must be the answer</li>
+          <li><strong>Hidden singles</strong> — If a number can only go in one place in a row/column/box, place it there</li>
+        </ul>
+
+        <div class="tip">
+          <strong>💡 Pro tip:</strong> Start with rows, columns, or boxes that have the most numbers filled in. These are the easiest to complete and give you more clues for the rest of the puzzle!
+        </div>
+      </div>
+    </section>
     </main>
 
     <!-- Right Sidebar Ad -->

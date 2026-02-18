@@ -21,6 +21,30 @@
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
      crossorigin="anonymous"></script>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "F1 Quiz - Guess the Driver",
+    "description": "A daily Formula 1 trivia game. Guess the mystery F1 driver using clues about nationality, teams, championships, wins, and career statistics.",
+    "url": "https://snackable-games.com/f1-quiz/",
+    "applicationCategory": "GameApplication",
+    "genre": "Sports Trivia",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Snackable Games",
+      "url": "https://snackable-games.com"
+    }
+  }
+  </script>
 </head>
 <body>
   <header>
@@ -121,15 +145,45 @@
     </div>
 
     <!-- How to Play -->
-    <div class="how-to-play">
-      <h3>How to Play</h3>
-      <ul>
-        <li><strong>✅ Match:</strong> The attribute matches the secret driver</li>
-        <li><strong>🔼 Higher:</strong> The secret driver has a higher value</li>
-        <li><strong>🔽 Lower:</strong> The secret driver has a lower value</li>
-        <li><strong>❌ Different:</strong> The attribute doesn't match</li>
-      </ul>
-    </div>
+    <section class="how-to-play">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+        📖 How to Play
+      </button>
+      <div class="how-to-play-content">
+        <h2>📖 How to Play F1 Quiz</h2>
+        <p>F1 Quiz is a daily guessing game for Formula 1 fans. Your mission is to identify the secret driver using clues from their career statistics.</p>
+        
+        <h3>🏁 The Rules</h3>
+        <ol>
+          <li><strong>Make a guess</strong> — Type any F1 driver's name and select from the dropdown.</li>
+          <li><strong>Read the feedback</strong> — Each attribute shows how your guess compares to the secret driver.</li>
+          <li><strong>Narrow it down</strong> — Use the clues to eliminate possibilities and find the answer.</li>
+        </ol>
+
+        <h3>🎯 Understanding the Clues</h3>
+        <ul>
+          <li><strong>✅ Green (Match)</strong> — This attribute matches the secret driver exactly.</li>
+          <li><strong>🔼 Higher</strong> — The secret driver has a higher value (more wins, championships, etc.).</li>
+          <li><strong>🔽 Lower</strong> — The secret driver has a lower value.</li>
+          <li><strong>❌ Red (Different)</strong> — The attribute doesn't match (different nationality, team, etc.).</li>
+        </ul>
+
+        <h3>📊 Available Clues</h3>
+        <p>Each guess reveals information about:</p>
+        <ul>
+          <li><strong>Nationality</strong> — The driver's country</li>
+          <li><strong>Current/Last Team</strong> — Their most recent F1 team</li>
+          <li><strong>Championships</strong> — Number of World Driver's Championships won</li>
+          <li><strong>Race Wins</strong> — Total Grand Prix victories</li>
+          <li><strong>Podiums</strong> — Total podium finishes</li>
+          <li><strong>Career Years</strong> — When they raced in F1</li>
+        </ul>
+
+        <div class="tip">
+          <strong>💡 Pro tip:</strong> Start with legendary drivers who have distinctive stats (like championship counts) to quickly narrow down the era and caliber of the secret driver!
+        </div>
+      </div>
+    </section>
   </main>
 
   <script src="data/drivers_data.js"></script>

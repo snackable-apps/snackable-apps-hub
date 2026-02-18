@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FAQ — Snackable Games</title>
+  <meta name="description" content="Frequently asked questions about Snackable Games. Learn how to play, troubleshoot issues, and get the most out of our free browser games." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="shared/css/shared.css" />
+  <style>
+    main { max-width: 800px; text-align: left; }
+    .faq-section { margin-bottom: 2.5rem; }
+    .faq-section h2 { 
+      color: var(--accent-primary); 
+      font-size: 1.3rem; 
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .faq-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .faq-question {
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: background 0.2s;
+    }
+    .faq-question:hover { background: rgba(255, 255, 255, 0.05); }
+    .faq-question::after {
+      content: '+';
+      font-size: 1.3rem;
+      color: var(--accent-primary);
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-question::after {
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      display: none;
+      padding: 0 20px 16px 20px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-answer p { margin: 0 0 10px 0; }
+    .faq-answer ul { margin: 0; padding-left: 20px; }
+    .faq-answer li { margin-bottom: 6px; }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent-primary); }
+  </style>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
+     crossorigin="anonymous"></script>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Snackable Games?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Snackable Games is a collection of free browser-based games designed to be played in short sessions. Our games include trivia quizzes (movies, music, sports), puzzle games (Sudoku), and audio games (Blind Test). All games work on desktop and mobile without requiring downloads or accounts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the games free to play?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, all games on Snackable Games are completely free to play. We support the site through non-intrusive advertising. No subscriptions, no in-app purchases, no hidden costs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to create an account?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No account is required. Your game progress and statistics are stored locally in your browser. This means your data stays private and you can start playing immediately."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do the daily challenges work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most of our quiz games feature a daily challenge where everyone plays the same puzzle. A new challenge is released every day at midnight UTC. After completing the daily challenge, you can play unlimited random games."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why isn't my progress saving?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Game progress is stored in your browser's local storage. If you're in private/incognito mode, clear your browser data, or use a different browser/device, your progress won't be available. Make sure to play in normal browsing mode for persistence."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/" class="back-link" data-i18n="pages.backToGames">← Back to Games</a>
+    <h1>Snackable Games</h1>
+    <p data-i18n="pages.faq.title">Frequently Asked Questions</p>
+  </header>
+
+  <div class="page-wrapper">
+    <main>
+      
+      <!-- General Questions -->
+      <section class="faq-section">
+        <h2>🎮 General Questions</h2>
+        
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            What is Snackable Games?
+          </div>
+          <div class="faq-answer">
+            <p>Snackable Games is a collection of free browser-based games designed to be played in short sessions. Our games include:</p>
+            <ul>
+              <li><strong>Trivia Quizzes</strong> — Movies, Music, F1, Football, Tennis, Animals, Books</li>
+              <li><strong>Audio Games</strong> — Blind Test (music recognition)</li>
+              <li><strong>Puzzle Games</strong> — Sudoku</li>
+            </ul>
+            <p>All games work on desktop and mobile browsers without requiring downloads or account creation.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Are the games really free?
+          </div>
+          <div class="faq-answer">
+            <p>Yes, all games on Snackable Games are 100% free to play. We support the site through non-intrusive advertising. There are no subscriptions, no in-app purchases, and no hidden costs — ever.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Do I need to create an account?
+          </div>
+          <div class="faq-answer">
+            <p>No account is required! Your game progress and statistics are stored locally in your browser using localStorage. This means:</p>
+            <ul>
+              <li>Your data stays private on your device</li>
+              <li>You can start playing immediately</li>
+              <li>No email or personal information needed</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            What languages are supported?
+          </div>
+          <div class="faq-answer">
+            <p>Most of our games support multiple languages including English, French, Portuguese, Spanish, and Italian. Use the language selector in the top-right corner of each game to switch languages.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gameplay Questions -->
+      <section class="faq-section">
+        <h2>🎯 Gameplay</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            How do the daily challenges work?
+          </div>
+          <div class="faq-answer">
+            <p>Most quiz games feature a daily challenge where everyone around the world plays the same puzzle. Here's how it works:</p>
+            <ul>
+              <li>A new challenge is released every day at midnight UTC</li>
+              <li>You have unlimited guesses to find the answer</li>
+              <li>After completing the daily, you can play unlimited random games</li>
+              <li>Share your results with friends to compare scores!</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            What do the colored indicators mean?
+          </div>
+          <div class="faq-answer">
+            <p>In our quiz games, each guess shows feedback with colored indicators:</p>
+            <ul>
+              <li><strong>✅ Green</strong> — Exact match! This attribute is correct.</li>
+              <li><strong>🔶 Orange/Yellow</strong> — Partial match or close (some overlap).</li>
+              <li><strong>❌ Red</strong> — No match. This attribute is different.</li>
+              <li><strong>🔼 Up Arrow</strong> — The answer has a higher value.</li>
+              <li><strong>🔽 Down Arrow</strong> — The answer has a lower value.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Can I play on my phone?
+          </div>
+          <div class="faq-answer">
+            <p>Yes! All games are fully responsive and optimized for mobile devices. Simply visit the website in your phone's browser — no app download required. The games work on iOS (Safari) and Android (Chrome) browsers.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technical Questions -->
+      <section class="faq-section">
+        <h2>🔧 Technical Issues</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Why isn't my progress saving?
+          </div>
+          <div class="faq-answer">
+            <p>Game progress is stored in your browser's local storage. If your progress isn't saving, check these common causes:</p>
+            <ul>
+              <li><strong>Private/Incognito mode</strong> — Data is cleared when you close the window</li>
+              <li><strong>Cleared browser data</strong> — Clearing cookies/cache removes game data</li>
+              <li><strong>Different browser/device</strong> — Data doesn't sync across browsers</li>
+              <li><strong>Storage disabled</strong> — Some privacy extensions block localStorage</li>
+            </ul>
+            <p>For reliable progress saving, play in normal browsing mode without aggressive privacy settings.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            The game isn't loading. What should I do?
+          </div>
+          <div class="faq-answer">
+            <p>If a game isn't loading properly, try these steps:</p>
+            <ul>
+              <li>Refresh the page (Ctrl+R or Cmd+R)</li>
+              <li>Clear your browser cache</li>
+              <li>Disable browser extensions temporarily</li>
+              <li>Try a different browser (Chrome, Firefox, Safari, Edge)</li>
+              <li>Check your internet connection</li>
+            </ul>
+            <p>If the problem persists, please use the Feedback button to report the issue!</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Why isn't the audio playing in Blind Test?
+          </div>
+          <div class="faq-answer">
+            <p>Modern browsers require user interaction before playing audio. Make sure to:</p>
+            <ul>
+              <li>Click the play button to start the audio sample</li>
+              <li>Check that your device volume is turned up</li>
+              <li>Ensure the browser tab isn't muted</li>
+              <li>If on mobile, make sure your phone isn't in silent mode</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data & Privacy -->
+      <section class="faq-section">
+        <h2>🔒 Data & Privacy</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            What data do you collect?
+          </div>
+          <div class="faq-answer">
+            <p>We respect your privacy and collect minimal data:</p>
+            <ul>
+              <li><strong>Analytics</strong> — Anonymous usage statistics (page views, game plays) via Google Analytics</li>
+              <li><strong>No personal data</strong> — We don't collect names, emails, or account information</li>
+              <li><strong>Local storage</strong> — Game progress is stored only on your device</li>
+            </ul>
+            <p>See our <a href="privacy.html">Privacy Policy</a> for full details.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Where does the game data come from?
+          </div>
+          <div class="faq-answer">
+            <p>We source data from reliable public APIs and databases:</p>
+            <ul>
+              <li><strong>Movies</strong> — IMDb API (via RapidAPI)</li>
+              <li><strong>Music</strong> — iTunes API</li>
+              <li><strong>Books</strong> — Open Library</li>
+              <li><strong>Sports</strong> — Official statistics and public records</li>
+            </ul>
+            <p>If you spot incorrect data, please report it using the Feedback button!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="faq-section">
+        <h2>💬 Contact</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            How can I report a bug or suggest a feature?
+          </div>
+          <div class="faq-answer">
+            <p>We love hearing from our players! Use the <strong>💬 Feedback</strong> button available on every page. You can report bugs, suggest new features, or point out data issues. We read every message!</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Will there be more games added?
+          </div>
+          <div class="faq-answer">
+            <p>Yes! We're constantly working on new games and improving existing ones. Follow us on social media or check back regularly to see what's new. Got a game idea? Send it through the Feedback button!</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <p>
+      <a href="/" data-i18n="pages.home">Home</a> · 
+      <a href="about.html" data-i18n="hub.about">About</a> ·
+      <a href="privacy.html" data-i18n="hub.privacy">Privacy</a> ·
+      <a href="terms.html">Terms</a>
+    </p>
+  </footer>
+
+  <!-- i18n -->
+  <script src="shared/js/i18n.js"></script>
+  <script>
+    (async function() {
+      const i18n = new I18n();
+      await i18n.init();
+    })();
+  </script>
+</body>
+</html>

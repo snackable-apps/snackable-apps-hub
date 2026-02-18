@@ -786,6 +786,121 @@ header .header-controls {
   cursor: not-allowed;
 }
 
+/* ========== HOW TO PLAY SECTION ========== */
+
+.how-to-play {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(124, 58, 237, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.how-to-play h2 {
+  font-size: 1.1rem;
+  color: var(--accent-primary, #00d4ff);
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.how-to-play h3 {
+  font-size: 0.95rem;
+  color: var(--text-primary, #fff);
+  margin: 16px 0 8px 0;
+}
+
+.how-to-play p {
+  color: var(--text-secondary, #9ca3af);
+  line-height: 1.6;
+  margin: 0 0 12px 0;
+  font-size: 0.9rem;
+}
+
+.how-to-play ul, .how-to-play ol {
+  color: var(--text-secondary, #9ca3af);
+  line-height: 1.7;
+  margin: 0 0 12px 0;
+  padding-left: 20px;
+  font-size: 0.9rem;
+}
+
+.how-to-play li {
+  margin-bottom: 6px;
+}
+
+.how-to-play .tip {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 3px solid #f59e0b;
+  padding: 10px 14px;
+  margin-top: 12px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+}
+
+.how-to-play .tip strong {
+  color: #f59e0b;
+}
+
+.how-to-play-toggle {
+  display: none;
+}
+
+/* Collapsible on mobile */
+@media (max-width: 600px) {
+  .how-to-play {
+    padding: 0;
+    background: none;
+    border: none;
+  }
+  
+  .how-to-play-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(124, 58, 237, 0.08));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: var(--accent-primary, #00d4ff);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+  
+  .how-to-play-toggle::after {
+    content: '▼';
+    font-size: 0.7rem;
+    transition: transform 0.2s;
+  }
+  
+  .how-to-play-toggle.expanded::after {
+    transform: rotate(180deg);
+  }
+  
+  .how-to-play-content {
+    display: none;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    margin-top: -1px;
+  }
+  
+  .how-to-play-content.expanded {
+    display: block;
+  }
+  
+  .how-to-play h2 {
+    display: none;
+  }
+}
+
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 480px) {

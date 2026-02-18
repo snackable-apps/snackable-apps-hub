@@ -21,6 +21,30 @@
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4490023750698733"
      crossorigin="anonymous"></script>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Animal Quiz - Guess the Animal",
+    "description": "Guess the mystery animal using clues about habitat, diet, size, and characteristics. A fun daily trivia game for nature and animal lovers.",
+    "url": "https://snackable-games.com/animal/",
+    "applicationCategory": "GameApplication",
+    "genre": "Educational Trivia",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Snackable Games",
+      "url": "https://snackable-games.com"
+    }
+  }
+  </script>
 </head>
 <body>
   <header>
@@ -121,15 +145,45 @@
     </div>
 
     <!-- How to Play -->
-    <div class="how-to-play">
-      <h3>How to Play</h3>
-      <ul>
-        <li><strong>✅ Match:</strong> Property matches the secret animal</li>
-        <li><strong>🔼 Higher:</strong> The secret animal has a higher value (guess higher)</li>
-        <li><strong>🔽 Lower:</strong> The secret animal has a lower value (guess lower)</li>
-        <li><strong>❌ Different:</strong> Property doesn't match</li>
-      </ul>
-    </div>
+    <section class="how-to-play">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+        📖 How to Play
+      </button>
+      <div class="how-to-play-content">
+        <h2>📖 How to Play Animal Quiz</h2>
+        <p>Animal Quiz is a daily guessing game that tests your knowledge of the animal kingdom. Identify the mystery creature using clues about its habitat, diet, and physical characteristics.</p>
+        
+        <h3>🦁 The Rules</h3>
+        <ol>
+          <li><strong>Guess an animal</strong> — Type any animal name and select from the dropdown.</li>
+          <li><strong>Study the clues</strong> — Each attribute shows how your guess compares to the secret animal.</li>
+          <li><strong>Narrow it down</strong> — Use logic to identify the mystery creature.</li>
+        </ol>
+
+        <h3>🎯 Understanding the Clues</h3>
+        <ul>
+          <li><strong>✅ Green (Match)</strong> — This attribute matches the secret animal exactly.</li>
+          <li><strong>🔼 Higher</strong> — The secret animal has a higher value (larger size, longer lifespan).</li>
+          <li><strong>🔽 Lower</strong> — The secret animal has a lower value.</li>
+          <li><strong>❌ Red (Different)</strong> — The attribute doesn't match (different habitat, diet, etc.).</li>
+        </ul>
+
+        <h3>📊 Available Clues</h3>
+        <p>Each guess reveals information about:</p>
+        <ul>
+          <li><strong>Class</strong> — Mammal, Bird, Reptile, Fish, etc.</li>
+          <li><strong>Habitat</strong> — Where the animal lives (Forest, Ocean, Savanna, etc.)</li>
+          <li><strong>Diet</strong> — Carnivore, Herbivore, or Omnivore</li>
+          <li><strong>Size</strong> — Relative size category</li>
+          <li><strong>Lifespan</strong> — Average years the animal lives</li>
+          <li><strong>Continent</strong> — Where the animal is found</li>
+        </ul>
+
+        <div class="tip">
+          <strong>💡 Pro tip:</strong> Start by narrowing down the animal class (Mammal, Bird, etc.) and habitat. These two clues alone can dramatically reduce the possibilities!
+        </div>
+      </div>
+    </section>
   </main>
 
   <script src="data/animals_data.js"></script>
