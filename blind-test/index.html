@@ -220,6 +220,28 @@
       </div>
       <div class="summary-actions">
         <button id="share-results-btn" class="submit-btn">📋 <span data-i18n="common.shareResults">Share Results</span></button>
+        
+        <!-- Toggles for next game settings -->
+        <div class="summary-toggles" id="summary-toggles">
+          <p class="toggles-label">Settings for next match:</p>
+          <div class="toggle-row compact">
+            <div class="toggle-container compact">
+              <label class="toggle-switch">
+                <input type="checkbox" id="summary-easy-mode">
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label" data-i18n="games.blindtest.displayArtist">Display Artist</span>
+            </div>
+            <div class="toggle-container compact">
+              <label class="toggle-switch">
+                <input type="checkbox" id="summary-multiple-choice">
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label" data-i18n="games.blindtest.multipleChoice">Multiple Choice</span>
+            </div>
+          </div>
+        </div>
+        
         <button id="play-random-match-btn" class="submit-btn secondary">🎲 <span data-i18n="games.blindtest.nextMatch">Play Random Match</span></button>
       </div>
     </div>

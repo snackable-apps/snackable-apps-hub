@@ -65,6 +65,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const multipleChoiceToggle = document.getElementById("multiple-choice-toggle");
   const modeToggles = document.getElementById("mode-toggles");
   const playerSection = document.getElementById("player-section");
+  
+  // Summary toggles (for settings before random match)
+  const summaryEasyMode = document.getElementById("summary-easy-mode");
+  const summaryMultipleChoice = document.getElementById("summary-multiple-choice");
 
   // Constants
   const SONGS_PER_MATCH = 5;
@@ -201,7 +205,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   function showStartScreen() {
     startScreen.style.display = 'flex';
     document.getElementById('game-info').style.display = 'none';
-    modeToggles.style.display = 'flex';  // Show toggles so user can set preferences before starting
+    modeToggles.style.display = 'none';  // Hide - start screen has its own toggles inside the box
     playerSection.style.display = 'none';
     guessSection.style.display = 'none';
     choicesSection.style.display = 'none';
@@ -230,15 +234,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const wrongCount = dailyState.wrongCount || storedResults.filter(r => !r.correct).length;
     const avgTime = dailyState.avgTime || (storedResults.reduce((sum, r) => sum + (r.timeUsed || 0), 0) / storedResults.length);
     
-    // Hide all sections, show match summary with toggles for next game
+    // Hide all sections, show match summary
     startScreen.style.display = 'none';
     document.getElementById('game-info').style.display = 'none';
-    modeToggles.style.display = 'flex';  // Keep toggles visible so user can change settings before random match
+    modeToggles.style.display = 'none';  // Summary has its own toggles
     playerSection.style.display = 'none';
     guessSection.style.display = 'none';
     choicesSection.style.display = 'none';
     resultSection.style.display = 'none';
     matchSummary.style.display = 'block';
+    
+    // Sync summary toggles with current state
+    if (summaryEasyMode) summaryEasyMode.checked = easyModeEnabled;
+    if (summaryMultipleChoice) summaryMultipleChoice.checked = multipleChoiceEnabled;
     
     // Update summary display
     summaryScore.textContent = matchScore;
@@ -699,17 +707,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Show match summary
   function showMatchSummary() {
-    // Hide game sections but show mode toggles for next game settings
+    // Hide game sections
     resultSection.style.display = 'none';
     guessSection.style.display = 'none';
     choicesSection.style.display = 'none';
-    modeToggles.style.display = 'flex';  // Keep toggles visible so user can change settings before next match
+    modeToggles.style.display = 'none';  // Will be shown inside summary via CSS/HTML restructure
     playerSection.style.display = 'none';
     
     // Calculate stats
     const correctCount = matchResults.filter(r => r.correct).length;
     const wrongCount = matchResults.filter(r => !r.correct).length;
     const avgTime = matchResults.reduce((sum, r) => sum + r.timeUsed, 0) / SONGS_PER_MATCH;
+    
+    // Save whether this was a daily match BEFORE changing isFirstMatch
+    const wasDaily = isFirstMatch;
     
     // Save game result to storage
     const won = correctCount >= Math.ceil(SONGS_PER_MATCH / 2); // Won if got majority correct
@@ -719,7 +730,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       correctCount: correctCount,
       wrongCount: wrongCount,
       avgTime: avgTime,
-      isDaily: isFirstMatch,
+      isDaily: wasDaily,
       gameData: {
         matchResults: matchResults.map(r => ({
           song: { title: r.song.title, artist: r.song.artist },
@@ -770,13 +781,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       summaryResults.appendChild(div);
     });
     
-    // Only show share button for daily matches (not random)
-    if (isFirstMatch) {
+    // Show share button for daily matches (use wasDaily since isFirstMatch was changed)
+    if (wasDaily) {
       summaryActions.classList.remove('no-share');
       shareResultsBtn.style.display = '';
     } else {
       shareResultsBtn.style.display = 'none';
     }
+    
+    // Sync summary toggles with current state
+    if (summaryEasyMode) summaryEasyMode.checked = easyModeEnabled;
+    if (summaryMultipleChoice) summaryMultipleChoice.checked = multipleChoiceEnabled;
     
     // Show summary
     matchSummary.style.display = 'block';
@@ -903,6 +918,21 @@ Play at snackable-games.com/blind-test/`;
       guessSection.style.display = 'block';
     }
   });
+  
+  // Summary toggles (for match summary screen - before random play)
+  if (summaryEasyMode) {
+    summaryEasyMode.addEventListener('change', (e) => {
+      easyModeEnabled = e.target.checked;
+      easyModeToggle.checked = easyModeEnabled;  // Sync with main toggle
+    });
+  }
+  
+  if (summaryMultipleChoice) {
+    summaryMultipleChoice.addEventListener('change', (e) => {
+      multipleChoiceEnabled = e.target.checked;
+      multipleChoiceToggle.checked = multipleChoiceEnabled;  // Sync with main toggle
+    });
+  }
   
   // Autocomplete input
   songInput.addEventListener('input', (e) => {
