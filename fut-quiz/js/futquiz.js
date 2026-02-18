@@ -125,42 +125,30 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameState.isSolved = dailyState.gameData.won;
       gameState.gaveUp = !dailyState.gameData.won;
     } else {
-      // Fallback if no detailed data
       gameState.guesses = [];
       gameState.isSolved = dailyState.won || false;
       gameState.gaveUp = !gameState.isSolved;
     }
     
-    // Rebuild clues state and render guesses
-    resetCluesState();
-    guessesContainer.innerHTML = '';
-    
-    const guessesToRender = [...gameState.guesses].reverse();
-    guessesToRender.forEach(guess => {
-      if (guess.comparisons) {
-        updateCluesState(guess, guess.comparisons);
-        displayGuess(guess, guess.comparisons);
-      }
+    // Use centralized restore function
+    GameUtils.restoreDailyGameUI({
+      guesses: gameState.guesses,
+      displayGuess,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessSection,
+      shareSection,
+      gameInfo,
+      gameStatusEl,
+      cluesPanel,
+      isSolved: gameState.isSolved,
+      guessCount: gameState.guesses.length,
+      displayAnswer
     });
-    
-    // Show game status
-    const guessText = gameState.guesses.length === 1 ? 'guess' : 'guesses';
-    if (gameState.isSolved) {
-      gameStatusEl.textContent = `🏆 Solved in ${gameState.guesses.length} ${guessText}!`;
-      gameStatusEl.className = 'game-over';
-    } else {
-      gameStatusEl.textContent = `❌ Game Over after ${gameState.guesses.length} ${guessText}`;
-      gameStatusEl.className = 'game-over';
-      displayAnswer();
-    }
-    
-    // Hide guess section, show share section
-    guessSection.style.display = 'none';
-    shareSection.style.display = 'flex';
-    gameInfo.style.display = 'block';
-    
-    // Hide clues panel when showing completed result
-    if (cluesPanel) cluesPanel.style.display = 'none';
+
+    // Update guess count display
+    guessCountEl.textContent = gameState.guesses.length;
   }
   
   // Play Random - start a new random game

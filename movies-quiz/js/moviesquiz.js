@@ -235,7 +235,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameState.isSolved = dailyState.gameData.won;
       gameState.gaveUp = !dailyState.gameData.won;
     } else {
-      // Fallback if no detailed data
       gameState.guesses = [];
       gameState.isSolved = dailyState.won || false;
       gameState.gaveUp = !gameState.isSolved;
@@ -256,7 +255,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Hide clues panel when just showing the result
     if (cluesPanel) cluesPanel.style.display = 'none';
     
-    // Update UI to show result (but don't show clues panel)
+    // Update UI to show result (Movies Quiz's updateUI already handles rendering guesses)
     updateUI();
     
     // Ensure clues panel stays hidden after updateUI

@@ -105,12 +105,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Restore and display the completed daily game result
   function restoreDailyResult() {
     const todaysPlayer = getDailyPlayer();
-    
+
     gameState.secretPlayer = todaysPlayer;
     gameState.currentDate = getDateString();
     gameState.isGameOver = true;
     gameState.isRandomMode = false;
-    
+
     // Restore guesses and state from storage
     if (dailyState.gameData) {
       gameState.guesses = dailyState.gameData.guesses || [];
@@ -121,36 +121,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameState.isSolved = dailyState.won || false;
       gameState.gaveUp = !gameState.isSolved;
     }
-    
-    // Rebuild clues state and render guesses
-    resetCluesState();
-    guessesContainer.innerHTML = '';
-    
-    const guessesToRender = [...gameState.guesses].reverse();
-    guessesToRender.forEach(guess => {
-      if (guess.comparisons) {
-        updateCluesState(guess, guess.comparisons);
-        displayGuess(guess, guess.comparisons);
-      }
+
+    // Use centralized restore function
+    GameUtils.restoreDailyGameUI({
+      guesses: gameState.guesses,
+      displayGuess,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessSection,
+      shareSection,
+      gameInfo,
+      gameStatusEl,
+      cluesPanel,
+      isSolved: gameState.isSolved,
+      guessCount: gameState.guesses.length,
+      displayAnswer
     });
-    
-    // Show game status
-    const guessText = gameState.guesses.length === 1 ? 'guess' : 'guesses';
-    if (gameState.isSolved) {
-      gameStatusEl.textContent = `🏆 Solved in ${gameState.guesses.length} ${guessText}!`;
-      gameStatusEl.className = 'game-over';
-    } else {
-      gameStatusEl.textContent = `❌ Game Over after ${gameState.guesses.length} ${guessText}`;
-      gameStatusEl.className = 'game-over';
-      displayAnswer();
-    }
-    
-    guessSection.style.display = 'none';
-    shareSection.style.display = 'flex';
-    gameInfo.style.display = 'block';
-    
-    // Hide clues panel when showing completed result
-    if (cluesPanel) cluesPanel.style.display = 'none';
+
+    // Update guess count display
+    guessCountEl.textContent = gameState.guesses.length;
   }
   
   // Play Random

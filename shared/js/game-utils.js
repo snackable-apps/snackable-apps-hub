@@ -1194,6 +1194,88 @@ const GameUtils = {
       console.error('Failed to submit puzzle stats:', error);
       return { success: false, error: 'Network error' };
     }
+  },
+
+  /**
+   * Restore and render daily game result for quiz-type games
+   * Centralized function to handle rendering guesses and showing game status
+   * 
+   * @param {Object} options - Configuration options
+   * @param {Array} options.guesses - Array of guess objects to render
+   * @param {Function} options.displayGuess - Function to render a single guess (guess, comparisons) => void
+   * @param {Function} options.updateCluesState - Function to update clues state for a guess
+   * @param {HTMLElement} options.guessesContainer - Container element for guesses
+   * @param {HTMLElement} options.guessSection - Section to hide
+   * @param {HTMLElement} options.shareSection - Section to show
+   * @param {HTMLElement} options.gameInfo - Game info element to show (optional)
+   * @param {HTMLElement} options.gameStatusEl - Element to show game status
+   * @param {HTMLElement} options.cluesPanel - Clues panel to hide (optional)
+   * @param {boolean} options.isSolved - Whether the game was solved
+   * @param {number} options.guessCount - Total number of guesses
+   * @param {Function} options.displayAnswer - Function to show the correct answer when gave up (optional)
+   * @param {Function} options.resetCluesState - Function to reset clues state before rebuilding
+   */
+  restoreDailyGameUI(options) {
+    const {
+      guesses = [],
+      displayGuess,
+      updateCluesState,
+      guessesContainer,
+      guessSection,
+      shareSection,
+      gameInfo,
+      gameStatusEl,
+      cluesPanel,
+      isSolved,
+      guessCount,
+      displayAnswer,
+      resetCluesState
+    } = options;
+
+    // Reset and rebuild clues state
+    if (resetCluesState) {
+      resetCluesState();
+    }
+
+    // Clear and render guesses
+    if (guessesContainer) {
+      guessesContainer.innerHTML = '';
+    }
+
+    // Render guesses in reverse order (oldest first, so newest ends up on top)
+    const guessesToRender = [...guesses].reverse();
+    guessesToRender.forEach(guess => {
+      if (guess.comparisons) {
+        if (updateCluesState) {
+          updateCluesState(guess, guess.comparisons);
+        }
+        if (displayGuess) {
+          displayGuess(guess, guess.comparisons);
+        }
+      }
+    });
+
+    // Show game status
+    if (gameStatusEl) {
+      const guessText = guessCount === 1 ? 'guess' : 'guesses';
+      if (isSolved) {
+        gameStatusEl.textContent = `🏆 Solved in ${guessCount} ${guessText}!`;
+        gameStatusEl.className = 'game-over';
+      } else {
+        gameStatusEl.textContent = `❌ Game Over after ${guessCount} ${guessText}`;
+        gameStatusEl.className = 'game-over';
+        // Show the correct answer if gave up
+        if (displayAnswer) {
+          displayAnswer();
+        }
+      }
+    }
+
+    // Update UI visibility
+    if (guessSection) guessSection.style.display = 'none';
+    if (shareSection) shareSection.style.display = 'flex';
+    if (gameInfo) gameInfo.style.display = 'block';
+    if (cluesPanel) cluesPanel.style.display = 'none';
   }
 };
 
