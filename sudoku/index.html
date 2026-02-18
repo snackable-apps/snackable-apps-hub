@@ -87,45 +87,45 @@
 
     <!-- How to Play -->
     <section class="how-to-play">
-      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+      <button class="how-to-play-toggle" data-i18n="common.howToPlayGuide.title" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
         📖 How to Play
       </button>
       <div class="how-to-play-content">
-        <h2>📖 How to Play Sudoku</h2>
-        <p>Sudoku is a classic logic-based number puzzle. Fill the 9×9 grid so that each row, column, and 3×3 box contains the digits 1-9 exactly once.</p>
+        <h2 data-i18n="games.sudoku.howToPlay.gameTitle">📖 How to Play Sudoku</h2>
+        <p data-i18n="games.sudoku.howToPlay.intro">Sudoku is a classic logic-based number puzzle. Fill the 9×9 grid so that each row, column, and 3×3 box contains the digits 1-9 exactly once.</p>
         
-        <h3>🧩 The Rules</h3>
+        <h3 data-i18n="games.sudoku.howToPlay.rules">🧩 The Rules</h3>
         <ol>
-          <li><strong>Each row</strong> must contain digits 1-9 with no repetition.</li>
-          <li><strong>Each column</strong> must contain digits 1-9 with no repetition.</li>
-          <li><strong>Each 3×3 box</strong> must contain digits 1-9 with no repetition.</li>
+          <li data-i18n="games.sudoku.howToPlay.rule1"><strong>Each row</strong> must contain digits 1-9 with no repetition.</li>
+          <li data-i18n="games.sudoku.howToPlay.rule2"><strong>Each column</strong> must contain digits 1-9 with no repetition.</li>
+          <li data-i18n="games.sudoku.howToPlay.rule3"><strong>Each 3×3 box</strong> must contain digits 1-9 with no repetition.</li>
         </ol>
 
-        <h3>🎮 Controls</h3>
+        <h3 data-i18n="games.sudoku.howToPlay.controls">🎮 Controls</h3>
         <ul>
-          <li><strong>Click a cell</strong> — Select it for input</li>
-          <li><strong>Type 1-9</strong> — Enter a number in the selected cell</li>
-          <li><strong>Backspace/Delete</strong> — Clear the selected cell</li>
-          <li><strong>Arrow keys</strong> — Navigate between cells</li>
+          <li><strong data-i18n="games.sudoku.howToPlay.controlClick">Click a cell</strong> — <span data-i18n="games.sudoku.howToPlay.controlClickDesc">Select it for input</span></li>
+          <li><strong data-i18n="games.sudoku.howToPlay.controlType">Type 1-9</strong> — <span data-i18n="games.sudoku.howToPlay.controlTypeDesc">Enter a number in the selected cell</span></li>
+          <li><strong data-i18n="games.sudoku.howToPlay.controlDelete">Backspace/Delete</strong> — <span data-i18n="games.sudoku.howToPlay.controlDeleteDesc">Clear the selected cell</span></li>
+          <li><strong data-i18n="games.sudoku.howToPlay.controlArrows">Arrow keys</strong> — <span data-i18n="games.sudoku.howToPlay.controlArrowsDesc">Navigate between cells</span></li>
         </ul>
 
-        <h3>🛠️ Game Features</h3>
+        <h3 data-i18n="games.sudoku.howToPlay.features">🛠️ Game Features</h3>
         <ul>
-          <li><strong>New Game</strong> — Start a fresh puzzle</li>
-          <li><strong>Get Tip</strong> — Reveal one correct cell when you're stuck</li>
-          <li><strong>Check</strong> — Verify if your current entries are correct</li>
-          <li><strong>Undo</strong> — Revert your last move</li>
+          <li><strong data-i18n="games.sudoku.howToPlay.featureNew">New Game</strong> — <span data-i18n="games.sudoku.howToPlay.featureNewDesc">Start a fresh puzzle</span></li>
+          <li><strong data-i18n="games.sudoku.howToPlay.featureTip">Get Tip</strong> — <span data-i18n="games.sudoku.howToPlay.featureTipDesc">Reveal one correct cell when you're stuck</span></li>
+          <li><strong data-i18n="games.sudoku.howToPlay.featureCheck">Check</strong> — <span data-i18n="games.sudoku.howToPlay.featureCheckDesc">Verify if your current entries are correct</span></li>
+          <li><strong data-i18n="games.sudoku.howToPlay.featureUndo">Undo</strong> — <span data-i18n="games.sudoku.howToPlay.featureUndoDesc">Revert your last move</span></li>
         </ul>
 
-        <h3>💡 Solving Strategies</h3>
+        <h3 data-i18n="games.sudoku.howToPlay.strategies">💡 Solving Strategies</h3>
         <ul>
-          <li><strong>Scanning</strong> — Look for rows/columns/boxes with few empty cells</li>
-          <li><strong>Elimination</strong> — For each empty cell, eliminate impossible numbers</li>
-          <li><strong>Single candidate</strong> — If only one number fits, it must be the answer</li>
-          <li><strong>Hidden singles</strong> — If a number can only go in one place in a row/column/box, place it there</li>
+          <li><strong data-i18n="games.sudoku.howToPlay.stratScanning">Scanning</strong> — <span data-i18n="games.sudoku.howToPlay.stratScanningDesc">Look for rows/columns/boxes with few empty cells</span></li>
+          <li><strong data-i18n="games.sudoku.howToPlay.stratElimination">Elimination</strong> — <span data-i18n="games.sudoku.howToPlay.stratEliminationDesc">For each empty cell, eliminate impossible numbers</span></li>
+          <li><strong data-i18n="games.sudoku.howToPlay.stratSingleCandidate">Single candidate</strong> — <span data-i18n="games.sudoku.howToPlay.stratSingleCandidateDesc">If only one number fits, it must be the answer</span></li>
+          <li><strong data-i18n="games.sudoku.howToPlay.stratHiddenSingles">Hidden singles</strong> — <span data-i18n="games.sudoku.howToPlay.stratHiddenSinglesDesc">If a number can only go in one place in a row/column/box, place it there</span></li>
         </ul>
 
-        <div class="tip">
+        <div class="tip" data-i18n="games.sudoku.howToPlay.proTip">
           <strong>💡 Pro tip:</strong> Start with rows, columns, or boxes that have the most numbers filled in. These are the easiest to complete and give you more clues for the rest of the puzzle!
         </div>
       </div>

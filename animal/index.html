@@ -85,7 +85,7 @@
 
     <!-- Guess Input -->
     <div class="guess-section" id="guess-section" style="display: none;">
-      <label for="animal-input">Make a guess:</label>
+      <label for="animal-input" data-i18n="common.makeAGuess">Make a guess:</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="animal-input" placeholder="Type an animal name..." autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
@@ -146,40 +146,40 @@
 
     <!-- How to Play -->
     <section class="how-to-play">
-      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+      <button class="how-to-play-toggle" data-i18n="common.howToPlayGuide.title" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
         📖 How to Play
       </button>
       <div class="how-to-play-content">
-        <h2>📖 How to Play Animal Quiz</h2>
-        <p>Animal Quiz is a daily guessing game that tests your knowledge of the animal kingdom. Identify the mystery creature using clues about its habitat, diet, and physical characteristics.</p>
+        <h2 data-i18n="games.animal.howToPlay.gameTitle">📖 How to Play Animal Quiz</h2>
+        <p data-i18n="games.animal.howToPlay.intro">Animal Quiz is a daily guessing game that tests your knowledge of the animal kingdom. Identify the mystery creature using clues about its habitat, diet, and physical characteristics.</p>
         
-        <h3>🦁 The Rules</h3>
+        <h3 data-i18n="common.howToPlayGuide.rules">🦁 The Rules</h3>
         <ol>
-          <li><strong>Guess an animal</strong> — Type any animal name and select from the dropdown.</li>
-          <li><strong>Study the clues</strong> — Each attribute shows how your guess compares to the secret animal.</li>
-          <li><strong>Narrow it down</strong> — Use logic to identify the mystery creature.</li>
+          <li data-i18n="games.animal.howToPlay.step1Desc"><strong>Guess an animal</strong> — Type any animal name and select from the dropdown.</li>
+          <li data-i18n="games.animal.howToPlay.step2Desc"><strong>Study the clues</strong> — Each attribute shows how your guess compares to the secret animal.</li>
+          <li data-i18n="games.animal.howToPlay.step3Desc"><strong>Narrow it down</strong> — Use logic to identify the mystery creature.</li>
         </ol>
 
-        <h3>🎯 Understanding the Clues</h3>
+        <h3 data-i18n="common.howToPlayGuide.understandingClues">🎯 Understanding the Clues</h3>
         <ul>
-          <li><strong>✅ Green (Match)</strong> — This attribute matches the secret animal exactly.</li>
-          <li><strong>🔼 Higher</strong> — The secret animal has a higher value (larger size, longer lifespan).</li>
-          <li><strong>🔽 Lower</strong> — The secret animal has a lower value.</li>
-          <li><strong>❌ Red (Different)</strong> — The attribute doesn't match (different habitat, diet, etc.).</li>
+          <li data-i18n="common.howToPlayGuide.matchDesc"><strong>✅ Green (Match)</strong> — This attribute matches the secret animal exactly.</li>
+          <li data-i18n="common.howToPlayGuide.higherDesc"><strong>🔼 Higher</strong> — The secret animal has a higher value (larger size, longer lifespan).</li>
+          <li data-i18n="common.howToPlayGuide.lowerDesc"><strong>🔽 Lower</strong> — The secret animal has a lower value.</li>
+          <li data-i18n="common.howToPlayGuide.differentDesc"><strong>❌ Red (Different)</strong> — The attribute doesn't match (different habitat, diet, etc.).</li>
         </ul>
 
-        <h3>📊 Available Clues</h3>
-        <p>Each guess reveals information about:</p>
+        <h3 data-i18n="common.howToPlayGuide.availableClues">📊 Available Clues</h3>
+        <p data-i18n="common.howToPlayGuide.availableCluesIntro">Each guess reveals information about:</p>
         <ul>
-          <li><strong>Class</strong> — Mammal, Bird, Reptile, Fish, etc.</li>
-          <li><strong>Habitat</strong> — Where the animal lives (Forest, Ocean, Savanna, etc.)</li>
-          <li><strong>Diet</strong> — Carnivore, Herbivore, or Omnivore</li>
-          <li><strong>Size</strong> — Relative size category</li>
-          <li><strong>Lifespan</strong> — Average years the animal lives</li>
-          <li><strong>Continent</strong> — Where the animal is found</li>
+          <li data-i18n="games.animal.howToPlay.clueClass"><strong>Class</strong> — Mammal, Bird, Reptile, Fish, etc.</li>
+          <li data-i18n="games.animal.howToPlay.clueWeight"><strong>Weight</strong> — Relative size/weight category</li>
+          <li data-i18n="games.animal.howToPlay.clueDiet"><strong>Diet</strong> — Carnivore, Herbivore, or Omnivore</li>
+          <li data-i18n="games.animal.howToPlay.clueLifespan"><strong>Lifespan</strong> — Average years the animal lives</li>
+          <li data-i18n="games.animal.howToPlay.clueActivity"><strong>Activity</strong> — Diurnal, Nocturnal, etc.</li>
+          <li data-i18n="games.animal.howToPlay.clueContinents"><strong>Continent</strong> — Where the animal is found</li>
         </ul>
 
-        <div class="tip">
+        <div class="tip" data-i18n="games.animal.howToPlay.proTip">
           <strong>💡 Pro tip:</strong> Start by narrowing down the animal class (Mammal, Bird, etc.) and habitat. These two clues alone can dramatically reduce the possibilities!
         </div>
       </div>

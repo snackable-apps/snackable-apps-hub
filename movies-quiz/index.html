@@ -91,6 +91,7 @@
 
       <!-- Guess Input Section -->
       <div id="guess-section" class="guess-section" style="display: none;">
+        <label for="movie-input" data-i18n="common.makeAGuess">Make a guess</label>
         <div class="input-wrapper">
           <input 
             type="text" 
@@ -180,21 +181,21 @@
 
     <!-- How to Play Section -->
     <section class="how-to-play">
-      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');" data-i18n="common.howToPlayGuide.title">
         📖 How to Play
       </button>
       <div class="how-to-play-content">
-        <h2>📖 How to Play Movie Quiz</h2>
-        <p>Movie Quiz is a daily guessing game for film enthusiasts. Your goal is to identify the secret movie using clues from your guesses.</p>
+        <h2 data-i18n="games.movies.howToPlay.gameTitle">📖 How to Play Movie Quiz</h2>
+        <p data-i18n="games.movies.howToPlay.intro">Movie Quiz is a daily guessing game for film enthusiasts. Your goal is to identify the secret movie using clues from your guesses.</p>
         
-        <h3>🎯 The Rules</h3>
+        <h3 data-i18n="common.howToPlayGuide.rules">🎯 The Rules</h3>
         <ol>
-          <li><strong>Start guessing</strong> — Type any movie title in the search bar and select it from the dropdown.</li>
-          <li><strong>Compare the clues</strong> — After each guess, you'll see how your movie compares to the secret film:
+          <li><strong data-i18n="games.movies.howToPlay.step1">Start guessing</strong> — <span data-i18n="games.movies.howToPlay.step1Desc">Type any movie title in the search bar and select it from the dropdown.</span></li>
+          <li><strong data-i18n="games.movies.howToPlay.step2">Compare the clues</strong> — <span data-i18n="games.movies.howToPlay.step2Desc">After each guess, you'll see how your movie compares to the secret film:</span>
             <ul>
-              <li>✅ Green = Exact match (director, genre, year, etc.)</li>
-              <li>🔶 Orange = Partial match or close (some genres match, year is near)</li>
-              <li>❌ Red = No match</li>
+              <li>✅ <strong data-i18n="games.movies.howToPlay.greenMatch">Green</strong> = <span data-i18n="games.movies.howToPlay.greenMatchDesc">Exact match (director, genre, year, etc.)</span></li>
+              <li>🔶 <strong data-i18n="games.movies.howToPlay.orangePartial">Orange</strong> = <span data-i18n="games.movies.howToPlay.orangePartialDesc">Partial match or close (some genres match, year is near)</span></li>
+              <li>❌ <strong data-i18n="games.movies.howToPlay.redDifferent">Red</strong> = <span data-i18n="games.movies.howToPlay.redDifferentDesc">No match</span></li>
             </ul>
           </li>
           <li><strong>Use the arrows</strong> — For numbers like release year and rating, arrows show if the secret movie is higher (↑) or lower (↓).</li>
@@ -202,17 +203,19 @@
           <li><strong>Find the film</strong> — Keep guessing until you identify the secret movie.</li>
         </ol>
 
-        <h3>📊 Clues Panel</h3>
-        <p>As you play, the clues panel builds up useful information:</p>
+        <h3 data-i18n="common.howToPlayGuide.availableClues">📊 Available Clues</h3>
+        <p data-i18n="common.howToPlayGuide.eachGuessReveals">As you play, the clues panel builds up useful information:</p>
         <ul>
-          <li><strong>Year range</strong> — Narrows down the release period</li>
-          <li><strong>Runtime & Rating</strong> — Helps identify the type of film</li>
-          <li><strong>Genres</strong> — Shows which genres match (others appear as ????)</li>
-          <li><strong>Cast</strong> — Discovered actors appear in order of billing</li>
-          <li><strong>NOT sections</strong> — Shows eliminated directors, countries, and actors</li>
+          <li data-i18n="games.movies.howToPlay.clueDirector"><strong>Director</strong> — Confirmed when matched</li>
+          <li data-i18n="games.movies.howToPlay.clueYear"><strong>Year range</strong> — Narrows down the release period</li>
+          <li data-i18n="games.movies.howToPlay.clueRating"><strong>Rating</strong> — Helps identify the type of film</li>
+          <li data-i18n="games.movies.howToPlay.clueRuntime"><strong>Runtime</strong> — Helps identify the type of film</li>
+          <li data-i18n="games.movies.howToPlay.clueCountry"><strong>Country</strong> — Confirmed when matched</li>
+          <li data-i18n="games.movies.howToPlay.clueGenres"><strong>Genres</strong> — Shows which genres match (others appear as ????)</li>
+          <li data-i18n="games.movies.howToPlay.clueCast"><strong>Cast</strong> — Discovered actors appear in order of billing</li>
         </ul>
 
-        <div class="tip">
+        <div class="tip" data-i18n="games.movies.howToPlay.proTip">
           <strong>💡 Pro tip:</strong> Start with popular movies to gather clues quickly. Pay attention to the director and country — they can drastically narrow your options!
         </div>
       </div>

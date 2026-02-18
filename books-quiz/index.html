@@ -106,7 +106,7 @@
 
     <!-- Guess Input -->
     <div class="guess-section" id="guess-section" style="display: none;">
-      <label for="book-input">Make a guess:</label>
+      <label for="book-input"><span data-i18n="common.makeAGuess">Make a guess:</span></label>
       <div class="autocomplete-wrapper">
         <input type="text" id="book-input" placeholder="Type a book title..." autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
@@ -156,41 +156,41 @@
 
     <!-- How to Play -->
     <section class="how-to-play">
-      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');" data-i18n="common.howToPlayGuide.title">
         📖 How to Play
       </button>
       <div class="how-to-play-content">
-        <h2>📖 How to Play Books Quiz</h2>
-        <p>Books Quiz is a daily literary guessing game. Your goal is to identify the mystery book using clues about its author, genre, and publication details.</p>
+        <h2 data-i18n="games.books.howToPlay.gameTitle">📖 How to Play Books Quiz</h2>
+        <p data-i18n="games.books.howToPlay.intro">Books Quiz is a daily literary guessing game. Your goal is to identify the mystery book using clues about its author, genre, and publication details.</p>
         
-        <h3>📚 The Rules</h3>
+        <h3 data-i18n="common.howToPlayGuide.rules">📚 The Rules</h3>
         <ol>
-          <li><strong>Guess a book</strong> — Type any book title and select from the dropdown.</li>
-          <li><strong>Read the feedback</strong> — Each attribute shows how your guess compares to the secret book.</li>
-          <li><strong>Deduce the answer</strong> — Use logic to narrow down the possibilities.</li>
+          <li><span data-i18n="games.books.howToPlay.step1Desc">Guess a book — Type any book title and select from the dropdown.</span></li>
+          <li><span data-i18n="games.books.howToPlay.step2Desc">Read the feedback — Each attribute shows how your guess compares to the secret book.</span></li>
+          <li><span data-i18n="games.books.howToPlay.step3Desc">Deduce the answer — Use logic to narrow down the possibilities.</span></li>
         </ol>
 
-        <h3>🎯 Understanding the Clues</h3>
+        <h3 data-i18n="common.howToPlayGuide.understandingClues">🎯 Understanding the Clues</h3>
         <ul>
-          <li><strong>✅ Green (Match)</strong> — This attribute matches the secret book exactly.</li>
-          <li><strong>🔼 Higher</strong> — The secret book has a higher value (more pages, later publication).</li>
-          <li><strong>🔽 Lower</strong> — The secret book has a lower value.</li>
-          <li><strong>❌ Red (Different)</strong> — The attribute doesn't match (different author, genre, etc.).</li>
+          <li><span data-i18n="common.howToPlayGuide.greenMatch"></span> — <span data-i18n="common.howToPlayGuide.greenMatchDesc"></span></li>
+          <li><span data-i18n="common.howToPlayGuide.higher"></span> — <span data-i18n="common.howToPlayGuide.higherDesc"></span></li>
+          <li><span data-i18n="common.howToPlayGuide.lower"></span> — <span data-i18n="common.howToPlayGuide.lowerDesc"></span></li>
+          <li><span data-i18n="common.howToPlayGuide.redDifferent"></span> — <span data-i18n="common.howToPlayGuide.redDifferentDesc"></span></li>
         </ul>
 
-        <h3>📊 Available Clues</h3>
-        <p>Each guess reveals information about:</p>
+        <h3 data-i18n="common.howToPlayGuide.availableClues">📊 Available Clues</h3>
+        <p data-i18n="common.howToPlayGuide.eachGuessReveals">Each guess reveals information about:</p>
         <ul>
-          <li><strong>Author</strong> — Who wrote the book</li>
-          <li><strong>Author Nationality</strong> — The author's country of origin</li>
-          <li><strong>Genre</strong> — Literary category (Fiction, Mystery, Sci-Fi, etc.)</li>
-          <li><strong>Publication Year</strong> — When the book was first published</li>
-          <li><strong>Page Count</strong> — Length of the book</li>
-          <li><strong>Original Language</strong> — Language the book was written in</li>
+          <li data-i18n="games.books.howToPlay.clueAuthor">Author — Who wrote the book</li>
+          <li data-i18n="games.books.howToPlay.clueAuthorNationality">Author Nationality — The author's country of origin</li>
+          <li data-i18n="games.books.howToPlay.clueGenre">Genre — Literary category (Fiction, Mystery, Sci-Fi, etc.)</li>
+          <li data-i18n="games.books.howToPlay.clueYear">Publication Year — When the book was first published</li>
+          <li data-i18n="games.books.howToPlay.cluePages">Page Count — Length of the book</li>
+          <li data-i18n="games.books.howToPlay.clueLanguage">Original Language — Language the book was written in</li>
         </ul>
 
         <div class="tip">
-          <strong>💡 Pro tip:</strong> The author's nationality and original language are powerful clues. Combine them with the publication era to quickly narrow down your search!
+          <strong data-i18n="games.books.howToPlay.proTip">💡 Pro tip: The author's nationality and original language are powerful clues. Combine them with the publication era to quickly narrow down your search!</strong>
         </div>
       </div>
     </section>

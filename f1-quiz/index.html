@@ -88,7 +88,7 @@
 
     <!-- Guess Input -->
     <div class="guess-section" id="guess-section" style="display: none;">
-      <label for="driver-input">Make a guess:</label>
+      <label for="driver-input" data-i18n="common.makeAGuess">Make a guess:</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="driver-input" placeholder="Type a driver name..." autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
@@ -146,41 +146,41 @@
 
     <!-- How to Play -->
     <section class="how-to-play">
-      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');" data-i18n="common.howToPlayGuide.title">
         📖 How to Play
       </button>
       <div class="how-to-play-content">
-        <h2>📖 How to Play F1 Quiz</h2>
-        <p>F1 Quiz is a daily guessing game for Formula 1 fans. Your mission is to identify the secret driver using clues from their career statistics.</p>
+        <h2 data-i18n="games.f1.howToPlay.gameTitle">📖 How to Play F1 Quiz</h2>
+        <p data-i18n="games.f1.howToPlay.intro">F1 Quiz is a daily guessing game for Formula 1 fans. Your mission is to identify the secret driver using clues from their career statistics.</p>
         
-        <h3>🏁 The Rules</h3>
+        <h3 data-i18n="common.howToPlayGuide.rules">🏁 The Rules</h3>
         <ol>
-          <li><strong>Make a guess</strong> — Type any F1 driver's name and select from the dropdown.</li>
-          <li><strong>Read the feedback</strong> — Each attribute shows how your guess compares to the secret driver.</li>
-          <li><strong>Narrow it down</strong> — Use the clues to eliminate possibilities and find the answer.</li>
+          <li><strong data-i18n="common.howToPlayGuide.step1">Make a guess</strong> — <span data-i18n="games.f1.howToPlay.step1Desc">Type any F1 driver's name and select from the dropdown.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.step2">Read the feedback</strong> — <span data-i18n="games.f1.howToPlay.step2Desc">Each attribute shows how your guess compares to the secret driver.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.step3">Narrow it down</strong> — <span data-i18n="common.howToPlayGuide.step3Desc">Use the clues to eliminate possibilities and find the answer.</span></li>
         </ol>
 
-        <h3>🎯 Understanding the Clues</h3>
+        <h3 data-i18n="common.howToPlayGuide.understandingClues">🎯 Understanding the Clues</h3>
         <ul>
-          <li><strong>✅ Green (Match)</strong> — This attribute matches the secret driver exactly.</li>
-          <li><strong>🔼 Higher</strong> — The secret driver has a higher value (more wins, championships, etc.).</li>
-          <li><strong>🔽 Lower</strong> — The secret driver has a lower value.</li>
-          <li><strong>❌ Red (Different)</strong> — The attribute doesn't match (different nationality, team, etc.).</li>
+          <li><strong data-i18n="common.howToPlayGuide.greenMatch">✅ Green (Match)</strong> — <span data-i18n="common.howToPlayGuide.greenMatchDesc">This attribute matches exactly.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.higher">🔼 Higher</strong> — <span data-i18n="games.f1.howToPlay.higherDesc">The secret driver has a higher value (more wins, championships, etc.).</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.lower">🔽 Lower</strong> — <span data-i18n="common.howToPlayGuide.lowerDesc">The secret answer has a lower value.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.redDifferent">❌ Red (Different)</strong> — <span data-i18n="games.f1.howToPlay.redDifferentDesc">The attribute doesn't match (different nationality, team, etc.).</span></li>
         </ul>
 
-        <h3>📊 Available Clues</h3>
-        <p>Each guess reveals information about:</p>
+        <h3 data-i18n="common.howToPlayGuide.availableClues">📊 Available Clues</h3>
+        <p data-i18n="common.howToPlayGuide.eachGuessReveals">Each guess reveals information about:</p>
         <ul>
-          <li><strong>Nationality</strong> — The driver's country</li>
-          <li><strong>Current/Last Team</strong> — Their most recent F1 team</li>
-          <li><strong>Championships</strong> — Number of World Driver's Championships won</li>
-          <li><strong>Race Wins</strong> — Total Grand Prix victories</li>
-          <li><strong>Podiums</strong> — Total podium finishes</li>
-          <li><strong>Career Years</strong> — When they raced in F1</li>
+          <li><strong data-i18n="games.f1.nationality">Nationality</strong> — <span data-i18n="games.f1.howToPlay.clueNationality">The driver's country</span></li>
+          <li><strong data-i18n="games.f1.team">Current/Last Team</strong> — <span data-i18n="games.f1.howToPlay.clueTeam">Their most recent F1 team</span></li>
+          <li><strong data-i18n="games.f1.wdc">Championships</strong> — <span data-i18n="games.f1.howToPlay.clueChampionships">Number of World Driver's Championships won</span></li>
+          <li><strong data-i18n="games.f1.wins">Race Wins</strong> — <span data-i18n="games.f1.howToPlay.clueWins">Total Grand Prix victories</span></li>
+          <li><strong data-i18n="games.f1.podiums">Podiums</strong> — <span data-i18n="games.f1.howToPlay.cluePodiums">Total podium finishes</span></li>
+          <li><strong data-i18n="games.f1.age">Career Years</strong> — <span data-i18n="games.f1.howToPlay.clueCareer">When they raced in F1</span></li>
         </ul>
 
         <div class="tip">
-          <strong>💡 Pro tip:</strong> Start with legendary drivers who have distinctive stats (like championship counts) to quickly narrow down the era and caliber of the secret driver!
+          <strong data-i18n="common.howToPlayGuide.tips">💡 Pro tip:</strong> <span data-i18n="games.f1.howToPlay.proTip">Start with legendary drivers who have distinctive stats (like championship counts) to quickly narrow down the era and caliber of the secret driver!</span>
         </div>
       </div>
     </section>

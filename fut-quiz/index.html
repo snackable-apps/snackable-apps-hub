@@ -152,41 +152,41 @@
 
     <!-- How to Play -->
     <section class="how-to-play">
-      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');" data-i18n="common.howToPlayGuide.title">
         📖 How to Play
       </button>
       <div class="how-to-play-content">
-        <h2>📖 How to Play FutQuiz</h2>
-        <p>FutQuiz is a daily football guessing game. Your goal is to identify the mystery player by analyzing clues about their career, position, and stats.</p>
+        <h2 data-i18n="games.football.howToPlay.gameTitle">📖 How to Play FutQuiz</h2>
+        <p data-i18n="games.football.howToPlay.intro">FutQuiz is a daily football guessing game. Your goal is to identify the mystery player by analyzing clues about their career, position, and stats.</p>
         
-        <h3>⚽ The Rules</h3>
+        <h3 data-i18n="common.howToPlayGuide.rules">⚽ The Rules</h3>
         <ol>
-          <li><strong>Enter a player name</strong> — Type any football player's name and select from the dropdown.</li>
-          <li><strong>Analyze the feedback</strong> — Each attribute shows how close your guess is to the secret player.</li>
-          <li><strong>Use logic</strong> — Narrow down possibilities based on the clues until you find the answer.</li>
+          <li><strong><span data-i18n="common.makeAGuess"></span></strong> — <span data-i18n="games.football.howToPlay.step1Desc"></span></li>
+          <li><span data-i18n="games.football.howToPlay.step2Desc"></span></li>
+          <li><span data-i18n="games.football.howToPlay.step3Desc"></span></li>
         </ol>
 
-        <h3>🎯 Understanding the Clues</h3>
+        <h3 data-i18n="common.howToPlayGuide.understandingClues">🎯 Understanding the Clues</h3>
         <ul>
-          <li><strong>✅ Green (Match)</strong> — This attribute matches the secret player exactly.</li>
-          <li><strong>🔼 Higher</strong> — The secret player has a higher value (more goals, older age, etc.).</li>
-          <li><strong>🔽 Lower</strong> — The secret player has a lower value.</li>
-          <li><strong>❌ Red (Different)</strong> — The attribute doesn't match (different nationality, position, etc.).</li>
+          <li data-i18n="common.howToPlayGuide.match"></li>
+          <li data-i18n="common.howToPlayGuide.higher"></li>
+          <li data-i18n="common.howToPlayGuide.lower"></li>
+          <li data-i18n="common.howToPlayGuide.different"></li>
         </ul>
 
-        <h3>📊 Available Clues</h3>
-        <p>Each guess reveals information about:</p>
+        <h3 data-i18n="games.football.howToPlay.availableClues">📊 Available Clues</h3>
+        <p data-i18n="common.howToPlayGuide.eachGuessReveals">Each guess reveals information about:</p>
         <ul>
-          <li><strong>Nationality</strong> — The player's country</li>
-          <li><strong>Position</strong> — Their playing position (GK, DEF, MID, FWD)</li>
-          <li><strong>Current Club</strong> — Their current or most recent team</li>
-          <li><strong>Leagues Played</strong> — Major leagues they've competed in</li>
-          <li><strong>Age</strong> — Current age of the player</li>
-          <li><strong>International Caps</strong> — National team appearances</li>
+          <li data-i18n="games.football.howToPlay.clueNationality"></li>
+          <li data-i18n="games.football.howToPlay.clueClub"></li>
+          <li data-i18n="games.football.howToPlay.cluePosition"></li>
+          <li data-i18n="games.football.howToPlay.clueFoot"></li>
+          <li data-i18n="games.football.howToPlay.clueAge"></li>
+          <li data-i18n="games.football.howToPlay.clueWorldCup"></li>
         </ul>
 
         <div class="tip">
-          <strong>💡 Pro tip:</strong> Start with versatile players who've played in multiple leagues. The league clues often help narrow down the region and era quickly!
+          <strong data-i18n="games.football.howToPlay.proTip">💡 Pro tip: Start with versatile players who've played in multiple leagues. The league clues often help narrow down the region and era quickly!</strong>
         </div>
       </div>
     </section>

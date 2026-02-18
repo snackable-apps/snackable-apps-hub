@@ -106,7 +106,7 @@
 
     <!-- Guess Input -->
     <div class="guess-section" id="guess-section" style="display: none;">
-      <label for="music-input" id="input-label">Make a guess:</label>
+      <label for="music-input" id="input-label" data-i18n="common.makeAGuess">Make a guess:</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="music-input" placeholder="Type a song name..." autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
@@ -154,41 +154,41 @@
 
     <!-- How to Play -->
     <section class="how-to-play">
-      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+      <button class="how-to-play-toggle" data-i18n="common.howToPlayGuide.title" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
         📖 How to Play
       </button>
       <div class="how-to-play-content">
-        <h2>📖 How to Play Music Quiz</h2>
-        <p>Music Quiz is a daily song guessing game. Your goal is to identify the mystery track using clues about the artist, genre, and song characteristics.</p>
+        <h2 data-i18n="games.music.howToPlay.gameTitle">📖 How to Play Music Quiz</h2>
+        <p data-i18n="games.music.howToPlay.intro">Music Quiz is a daily song guessing game. Your goal is to identify the mystery track using clues about the artist, genre, and song characteristics.</p>
         
-        <h3>🎵 The Rules</h3>
+        <h3 data-i18n="common.howToPlayGuide.rules">🎵 The Rules</h3>
         <ol>
-          <li><strong>Make a guess</strong> — Type a song title and select from the dropdown.</li>
-          <li><strong>Read the feedback</strong> — Each attribute shows how your guess compares to the secret song.</li>
-          <li><strong>Use logic</strong> — Narrow down the possibilities using the clues provided.</li>
+          <li data-i18n="games.music.howToPlay.step1Desc"><strong>Make a guess</strong> — Type a song title and select from the dropdown.</li>
+          <li data-i18n="games.music.howToPlay.step2Desc"><strong>Read the feedback</strong> — Each attribute shows how your guess compares to the secret song.</li>
+          <li data-i18n="games.music.howToPlay.step3Desc"><strong>Use logic</strong> — Narrow down the possibilities using the clues provided.</li>
         </ol>
 
-        <h3>🎯 Understanding the Clues</h3>
+        <h3 data-i18n="common.howToPlayGuide.understandingClues">🎯 Understanding the Clues</h3>
         <ul>
-          <li><strong>✅ Green (Match)</strong> — This attribute matches the secret song exactly.</li>
-          <li><strong>🔼 Higher</strong> — The secret song has a higher value (later year, longer duration).</li>
-          <li><strong>🔽 Lower</strong> — The secret song has a lower value.</li>
-          <li><strong>❌ Red (Different)</strong> — The attribute doesn't match (different artist, genre, etc.).</li>
+          <li data-i18n="common.howToPlayGuide.clueMatch"><strong>✅ Green (Match)</strong> — This attribute matches the secret song exactly.</li>
+          <li data-i18n="common.howToPlayGuide.clueHigher"><strong>🔼 Higher</strong> — The secret song has a higher value (later year, longer duration).</li>
+          <li data-i18n="common.howToPlayGuide.clueLower"><strong>🔽 Lower</strong> — The secret song has a lower value.</li>
+          <li data-i18n="common.howToPlayGuide.clueDifferent"><strong>❌ Red (Different)</strong> — The attribute doesn't match (different artist, genre, etc.).</li>
         </ul>
 
-        <h3>📊 Available Clues</h3>
-        <p>Each guess reveals information about:</p>
+        <h3 data-i18n="common.howToPlayGuide.availableClues">📊 Available Clues</h3>
+        <p data-i18n="common.howToPlayGuide.introClues">Each guess reveals information about:</p>
         <ul>
-          <li><strong>Artist</strong> — The performer or band</li>
-          <li><strong>Genre</strong> — Musical style (Pop, Rock, Hip-Hop, etc.)</li>
-          <li><strong>Release Year</strong> — When the song was released</li>
-          <li><strong>Decade</strong> — The era of the track (80s, 90s, 2000s, etc.)</li>
-          <li><strong>Duration</strong> — Length of the song</li>
-          <li><strong>Band Members</strong> — Solo artist vs. group</li>
+          <li data-i18n="games.music.howToPlay.clueArtist"><strong>Artist</strong> — The performer or band</li>
+          <li data-i18n="games.music.howToPlay.clueGenre"><strong>Genre</strong> — Musical style (Pop, Rock, Hip-Hop, etc.)</li>
+          <li data-i18n="games.music.howToPlay.clueYear"><strong>Release Year</strong> — When the song was released</li>
+          <li data-i18n="games.music.howToPlay.clueDecade"><strong>Decade</strong> — The era of the track (80s, 90s, 2000s, etc.)</li>
+          <li data-i18n="games.music.howToPlay.clueDuration"><strong>Duration</strong> — Length of the song</li>
+          <li data-i18n="games.music.howToPlay.clueMembers"><strong>Band Members</strong> — Solo artist vs. group</li>
         </ul>
 
         <div class="tip">
-          <strong>💡 Pro tip:</strong> Start with songs from different decades to quickly narrow down the era. The genre clue is also very helpful for focusing your search!
+          <span data-i18n="games.music.howToPlay.proTip">💡 Pro tip: Start with songs from different decades to quickly narrow down the era. The genre clue is also very helpful for focusing your search!</span>
         </div>
       </div>
     </section>

@@ -90,7 +90,7 @@
 
     <!-- Guess Input -->
     <div class="guess-section" id="guess-section" style="display: none;">
-      <label for="player-input">Make a guess:</label>
+      <label for="player-input" data-i18n="common.makeAGuess">Make a guess:</label>
       <div class="autocomplete-wrapper">
         <input type="text" id="player-input" placeholder="Type a player name..." autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
@@ -153,41 +153,41 @@
 
     <!-- How to Play -->
     <section class="how-to-play">
-      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
+      <button class="how-to-play-toggle" data-i18n="common.howToPlayGuide.title" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
         📖 How to Play
       </button>
       <div class="how-to-play-content">
-        <h2>📖 How to Play Tennis Quiz</h2>
-        <p>Tennis Quiz is a daily guessing game for tennis enthusiasts. Identify the mystery player by analyzing their Grand Slam record, playing style, and career achievements.</p>
+        <h2 data-i18n="games.tennis.howToPlay.gameTitle">📖 How to Play Tennis Quiz</h2>
+        <p data-i18n="games.tennis.howToPlay.intro">Tennis Quiz is a daily guessing game for tennis enthusiasts. Identify the mystery player by analyzing their Grand Slam record, playing style, and career achievements.</p>
         
-        <h3>🎾 The Rules</h3>
+        <h3 data-i18n="common.howToPlayGuide.rules">🎾 The Rules</h3>
         <ol>
-          <li><strong>Enter a player name</strong> — Type any tennis player's name and select from the dropdown.</li>
-          <li><strong>Study the feedback</strong> — Each attribute reveals how close your guess is to the secret player.</li>
-          <li><strong>Deduce the answer</strong> — Use logic to narrow down the possibilities.</li>
+          <li><strong data-i18n="common.howToPlayGuide.step1">Enter a player name</strong> — <span data-i18n="games.tennis.howToPlay.step1Desc">Type any tennis player's name and select from the dropdown.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.step2">Study the feedback</strong> — <span data-i18n="games.tennis.howToPlay.step2Desc">Each attribute reveals how close your guess is to the secret player.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.step3">Deduce the answer</strong> — <span data-i18n="common.howToPlayGuide.step3Desc">Use logic to narrow down the possibilities.</span></li>
         </ol>
 
-        <h3>🎯 Understanding the Clues</h3>
+        <h3 data-i18n="common.howToPlayGuide.understandingClues">🎯 Understanding the Clues</h3>
         <ul>
-          <li><strong>✅ Green (Match)</strong> — This attribute matches the secret player exactly.</li>
-          <li><strong>🔼 Higher</strong> — The secret player has a higher value (more titles, higher ranking, etc.).</li>
-          <li><strong>🔽 Lower</strong> — The secret player has a lower value.</li>
-          <li><strong>❌ Red (Different)</strong> — The attribute doesn't match.</li>
+          <li><strong data-i18n="common.howToPlayGuide.greenMatch">✅ Green (Match)</strong> — <span data-i18n="common.howToPlayGuide.greenMatchDesc">This attribute matches the secret player exactly.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.higher">🔼 Higher</strong> — <span data-i18n="games.tennis.howToPlay.higherDesc">The secret player has a higher value (more titles, higher ranking, etc.).</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.lower">🔽 Lower</strong> — <span data-i18n="common.howToPlayGuide.lowerDesc">The secret player has a lower value.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.redDifferent">❌ Red (Different)</strong> — <span data-i18n="games.tennis.howToPlay.redDifferentDesc">The attribute doesn't match.</span></li>
         </ul>
 
-        <h3>📊 Available Clues</h3>
-        <p>Each guess reveals information about:</p>
+        <h3 data-i18n="common.howToPlayGuide.availableClues">📊 Available Clues</h3>
+        <p data-i18n="common.howToPlayGuide.eachGuessReveals">Each guess reveals information about:</p>
         <ul>
-          <li><strong>Nationality</strong> — The player's country</li>
-          <li><strong>Grand Slams</strong> — Number of major titles won</li>
-          <li><strong>Best Ranking</strong> — Highest ATP/WTA ranking achieved</li>
-          <li><strong>Playing Hand</strong> — Right-handed or left-handed</li>
-          <li><strong>Backhand Style</strong> — One-handed or two-handed backhand</li>
-          <li><strong>Active Years</strong> — Career span on tour</li>
+          <li><strong data-i18n="games.tennis.nationality">Nationality</strong> — <span data-i18n="games.tennis.howToPlay.clueNationality">The player's country</span></li>
+          <li><strong data-i18n="games.tennis.slams">Grand Slams</strong> — <span data-i18n="games.tennis.howToPlay.clueSlams">Number of major titles won</span></li>
+          <li><strong data-i18n="games.tennis.bestRank">Best Ranking</strong> — <span data-i18n="games.tennis.howToPlay.clueBestRank">Highest ATP/WTA ranking achieved</span></li>
+          <li><strong data-i18n="games.tennis.hand">Playing Hand</strong> — <span data-i18n="games.tennis.howToPlay.clueHand">Right-handed or left-handed</span></li>
+          <li><strong data-i18n="games.tennis.backhand">Backhand Style</strong> — <span data-i18n="games.tennis.howToPlay.clueBackhand">One-handed or two-handed backhand</span></li>
+          <li><strong data-i18n="games.tennis.proSince">Active Years</strong> — <span data-i18n="games.tennis.howToPlay.clueActiveYears">Career span on tour</span></li>
         </ul>
 
         <div class="tip">
-          <strong>💡 Pro tip:</strong> The backhand style is often distinctive! Left-handed players and one-handed backhands are rarer, so use those clues to quickly narrow down your options.
+          <strong data-i18n="common.howToPlayGuide.tips">💡 Pro tip:</strong> <span data-i18n="games.tennis.howToPlay.proTip">The backhand style is often distinctive! Left-handed players and one-handed backhands are rarer, so use those clues to quickly narrow down your options.</span>
         </div>
       </div>
     </section>
