@@ -240,26 +240,34 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameState.gaveUp = !gameState.isSolved;
     }
     
-    // Rebuild clues state from guesses
-    resetCluesState();
-    gameState.guesses.forEach(guess => {
-      if (guess.comparisons) {
-        updateCluesState(guess, guess.comparisons);
-      }
+    // Wrapper functions to adapt Movies Quiz's return-based functions to append-based
+    const displayGuessAndAppend = (guess) => {
+      guessesContainer.appendChild(displayGuess(guess));
+    };
+    
+    const displayAnswerAndAppend = () => {
+      guessesContainer.appendChild(displayAnswer());
+    };
+    
+    // Use centralized restore function
+    GameUtils.restoreDailyGameUI({
+      guesses: gameState.guesses,
+      displayGuess: displayGuessAndAppend,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessSection,
+      shareSection,
+      gameInfo: document.getElementById('game-info'),
+      gameStatusEl,
+      cluesPanel,
+      isSolved: gameState.isSolved,
+      guessCount: gameState.guesses.length,
+      displayAnswer: displayAnswerAndAppend
     });
-    
-    // Hide guess section, show share section
-    guessSection.style.display = 'none';
-    shareSection.style.display = 'flex';
-    
-    // Hide clues panel when just showing the result
-    if (cluesPanel) cluesPanel.style.display = 'none';
-    
-    // Update UI to show result (Movies Quiz's updateUI already handles rendering guesses)
-    updateUI();
-    
-    // Ensure clues panel stays hidden after updateUI
-    if (cluesPanel) cluesPanel.style.display = 'none';
+
+    // Update guess count display
+    guessCountEl.textContent = gameState.guesses.length;
   }
   
   function playRandom() {
