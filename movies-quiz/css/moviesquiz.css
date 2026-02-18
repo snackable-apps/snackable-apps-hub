@@ -110,6 +110,13 @@ main {
   gap: 10px;
   margin-bottom: 25px;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.guess-section label {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .input-wrapper {
@@ -836,10 +843,17 @@ main {
 /* Share Section */
 .share-section {
   margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.share-section .btn-share {
+  flex: 1;
+  min-width: 160px;
+  max-width: 220px;
 }
 
 .btn-share {
