@@ -135,22 +135,34 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameState.gaveUp = !gameState.isSolved;
     }
     
+    // Rebuild clues state and render guesses
     resetCluesState();
-    gameState.guesses.forEach(guess => {
+    guessesContainer.innerHTML = '';
+    
+    const guessesToRender = [...gameState.guesses].reverse();
+    guessesToRender.forEach(guess => {
       if (guess.comparisons) {
         updateCluesState(guess, guess.comparisons);
+        displayGuess(guess, guess.comparisons);
       }
     });
     
+    // Show game status
+    const guessText = gameState.guesses.length === 1 ? 'guess' : 'guesses';
+    if (gameState.isSolved) {
+      gameStatusEl.textContent = `🏆 Solved in ${gameState.guesses.length} ${guessText}!`;
+      gameStatusEl.className = 'game-over';
+    } else {
+      gameStatusEl.textContent = `❌ Game Over after ${gameState.guesses.length} ${guessText}`;
+      gameStatusEl.className = 'game-over';
+      displayAnswer();
+    }
+    
     guessSection.style.display = 'none';
     shareSection.style.display = 'flex';
+    gameInfo.style.display = 'block';
     
     // Hide clues panel when showing completed result
-    if (cluesPanel) cluesPanel.style.display = 'none';
-    
-    updateGameState();
-    
-    // Ensure clues panel stays hidden after updateGameState
     if (cluesPanel) cluesPanel.style.display = 'none';
   }
   
