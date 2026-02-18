@@ -281,10 +281,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     shareResultsBtn.style.display = '';
   }
   
-  // If daily completed, show the result; otherwise show start screen
-  if (dailyCompleted && dailyState && dailyState.gameData) {
-    restoreDailyResult();
-  }
+  // Note: Daily result restoration is handled inside loadSongsData() after data is loaded
   
   // Start game button handler
   if (startGameBtn) {
@@ -713,7 +710,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     choicesSection.style.display = 'none';
     modeToggles.style.display = 'none';  // Will be shown inside summary via CSS/HTML restructure
     playerSection.style.display = 'none';
-    gameInfo.style.display = 'none';  // Hide game info bar (including "Wrong!" status)
+    document.getElementById('game-info').style.display = 'none';  // Hide game info bar (including "Wrong!" status)
     
     // Calculate stats
     const correctCount = matchResults.filter(r => r.correct).length;
@@ -749,6 +746,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (isFirstMatch) {
       gameStorage.completeDailyGame(result);
       isFirstMatch = false; // Next game will be random
+      
+      // Submit stats to API (only for daily games)
+      if (typeof GameUtils !== 'undefined' && GameUtils.submitBlindtestStats) {
+        GameUtils.submitBlindtestStats({
+          dateString: getTodayDateString(),
+          totalScore: matchScore,
+          correctCount: correctCount,
+          wrongCount: wrongCount,
+          avgTimeMs: Math.round(avgTime * 1000),
+          settingsArtist: easyModeEnabled,
+          settingsMultiple: multipleChoiceEnabled,
+          isRandomMode: false
+        });
+      }
     } else {
       // For random matches, just update stats
       gameStorage.updateStats(result);

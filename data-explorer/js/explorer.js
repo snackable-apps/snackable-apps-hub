@@ -11,7 +11,11 @@ function normalizeText(text) {
 const API_ENDPOINTS = {
     movies: 'https://snackable-api.vercel.app/api/movies',
     books: 'https://snackable-api.vercel.app/api/books',
-    songs: 'https://snackable-api.vercel.app/api/songs'
+    songs: 'https://snackable-api.vercel.app/api/songs',
+    quiz_results: 'https://snackable-api.vercel.app/api/stats/quiz',
+    blindtest_results: 'https://snackable-api.vercel.app/api/stats/blindtest',
+    puzzle_results: 'https://snackable-api.vercel.app/api/stats/puzzle',
+    feedback: 'https://snackable-api.vercel.app/api/feedback-admin'
 };
 
 // Column definitions for each database
@@ -46,6 +50,48 @@ const COLUMNS = {
         { key: 'durationSeconds', label: 'Duration', filterable: false, type: 'duration' },
         { key: 'popularity', label: 'Popularity', filterable: false, type: 'number' },
         { key: 'difficulty', label: 'Difficulty', filterable: true, type: 'select', options: ['easy', 'medium', 'hard'] }
+    ],
+    quiz_results: [
+        { key: 'game', label: 'Game', filterable: true, type: 'select', options: ['f1', 'tennis', 'movies', 'books', 'animal', 'music', 'fut'] },
+        { key: 'date_string', label: 'Date', filterable: true, type: 'text' },
+        { key: 'result', label: 'Result', filterable: true, type: 'select', options: ['solved', 'gave_up'] },
+        { key: 'tries', label: 'Tries', filterable: true, type: 'number' },
+        { key: 'country', label: 'Country', filterable: true, type: 'text' },
+        { key: 'locale', label: 'Locale', filterable: true, type: 'text' },
+        { key: 'created_at', label: 'Created', filterable: false, type: 'datetime' }
+    ],
+    blindtest_results: [
+        { key: 'date_string', label: 'Date', filterable: true, type: 'text' },
+        { key: 'total_score', label: 'Score', filterable: true, type: 'number' },
+        { key: 'correct_count', label: 'Correct', filterable: true, type: 'number' },
+        { key: 'wrong_count', label: 'Wrong', filterable: true, type: 'number' },
+        { key: 'avg_time_ms', label: 'Avg Time (ms)', filterable: false, type: 'number' },
+        { key: 'country', label: 'Country', filterable: true, type: 'text' },
+        { key: 'locale', label: 'Locale', filterable: true, type: 'text' },
+        { key: 'settings_artist', label: 'Artist Hint', filterable: true, type: 'boolean' },
+        { key: 'settings_multiple', label: 'Multiple Choice', filterable: true, type: 'boolean' },
+        { key: 'created_at', label: 'Created', filterable: false, type: 'datetime' }
+    ],
+    puzzle_results: [
+        { key: 'game', label: 'Game', filterable: true, type: 'select', options: ['sudoku'] },
+        { key: 'date_string', label: 'Date', filterable: true, type: 'text' },
+        { key: 'result', label: 'Result', filterable: true, type: 'select', options: ['solved', 'gave_up'] },
+        { key: 'time_seconds', label: 'Time (sec)', filterable: true, type: 'number' },
+        { key: 'hints_used', label: 'Hints', filterable: true, type: 'number' },
+        { key: 'difficulty', label: 'Difficulty', filterable: true, type: 'select', options: ['easy', 'medium', 'hard'] },
+        { key: 'country', label: 'Country', filterable: true, type: 'text' },
+        { key: 'locale', label: 'Locale', filterable: true, type: 'text' },
+        { key: 'created_at', label: 'Created', filterable: false, type: 'datetime' }
+    ],
+    feedback: [
+        { key: 'game', label: 'Game', filterable: true, type: 'text' },
+        { key: 'topic', label: 'Topic', filterable: true, type: 'text' },
+        { key: 'message', label: 'Message', filterable: true, type: 'text' },
+        { key: 'email', label: 'Email', filterable: false, type: 'text' },
+        { key: 'country', label: 'Country', filterable: true, type: 'text' },
+        { key: 'status', label: 'Status', filterable: true, type: 'select', options: ['new', 'reviewed', 'resolved', 'spam'] },
+        { key: 'tackled', label: 'Tackled', filterable: true, type: 'boolean' },
+        { key: 'created_at', label: 'Created', filterable: false, type: 'datetime' }
     ]
 };
 
@@ -92,6 +138,14 @@ async function loadData() {
                 items = data.books;
             } else if (currentDatabase === 'songs' && data.songs) {
                 items = data.songs;
+            } else if (currentDatabase === 'quiz_results' && data.results) {
+                items = data.results;
+            } else if (currentDatabase === 'blindtest_results' && data.results) {
+                items = data.results;
+            } else if (currentDatabase === 'puzzle_results' && data.results) {
+                items = data.results;
+            } else if (currentDatabase === 'feedback' && data.feedback) {
+                items = data.feedback;
             }
         }
         
@@ -323,6 +377,27 @@ function formatCell(value, col) {
     
     if (col.key === 'difficulty') {
         return `<span class="difficulty ${value}">${value}</span>`;
+    }
+    
+    if (col.type === 'datetime') {
+        const date = new Date(value);
+        if (isNaN(date.getTime())) return '—';
+        return date.toLocaleString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+    
+    if (col.type === 'boolean') {
+        return value ? '<span style="color:#34d399;">Yes</span>' : '<span style="color:#f87171;">No</span>';
+    }
+    
+    if (col.key === 'result') {
+        const color = value === 'solved' ? '#34d399' : '#f87171';
+        return `<span style="color:${color};">${value}</span>`;
     }
     
     return escapeHtml(String(value));

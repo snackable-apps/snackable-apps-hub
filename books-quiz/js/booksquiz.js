@@ -673,6 +673,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       });
       dailyCompleted = true;
+      
+      // Submit stats to API
+      if (typeof GameUtils !== 'undefined' && GameUtils.submitQuizStats) {
+        GameUtils.submitQuizStats({
+          game: 'books',
+          dateString: getDateString(),
+          result: solved ? 'solved' : 'gave_up',
+          tries: gameState.guesses.length,
+          isRandomMode: false
+        });
+      }
     }
     
     guessSection.style.display = 'none';

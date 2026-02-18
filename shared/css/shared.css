@@ -917,6 +917,149 @@ header .header-controls {
   }
 }
 
+/* ========== CONSISTENT LAYOUT SYSTEM ========== */
+
+/**
+ * Shared layout system for consistent widths across all games.
+ * Use these classes to ensure all game containers, cards, and panels
+ * have matching widths on desktop and mobile.
+ */
+
+/* Main game container - centers content with consistent max-width */
+.game-layout {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* Content panel - full width within the layout */
+.game-panel {
+  width: 100%;
+  background: var(--card-bg, #1f1f2e);
+  border: 1px solid var(--border-color, #2d2d3d);
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Summary/Results panel - same as game-panel for consistency */
+.game-summary-panel {
+  width: 100%;
+  background: var(--card-bg, #1f1f2e);
+  border: 1px solid var(--border-color, #2d2d3d);
+  border-radius: 12px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Progress bar container */
+.game-progress-container {
+  width: 100%;
+  background: var(--card-bg, #1f1f2e);
+  border: 1px solid var(--border-color, #2d2d3d);
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+
+/* Info section (How to play, etc.) */
+.game-info-panel {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(124, 58, 237, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-sizing: border-box;
+}
+
+/* Action buttons row - side by side layout */
+.game-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  width: 100%;
+}
+
+.game-actions .btn-primary,
+.game-actions .btn-secondary {
+  flex: 1;
+  min-width: 140px;
+  max-width: 200px;
+}
+
+/* Spacing between panels */
+.game-panel + .game-panel,
+.game-summary-panel + .game-info-panel,
+.game-progress-container + .game-panel {
+  margin-top: 16px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .game-layout {
+    padding: 0 12px;
+  }
+  
+  .game-panel,
+  .game-summary-panel,
+  .game-info-panel {
+    padding: 16px;
+  }
+  
+  .game-actions .btn-primary,
+  .game-actions .btn-secondary {
+    min-width: 120px;
+    max-width: none;
+    flex-basis: calc(50% - 6px);
+  }
+}
+
+/* ========== AD SLOTS PLACEHOLDER ========== */
+
+/**
+ * Placeholder classes for future ad integration.
+ * These define the layout structure without implementing ads.
+ */
+
+/* Banner ad slot - horizontal, between sections */
+.ad-slot-banner {
+  width: 100%;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+/* Sidebar ad slot - for desktop wide screens */
+.ad-slot-sidebar {
+  display: none;
+}
+
+/* Only show sidebar ads on wide screens */
+@media (min-width: 1200px) {
+  .ad-slot-sidebar {
+    display: block;
+    position: fixed;
+    width: 160px;
+    min-height: 600px;
+  }
+  
+  .ad-slot-sidebar.left {
+    left: 20px;
+    top: 100px;
+  }
+  
+  .ad-slot-sidebar.right {
+    right: 20px;
+    top: 100px;
+  }
+}
+
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 480px) {

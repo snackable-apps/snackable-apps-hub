@@ -773,6 +773,9 @@ const GameUtils = {
    */
   async submitFeedback(data) {
     try {
+      // Get fingerprint for spam prevention
+      const fingerprint = await this.getFingerprint();
+      
       const response = await fetch(this.FEEDBACK_API_URL, {
         method: 'POST',
         headers: {
@@ -784,7 +787,8 @@ const GameUtils = {
           message: data.message,
           email: data.email || null,
           pageUrl: window.location.href,
-          website: data.website || null // Honeypot field
+          website: data.website || null, // Honeypot field
+          fingerprint: fingerprint
         })
       });
 
@@ -792,6 +796,16 @@ const GameUtils = {
 
       if (!response.ok) {
         return { success: false, error: result.error || 'Failed to submit feedback' };
+      }
+
+      // Track feedback submission in Google Analytics
+      if (typeof gtag === 'function') {
+        gtag('event', 'feedback_submit', {
+          event_category: 'engagement',
+          event_label: data.game || 'unknown',
+          feedback_topic: data.topic || 'none',
+          has_email: !!data.email
+        });
       }
 
       return { success: true };
@@ -928,6 +942,258 @@ const GameUtils = {
         this.showError(result.error);
       }
     });
+  },
+
+  // ========== GAME STATISTICS ==========
+
+  GAME_STATS_API_URL: 'https://snackable-api.vercel.app/api/game-stats',
+
+  /**
+   * Generate a browser fingerprint for anonymous user identification.
+   * This is privacy-friendly (no personal data) and used only for deduplication.
+   * @returns {string} A hashed fingerprint string
+   */
+  async generateFingerprint() {
+    const components = [];
+    
+    // Screen properties
+    components.push(screen.width + 'x' + screen.height);
+    components.push(screen.colorDepth);
+    components.push(window.devicePixelRatio || 1);
+    
+    // Timezone
+    components.push(Intl.DateTimeFormat().resolvedOptions().timeZone);
+    
+    // Language
+    components.push(navigator.language);
+    
+    // Platform
+    components.push(navigator.platform);
+    
+    // User agent (partial - just browser name)
+    const ua = navigator.userAgent;
+    if (ua.includes('Chrome')) components.push('chrome');
+    else if (ua.includes('Firefox')) components.push('firefox');
+    else if (ua.includes('Safari')) components.push('safari');
+    else if (ua.includes('Edge')) components.push('edge');
+    else components.push('other');
+    
+    // Canvas fingerprint (renders text and extracts hash)
+    try {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.textBaseline = 'top';
+      ctx.font = '14px Arial';
+      ctx.fillText('snackable', 2, 2);
+      components.push(canvas.toDataURL().slice(-50));
+    } catch (e) {
+      components.push('no-canvas');
+    }
+    
+    // WebGL renderer (GPU info)
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (gl) {
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        if (debugInfo) {
+          components.push(gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL));
+        }
+      }
+    } catch (e) {
+      components.push('no-webgl');
+    }
+    
+    // Create hash from components
+    const fingerprint = components.join('|');
+    
+    // Simple hash function (FNV-1a)
+    let hash = 2166136261;
+    for (let i = 0; i < fingerprint.length; i++) {
+      hash ^= fingerprint.charCodeAt(i);
+      hash = (hash * 16777619) >>> 0;
+    }
+    
+    return hash.toString(16);
+  },
+
+  /**
+   * Get or create cached fingerprint (stored in sessionStorage)
+   * @returns {Promise<string>} The fingerprint
+   */
+  async getFingerprint() {
+    const cached = sessionStorage.getItem('snackable_fingerprint');
+    if (cached) return cached;
+    
+    const fingerprint = await this.generateFingerprint();
+    sessionStorage.setItem('snackable_fingerprint', fingerprint);
+    return fingerprint;
+  },
+
+  /**
+   * Submit quiz game statistics
+   * @param {Object} data - Quiz result data
+   * @param {string} data.game - Game name (f1, tennis, movies, books, animal, music, fut)
+   * @param {string} data.dateString - The daily challenge date (YYYY-MM-DD)
+   * @param {string} data.result - 'solved' or 'gave_up'
+   * @param {number} data.tries - Number of guesses
+   * @returns {Promise<{success: boolean, error?: string}>}
+   */
+  async submitQuizStats(data) {
+    // Only submit for daily games, not random
+    if (data.isRandomMode) {
+      return { success: true, skipped: true };
+    }
+    
+    // Check if already submitted today for this game
+    const storageKey = `stats_sent_quiz_${data.game}_${data.dateString}`;
+    if (localStorage.getItem(storageKey)) {
+      return { success: true, duplicate: true };
+    }
+    
+    try {
+      const fingerprint = await this.getFingerprint();
+      const locale = localStorage.getItem('snackable_locale') || navigator.language?.split('-')[0] || 'en';
+      
+      const response = await fetch(this.GAME_STATS_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'quiz',
+          game: data.game,
+          date_string: data.dateString,
+          result: data.result,
+          tries: data.tries,
+          locale: locale,
+          fingerprint: fingerprint
+        })
+      });
+      
+      if (response.ok) {
+        localStorage.setItem(storageKey, 'true');
+        return { success: true };
+      }
+      
+      const result = await response.json();
+      return { success: false, error: result.error };
+    } catch (error) {
+      console.error('Failed to submit quiz stats:', error);
+      return { success: false, error: 'Network error' };
+    }
+  },
+
+  /**
+   * Submit blind test game statistics
+   * @param {Object} data - Blind test result data
+   * @param {string} data.dateString - The daily challenge date (YYYY-MM-DD)
+   * @param {number} data.totalScore - Total points earned
+   * @param {number} data.correctCount - Songs guessed correctly (0-5)
+   * @param {number} data.wrongCount - Songs missed
+   * @param {number} data.avgTimeMs - Average response time in ms
+   * @param {boolean} data.settingsArtist - Was "Show Artist" enabled?
+   * @param {boolean} data.settingsMultiple - Was "Multiple Choice" enabled?
+   * @returns {Promise<{success: boolean, error?: string}>}
+   */
+  async submitBlindtestStats(data) {
+    // Only submit for daily games, not random
+    if (data.isRandomMode) {
+      return { success: true, skipped: true };
+    }
+    
+    // Check if already submitted today
+    const storageKey = `stats_sent_blindtest_${data.dateString}`;
+    if (localStorage.getItem(storageKey)) {
+      return { success: true, duplicate: true };
+    }
+    
+    try {
+      const fingerprint = await this.getFingerprint();
+      const locale = localStorage.getItem('snackable_locale') || navigator.language?.split('-')[0] || 'en';
+      
+      const response = await fetch(this.GAME_STATS_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'blindtest',
+          date_string: data.dateString,
+          total_score: data.totalScore,
+          correct_count: data.correctCount,
+          wrong_count: data.wrongCount,
+          avg_time_ms: data.avgTimeMs || null,
+          settings_artist: data.settingsArtist || false,
+          settings_multiple: data.settingsMultiple !== false,
+          locale: locale,
+          fingerprint: fingerprint
+        })
+      });
+      
+      if (response.ok) {
+        localStorage.setItem(storageKey, 'true');
+        return { success: true };
+      }
+      
+      const result = await response.json();
+      return { success: false, error: result.error };
+    } catch (error) {
+      console.error('Failed to submit blindtest stats:', error);
+      return { success: false, error: 'Network error' };
+    }
+  },
+
+  /**
+   * Submit puzzle game statistics (Sudoku, etc.)
+   * @param {Object} data - Puzzle result data
+   * @param {string} data.game - Game name (sudoku)
+   * @param {string} data.dateString - The daily puzzle date (YYYY-MM-DD)
+   * @param {string} data.result - 'solved' or 'gave_up'
+   * @param {number} data.timeSeconds - Time to complete in seconds
+   * @param {number} data.hintsUsed - Number of hints used
+   * @param {string} data.difficulty - 'easy', 'medium', 'hard'
+   * @returns {Promise<{success: boolean, error?: string}>}
+   */
+  async submitPuzzleStats(data) {
+    // Only submit for daily games, not random
+    if (data.isRandomMode) {
+      return { success: true, skipped: true };
+    }
+    
+    // Check if already submitted today for this game
+    const storageKey = `stats_sent_puzzle_${data.game}_${data.dateString}`;
+    if (localStorage.getItem(storageKey)) {
+      return { success: true, duplicate: true };
+    }
+    
+    try {
+      const fingerprint = await this.getFingerprint();
+      const locale = localStorage.getItem('snackable_locale') || navigator.language?.split('-')[0] || 'en';
+      
+      const response = await fetch(this.GAME_STATS_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'puzzle',
+          game: data.game,
+          date_string: data.dateString,
+          result: data.result,
+          time_seconds: data.timeSeconds || null,
+          hints_used: data.hintsUsed || 0,
+          difficulty: data.difficulty || null,
+          locale: locale,
+          fingerprint: fingerprint
+        })
+      });
+      
+      if (response.ok) {
+        localStorage.setItem(storageKey, 'true');
+        return { success: true };
+      }
+      
+      const result = await response.json();
+      return { success: false, error: result.error };
+    } catch (error) {
+      console.error('Failed to submit puzzle stats:', error);
+      return { success: false, error: 'Network error' };
+    }
   }
 };
 

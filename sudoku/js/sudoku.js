@@ -496,6 +496,20 @@ document.addEventListener("DOMContentLoaded", () => {
         moves: gameState.moves
       });
     }
+    
+    // Submit stats to API (using today's date as daily identifier)
+    // Only submits for the first puzzle of each day (puzzle index 0)
+    if (typeof GameUtils !== 'undefined' && GameUtils.submitPuzzleStats && gameState.currentPuzzleIndex === 0) {
+      GameUtils.submitPuzzleStats({
+        game: 'sudoku',
+        dateString: GameUtils.getDateString(),
+        result: 'solved',
+        timeSeconds: elapsed,
+        hintsUsed: 0,
+        difficulty: 'medium',
+        isRandomMode: false
+      });
+    }
   }
 
   function startPartyAnimation() {
