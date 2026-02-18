@@ -307,9 +307,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     submitBtn.disabled = false;
     giveUpBtn.disabled = false;
     
-    // Clear and hide autocomplete
+    // Clear and hide autocomplete (use class, not inline style - inline style overrides class!)
     autocompleteDropdown.innerHTML = '';
-    autocompleteDropdown.style.display = 'none';
+    autocompleteDropdown.style.display = '';  // Clear inline style so class can control display
     autocompleteDropdown.classList.remove('active');
     autocompleteState.selectedIndex = -1;
     autocompleteState.filteredMovies = [];

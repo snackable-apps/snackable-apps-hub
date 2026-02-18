@@ -336,30 +336,21 @@ main {
 }
 
 .clue-item {
-  background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.95));
-  border: 2px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
   text-align: center;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.clue-item:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .clue-item.confirmed {
   border-color: var(--success);
-  background: linear-gradient(135deg, rgba(46, 204, 113, 0.15), rgba(46, 204, 113, 0.05));
-  box-shadow: 0 2px 8px rgba(46, 204, 113, 0.2);
+  background: rgba(46, 204, 113, 0.15);
 }
 
 .clue-item.narrowed {
   border-color: var(--warning);
-  background: linear-gradient(135deg, rgba(243, 156, 18, 0.12), rgba(243, 156, 18, 0.04));
-  box-shadow: 0 2px 8px rgba(243, 156, 18, 0.15);
+  background: rgba(243, 156, 18, 0.1);
 }
 
 .clue-label {
@@ -367,26 +358,22 @@ main {
   font-size: 0.65rem;
   text-transform: uppercase;
   color: var(--text-secondary);
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-  font-weight: 500;
+  letter-spacing: 0.4px;
+  margin-bottom: 5px;
 }
 
 .clue-value {
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--text-primary);
-  letter-spacing: 0.3px;
 }
 
 .clue-item.confirmed .clue-value {
   color: var(--success);
-  text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
 }
 
 .clue-item.narrowed .clue-value {
   color: var(--warning);
-  text-shadow: 0 0 10px rgba(243, 156, 18, 0.3);
 }
 
 /* Tags (genres, cast) */

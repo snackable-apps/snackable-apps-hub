@@ -230,10 +230,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const wrongCount = dailyState.wrongCount || storedResults.filter(r => !r.correct).length;
     const avgTime = dailyState.avgTime || (storedResults.reduce((sum, r) => sum + (r.timeUsed || 0), 0) / storedResults.length);
     
-    // Hide all sections, show match summary
+    // Hide all sections, show match summary with toggles for next game
     startScreen.style.display = 'none';
     document.getElementById('game-info').style.display = 'none';
-    modeToggles.style.display = 'none';
+    modeToggles.style.display = 'flex';  // Keep toggles visible so user can change settings before random match
     playerSection.style.display = 'none';
     guessSection.style.display = 'none';
     choicesSection.style.display = 'none';
@@ -699,11 +699,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Show match summary
   function showMatchSummary() {
-    // Hide game sections
+    // Hide game sections but show mode toggles for next game settings
     resultSection.style.display = 'none';
     guessSection.style.display = 'none';
     choicesSection.style.display = 'none';
-    modeToggles.style.display = 'none';
+    modeToggles.style.display = 'flex';  // Keep toggles visible so user can change settings before next match
     playerSection.style.display = 'none';
     
     // Calculate stats
