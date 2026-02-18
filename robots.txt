@@ -1,0 +1,23 @@
+# Robots.txt for Snackable Games
+# https://snackable-games.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://snackable-games.com/sitemap.xml
+
+# Disallow admin/internal pages
+Disallow: /feedback-admin/
+Disallow: /data-explorer/
+
+# Allow all crawlers to access game pages
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Crawl-delay for less aggressive bots
+User-agent: *
+Crawl-delay: 1
