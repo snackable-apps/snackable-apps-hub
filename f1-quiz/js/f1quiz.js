@@ -312,6 +312,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Handle teams history (array) with individual match highlighting
     if (property === 'teamsHistory' && typeof comparison === 'object') {
+      if (!value || !Array.isArray(value)) return `❌ ${propertyName}: N/A`;
       const teamsHtml = value.map(team => {
         if (comparison.matches.includes(team)) {
           return `<span class="team-match">${team}</span>`;
@@ -701,6 +702,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             podiums: g.podiums,
             birthdate: g.birthdate,
             deathDate: g.deathDate,
+            teamsHistory: g.teamsHistory,
             comparisons: g.comparisons,
             isCorrect: g.isCorrect
           }))

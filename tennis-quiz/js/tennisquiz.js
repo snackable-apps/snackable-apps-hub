@@ -791,10 +791,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           guesses: gameState.guesses.map(g => ({
             name: g.name,
             nationality: g.nationality,
+            currentRanking: g.currentRanking,
+            highestRanking: g.highestRanking,
             hand: g.hand,
-            age: g.age,
-            grandSlams: g.grandSlams,
-            ranking: g.ranking,
+            backhand: g.backhand,
+            grandSlamTitles: g.grandSlamTitles,
+            careerTitles: g.careerTitles,
+            turnedPro: g.turnedPro,
+            dateOfBirth: g.dateOfBirth,
+            deathDate: g.deathDate,
             comparisons: g.comparisons,
             isCorrect: g.isCorrect
           }))

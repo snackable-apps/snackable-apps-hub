@@ -765,10 +765,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         gameData: {
           won: solved,
           guesses: gameState.guesses.map(g => ({
-            title: g.title,
+            name: g.name,
             artist: g.artist,
-            genre: g.genre,
-            year: g.year,
+            albumImage: g.albumImage,
+            releaseYear: g.releaseYear,
+            decade: g.decade,
+            primaryGenre: g.primaryGenre,
             duration: g.duration,
             comparisons: g.comparisons,
             isCorrect: g.isCorrect

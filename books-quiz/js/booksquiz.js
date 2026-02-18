@@ -690,8 +690,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             title: g.title,
             author: g.author,
             genre: g.genre,
-            year: g.year,
-            language: g.language,
+            publicationYear: g.publicationYear,
+            originalLanguage: g.originalLanguage,
+            coverImage: g.coverImage,
             comparisons: g.comparisons,
             isCorrect: g.isCorrect
           }))

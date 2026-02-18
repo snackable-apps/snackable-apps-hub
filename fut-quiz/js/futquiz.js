@@ -885,12 +885,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           guesses: gameState.guesses.map(g => ({
             name: g.name,
             nationality: g.nationality,
-            club: g.club,
-            position: g.position,
-            foot: g.foot,
+            currentClub: g.currentClub,
+            leaguesPlayed: g.leaguesPlayed,
+            primaryPosition: g.primaryPosition,
+            preferredFoot: g.preferredFoot,
             height: g.height,
-            birthdate: g.birthdate,
-            worldCup: g.worldCup,
+            dateOfBirth: g.dateOfBirth,
+            deathDate: g.deathDate,
+            individualTitles: g.individualTitles,
+            teamTitles: g.teamTitles,
+            playedWorldCup: g.playedWorldCup,
             comparisons: g.comparisons,
             isCorrect: g.isCorrect
           }))

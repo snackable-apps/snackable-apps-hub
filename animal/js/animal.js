@@ -783,6 +783,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             class: g.class,
             diet: g.diet,
             activity: g.activity,
+            continent: g.continent,
+            habitat: g.habitat,
             weight: g.weight,
             lifespan: g.lifespan,
             comparisons: g.comparisons,
