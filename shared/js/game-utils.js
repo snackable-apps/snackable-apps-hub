@@ -1260,9 +1260,9 @@ const GameUtils = {
       guessesContainer.innerHTML = '';
     }
 
-    // Render guesses in reverse order (oldest first, so newest ends up on top)
-    const guessesToRender = [...guesses].reverse();
-    guessesToRender.forEach(guess => {
+    // Render guesses in natural order - each game's displayGuess handles positioning
+    // (insertBefore for newest-at-top, appendChild for newest-at-bottom)
+    guesses.forEach(guess => {
       if (guess.comparisons) {
         if (updateCluesState) {
           updateCluesState(guess, guess.comparisons);
