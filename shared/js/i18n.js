@@ -243,6 +243,7 @@ class I18n {
           skipped: 'Skipped',
           guesses: 'Guesses',
           score: 'Score',
+          points: 'points',
           streak: 'Streak',
           stats: 'Statistics',
           howToPlay: 'How to Play',
@@ -283,7 +284,9 @@ class I18n {
           currentStreak: 'Current Streak',
           maxStreak: 'Max Streak',
           bestScore: 'Best Score',
-          averageGuesses: 'Avg Guesses'
+          averageGuesses: 'Avg Guesses',
+          correct: 'Correct',
+          wrong: 'Wrong'
         },
         games: {
           movies: {
@@ -333,6 +336,7 @@ class I18n {
             matchComplete: 'Match Complete!',
             totalScore: 'Total Score',
             avgTime: 'Avg Time',
+            nextMatchSettings: 'Settings for next match:',
             nextMatch: 'Play Random Match',
             startTitle: 'Ready to play?',
             startDesc: 'Listen to 5 song samples and guess the titles. The faster you answer, the more points you get!',
@@ -568,6 +572,7 @@ class I18n {
           skipped: 'Passe',
           guesses: 'Essais',
           score: 'Score',
+          points: 'points',
           streak: 'Serie',
           stats: 'Statistiques',
           howToPlay: 'Comment jouer',
@@ -606,7 +611,9 @@ class I18n {
           currentStreak: 'Serie actuelle',
           maxStreak: 'Meilleure serie',
           bestScore: 'Meilleur score',
-          averageGuesses: 'Moyenne essais'
+          averageGuesses: 'Moyenne essais',
+          correct: 'Correct',
+          wrong: 'Faux'
         },
         games: {
           movies: {
@@ -656,6 +663,7 @@ class I18n {
             matchComplete: 'Match termine !',
             totalScore: 'Score total',
             avgTime: 'Temps moyen',
+            nextMatchSettings: 'Parametres pour le prochain match :',
             nextMatch: 'Match aleatoire',
             startTitle: 'Pret a jouer ?',
             startDesc: 'Ecoutez 5 extraits et devinez les titres. Plus vous repondez vite, plus vous gagnez de points !',
@@ -827,6 +835,7 @@ class I18n {
           skipped: 'Pulado',
           guesses: 'Tentativas',
           score: 'Pontuacao',
+          points: 'pontos',
           streak: 'Sequencia',
           stats: 'Estatisticas',
           howToPlay: 'Como jogar',
@@ -865,7 +874,9 @@ class I18n {
           currentStreak: 'Sequencia atual',
           maxStreak: 'Melhor sequencia',
           bestScore: 'Melhor pontuacao',
-          averageGuesses: 'Media de tentativas'
+          averageGuesses: 'Media de tentativas',
+          correct: 'Correto',
+          wrong: 'Errado'
         },
         games: {
           movies: {
@@ -915,6 +926,7 @@ class I18n {
             matchComplete: 'Partida completa!',
             totalScore: 'Pontuacao total',
             avgTime: 'Tempo medio',
+            nextMatchSettings: 'Configuracoes para a proxima partida:',
             nextMatch: 'Partida aleatoria',
             startTitle: 'Pronto para jogar?',
             startDesc: 'Ouca 5 trechos e adivinhe os titulos. Quanto mais rapido responder, mais pontos voce ganha!',
@@ -1086,6 +1098,7 @@ class I18n {
           skipped: 'Saltato',
           guesses: 'Tentativi',
           score: 'Punteggio',
+          points: 'punti',
           streak: 'Serie',
           stats: 'Statistiche',
           howToPlay: 'Come giocare',
@@ -1124,7 +1137,9 @@ class I18n {
           currentStreak: 'Serie attuale',
           maxStreak: 'Serie migliore',
           bestScore: 'Miglior punteggio',
-          averageGuesses: 'Media tentativi'
+          averageGuesses: 'Media tentativi',
+          correct: 'Corretto',
+          wrong: 'Sbagliato'
         },
         games: {
           movies: {
@@ -1174,6 +1189,7 @@ class I18n {
             matchComplete: 'Match completo!',
             totalScore: 'Punteggio totale',
             avgTime: 'Tempo medio',
+            nextMatchSettings: 'Impostazioni per il prossimo match:',
             nextMatch: 'Match casuale',
             startTitle: 'Pronto a giocare?',
             startDesc: 'Ascolta 5 estratti e indovina i titoli. Piu veloce rispondi, piu punti guadagni!',
@@ -1345,6 +1361,7 @@ class I18n {
           skipped: 'Saltado',
           guesses: 'Intentos',
           score: 'Puntuacion',
+          points: 'puntos',
           streak: 'Racha',
           stats: 'Estadísticas',
           howToPlay: 'Como jugar',
@@ -1383,7 +1400,9 @@ class I18n {
           currentStreak: 'Racha actual',
           maxStreak: 'Mejor racha',
           bestScore: 'Mejor puntuacion',
-          averageGuesses: 'Media de intentos'
+          averageGuesses: 'Media de intentos',
+          correct: 'Correcto',
+          wrong: 'Incorrecto'
         },
         games: {
           movies: {
@@ -1433,6 +1452,7 @@ class I18n {
             matchComplete: '¡Partida completa!',
             totalScore: 'Puntuación total',
             avgTime: 'Tiempo promedio',
+            nextMatchSettings: 'Configuracion para la proxima partida:',
             nextMatch: 'Partida aleatoria',
             startTitle: '¿Listo para jugar?',
             startDesc: 'Escucha 5 fragmentos y adivina los títulos. ¡Cuanto más rápido respondas, más puntos ganas!',

@@ -575,8 +575,7 @@ input:checked + .toggle-slider:before {
   border-radius: 16px;
   padding: 24px;
   text-align: center;
-  max-width: 500px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .summary-title {
@@ -705,13 +704,17 @@ input:checked + .toggle-slider:before {
 
 .summary-actions {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  width: 100%;
 }
 
 .summary-actions .submit-btn {
-  min-width: 180px;
+  flex: 1;
+  min-width: 140px;
+  max-width: 180px;
 }
 
 /* Summary toggles - settings for next match */
@@ -720,7 +723,8 @@ input:checked + .toggle-slider:before {
   border-radius: 10px;
   padding: 12px 16px;
   width: 100%;
-  max-width: 320px;
+  flex-basis: 100%;
+  order: 1;
 }
 
 .summary-toggles .toggles-label {

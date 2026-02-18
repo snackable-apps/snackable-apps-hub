@@ -642,15 +642,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Update display
     if (isCorrect) {
       resultIcon.textContent = '✅';
-      resultPoints.textContent = `+${points} points`;
+      resultPoints.textContent = `+${points} ${i18n.t('common.points') || 'points'}`;
       resultPoints.style.color = 'var(--success-color)';
-      gameStatusEl.textContent = 'Correct!';
+      gameStatusEl.textContent = i18n.t('common.correct');
       gameStatusEl.style.color = 'var(--success-color)';
     } else {
       resultIcon.textContent = skipped ? '⏭️' : '❌';
-      resultPoints.textContent = '+0 points';
+      resultPoints.textContent = `+0 ${i18n.t('common.points') || 'points'}`;
       resultPoints.style.color = 'var(--text-muted)';
-      gameStatusEl.textContent = skipped ? 'Skipped' : 'Wrong!';
+      gameStatusEl.textContent = skipped ? i18n.t('common.skipped') : i18n.t('common.wrong');
       gameStatusEl.style.color = 'var(--error-color)';
     }
     
@@ -713,6 +713,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     choicesSection.style.display = 'none';
     modeToggles.style.display = 'none';  // Will be shown inside summary via CSS/HTML restructure
     playerSection.style.display = 'none';
+    gameInfo.style.display = 'none';  // Hide game info bar (including "Wrong!" status)
     
     // Calculate stats
     const correctCount = matchResults.filter(r => r.correct).length;

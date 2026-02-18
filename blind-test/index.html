@@ -194,24 +194,24 @@
 
     <!-- Match Summary Section (after 5 songs) -->
     <div class="match-summary" id="match-summary" style="display: none;">
-      <h2 class="summary-title">🎧 Match Complete!</h2>
+      <h2 class="summary-title">🎧 <span data-i18n="games.blindtest.matchComplete">Match Complete!</span></h2>
       <div class="summary-score">
-        <span class="score-label">Total Score</span>
+        <span class="score-label" data-i18n="games.blindtest.totalScore">Total Score</span>
         <span class="score-value" id="summary-score">0</span>
         <span class="score-max">/ 500</span>
       </div>
       <div class="summary-stats">
         <div class="stat-item">
           <span class="stat-value" id="summary-correct">0</span>
-          <span class="stat-label">Correct</span>
+          <span class="stat-label" data-i18n="stats.correct">Correct</span>
         </div>
         <div class="stat-item">
           <span class="stat-value" id="summary-wrong">0</span>
-          <span class="stat-label">Wrong</span>
+          <span class="stat-label" data-i18n="stats.wrong">Wrong</span>
         </div>
         <div class="stat-item">
           <span class="stat-value" id="summary-avg-time">0s</span>
-          <span class="stat-label">Avg Time</span>
+          <span class="stat-label" data-i18n="games.blindtest.avgTime">Avg Time</span>
         </div>
       </div>
       <div class="summary-mode" id="summary-mode"></div>
@@ -223,7 +223,7 @@
         
         <!-- Toggles for next game settings -->
         <div class="summary-toggles" id="summary-toggles">
-          <p class="toggles-label">Settings for next match:</p>
+          <p class="toggles-label" data-i18n="games.blindtest.nextMatchSettings">Settings for next match:</p>
           <div class="toggle-row compact">
             <div class="toggle-container compact">
               <label class="toggle-switch">
