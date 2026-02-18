@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   function showStartScreen() {
     startScreen.style.display = 'flex';
     document.getElementById('game-info').style.display = 'none';
-    modeToggles.style.display = 'none';
+    modeToggles.style.display = 'flex';  // Show toggles so user can set preferences before starting
     playerSection.style.display = 'none';
     guessSection.style.display = 'none';
     choicesSection.style.display = 'none';
@@ -303,11 +303,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     matchScore = 0;
     matchResults = [];
     
-    // Hide summary, show game
+    // Hide summary and toggles, show game
     matchSummary.style.display = 'none';
     startScreen.style.display = 'none';
     document.getElementById('game-info').style.display = 'block';
-    modeToggles.style.display = 'flex';
+    modeToggles.style.display = 'none';  // Hide toggles during gameplay
     playerSection.style.display = 'flex';
     
     startRound();
