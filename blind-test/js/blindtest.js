@@ -752,13 +752,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (isFirstMatch) {
       console.log('[BlindTest] Saving daily game result:', result);
       gameStorage.completeDailyGame(result);
-      console.log('[BlindTest] Daily game saved. Verify with: localStorage.getItem("blindtest_daily_' + getTodayDateString() + '")');
+      console.log('[BlindTest] Daily game saved. Verify with: localStorage.getItem("blindtest_daily_' + getDateString() + '")');
       isFirstMatch = false; // Next game will be random
       
       // Submit stats to API (only for daily games)
       if (typeof GameUtils !== 'undefined' && GameUtils.submitBlindtestStats) {
         GameUtils.submitBlindtestStats({
-          dateString: getTodayDateString(),
+          dateString: getDateString(),
           totalScore: matchScore,
           correctCount: correctCount,
           wrongCount: wrongCount,

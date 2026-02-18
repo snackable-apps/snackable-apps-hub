@@ -81,9 +81,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       if (SECRET_POOL.length > 0) {
         // Check if daily is completed - show result instead of restarting
+        console.log('[F1Quiz] dailyCompleted:', dailyCompleted, 'dailyState:', dailyState);
         if (dailyCompleted && dailyState) {
+          console.log('[F1Quiz] Restoring daily result...');
           restoreDailyResult();
         } else {
+          console.log('[F1Quiz] Starting new game (daily not completed)');
           guessSection.style.display = 'flex';
           initializeGame();
         }
@@ -102,7 +105,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Restore and display the completed daily game result
   function restoreDailyResult() {
+    console.log('[F1Quiz] restoreDailyResult called with dailyState:', JSON.stringify(dailyState));
     const todaysDriver = getDailyDriver();
+    console.log('[F1Quiz] todaysDriver:', todaysDriver?.name);
     
     gameState.secretDriver = todaysDriver;
     gameState.currentDate = getDateString();
