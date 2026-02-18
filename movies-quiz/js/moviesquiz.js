@@ -261,12 +261,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   
   function playRandom() {
+    console.log('playRandom: Called');
+    
     // Select random movie using centralized utility
     const randomMovie = GameUtils.selectRandomFromPool(SECRET_POOL, gameState.secretMovie, 'title');
     if (!randomMovie) {
       console.error('playRandom: No movies available');
       return;
     }
+    
+    console.log('playRandom: Selected movie:', randomMovie.title);
     
     // Reset game state
     gameState.secretMovie = randomMovie;
@@ -297,6 +301,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       },
       autocompleteState
     });
+    
+    // Additional verification - ensure input is truly interactive
+    console.log('playRandom: Verifying input state...');
+    console.log('  - movieInput exists:', !!movieInput);
+    console.log('  - movieInput.disabled:', movieInput?.disabled);
+    console.log('  - guessSection.display:', guessSection?.style?.display);
+    console.log('  - gameState.isGameOver:', gameState.isGameOver);
+    console.log('  - ALL_MOVIES count:', ALL_MOVIES.length);
     
     // Track random play
     if (typeof gtag === 'function') {
