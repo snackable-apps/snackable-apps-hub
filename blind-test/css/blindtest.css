@@ -575,6 +575,8 @@ input:checked + .toggle-slider:before {
   border-radius: 16px;
   padding: 24px;
   text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .summary-title {
@@ -646,45 +648,55 @@ input:checked + .toggle-slider:before {
   flex-direction: column;
   gap: 8px;
   margin-bottom: 20px;
-}
-
-.song-result {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  background: var(--bg-color);
-  border-radius: 8px;
   text-align: left;
 }
 
+.song-result {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-color);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 .song-result .result-emoji {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  width: 28px;
+  text-align: center;
 }
 
 .song-result .song-info {
-  flex: 1;
   min-width: 0;
+  overflow: hidden;
 }
 
 .song-result .song-name {
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 2px;
 }
 
 .song-result .song-artist {
   font-size: 0.8rem;
   color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .song-result .song-points {
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 1rem;
   color: var(--primary-color);
+  min-width: 50px;
+  text-align: right;
 }
 
 .song-result .song-points.zero {

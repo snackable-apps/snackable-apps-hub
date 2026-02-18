@@ -564,13 +564,19 @@ main {
 .clues-ranges {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 
 .clues-confirmed {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 6px;
+}
+
+.clues-ranges + .clues-confirmed {
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
 }
 
 .clue-item {

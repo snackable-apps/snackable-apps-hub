@@ -120,40 +120,52 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Initialize game after data is loaded
   function initializeAfterLoad() {
+    console.log('initializeAfterLoad: ALL_SONGS count:', ALL_SONGS.length);
+    
     SECRET_POOL = ALL_SONGS.filter(song => 
       song.difficulty === 'easy' || song.difficulty === 'medium'
     );
+    
+    console.log('initializeAfterLoad: SECRET_POOL count:', SECRET_POOL.length);
     
     const loadingState = document.getElementById('loading-state');
     if (loadingState) loadingState.style.display = 'none';
     
     if (SECRET_POOL.length > 0) {
       if (dailyCompleted && dailyState) {
+        console.log('initializeAfterLoad: Restoring daily result');
         restoreDailyResult();
       } else {
+        console.log('initializeAfterLoad: Starting new game');
         guessSection.style.display = 'flex';
         initializeGame();
       }
     } else {
-      console.error('No songs available in secret pool');
+      console.error('No songs available in secret pool. ALL_SONGS difficulties:', 
+        [...new Set(ALL_SONGS.map(s => s.difficulty))]);
       GameUtils.showError('common.noDataAvailable', true);
     }
   }
 
   // Load songs from API with localStorage caching
   async function loadSongsData() {
+    console.log('loadSongsData: Starting...');
+    
     try {
       // Try to load from cache first for faster startup
       if (isCacheValid()) {
+        console.log('loadSongsData: Cache is valid, loading from cache');
         const cachedSongs = loadFromCache();
         if (cachedSongs && cachedSongs.length > 0) {
           ALL_SONGS = cachedSongs;
+          console.log('loadSongsData: Loaded', ALL_SONGS.length, 'songs from cache');
           initializeAfterLoad();
           return;
         }
       }
       
       // No valid cache - fetch from API
+      console.log('loadSongsData: Fetching from API...');
       const response = await fetch(API_URL);
       
       if (!response.ok) {
@@ -161,6 +173,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
       
       const data = await response.json();
+      console.log('loadSongsData: API response success:', data.success, 'count:', data.songs?.length);
       
       if (!data.success || !data.songs || data.songs.length === 0) {
         throw new Error('No songs returned from API');
@@ -168,6 +181,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       // Transform and cache
       ALL_SONGS = transformSongData(data.songs);
+      console.log('loadSongsData: Transformed', ALL_SONGS.length, 'songs');
       saveToCache(ALL_SONGS);
       
     } catch (apiError) {
@@ -175,8 +189,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Try cache as fallback even if expired
       const fallbackCache = loadFromCache();
       if (fallbackCache && fallbackCache.length > 0) {
+        console.log('loadSongsData: Using fallback cache with', fallbackCache.length, 'songs');
         ALL_SONGS = fallbackCache;
       } else {
+        console.error('loadSongsData: No fallback cache available');
+        const loadingState = document.getElementById('loading-state');
+        if (loadingState) loadingState.style.display = 'none';
         GameUtils.showError('common.loadError', true);
         return;
       }

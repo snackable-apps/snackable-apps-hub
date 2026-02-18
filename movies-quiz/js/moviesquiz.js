@@ -261,6 +261,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   
   function playRandom() {
+    // Ensure we have movies loaded
+    if (SECRET_POOL.length === 0) {
+      console.error('playRandom: SECRET_POOL is empty!');
+      return;
+    }
+    
     // Select a random movie from the pool (different from current if exists)
     const currentTitle = gameState.secretMovie ? gameState.secretMovie.title : null;
     const availableMovies = SECRET_POOL.filter(m => m.title !== currentTitle);
@@ -284,28 +290,39 @@ document.addEventListener("DOMContentLoaded", async () => {
     autocompleteState.filteredMovies = [];
     autocompleteState.isOpen = false;
     
-    // Reset UI
+    // Reset UI elements
     guessesContainer.innerHTML = '';
     guessCountEl.textContent = '0';
     gameStatusEl.textContent = '';
     gameStatusEl.className = '';
+    
+    // Force show guess section, hide share section
     guessSection.style.display = 'flex';
+    guessSection.style.visibility = 'visible';
     shareSection.style.display = 'none';
     
-    // Reset input (simple approach like tennis quiz)
+    // Reset input field
     movieInput.value = '';
     movieInput.disabled = false;
+    movieInput.readOnly = false;
+    submitBtn.disabled = false;
+    giveUpBtn.disabled = false;
+    
+    // Reset autocomplete dropdown
     autocompleteDropdown.innerHTML = '';
     autocompleteDropdown.style.display = 'none';
     autocompleteDropdown.classList.remove('active');
     
-    // Hide clues panel
+    // Hide clues panel for fresh start
     if (cluesPanel) cluesPanel.style.display = 'none';
     
-    // Focus input
-    setTimeout(() => movieInput.focus(), 100);
+    // Focus input after brief delay
+    setTimeout(() => {
+      movieInput.focus();
+      console.log('playRandom: Input focused, guessSection display:', guessSection.style.display);
+    }, 100);
     
-    console.log('playRandom: starting random game with movie:', randomMovie.title, 'ALL_MOVIES count:', ALL_MOVIES.length);
+    console.log('playRandom: Starting random game with movie:', randomMovie.title);
     
     // Track random play
     if (typeof gtag === 'function') {

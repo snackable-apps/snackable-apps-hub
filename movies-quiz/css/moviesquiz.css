@@ -320,13 +320,19 @@ main {
 .clues-ranges {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 
 .clues-confirmed {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  gap: 6px;
+}
+
+.clues-ranges + .clues-confirmed {
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
 }
 
 .clue-item {
@@ -420,12 +426,21 @@ main {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   margin: 2px;
   padding: 4px;
   background: rgba(46, 204, 113, 0.1);
   border: 1px solid #2ecc71;
   border-radius: 8px;
+  width: 56px;
+  min-height: 60px;
+  box-sizing: border-box;
+}
+
+.clue-actor.unknown {
+  background: rgba(100, 100, 100, 0.15);
+  border: 1px dashed #666;
 }
 
 .clue-actor-img {
@@ -440,9 +455,14 @@ main {
 .clue-actor-name {
   font-size: 0.6rem;
   color: #2ecc71;
-  max-width: 60px;
+  max-width: 52px;
   word-break: break-word;
   line-height: 1.1;
+}
+
+.clue-actor.unknown .clue-actor-name {
+  color: #888;
+  font-style: italic;
 }
 
 /* Excluded values */
@@ -1118,6 +1138,8 @@ footer a:hover {
   /* Clue actor cards in summary */
   .clue-actor {
     padding: 3px;
+    width: 48px;
+    min-height: 52px;
   }
   
   .clue-actor-img {
@@ -1127,7 +1149,7 @@ footer a:hover {
   
   .clue-actor-name {
     font-size: 0.55rem;
-    max-width: 50px;
+    max-width: 44px;
   }
 }
 
