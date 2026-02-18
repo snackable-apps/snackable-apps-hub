@@ -342,8 +342,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Matched genres and cast (with total counts for displaying unknown slots)
     matchedGenres: new Set(),
     totalGenreCount: 0,
-    matchedCast: new Map(), // Map of name -> {name, image}
+    matchedCast: new Map(), // Map of name -> {name, image, position}
     totalCastCount: 0,
+    secretCastOrder: [], // Array of actor names in original order (for position lookup)
     // Excluded values (for display)
     excludedCountries: new Set(),
     excludedDirectors: new Set(),
@@ -580,14 +581,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // Cast - track matches and exclusions (with images for matched)
-    // Set total cast count from secret movie on first guess
+    // Set total cast count and store secret cast order on first guess
     if (cluesState.totalCastCount === 0 && gameState.secretMovie && gameState.secretMovie.cast) {
       cluesState.totalCastCount = gameState.secretMovie.cast.length;
+      cluesState.secretCastOrder = gameState.secretMovie.cast.map(name => name.toLowerCase());
     }
     comparisons.castDetails.forEach(a => {
       if (a.match) {
-        // Store with image URL for display in clues panel
-        cluesState.matchedCast.set(a.fullName, { name: a.fullName, image: a.image });
+        // Find position in secret movie's cast list
+        const position = cluesState.secretCastOrder.indexOf(a.fullName.toLowerCase());
+        // Store with image URL and position for display in clues panel
+        cluesState.matchedCast.set(a.fullName.toLowerCase(), { 
+          name: a.fullName, 
+          image: a.image,
+          position: position >= 0 ? position : cluesState.matchedCast.size
+        });
       } else {
         cluesState.excludedActors.add(a.fullName);
       }
@@ -701,24 +709,38 @@ document.addEventListener("DOMContentLoaded", async () => {
       genresGroup.style.display = 'none';
     }
 
-    // Cast - show with pictures
+    // Cast - show with pictures in correct order (with placeholders)
     const castGroup = document.getElementById('clue-cast-group');
     const castContainer = document.getElementById('clue-cast');
-    if (cluesState.matchedCast.size > 0) {
+    if (cluesState.totalCastCount > 0) {
       castGroup.style.display = 'flex';
-      castContainer.innerHTML = [...cluesState.matchedCast.values()]
-        .map(a => {
-          const hasImage = !!a.image;
+      
+      // Create array of slots for all cast positions
+      const castSlots = new Array(cluesState.totalCastCount).fill(null);
+      
+      // Place matched actors at their correct positions
+      cluesState.matchedCast.forEach(actor => {
+        if (actor.position >= 0 && actor.position < cluesState.totalCastCount) {
+          castSlots[actor.position] = actor;
+        }
+      });
+      
+      // Render slots (actor or placeholder)
+      castContainer.innerHTML = castSlots.map((actor, idx) => {
+        if (actor) {
+          const hasImage = !!actor.image;
           const clickableClass = hasImage ? 'clickable' : '';
           const onclickAttr = hasImage 
-            ? `onclick="openActorLightbox('${a.image.replace(/'/g, "\\'")}', '${a.name.replace(/'/g, "\\'")}')"` 
+            ? `onclick="openActorLightbox('${actor.image.replace(/'/g, "\\'")}', '${actor.name.replace(/'/g, "\\'")}')"` 
             : '';
           const imgHtml = hasImage 
-            ? `<img src="${a.image}" alt="${a.name}" class="clue-actor-img ${clickableClass}" ${onclickAttr} onerror="this.style.display='none';this.classList.remove('clickable');this.removeAttribute('onclick')">`
+            ? `<img src="${actor.image}" alt="${actor.name}" class="clue-actor-img ${clickableClass}" ${onclickAttr} onerror="this.style.display='none';this.classList.remove('clickable');this.removeAttribute('onclick')">`
             : '';
-          return `<div class="clue-actor">${imgHtml}<span class="clue-actor-name">${formatActorName(a.name)}</span></div>`;
-        })
-        .join('');
+          return `<div class="clue-actor">${imgHtml}<span class="clue-actor-name">${formatActorName(actor.name)}</span></div>`;
+        } else {
+          return `<div class="clue-actor unknown"><span class="clue-actor-name">????</span></div>`;
+        }
+      }).join('');
     } else {
       castGroup.style.display = 'none';
     }
@@ -785,6 +807,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       totalGenreCount: 0,
       matchedCast: new Map(),
       totalCastCount: 0,
+      secretCastOrder: [],
       excludedCountries: new Set(),
       excludedDirectors: new Set(),
       excludedGenres: new Set(),

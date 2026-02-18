@@ -265,9 +265,12 @@ function renderTableBody() {
         html += '<tr>';
         columns.forEach(col => {
             const value = item[col.key];
-            // Add scroll-x class to cast column for horizontal scrolling
-            const cellClass = col.key === 'cast' ? ' class="scroll-x"' : '';
-            html += `<td${cellClass}>${formatCell(value, col)}</td>`;
+            // Add scroll-x class to cast column with click-to-expand
+            if (col.key === 'cast') {
+                html += `<td class="scroll-x" onclick="this.classList.toggle('expanded')" title="Click to expand">${formatCell(value, col)}</td>`;
+            } else {
+                html += `<td>${formatCell(value, col)}</td>`;
+            }
         });
         html += '</tr>';
     });

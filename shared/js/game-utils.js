@@ -543,10 +543,10 @@ const GameUtils = {
    * Topic options for feedback
    */
   FEEDBACK_TOPICS: [
-    { value: 'bug', labelKey: 'feedback.topicBug' },
-    { value: 'suggestion', labelKey: 'feedback.topicSuggestion' },
-    { value: 'data', labelKey: 'feedback.topicData' },
-    { value: 'other', labelKey: 'feedback.topicOther' }
+    { value: 'Bug Report', labelKey: 'feedback.topicBug' },
+    { value: 'Suggestion', labelKey: 'feedback.topicSuggestion' },
+    { value: 'Data Issue', labelKey: 'feedback.topicData' },
+    { value: 'Other', labelKey: 'feedback.topicOther' }
   ],
 
   /**

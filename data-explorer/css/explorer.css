@@ -219,13 +219,28 @@ td.wrap {
     vertical-align: top;
 }
 
-/* Cast column - horizontal scroll instead of wrapping */
+/* Cast column - click to expand or horizontal scroll */
 td.scroll-x {
     white-space: nowrap;
-    max-width: 400px;
-    overflow-x: auto;
+    max-width: 350px;
+    overflow-x: auto !important;
     overflow-y: hidden;
+    text-overflow: clip !important;
     vertical-align: middle;
+    cursor: pointer;
+    transition: max-width 0.2s ease;
+}
+
+td.scroll-x.expanded {
+    white-space: normal;
+    max-width: none;
+    overflow: visible;
+}
+
+td.scroll-x:not(.expanded)::after {
+    content: ' ▶';
+    color: #666;
+    font-size: 0.7rem;
 }
 
 td.scroll-x::-webkit-scrollbar {
