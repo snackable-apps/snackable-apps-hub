@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let cluesState = {
     yearMin: null, yearMax: null, yearConfirmed: null,
     authorConfirmed: null, genreConfirmed: null, languageConfirmed: null,
-    excludedAuthors: new Set(), excludedGenres: new Set()
+    excludedAuthors: new Set(), excludedGenres: new Set(), excludedLanguages: new Set()
   };
 
   const cluesPanel = document.getElementById('clues-panel');
@@ -355,12 +355,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     else if (comparisons.publicationYear === 'higher') { if (cluesState.yearMin === null || guess.publicationYear > cluesState.yearMin) cluesState.yearMin = guess.publicationYear; }
     else if (comparisons.publicationYear === 'lower') { if (cluesState.yearMax === null || guess.publicationYear < cluesState.yearMax) cluesState.yearMax = guess.publicationYear; }
 
-    if (comparisons.author === 'match') cluesState.authorConfirmed = guess.author;
-    else cluesState.excludedAuthors.add(guess.author);
-
-    if (comparisons.genre === 'match') cluesState.genreConfirmed = guess.genre;
-    else cluesState.excludedGenres.add(guess.genre);
-    if (comparisons.originalLanguage === 'match') cluesState.languageConfirmed = guess.originalLanguage;
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.author,
+      guessValue: guess.author,
+      confirmedKey: 'authorConfirmed',
+      excludedKey: 'excludedAuthors'
+    });
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.genre,
+      guessValue: guess.genre,
+      confirmedKey: 'genreConfirmed',
+      excludedKey: 'excludedGenres'
+    });
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.originalLanguage,
+      guessValue: guess.originalLanguage,
+      confirmedKey: 'languageConfirmed',
+      excludedKey: 'excludedLanguages'
+    });
   }
 
   function renderCluesPanel() {
@@ -398,6 +410,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const excludedRow = document.getElementById('clue-excluded-row');
     const authorSection = document.getElementById('clue-excluded-author-section');
     const genreSection = document.getElementById('clue-excluded-genre-section');
+    const languageSection = document.getElementById('clue-excluded-language-section');
     
     const hasAuthor = GameUtils.renderExcludedSection({
       containerEl: authorSection,
@@ -413,11 +426,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       maxItems: 4
     });
     
-    excludedRow.style.display = (hasAuthor || hasGenre) ? 'flex' : 'none';
+    const hasLanguage = GameUtils.renderExcludedSection({
+      containerEl: languageSection,
+      excludedSet: cluesState.excludedLanguages,
+      confirmedValue: cluesState.languageConfirmed,
+      maxItems: 3
+    });
+    
+    excludedRow.style.display = (hasAuthor || hasGenre || hasLanguage) ? 'flex' : 'none';
   }
 
   function resetCluesState() {
-    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, authorConfirmed: null, genreConfirmed: null, languageConfirmed: null, excludedAuthors: new Set(), excludedGenres: new Set() };
+    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, authorConfirmed: null, genreConfirmed: null, languageConfirmed: null, excludedAuthors: new Set(), excludedGenres: new Set(), excludedLanguages: new Set() };
   }
 
   function displayGuess(guess, comparisons) {
@@ -548,6 +568,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const comparisons = compareProperties(gameState.secretBook, guess);
     updateCluesState(guess, comparisons);
+    
+    // Store comparisons with the guess for restoration
+    guess.comparisons = comparisons;
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);

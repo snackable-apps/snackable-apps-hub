@@ -213,7 +213,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     totalTitlesCount: 0,
     excludedNationalities: new Set(),
     excludedClubs: new Set(),
-    excludedPositions: new Set()
+    excludedPositions: new Set(),
+    excludedFoot: new Set()
   };
 
   // Clues Panel Elements
@@ -425,28 +426,35 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Club
-    if (comparisons.currentClub === 'match') {
-      cluesState.clubConfirmed = guess.currentClub;
-    } else {
-      cluesState.excludedClubs.add(guess.currentClub);
-    }
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.currentClub,
+      guessValue: guess.currentClub,
+      confirmedKey: 'clubConfirmed',
+      excludedKey: 'excludedClubs'
+    });
 
     // Position
-    if (comparisons.primaryPosition === 'match') {
-      cluesState.positionConfirmed = guess.primaryPosition;
-    } else {
-      cluesState.excludedPositions.add(guess.primaryPosition);
-    }
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.primaryPosition,
+      guessValue: guess.primaryPosition,
+      confirmedKey: 'positionConfirmed',
+      excludedKey: 'excludedPositions'
+    });
 
     // Foot
-    if (comparisons.preferredFoot === 'match') {
-      cluesState.footConfirmed = guess.preferredFoot;
-    }
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.preferredFoot,
+      guessValue: guess.preferredFoot,
+      confirmedKey: 'footConfirmed',
+      excludedKey: 'excludedFoot'
+    });
 
-    // World Cup
-    if (comparisons.playedWorldCup === 'match') {
-      cluesState.worldCupConfirmed = guess.playedWorldCup ? 'Sim' : 'Não';
-    }
+    // World Cup (binary - no excluded needed)
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.playedWorldCup,
+      guessValue: guess.playedWorldCup ? 'Sim' : 'Não',
+      confirmedKey: 'worldCupConfirmed'
+    });
 
     // Leagues - track total count on first guess
     if (cluesState.totalLeaguesCount === 0 && gameState.secretPlayer && gameState.secretPlayer.leaguesPlayed) {
@@ -546,6 +554,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const nationalitySection = document.getElementById('clue-excluded-nationality-section');
     const clubSection = document.getElementById('clue-excluded-club-section');
     const positionSection = document.getElementById('clue-excluded-position-section');
+    const footSection = document.getElementById('clue-excluded-foot-section');
     
     const hasNationality = GameUtils.renderExcludedSection({
       containerEl: nationalitySection,
@@ -568,7 +577,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       maxItems: 4
     });
     
-    excludedRow.style.display = (hasNationality || hasClub || hasPosition) ? 'flex' : 'none';
+    const hasFoot = GameUtils.renderExcludedSection({
+      containerEl: footSection,
+      excludedSet: cluesState.excludedFoot,
+      confirmedValue: cluesState.footConfirmed,
+      maxItems: 3
+    });
+    
+    excludedRow.style.display = (hasNationality || hasClub || hasPosition || hasFoot) ? 'flex' : 'none';
   }
 
   function resetCluesState() {
@@ -586,7 +602,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       totalTitlesCount: 0,
       excludedNationalities: new Set(),
       excludedClubs: new Set(),
-      excludedPositions: new Set()
+      excludedPositions: new Set(),
+      excludedFoot: new Set()
     };
   }
 
@@ -732,6 +749,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const comparisons = compareProperties(gameState.secretPlayer, guess);
     updateCluesState(guess, comparisons);
+    
+    // Store comparisons with the guess for restoration
+    guess.comparisons = comparisons;
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);

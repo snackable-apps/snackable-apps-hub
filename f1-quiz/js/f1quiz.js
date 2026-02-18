@@ -368,11 +368,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     else if (comparisons.podiums === 'higher') { if (cluesState.podiumsMin === null || guess.podiums > cluesState.podiumsMin) cluesState.podiumsMin = guess.podiums; }
     else if (comparisons.podiums === 'lower') { if (cluesState.podiumsMax === null || guess.podiums < cluesState.podiumsMax) cluesState.podiumsMax = guess.podiums; }
 
-    if (comparisons.nationality === 'match') cluesState.nationalityConfirmed = guess.nationality;
-    else cluesState.excludedNationalities.add(guess.nationality);
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.nationality,
+      guessValue: guess.nationality,
+      confirmedKey: 'nationalityConfirmed',
+      excludedKey: 'excludedNationalities'
+    });
 
-    if (comparisons.currentTeam === 'match') cluesState.teamConfirmed = guess.currentTeam;
-    else cluesState.excludedTeams.add(guess.currentTeam);
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.currentTeam,
+      guessValue: guess.currentTeam,
+      confirmedKey: 'teamConfirmed',
+      excludedKey: 'excludedTeams'
+    });
 
     // Teams History - track total count on first guess
     if (cluesState.totalTeamsCount === 0 && gameState.secretDriver && gameState.secretDriver.teamsHistory) {
@@ -566,6 +574,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const comparisons = compareProperties(gameState.secretDriver, guess);
     updateCluesState(guess, comparisons);
+    
+    // Store comparisons with the guess for restoration
+    guess.comparisons = comparisons;
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);

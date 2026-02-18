@@ -303,7 +303,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     yearMin: null, yearMax: null, yearConfirmed: null,
     durationMin: null, durationMax: null, durationConfirmed: null,
     artistConfirmed: null, genreConfirmed: null, decadeConfirmed: null,
-    excludedGenres: new Set()
+    excludedGenres: new Set(), excludedArtists: new Set(), excludedDecades: new Set()
   };
 
   const cluesPanel = document.getElementById('clues-panel');
@@ -397,6 +397,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function updateCluesState(guess, comparisons) {
+    // Range-based clues (year, duration) - not refactored
     if (comparisons.releaseYear === 'match') cluesState.yearConfirmed = guess.releaseYear;
     else if (comparisons.releaseYear === 'higher') { if (cluesState.yearMin === null || guess.releaseYear > cluesState.yearMin) cluesState.yearMin = guess.releaseYear; }
     else if (comparisons.releaseYear === 'lower') { if (cluesState.yearMax === null || guess.releaseYear < cluesState.yearMax) cluesState.yearMax = guess.releaseYear; }
@@ -405,10 +406,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     else if (comparisons.duration === 'higher') { if (cluesState.durationMin === null || guess.duration > cluesState.durationMin) cluesState.durationMin = guess.duration; }
     else if (comparisons.duration === 'lower') { if (cluesState.durationMax === null || guess.duration < cluesState.durationMax) cluesState.durationMax = guess.duration; }
 
-    if (comparisons.artist === 'match') cluesState.artistConfirmed = guess.artist;
-    if (comparisons.primaryGenre === 'match') cluesState.genreConfirmed = guess.primaryGenre;
-    else cluesState.excludedGenres.add(guess.primaryGenre);
-    if (comparisons.decade === 'match') cluesState.decadeConfirmed = guess.decade;
+    // Categorical clues using centralized utility
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.artist,
+      guessValue: guess.artist,
+      confirmedKey: 'artistConfirmed',
+      excludedKey: 'excludedArtists'
+    });
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.primaryGenre,
+      guessValue: guess.primaryGenre,
+      confirmedKey: 'genreConfirmed',
+      excludedKey: 'excludedGenres'
+    });
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.decade,
+      guessValue: guess.decade,
+      confirmedKey: 'decadeConfirmed',
+      excludedKey: 'excludedDecades'
+    });
   }
 
   function renderCluesPanel() {
@@ -446,6 +462,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Render excluded sections using centralized utility
     const excludedRow = document.getElementById('clue-excluded-row');
     const genreSection = document.getElementById('clue-excluded-genre-section');
+    const artistSection = document.getElementById('clue-excluded-artist-section');
+    const decadeSection = document.getElementById('clue-excluded-decade-section');
     
     const hasGenre = GameUtils.renderExcludedSection({
       containerEl: genreSection,
@@ -453,12 +471,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       confirmedValue: cluesState.genreConfirmed,
       maxItems: 5
     });
+    const hasArtist = GameUtils.renderExcludedSection({
+      containerEl: artistSection,
+      excludedSet: cluesState.excludedArtists,
+      confirmedValue: cluesState.artistConfirmed,
+      maxItems: 5
+    });
+    const hasDecade = GameUtils.renderExcludedSection({
+      containerEl: decadeSection,
+      excludedSet: cluesState.excludedDecades,
+      confirmedValue: cluesState.decadeConfirmed,
+      maxItems: 5
+    });
     
-    excludedRow.style.display = hasGenre ? 'flex' : 'none';
+    excludedRow.style.display = (hasGenre || hasArtist || hasDecade) ? 'flex' : 'none';
   }
 
   function resetCluesState() {
-    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, durationMin: null, durationMax: null, durationConfirmed: null, artistConfirmed: null, genreConfirmed: null, decadeConfirmed: null, excludedGenres: new Set() };
+    cluesState = { yearMin: null, yearMax: null, yearConfirmed: null, durationMin: null, durationMax: null, durationConfirmed: null, artistConfirmed: null, genreConfirmed: null, decadeConfirmed: null, excludedGenres: new Set(), excludedArtists: new Set(), excludedDecades: new Set() };
   }
 
   function formatPropertyValue(property, value) {
@@ -605,6 +635,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const comparisons = compareProperties(gameState.secretSong, guess);
     updateCluesState(guess, comparisons);
+    
+    // Store comparisons with the guess for restoration
+    guess.comparisons = comparisons;
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);

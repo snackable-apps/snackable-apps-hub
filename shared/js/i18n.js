@@ -465,6 +465,7 @@ class I18n {
             notNationality: '❌ Nationality:',
             notClub: '❌ Club:',
             notPosition: '❌ Position:',
+            notFoot: '❌ Foot:',
             howToPlay: {
               gameTitle: '📖 How to Play FutQuiz',
               intro: 'FutQuiz is a daily guessing game for football fans. Your mission is to identify the secret player using clues from their career.',
@@ -561,6 +562,7 @@ class I18n {
             habitats: 'Habitats',
             notClass: '❌ Class:',
             notDiet: '❌ Diet:',
+            notActivity: '❌ Activity:',
             howToPlay: {
               gameTitle: '📖 How to Play Animal Quiz',
               intro: 'Animal Quiz is a daily guessing game for wildlife enthusiasts. Your mission is to identify the secret animal using clues about its characteristics.',
@@ -592,6 +594,7 @@ class I18n {
             language: 'Language',
             notAuthor: '❌ Author:',
             notGenre: '❌ Genre:',
+            notLanguage: '❌ Language:',
             howToPlay: {
               gameTitle: '📖 How to Play Books Quiz',
               intro: 'Books Quiz is a daily literary guessing game. Your goal is to identify the mystery book using clues about its author, genre, and publication details.',
@@ -624,6 +627,8 @@ class I18n {
             members: 'Members',
             countries: 'Countries',
             notGenre: '❌ Genre:',
+            notArtist: '❌ Artist:',
+            notDecade: '❌ Decade:',
             howToPlay: {
               gameTitle: '📖 How to Play Music Quiz',
               intro: 'Music Quiz is a daily guessing game for music lovers. Your mission is to identify the secret song using clues about the artist and track.',
@@ -1016,6 +1021,7 @@ class I18n {
             notNationality: '❌ Nationalité :',
             notClub: '❌ Club :',
             notPosition: '❌ Position :',
+            notFoot: '❌ Pied :',
             howToPlay: {
               gameTitle: '📖 Comment jouer au FutQuiz',
               intro: 'FutQuiz est un jeu de devinettes quotidien pour les fans de football. Votre mission est d\'identifier le joueur secret en utilisant les indices de sa carrière.',
@@ -1112,6 +1118,7 @@ class I18n {
             habitats: 'Habitats',
             notClass: '❌ Classe :',
             notDiet: '❌ Régime :',
+            notActivity: '❌ Activité :',
             howToPlay: {
               gameTitle: '📖 Comment jouer au Quiz Animaux',
               intro: 'Le Quiz Animaux est un jeu de devinettes quotidien pour les amoureux de la nature. Votre mission est d\'identifier l\'animal secret en utilisant les indices sur ses caractéristiques.',
@@ -1143,6 +1150,7 @@ class I18n {
             language: 'Langue',
             notAuthor: '❌ Auteur :',
             notGenre: '❌ Genre :',
+            notLanguage: '❌ Langue :',
             howToPlay: {
               gameTitle: '📖 Comment jouer au Quiz Livres',
               intro: 'Le Quiz Livres est un jeu de devinettes quotidien. Votre objectif est d\'identifier le livre mystère grâce aux indices sur son auteur, son genre et sa publication.',
@@ -1175,6 +1183,8 @@ class I18n {
             members: 'Membres',
             countries: 'Pays',
             notGenre: '❌ Genre :',
+            notArtist: '❌ Artiste :',
+            notDecade: '❌ Décennie :',
             howToPlay: {
               gameTitle: '📖 Comment jouer au Quiz Musique',
               intro: 'Le Quiz Musique est un jeu de devinettes quotidien pour les mélomanes. Votre mission est d\'identifier la chanson secrète en utilisant les indices sur l\'artiste et le morceau.',
@@ -1579,7 +1589,8 @@ class I18n {
             titles: 'Títulos',
             notNationality: '❌ Nacionalidade:',
             notClub: '❌ Clube:',
-            notPosition: '❌ Posição:'
+            notPosition: '❌ Posição:',
+            notFoot: '❌ Pé:'
           },
           tennis: {
             title: 'Quiz de Tênis',
@@ -1661,6 +1672,7 @@ class I18n {
             habitats: 'Habitats',
             notClass: '❌ Classe:',
             notDiet: '❌ Dieta:',
+            notActivity: '❌ Atividade:',
             howToPlay: {
               gameTitle: '📖 Como jogar o Quiz de Animais',
               intro: 'O Quiz de Animais é um jogo de adivinhação diário para amantes da natureza. Sua missão é identificar o animal secreto usando as dicas sobre suas características.',
@@ -1692,6 +1704,7 @@ class I18n {
             language: 'Idioma',
             notAuthor: '❌ Autor:',
             notGenre: '❌ Gênero:',
+            notLanguage: '❌ Idioma:',
             howToPlay: {
               gameTitle: '📖 Como jogar o Quiz de Livros',
               intro: 'O Quiz de Livros é um jogo de adivinhação literária diário. Seu objetivo é identificar o livro misterioso usando as dicas sobre autor, gênero e publicação.',
@@ -1724,6 +1737,8 @@ class I18n {
             members: 'Membros',
             countries: 'Países',
             notGenre: '❌ Gênero:',
+            notArtist: '❌ Artista:',
+            notDecade: '❌ Década:',
             howToPlay: {
               gameTitle: '📖 Como jogar o Quiz de Música',
               intro: 'O Quiz de Música é um jogo de adivinhação diário para amantes de música. Sua missão é identificar a música secreta usando as dicas sobre o artista e a faixa.',
@@ -1844,6 +1859,7 @@ class I18n {
             notNationality: '❌ Nacionalidade:',
             notClub: '❌ Clube:',
             notPosition: '❌ Posição:',
+            notFoot: '❌ Pé:',
             howToPlay: {
               gameTitle: '📖 Como jogar o FutQuiz',
               intro: 'O FutQuiz é um jogo de adivinhação diário para fãs de futebol. Sua missão é identificar o jogador secreto usando as dicas de sua carreira.',
@@ -2209,7 +2225,8 @@ class I18n {
             titles: 'Titoli',
             notNationality: '❌ Nazionalità:',
             notClub: '❌ Club:',
-            notPosition: '❌ Posizione:'
+            notPosition: '❌ Posizione:',
+            notFoot: '❌ Piede:'
           },
           tennis: {
             title: 'Quiz Tennis',
@@ -2291,6 +2308,7 @@ class I18n {
             habitats: 'Habitat',
             notClass: '❌ Classe:',
             notDiet: '❌ Dieta:',
+            notActivity: '❌ Attività:',
             howToPlay: {
               gameTitle: '📖 Come giocare al Quiz Animali',
               intro: 'Il Quiz Animali è un gioco quotidiano per gli amanti della natura. La tua missione è identificare l\'animale segreto usando gli indizi sulle sue caratteristiche.',
@@ -2322,6 +2340,7 @@ class I18n {
             language: 'Lingua',
             notAuthor: '❌ Autore:',
             notGenre: '❌ Genere:',
+            notLanguage: '❌ Lingua:',
             howToPlay: {
               gameTitle: '📖 Come giocare al Quiz Libri',
               intro: 'Il Quiz Libri è un gioco di indovinelli letterari quotidiano. Il tuo obiettivo è identificare il libro misterioso usando gli indizi su autore, genere e pubblicazione.',
@@ -2354,6 +2373,8 @@ class I18n {
             members: 'Membri',
             countries: 'Paesi',
             notGenre: '❌ Genere:',
+            notArtist: '❌ Artista:',
+            notDecade: '❌ Decennio:',
             howToPlay: {
               gameTitle: '📖 Come giocare al Quiz Musica',
               intro: 'Il Quiz Musica è un gioco quotidiano per gli amanti della musica. La tua missione è identificare la canzone segreta usando gli indizi sull\'artista e il brano.',
@@ -2474,6 +2495,7 @@ class I18n {
             notNationality: '❌ Nazionalità:',
             notClub: '❌ Club:',
             notPosition: '❌ Posizione:',
+            notFoot: '❌ Piede:',
             howToPlay: {
               gameTitle: '📖 Come giocare al FutQuiz',
               intro: 'FutQuiz è un gioco quotidiano per gli appassionati di calcio. La tua missione è identificare il giocatore segreto usando gli indizi della sua carriera.',
@@ -2839,7 +2861,8 @@ class I18n {
             titles: 'Títulos',
             notNationality: '❌ Nacionalidad:',
             notClub: '❌ Club:',
-            notPosition: '❌ Posición:'
+            notPosition: '❌ Posición:',
+            notFoot: '❌ Pie:'
           },
           tennis: {
             title: 'Quiz de Tenis',
@@ -2921,6 +2944,7 @@ class I18n {
             habitats: 'Hábitats',
             notClass: '❌ Clase:',
             notDiet: '❌ Dieta:',
+            notActivity: '❌ Actividad:',
             howToPlay: {
               gameTitle: '📖 Cómo jugar al Quiz de Animales',
               intro: 'El Quiz de Animales es un juego de adivinanzas diario para amantes de la naturaleza. Tu misión es identificar al animal secreto usando las pistas sobre sus características.',
@@ -2952,6 +2976,7 @@ class I18n {
             language: 'Idioma',
             notAuthor: '❌ Autor:',
             notGenre: '❌ Género:',
+            notLanguage: '❌ Idioma:',
             howToPlay: {
               gameTitle: '📖 Cómo jugar al Quiz de Libros',
               intro: 'El Quiz de Libros es un juego de adivinanzas literarias diario. Tu objetivo es identificar el libro misterioso usando las pistas sobre autor, género y publicación.',
@@ -2984,6 +3009,8 @@ class I18n {
             members: 'Miembros',
             countries: 'Países',
             notGenre: '❌ Género:',
+            notArtist: '❌ Artista:',
+            notDecade: '❌ Década:',
             howToPlay: {
               gameTitle: '📖 Cómo jugar al Quiz de Música',
               intro: 'El Quiz de Música es un juego de adivinanzas diario para amantes de la música. Tu misión es identificar la canción secreta usando las pistas sobre el artista y la pista.',
@@ -3104,6 +3131,7 @@ class I18n {
             notNationality: '❌ Nacionalidad:',
             notClub: '❌ Club:',
             notPosition: '❌ Posición:',
+            notFoot: '❌ Pie:',
             howToPlay: {
               gameTitle: '📖 Cómo jugar al FutQuiz',
               intro: 'FutQuiz es un juego de adivinanzas diario para fans del fútbol. Tu misión es identificar al jugador secreto usando las pistas de su carrera.',

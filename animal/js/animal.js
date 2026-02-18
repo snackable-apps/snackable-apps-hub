@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     classConfirmed: null, dietConfirmed: null, activityConfirmed: null,
     matchedContinents: new Set(), totalContinentsCount: 0,
     matchedHabitats: new Set(), totalHabitatsCount: 0,
-    excludedClasses: new Set(), excludedDiets: new Set()
+    excludedClasses: new Set(), excludedDiets: new Set(), excludedActivities: new Set()
   };
 
   const cluesPanel = document.getElementById('clues-panel');
@@ -396,13 +396,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     else if (comparisons.lifespan === 'higher') { if (cluesState.lifespanMin === null || guess.lifespan > cluesState.lifespanMin) cluesState.lifespanMin = guess.lifespan; }
     else if (comparisons.lifespan === 'lower') { if (cluesState.lifespanMax === null || guess.lifespan < cluesState.lifespanMax) cluesState.lifespanMax = guess.lifespan; }
 
-    if (comparisons.class === 'match') cluesState.classConfirmed = guess.class;
-    else cluesState.excludedClasses.add(guess.class);
-
-    if (comparisons.diet === 'match') cluesState.dietConfirmed = guess.diet;
-    else cluesState.excludedDiets.add(guess.diet);
-
-    if (comparisons.activity === 'match') cluesState.activityConfirmed = guess.activity;
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.class,
+      guessValue: guess.class,
+      confirmedKey: 'classConfirmed',
+      excludedKey: 'excludedClasses'
+    });
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.diet,
+      guessValue: guess.diet,
+      confirmedKey: 'dietConfirmed',
+      excludedKey: 'excludedDiets'
+    });
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.activity,
+      guessValue: guess.activity,
+      confirmedKey: 'activityConfirmed',
+      excludedKey: 'excludedActivities'
+    });
 
     // Continents - track total count on first guess
     if (cluesState.totalContinentsCount === 0 && gameState.secretAnimal && gameState.secretAnimal.continents) {
@@ -491,7 +502,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function resetCluesState() {
-    cluesState = { weightMin: null, weightMax: null, weightConfirmed: null, lifespanMin: null, lifespanMax: null, lifespanConfirmed: null, classConfirmed: null, dietConfirmed: null, activityConfirmed: null, matchedContinents: new Set(), totalContinentsCount: 0, matchedHabitats: new Set(), totalHabitatsCount: 0, excludedClasses: new Set(), excludedDiets: new Set() };
+    cluesState = { weightMin: null, weightMax: null, weightConfirmed: null, lifespanMin: null, lifespanMax: null, lifespanConfirmed: null, classConfirmed: null, dietConfirmed: null, activityConfirmed: null, matchedContinents: new Set(), totalContinentsCount: 0, matchedHabitats: new Set(), totalHabitatsCount: 0, excludedClasses: new Set(), excludedDiets: new Set(), excludedActivities: new Set() };
   }
 
   function formatPropertyValue(property, value) {
@@ -630,6 +641,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const comparisons = compareProperties(gameState.secretAnimal, guess);
     updateCluesState(guess, comparisons);
+    
+    // Store comparisons with the guess for restoration
+    guess.comparisons = comparisons;
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);

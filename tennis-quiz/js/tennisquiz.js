@@ -401,26 +401,25 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (cluesState.proMax === null || guess.turnedPro < cluesState.proMax) cluesState.proMax = guess.turnedPro;
     }
 
-    // Nationality
-    if (comparisons.nationality === 'match') {
-      cluesState.nationalityConfirmed = guess.nationality;
-    } else {
-      cluesState.excludedNationalities.add(guess.nationality);
-    }
-
-    // Hand
-    if (comparisons.hand === 'match') {
-      cluesState.handConfirmed = guess.hand;
-    } else {
-      cluesState.excludedHands.add(guess.hand);
-    }
-
-    // Backhand
-    if (comparisons.backhand === 'match') {
-      cluesState.backhandConfirmed = guess.backhand;
-    } else {
-      cluesState.excludedBackhands.add(guess.backhand);
-    }
+    // Categorical clues (nationality, hand, backhand)
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.nationality,
+      guessValue: guess.nationality,
+      confirmedKey: 'nationalityConfirmed',
+      excludedKey: 'excludedNationalities'
+    });
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.hand,
+      guessValue: guess.hand,
+      confirmedKey: 'handConfirmed',
+      excludedKey: 'excludedHands'
+    });
+    GameUtils.updateCategoricalClue(cluesState, {
+      comparison: comparisons.backhand,
+      guessValue: guess.backhand,
+      confirmedKey: 'backhandConfirmed',
+      excludedKey: 'excludedBackhands'
+    });
   }
 
   // Render clues panel
@@ -664,6 +663,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     const comparisons = compareProperties(gameState.secretPlayer, guess);
     updateCluesState(guess, comparisons);
+    
+    // Store comparisons with the guess for restoration
+    guess.comparisons = comparisons;
     gameState.guesses.push(guess);
     
     displayGuess(guess, comparisons);

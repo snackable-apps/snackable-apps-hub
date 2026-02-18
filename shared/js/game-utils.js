@@ -367,6 +367,24 @@ const GameUtils = {
   },
 
   /**
+   * Update a categorical clue in the clues state
+   * Handles both confirming the value on match and adding to excluded set on mismatch
+   * @param {Object} cluesState - The clues state object to update
+   * @param {Object} options - Update options
+   * @param {string} options.comparison - The comparison result ('match' or 'different')
+   * @param {*} options.guessValue - The value from the guess
+   * @param {string} options.confirmedKey - Key for the confirmed value in cluesState (e.g., 'footConfirmed')
+   * @param {string} options.excludedKey - Key for the excluded Set in cluesState (e.g., 'excludedFoot')
+   */
+  updateCategoricalClue(cluesState, { comparison, guessValue, confirmedKey, excludedKey }) {
+    if (comparison === 'match') {
+      cluesState[confirmedKey] = guessValue;
+    } else if (excludedKey && cluesState[excludedKey]) {
+      cluesState[excludedKey].add(guessValue);
+    }
+  },
+
+  /**
    * Render an excluded section (NOT section) in the clues panel
    * @param {Object} options - Rendering options
    * @returns {boolean} Whether the section has content
