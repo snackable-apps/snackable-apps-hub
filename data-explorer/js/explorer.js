@@ -58,6 +58,7 @@ const COLUMNS = {
         { key: 'tries', label: 'Tries', filterable: true, type: 'number' },
         { key: 'country', label: 'Country', filterable: true, type: 'text' },
         { key: 'locale', label: 'Locale', filterable: true, type: 'text' },
+        { key: 'fingerprint', label: 'Fingerprint', filterable: true, type: 'text' },
         { key: 'created_at', label: 'Created', filterable: false, type: 'datetime' }
     ],
     blindtest_results: [
@@ -70,6 +71,7 @@ const COLUMNS = {
         { key: 'locale', label: 'Locale', filterable: true, type: 'text' },
         { key: 'settings_artist', label: 'Artist Hint', filterable: true, type: 'boolean' },
         { key: 'settings_multiple', label: 'Multiple Choice', filterable: true, type: 'boolean' },
+        { key: 'fingerprint', label: 'Fingerprint', filterable: true, type: 'text' },
         { key: 'created_at', label: 'Created', filterable: false, type: 'datetime' }
     ],
     puzzle_results: [
@@ -81,6 +83,7 @@ const COLUMNS = {
         { key: 'difficulty', label: 'Difficulty', filterable: true, type: 'select', options: ['easy', 'medium', 'hard'] },
         { key: 'country', label: 'Country', filterable: true, type: 'text' },
         { key: 'locale', label: 'Locale', filterable: true, type: 'text' },
+        { key: 'fingerprint', label: 'Fingerprint', filterable: true, type: 'text' },
         { key: 'created_at', label: 'Created', filterable: false, type: 'datetime' }
     ],
     feedback: [
