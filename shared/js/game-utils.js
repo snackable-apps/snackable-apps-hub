@@ -676,6 +676,59 @@ const GameUtils = {
     return availableItems[randomIndex];
   },
 
+  // ========== SHARE TEXT GENERATION ==========
+
+  /**
+   * Generate standard share text for quiz games
+   * 
+   * Format:
+   * - Solved: "🎉 [Game] [Date] [Emoji]\n🏆 Solved in X guesses!\n\nPlay: [url]"
+   * - Gave up: "😔 [Game] [Date] [Emoji]\nGave up after X guesses\n\nPlay: [url]"
+   * - Game over: "❌ [Game] [Date] [Emoji]\nGame Over after X guesses\n\nPlay: [url]"
+   * 
+   * @param {Object} options - Share text options
+   * @param {string} options.gameName - Name of the game (e.g., "Movie Quiz", "F1 Quiz")
+   * @param {string} options.gameEmoji - Emoji for the game (e.g., "🎬", "🏎️")
+   * @param {boolean} options.isSolved - Whether the player solved the puzzle
+   * @param {boolean} options.gaveUp - Whether the player gave up
+   * @param {boolean} options.isRandomMode - Whether this was a random game
+   * @param {number} options.guessCount - Number of guesses made
+   * @param {string} options.dateString - Date string (from getDateString())
+   * @param {string} options.gameUrl - URL to the game (defaults to current path)
+   * @param {Object} options.i18n - i18n instance for translations (optional)
+   * @returns {string} Formatted share text
+   */
+  generateQuizShareText({
+    gameName,
+    gameEmoji,
+    isSolved,
+    gaveUp = false,
+    isRandomMode = false,
+    guessCount,
+    dateString,
+    gameUrl = null,
+    i18n = null
+  }) {
+    const url = gameUrl || window.location.origin + window.location.pathname;
+    const gameType = isRandomMode ? '🎲 Random' : dateString;
+    const guessText = guessCount === 1 ? 'guess' : 'guesses';
+    
+    let statusEmoji, statusText;
+    
+    if (isSolved) {
+      statusEmoji = '🎉';
+      statusText = `🏆 Solved in ${guessCount} ${guessText}!`;
+    } else if (gaveUp) {
+      statusEmoji = '😔';
+      statusText = `Gave up after ${guessCount} ${guessText}`;
+    } else {
+      statusEmoji = '❌';
+      statusText = `Game Over after ${guessCount} ${guessText}`;
+    }
+    
+    return `${statusEmoji} ${gameName} ${gameType} ${gameEmoji}\n${statusText}\n\nPlay: ${url}`;
+  },
+
   // ========== FEEDBACK SYSTEM ==========
 
   /**

@@ -1231,29 +1231,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function generateShareText() {
-    const emojis = gameState.guesses.map(guess => {
-      const c = guess.comparisons;
-      const getEmoji = (comp) => {
-        if (comp === 'match') return '🟩';
-        if (comp === 'partial') return '🟨';
-        return '🟥';
-      };
-      return [
-        getEmoji(c.director),
-        getEmoji(c.genres),
-        getEmoji(c.releaseYear),
-        getEmoji(c.runtime),
-        getEmoji(c.imdbRating),
-        getEmoji(c.country)
-      ].join('');
-    }).join('\n');
-    
-    const gameType = gameState.isRandomMode ? '🎲' : getDateString();
-    const result = gameState.isSolved 
-      ? `🎬 Movie Quiz ${gameType} ${gameState.guesses.length}/∞`
-      : `🎬 Movie Quiz ${gameType} X/∞`;
-    
-    return `${result}\n\n${emojis}\n\nhttps://snackable-games.com/movies-quiz/`;
+    return GameUtils.generateQuizShareText({
+      gameName: 'Movie Quiz',
+      gameEmoji: '🎬',
+      isSolved: gameState.isSolved,
+      gaveUp: gameState.gaveUp,
+      isRandomMode: gameState.isRandomMode,
+      guessCount: gameState.guesses.length,
+      dateString: getDateString()
+    });
   }
 
   function shareResults() {

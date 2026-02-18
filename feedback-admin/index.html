@@ -269,7 +269,7 @@
     .table .col-message { }
     .table .col-email { width: 150px; }
     .table .col-date { width: 140px; }
-    .table .col-actions { width: 120px; text-align: right; }
+    .table .col-actions { width: 100px; text-align: center; }
     
     .tag {
       display: inline-block;
@@ -290,10 +290,8 @@
     }
     
     .message-cell {
-      max-width: 400px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
     
     .message-cell.expanded {
@@ -314,6 +312,7 @@
     .actions-cell {
       display: flex;
       gap: 4px;
+      justify-content: center;
       justify-content: flex-end;
     }
     

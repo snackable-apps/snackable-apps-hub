@@ -764,11 +764,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   giveUpBtn.addEventListener('click', giveUp);
   shareResultsBtn.addEventListener('click', shareResults);
   
-  const playRandomBtn = document.getElementById('play-random-btn');
-  if (playRandomBtn) {
-    playRandomBtn.addEventListener('click', playRandom);
-  }
-  
   // Play Random button
   const playRandomBtn = document.getElementById('play-random-btn');
   if (playRandomBtn) {
