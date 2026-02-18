@@ -207,9 +207,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     if (SECRET_POOL.length > 0) {
       // If daily was already completed, show the result and allow random play
+      console.log('[MoviesQuiz] dailyCompleted:', dailyCompleted, 'dailyState:', dailyState);
       if (dailyCompleted && dailyState) {
+        console.log('[MoviesQuiz] Restoring daily result...');
         restoreDailyResult();
       } else {
+        console.log('[MoviesQuiz] Starting new game (daily not completed)');
         initializeGame();
       }
     } else {

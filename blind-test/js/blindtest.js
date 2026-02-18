@@ -180,9 +180,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (loadingState) loadingState.style.display = 'none';
       
       // Check if daily is completed - show results, otherwise show start screen
+      console.log('[BlindTest] dailyCompleted:', dailyCompleted, 'dailyState:', dailyState);
       if (dailyCompleted && dailyState) {
+        console.log('[BlindTest] Restoring daily result...');
         restoreDailyResult();
       } else {
+        console.log('[BlindTest] Showing start screen (daily not completed)');
         showStartScreen();
       }
       
@@ -214,11 +217,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Restore and display the completed daily result
   function restoreDailyResult() {
+    console.log('[BlindTest] restoreDailyResult called, dailyState:', JSON.stringify(dailyState));
     if (!dailyState || !dailyState.gameData) {
+      console.log('[BlindTest] No gameData found, falling back to start screen');
       // No detailed data to restore, show start screen for random play
       showStartScreen();
       return;
     }
+    console.log('[BlindTest] Restoring from gameData:', dailyState.gameData);
     
     const data = dailyState.gameData;
     const storedResults = data.matchResults || [];
@@ -744,7 +750,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // If this was the first (daily) match, mark it as completed
     if (isFirstMatch) {
+      console.log('[BlindTest] Saving daily game result:', result);
       gameStorage.completeDailyGame(result);
+      console.log('[BlindTest] Daily game saved. Verify with: localStorage.getItem("blindtest_daily_' + getTodayDateString() + '")');
       isFirstMatch = false; // Next game will be random
       
       // Submit stats to API (only for daily games)
