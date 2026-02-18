@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   
   function playRandom() {
-    console.log('playRandom: Called');
+    console.log('[v2] playRandom: Called');
     
     // Select random movie using centralized utility
     const randomMovie = GameUtils.selectRandomFromPool(SECRET_POOL, gameState.secretMovie, 'title');
@@ -270,9 +270,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     
-    console.log('playRandom: Selected movie:', randomMovie.title);
+    console.log('[v2] playRandom: Selected movie:', randomMovie.title);
     
-    // Reset game state
+    // Reset game state FIRST
     gameState.secretMovie = randomMovie;
     gameState.currentDate = getDateString();
     gameState.guesses = [];
@@ -284,29 +284,50 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Reset clues
     resetCluesState();
     
-    // Use centralized UI reset
-    GameUtils.resetForRandomPlay({
-      elements: {
-        guessSection,
-        shareSection,
-        shareResultsBtn,
-        inputEl: movieInput,
-        submitBtn,
-        giveUpBtn,
-        autocompleteDropdown,
-        guessesContainer,
-        guessCountEl,
-        gameStatusEl,
-        cluesPanel
-      },
-      autocompleteState
-    });
+    // Clear any existing UI state
+    guessesContainer.innerHTML = '';
+    guessCountEl.textContent = '0';
     
-    // Additional verification - ensure input is truly interactive
-    console.log('playRandom: Verifying input state...');
-    console.log('  - movieInput exists:', !!movieInput);
-    console.log('  - movieInput.disabled:', movieInput?.disabled);
-    console.log('  - guessSection.display:', guessSection?.style?.display);
+    // Hide share section, show guess section
+    shareSection.style.display = 'none';
+    shareResultsBtn.style.display = 'none';
+    
+    // Force show guess section with all necessary properties
+    guessSection.style.cssText = 'display: flex !important; visibility: visible !important; pointer-events: auto !important; opacity: 1 !important;';
+    
+    // Force enable input
+    movieInput.value = '';
+    movieInput.disabled = false;
+    movieInput.readOnly = false;
+    movieInput.style.cssText = 'pointer-events: auto !important; opacity: 1 !important;';
+    movieInput.removeAttribute('disabled');
+    movieInput.removeAttribute('readonly');
+    
+    // Enable buttons
+    submitBtn.disabled = false;
+    giveUpBtn.disabled = false;
+    
+    // Clear and hide autocomplete
+    autocompleteDropdown.innerHTML = '';
+    autocompleteDropdown.style.display = 'none';
+    autocompleteDropdown.classList.remove('active');
+    autocompleteState.selectedIndex = -1;
+    autocompleteState.filteredMovies = [];
+    autocompleteState.isOpen = false;
+    
+    // Hide clues panel
+    if (cluesPanel) cluesPanel.style.display = 'none';
+    
+    // Focus input after a short delay
+    setTimeout(() => {
+      movieInput.focus();
+      console.log('[v2] Input focused, readOnly:', movieInput.readOnly, 'disabled:', movieInput.disabled);
+    }, 150);
+    
+    // Verification logs
+    console.log('[v2] playRandom complete:');
+    console.log('  - guessSection.display:', guessSection.style.display);
+    console.log('  - movieInput.disabled:', movieInput.disabled);
     console.log('  - gameState.isGameOver:', gameState.isGameOver);
     console.log('  - ALL_MOVIES count:', ALL_MOVIES.length);
     
