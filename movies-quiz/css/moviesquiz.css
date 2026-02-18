@@ -840,48 +840,7 @@ main {
   margin-top: 8px;
 }
 
-/* Share Section */
-.share-section {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.share-section .btn-share {
-  flex: 1;
-  min-width: 160px;
-  max-width: 220px;
-}
-
-.btn-share {
-  padding: 16px 32px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  background: linear-gradient(135deg, var(--accent), var(--accent-gold));
-  color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.btn-share:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
-}
-
-.btn-share.secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-secondary);
-}
-
-.btn-share.secondary:hover {
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-}
+/* Share section styling now in shared.css */
 
 /* Answer Reveal */
 .answer-reveal {

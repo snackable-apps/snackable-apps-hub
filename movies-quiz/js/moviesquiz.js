@@ -240,19 +240,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       gameState.gaveUp = !gameState.isSolved;
     }
     
-    // Wrapper functions to adapt Movies Quiz's return-based functions to append-based
-    const displayGuessAndAppend = (guess) => {
-      guessesContainer.appendChild(displayGuess(guess));
+    // Wrapper functions to adapt Movies Quiz's return-based functions
+    // Use insertBefore to insert newest at top (consistent with updateUI's reverse order)
+    const displayGuessAndInsert = (guess) => {
+      const card = displayGuess(guess);
+      guessesContainer.insertBefore(card, guessesContainer.firstChild);
     };
     
-    const displayAnswerAndAppend = () => {
-      guessesContainer.appendChild(displayAnswer());
+    const displayAnswerAndInsert = () => {
+      const answerCard = displayAnswer();
+      guessesContainer.insertBefore(answerCard, guessesContainer.firstChild);
     };
     
     // Use centralized restore function
     GameUtils.restoreDailyGameUI({
       guesses: gameState.guesses,
-      displayGuess: displayGuessAndAppend,
+      displayGuess: displayGuessAndInsert,
       updateCluesState,
       resetCluesState,
       guessesContainer,
@@ -263,7 +266,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       cluesPanel,
       isSolved: gameState.isSolved,
       guessCount: gameState.guesses.length,
-      displayAnswer: displayAnswerAndAppend
+      displayAnswer: displayAnswerAndInsert
     });
 
     // Update guess count display

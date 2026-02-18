@@ -267,18 +267,7 @@ main {
   flex: 1;
 }
 
-.share-section {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-  flex-wrap: wrap;
-}
-
-.share-section .submit-btn {
-  min-width: 140px;
-}
+/* Share section styling now in shared.css */
 
 /* Guesses Container */
 .guesses-container {
