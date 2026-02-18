@@ -416,16 +416,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // Continents - track total count on first guess
-    if (cluesState.totalContinentsCount === 0 && gameState.secretAnimal && gameState.secretAnimal.continents) {
-      cluesState.totalContinentsCount = gameState.secretAnimal.continents.length;
+    // Handle both singular (string) and plural (array) data formats
+    if (cluesState.totalContinentsCount === 0 && gameState.secretAnimal) {
+      const secretContinents = gameState.secretAnimal.continents || gameState.secretAnimal.continent;
+      if (secretContinents) {
+        cluesState.totalContinentsCount = Array.isArray(secretContinents) ? secretContinents.length : 1;
+      }
     }
-    if (comparisons.continent && comparisons.continent.matches) comparisons.continent.matches.forEach(c => cluesState.matchedContinents.add(c));
+    if (comparisons.continent && comparisons.continent.matches) {
+      comparisons.continent.matches.forEach(c => cluesState.matchedContinents.add(c));
+    }
     
     // Habitats - track total count on first guess
-    if (cluesState.totalHabitatsCount === 0 && gameState.secretAnimal && gameState.secretAnimal.habitats) {
-      cluesState.totalHabitatsCount = gameState.secretAnimal.habitats.length;
+    // Handle both singular (string) and plural (array) data formats
+    if (cluesState.totalHabitatsCount === 0 && gameState.secretAnimal) {
+      const secretHabitats = gameState.secretAnimal.habitats || gameState.secretAnimal.habitat;
+      if (secretHabitats) {
+        cluesState.totalHabitatsCount = Array.isArray(secretHabitats) ? secretHabitats.length : 1;
+      }
     }
-    if (comparisons.habitat && comparisons.habitat.matches) comparisons.habitat.matches.forEach(h => cluesState.matchedHabitats.add(h));
+    if (comparisons.habitat && comparisons.habitat.matches) {
+      comparisons.habitat.matches.forEach(h => cluesState.matchedHabitats.add(h));
+    }
   }
 
   function renderCluesPanel() {
