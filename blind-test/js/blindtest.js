@@ -839,11 +839,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Emoji representation
     const emojis = matchResults.map(r => r.correct ? '🟢' : '🔴').join('');
     
-    // Mode indicator
-    let modeText = '';
-    if (multipleChoiceEnabled && easyModeEnabled) modeText = ' (Artist + MC)';
-    else if (multipleChoiceEnabled) modeText = ' (Multiple Choice)';
-    else if (easyModeEnabled) modeText = ' (Artist Hint)';
+    // Mode indicators - always show both settings
+    const modes = [];
+    modes.push(multipleChoiceEnabled ? 'MC' : 'Type');
+    modes.push(easyModeEnabled ? 'Artist' : 'No Artist');
+    const modeText = ` (${modes.join(' | ')})`;
     
     // Daily vs Random indicator
     const gameType = lastMatchWasDaily ? getDateString() : '🎲 Random';
