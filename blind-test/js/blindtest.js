@@ -839,21 +839,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Emoji representation
     const emojis = matchResults.map(r => r.correct ? '🟢' : '🔴').join('');
     
-    // Mode indicators - always show both settings
-    const modes = [];
-    modes.push(multipleChoiceEnabled ? 'MC' : 'Type');
-    modes.push(easyModeEnabled ? 'Artist' : 'No Artist');
-    const modeText = ` (${modes.join(' | ')})`;
+    // Mode indicators - translated and descriptive
+    const inputMode = multipleChoiceEnabled 
+      ? i18n.t('games.blindtest.share.multipleChoice')
+      : i18n.t('games.blindtest.share.typing');
+    const artistMode = easyModeEnabled
+      ? i18n.t('games.blindtest.share.artistDisplayed')
+      : i18n.t('games.blindtest.share.artistNotDisplayed');
+    const modeText = ` (${inputMode}, ${artistMode})`;
     
     // Daily vs Random indicator
-    const gameType = lastMatchWasDaily ? getDateString() : '🎲 Random';
+    const gameType = lastMatchWasDaily 
+      ? getDateString() 
+      : `🎲 ${i18n.t('common.random')}`;
+    
+    // Score label
+    const scoreLabel = i18n.t('common.score');
+    const playAtLabel = i18n.t('common.playAt') || 'Play at';
     
     return `🎧 Blind Test ${gameType}${modeText}
 
 ${emojis}
-Score: ${matchScore}/500 (${correctCount}/${SONGS_PER_MATCH})
+${scoreLabel}: ${matchScore}/500 (${correctCount}/${SONGS_PER_MATCH})
 
-Play at snackable-games.com/blind-test/`;
+${playAtLabel} snackable-games.com/blind-test/`;
   }
 
   // Share results

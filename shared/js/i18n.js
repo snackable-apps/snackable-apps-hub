@@ -246,6 +246,7 @@ class I18n {
           points: 'points',
           streak: 'Streak',
           stats: 'Statistics',
+          playAt: 'Play at',
           howToPlay: 'How to Play',
           daily: 'Daily',
           random: 'Random',
@@ -426,7 +427,13 @@ class I18n {
               proTip: '💡 Pro tip:',
               proTipDesc: 'The sample plays from a random part of the song, so even familiar tracks might sound different. Listen for distinctive elements like the chorus or a unique instrument!'
             },
-            footerTagline: 'Test your music knowledge! 🎧'
+            footerTagline: 'Test your music knowledge! 🎧',
+            share: {
+              multipleChoice: 'Multiple Choice',
+              typing: 'Typing on Search bar',
+              artistDisplayed: 'Artist displayed',
+              artistNotDisplayed: 'Artist NOT displayed'
+            }
           },
           f1: {
             loadingMessage: '🏎️ Warming up the tires...'
@@ -838,6 +845,7 @@ class I18n {
           points: 'points',
           streak: 'Série',
           stats: 'Statistiques',
+          playAt: 'Jouer sur',
           howToPlay: 'Comment jouer',
           daily: 'Quotidien',
           random: 'Aléatoire',
@@ -992,7 +1000,13 @@ class I18n {
               proTip: '💡 Astuce :',
               proTipDesc: 'L\'extrait est joué depuis une partie aléatoire de la chanson. Écoutez les éléments distinctifs comme le refrain ou un instrument unique !'
             },
-            footerTagline: 'Testez vos connaissances musicales ! 🎧'
+            footerTagline: 'Testez vos connaissances musicales ! 🎧',
+            share: {
+              multipleChoice: 'Choix multiples',
+              typing: 'Recherche tapée',
+              artistDisplayed: 'Artiste affiché',
+              artistNotDisplayed: 'Artiste NON affiché'
+            }
           },
           f1: {
             loadingMessage: '🏎️ Chauffe des pneus...',
@@ -1444,6 +1458,7 @@ class I18n {
           points: 'pontos',
           streak: 'Sequência',
           stats: 'Estatísticas',
+          playAt: 'Jogue em',
           howToPlay: 'Como jogar',
           daily: 'Diário',
           random: 'Aleatório',
@@ -1869,7 +1884,13 @@ class I18n {
               proTip: '💡 Dica:',
               proTipDesc: 'O trecho toca de uma parte aleatória da música. Ouça elementos distintivos como o refrão ou um instrumento único!'
             },
-            footerTagline: 'Teste seus conhecimentos musicais! 🎧'
+            footerTagline: 'Teste seus conhecimentos musicais! 🎧',
+            share: {
+              multipleChoice: 'Múltipla escolha',
+              typing: 'Digitando na busca',
+              artistDisplayed: 'Artista exibido',
+              artistNotDisplayed: 'Artista NÃO exibido'
+            }
           },
           football: {
             title: 'FutQuiz',
@@ -2089,6 +2110,7 @@ class I18n {
           points: 'punti',
           streak: 'Serie',
           stats: 'Statistiche',
+          playAt: 'Gioca su',
           howToPlay: 'Come giocare',
           daily: 'Giornaliero',
           random: 'Casuale',
@@ -2514,7 +2536,13 @@ class I18n {
               proTip: '💡 Suggerimento:',
               proTipDesc: "L'estratto viene riprodotto da una parte casuale della canzone. Ascolta elementi distintivi come il ritornello o uno strumento unico!"
             },
-            footerTagline: 'Metti alla prova le tue conoscenze musicali! 🎧'
+            footerTagline: 'Metti alla prova le tue conoscenze musicali! 🎧',
+            share: {
+              multipleChoice: 'Scelta multipla',
+              typing: 'Digitando nella ricerca',
+              artistDisplayed: 'Artista mostrato',
+              artistNotDisplayed: 'Artista NON mostrato'
+            }
           },
           football: {
             title: 'FutQuiz',
@@ -2734,6 +2762,7 @@ class I18n {
           points: 'puntos',
           streak: 'Racha',
           stats: 'Estadísticas',
+          playAt: 'Juega en',
           howToPlay: 'Cómo jugar',
           daily: 'Diario',
           random: 'Aleatorio',
@@ -3159,7 +3188,13 @@ class I18n {
               proTip: '💡 Consejo:',
               proTipDesc: 'El extracto se reproduce desde una parte aleatoria de la canción. ¡Escucha elementos distintivos como el estribillo o un instrumento único!'
             },
-            footerTagline: '¡Pon a prueba tus conocimientos musicales! 🎧'
+            footerTagline: '¡Pon a prueba tus conocimientos musicales! 🎧',
+            share: {
+              multipleChoice: 'Opción múltiple',
+              typing: 'Escribiendo en la búsqueda',
+              artistDisplayed: 'Artista mostrado',
+              artistNotDisplayed: 'Artista NO mostrado'
+            }
           },
           football: {
             title: 'FutQuiz',
