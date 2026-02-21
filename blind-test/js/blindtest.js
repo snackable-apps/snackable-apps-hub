@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Match state
   let isFirstMatch = !dailyCompleted; // If daily completed, start with random
+  let lastMatchWasDaily = false; // Track if last completed match was daily (for share text)
   let currentRound = 0;
   let matchScore = 0;
   let matchResults = []; // Array of { song, correct, points, timeUsed }
@@ -234,6 +235,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     matchResults = storedResults;
     easyModeEnabled = data.easyModeEnabled || false;
     multipleChoiceEnabled = data.multipleChoiceEnabled || false;
+    lastMatchWasDaily = true; // Restored games are always daily
     
     // Calculate stats
     const correctCount = dailyState.correctCount || storedResults.filter(r => r.correct).length;
@@ -725,6 +727,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Save whether this was a daily match BEFORE changing isFirstMatch
     const wasDaily = isFirstMatch;
+    lastMatchWasDaily = wasDaily; // Store for share text generation
     
     // Save game result to storage
     const won = correctCount >= Math.ceil(SONGS_PER_MATCH / 2); // Won if got majority correct
@@ -843,7 +846,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     else if (easyModeEnabled) modeText = ' (Artist Hint)';
     
     // Daily vs Random indicator
-    const gameType = isFirstMatch ? getDateString() : '🎲 Random';
+    const gameType = lastMatchWasDaily ? getDateString() : '🎲 Random';
     
     return `🎧 Blind Test ${gameType}${modeText}
 
@@ -861,7 +864,7 @@ Play at snackable-games.com/blind-test/`;
       text: shareText,
       title: 'Blind Test Score',
       button: shareResultsBtn,
-      successMessage: '✅ Copied!',
+      successMessage: '✅ ' + i18n.t('share.copiedToClipboard'),
       originalHTML: shareResultsBtn.innerHTML,
       analytics: {
         gtag: typeof gtag === 'function' ? gtag : null,

@@ -964,75 +964,109 @@ const GameUtils = {
 
   // ========== GAME STATISTICS ==========
 
-  GAME_STATS_API_URL: 'https://snackable-api.vercel.app/api/game-stats',
+  GAME_STATS_API_URL: 'https://snackable-api.vercel.app/api/save',
 
   /**
    * Generate a browser fingerprint for anonymous user identification.
    * This is privacy-friendly (no personal data) and used only for deduplication.
+   * Resilient to privacy browsers (Brave, Firefox with shields) that block fingerprinting.
    * @returns {string} A hashed fingerprint string
    */
   async generateFingerprint() {
-    const components = [];
-    
-    // Screen properties
-    components.push(screen.width + 'x' + screen.height);
-    components.push(screen.colorDepth);
-    components.push(window.devicePixelRatio || 1);
-    
-    // Timezone
-    components.push(Intl.DateTimeFormat().resolvedOptions().timeZone);
-    
-    // Language
-    components.push(navigator.language);
-    
-    // Platform
-    components.push(navigator.platform);
-    
-    // User agent (partial - just browser name)
-    const ua = navigator.userAgent;
-    if (ua.includes('Chrome')) components.push('chrome');
-    else if (ua.includes('Firefox')) components.push('firefox');
-    else if (ua.includes('Safari')) components.push('safari');
-    else if (ua.includes('Edge')) components.push('edge');
-    else components.push('other');
-    
-    // Canvas fingerprint (renders text and extracts hash)
     try {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      ctx.textBaseline = 'top';
-      ctx.font = '14px Arial';
-      ctx.fillText('snackable', 2, 2);
-      components.push(canvas.toDataURL().slice(-50));
-    } catch (e) {
-      components.push('no-canvas');
-    }
-    
-    // WebGL renderer (GPU info)
-    try {
-      const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      if (gl) {
-        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-        if (debugInfo) {
-          components.push(gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL));
-        }
+      const components = [];
+      
+      // Screen properties (usually allowed)
+      try {
+        components.push(screen.width + 'x' + screen.height);
+        components.push(screen.colorDepth);
+        components.push(window.devicePixelRatio || 1);
+      } catch (e) {
+        components.push('no-screen');
       }
+      
+      // Timezone (usually allowed)
+      try {
+        components.push(Intl.DateTimeFormat().resolvedOptions().timeZone);
+      } catch (e) {
+        components.push('no-tz');
+      }
+      
+      // Language (usually allowed)
+      components.push(navigator.language || 'unknown');
+      
+      // Platform (may be spoofed by privacy browsers)
+      components.push(navigator.platform || 'unknown');
+      
+      // User agent (partial - just browser name)
+      const ua = navigator.userAgent || '';
+      if (ua.includes('Chrome')) components.push('chrome');
+      else if (ua.includes('Firefox')) components.push('firefox');
+      else if (ua.includes('Safari')) components.push('safari');
+      else if (ua.includes('Edge')) components.push('edge');
+      else if (ua.includes('Brave')) components.push('brave');
+      else components.push('other');
+      
+      // Canvas fingerprint (often blocked by privacy browsers)
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.textBaseline = 'top';
+          ctx.font = '14px Arial';
+          ctx.fillText('snackable', 2, 2);
+          const dataUrl = canvas.toDataURL();
+          if (dataUrl && dataUrl.length > 50) {
+            components.push(dataUrl.slice(-50));
+          } else {
+            components.push('canvas-blocked');
+          }
+        } else {
+          components.push('no-canvas');
+        }
+      } catch (e) {
+        components.push('no-canvas');
+      }
+      
+      // WebGL renderer (often blocked by privacy browsers)
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (gl) {
+          const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+          if (debugInfo) {
+            const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+            components.push(renderer || 'webgl-blocked');
+          } else {
+            components.push('no-debuginfo');
+          }
+        } else {
+          components.push('no-webgl');
+        }
+      } catch (e) {
+        components.push('no-webgl');
+      }
+      
+      // Create hash from components
+      const fingerprint = components.join('|');
+      
+      // Simple hash function (FNV-1a)
+      let hash = 2166136261;
+      for (let i = 0; i < fingerprint.length; i++) {
+        hash ^= fingerprint.charCodeAt(i);
+        hash = (hash * 16777619) >>> 0;
+      }
+      
+      return hash.toString(16);
     } catch (e) {
-      components.push('no-webgl');
+      // Complete fallback: generate random-ish ID based on available info
+      const fallback = [
+        Date.now().toString(36),
+        Math.random().toString(36).substring(2, 8),
+        (navigator.language || 'en').substring(0, 2)
+      ].join('-');
+      return 'fb-' + fallback;
     }
-    
-    // Create hash from components
-    const fingerprint = components.join('|');
-    
-    // Simple hash function (FNV-1a)
-    let hash = 2166136261;
-    for (let i = 0; i < fingerprint.length; i++) {
-      hash ^= fingerprint.charCodeAt(i);
-      hash = (hash * 16777619) >>> 0;
-    }
-    
-    return hash.toString(16);
   },
 
   /**

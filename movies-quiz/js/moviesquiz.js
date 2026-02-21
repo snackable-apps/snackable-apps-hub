@@ -656,9 +656,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       yearValue.textContent = cluesState.yearConfirmed;
     } else if (cluesState.yearMin !== null || cluesState.yearMax !== null) {
       yearItem.className = 'clue-item narrowed';
-      const min = cluesState.yearMin ? `>${cluesState.yearMin}` : '';
-      const max = cluesState.yearMax ? `<${cluesState.yearMax}` : '';
-      yearValue.textContent = min && max ? `${cluesState.yearMin + 1}-${cluesState.yearMax - 1}` : (min || max);
+      if (cluesState.yearMin !== null && cluesState.yearMax !== null) {
+        const rangeMin = cluesState.yearMin + 1;
+        const rangeMax = cluesState.yearMax - 1;
+        yearValue.textContent = rangeMin === rangeMax ? rangeMin : `${rangeMin}-${rangeMax}`;
+      } else if (cluesState.yearMin !== null) {
+        yearValue.textContent = `>${cluesState.yearMin}`;
+      } else {
+        yearValue.textContent = `<${cluesState.yearMax}`;
+      }
     } else {
       yearItem.className = 'clue-item';
       yearValue.textContent = '?';
@@ -673,8 +679,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else if (cluesState.runtimeMin !== null || cluesState.runtimeMax !== null) {
       runtimeItem.className = 'clue-item narrowed';
       if (cluesState.runtimeMin !== null && cluesState.runtimeMax !== null) {
-        // Show range like year: "1h50-2h10"
-        runtimeValue.textContent = `${formatRuntimeShort(cluesState.runtimeMin + 1)}-${formatRuntimeShort(cluesState.runtimeMax - 1)}`;
+        const rangeMin = cluesState.runtimeMin + 1;
+        const rangeMax = cluesState.runtimeMax - 1;
+        runtimeValue.textContent = rangeMin === rangeMax 
+          ? formatRuntimeShort(rangeMin) 
+          : `${formatRuntimeShort(rangeMin)}-${formatRuntimeShort(rangeMax)}`;
       } else if (cluesState.runtimeMin !== null) {
         runtimeValue.textContent = `>${formatRuntimeShort(cluesState.runtimeMin)}`;
       } else {
@@ -694,10 +703,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else if (cluesState.ratingMin !== null || cluesState.ratingMax !== null) {
       ratingItem.className = 'clue-item narrowed';
       if (cluesState.ratingMin !== null && cluesState.ratingMax !== null) {
-        // Show range like year
         const minVal = (cluesState.ratingMin + 0.1).toFixed(1);
         const maxVal = (cluesState.ratingMax - 0.1).toFixed(1);
-        ratingValue.textContent = `${minVal}-${maxVal}`;
+        ratingValue.textContent = minVal === maxVal ? minVal : `${minVal}-${maxVal}`;
       } else if (cluesState.ratingMin !== null) {
         ratingValue.textContent = `>${cluesState.ratingMin}`;
       } else {

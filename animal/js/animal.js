@@ -848,7 +848,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       text: shareText,
       title: 'Animal Quiz Result',
       button: shareResultsBtn,
-      successMessage: '✅ Copied!',
+      successMessage: '✅ ' + i18n.t('share.copiedToClipboard'),
       originalHTML: shareResultsBtn.innerHTML
     });
   }

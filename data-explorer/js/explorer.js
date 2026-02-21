@@ -15,7 +15,7 @@ const API_ENDPOINTS = {
     quiz_results: 'https://snackable-api.vercel.app/api/stats/quiz',
     blindtest_results: 'https://snackable-api.vercel.app/api/stats/blindtest',
     puzzle_results: 'https://snackable-api.vercel.app/api/stats/puzzle',
-    feedback: 'https://snackable-api.vercel.app/api/feedback-admin'
+    feedback: 'https://snackable-api.vercel.app/api/stats/feedback'
 };
 
 // Column definitions for each database
@@ -90,10 +90,10 @@ const COLUMNS = {
         { key: 'game', label: 'Game', filterable: true, type: 'text' },
         { key: 'topic', label: 'Topic', filterable: true, type: 'text' },
         { key: 'message', label: 'Message', filterable: true, type: 'text' },
-        { key: 'email', label: 'Email', filterable: false, type: 'text' },
         { key: 'country', label: 'Country', filterable: true, type: 'text' },
         { key: 'status', label: 'Status', filterable: true, type: 'select', options: ['new', 'reviewed', 'resolved', 'spam'] },
         { key: 'tackled', label: 'Tackled', filterable: true, type: 'boolean' },
+        { key: 'fingerprint', label: 'Fingerprint', filterable: true, type: 'text' },
         { key: 'created_at', label: 'Created', filterable: false, type: 'datetime' }
     ]
 };

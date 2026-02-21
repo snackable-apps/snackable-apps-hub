@@ -748,7 +748,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       text: shareText,
       title: 'F1 Quiz Result',
       button: shareResultsBtn,
-      successMessage: '✅ Copied!',
+      successMessage: '✅ ' + i18n.t('share.copiedToClipboard'),
       originalHTML: shareResultsBtn.innerHTML,
       analytics: {
         gtag: typeof gtag === 'function' ? gtag : null,
