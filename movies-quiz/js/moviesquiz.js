@@ -1209,7 +1209,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       : '';
     
     answerDiv.innerHTML = `
-      <h3>📽️ The answer was:</h3>
+      <h3>📽️ ${i18n.t('common.theAnswerWas')}</h3>
       <div class="answer-content">
         ${posterHtml}
         <div class="answer-info">

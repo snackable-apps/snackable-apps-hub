@@ -86,12 +86,12 @@
   <main>
     <!-- Data Freshness -->
     <div class="data-freshness" id="data-freshness">
-      <span>📊 Rankings updated: <strong id="data-update-date">Loading...</strong></span>
+      <span>📊 <span data-i18n="common.rankingsUpdated">Rankings updated:</span> <strong id="data-update-date">Loading...</strong></span>
     </div>
 
     <!-- Game Info -->
     <div class="game-info" id="game-info" style="display: none;">
-      <p>Each day, a secret tennis player is selected. Make guesses and use the clues to find them!</p>
+      <p data-i18n="games.tennis.dailyIntro">Each day, a secret tennis player is selected. Make guesses and use the clues to find them!</p>
       <div class="game-stats">
         <span><span data-i18n="common.guesses">Guesses</span>: <strong id="guess-count">0</strong></span>
         <span id="game-status"></span>
@@ -108,7 +108,7 @@
     <div class="guess-section" id="guess-section" style="display: none;">
       <label for="player-input" data-i18n="common.makeAGuess">Make a guess:</label>
       <div class="autocomplete-wrapper">
-        <input type="text" id="player-input" placeholder="Type a player name..." autocomplete="off" />
+        <input type="text" id="player-input" data-i18n="games.tennis.inputPlaceholder" placeholder="Type a player name..." autocomplete="off" />
         <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
       </div>
       <div class="button-group">

@@ -277,6 +277,12 @@ class I18n {
           notGenre: '❌ Genre:',
           notDirector: '❌ Director:',
           notActor: '❌ Actor:',
+          // Game info messages
+          dailyIntro: 'Each day, a secret {subject} is selected. Make guesses and use the clues to find them!',
+          rankingsUpdated: 'Rankings updated:',
+          gameOverAfter: 'Game Over after {count} guesses',
+          theAnswerWas: 'The answer was:',
+          cast: 'Cast',
           // How to Play - Common elements for quiz games
           makeAGuess: 'Make a guess:',
           howToPlayGuide: {
@@ -393,6 +399,7 @@ class I18n {
             loadingMessage: '🎧 Plugging in the headphones...',
             howToPlay: {
               gameTitle: '📖 How to Play Blind Test',
+              title: '🎵 How to Play',
               intro: 'Blind Test is an audio quiz game that challenges your music knowledge. Listen to song samples and guess the title as fast as you can to score maximum points!',
               gameModes: '🎯 Game Modes',
               easyMode: 'Easy Mode',
@@ -416,8 +423,10 @@ class I18n {
               step3: 'Submit your answer before the timer runs out',
               step4: 'Complete 5 songs to finish a match',
               step5: 'Share your score and challenge your friends!',
-              proTip: 'The sample plays from a random part of the song, so even familiar tracks might sound different. Listen for distinctive elements like the chorus or a unique instrument!'
-            }
+              proTip: '💡 Pro tip:',
+              proTipDesc: 'The sample plays from a random part of the song, so even familiar tracks might sound different. Listen for distinctive elements like the chorus or a unique instrument!'
+            },
+            footerTagline: 'Test your music knowledge! 🎧'
           },
           f1: {
             loadingMessage: '🏎️ Warming up the tires...'
@@ -487,6 +496,7 @@ class I18n {
             subtitle: 'Guess the tennis player',
             inputPlaceholder: 'Type a player name...',
             loadingMessage: '🎾 Stretching up...',
+            dailyIntro: 'Each day, a secret tennis player is selected. Make guesses and use the clues to find them!',
             cluesSummary: 'Clues Summary',
             age: 'Age',
             ranking: 'Ranking',
@@ -521,6 +531,7 @@ class I18n {
             subtitle: 'Guess the F1 driver',
             inputPlaceholder: 'Type a driver name...',
             loadingMessage: '🏎️ Warming up the tires...',
+            dailyIntro: 'Each day, a secret F1 driver is selected. Make guesses and use the clues to find them!',
             cluesSummary: 'Clues Summary',
             age: 'Age',
             wdc: 'WDC',
@@ -856,6 +867,11 @@ class I18n {
           notGenre: '❌ Genre :',
           notDirector: '❌ Réalisateur :',
           notActor: '❌ Acteur :',
+          dailyIntro: 'Chaque jour, un(e) {subject} secret(e) est sélectionné(e). Devinez en utilisant les indices !',
+          rankingsUpdated: 'Classements mis à jour :',
+          gameOverAfter: 'Game Over après {count} essais',
+          theAnswerWas: 'La réponse était :',
+          cast: 'Casting',
           makeAGuess: 'Faites un essai :',
           howToPlayGuide: {
             title: '📖 Comment jouer',
@@ -949,6 +965,7 @@ class I18n {
             loadingMessage: '🎧 Branchement du casque...',
             howToPlay: {
               gameTitle: '📖 Comment jouer au Blind Test',
+              title: '🎵 Comment jouer',
               intro: 'Le Blind Test est un quiz musical qui met vos connaissances à l\'épreuve. Écoutez des extraits de chansons et devinez le titre le plus vite possible pour marquer un maximum de points !',
               gameModes: '🎯 Modes de jeu',
               easyMode: 'Mode facile',
@@ -972,11 +989,14 @@ class I18n {
               step3: 'Soumettez votre réponse avant la fin du temps',
               step4: 'Complétez 5 chansons pour terminer un match',
               step5: 'Partagez votre score et défiez vos amis !',
-              proTip: 'L\'extrait est joué depuis une partie aléatoire de la chanson. Écoutez les éléments distinctifs comme le refrain ou un instrument unique !'
-            }
+              proTip: '💡 Astuce :',
+              proTipDesc: 'L\'extrait est joué depuis une partie aléatoire de la chanson. Écoutez les éléments distinctifs comme le refrain ou un instrument unique !'
+            },
+            footerTagline: 'Testez vos connaissances musicales ! 🎧'
           },
           f1: {
-            loadingMessage: '🏎️ Chauffe des pneus...'
+            loadingMessage: '🏎️ Chauffe des pneus...',
+            dailyIntro: 'Chaque jour, un pilote de F1 secret est sélectionné. Devinez en utilisant les indices !'
           },
           tennis: {
             loadingMessage: '🎾 Échauffement en cours...'
@@ -1043,6 +1063,7 @@ class I18n {
             subtitle: 'Devinez le joueur de tennis',
             inputPlaceholder: 'Tapez un nom de joueur...',
             loadingMessage: '🎾 Échauffement en cours...',
+            dailyIntro: 'Chaque jour, un joueur de tennis secret est sélectionné. Devinez en utilisant les indices !',
             cluesSummary: 'Résumé des indices',
             age: 'Âge',
             ranking: 'Classement',
@@ -1452,6 +1473,11 @@ class I18n {
           notGenre: '❌ Gênero:',
           notDirector: '❌ Diretor:',
           notActor: '❌ Ator:',
+          dailyIntro: 'Cada dia, um(a) {subject} secreto(a) é selecionado(a). Adivinhe usando as dicas!',
+          rankingsUpdated: 'Rankings atualizados:',
+          gameOverAfter: 'Game Over após {count} tentativas',
+          theAnswerWas: 'A resposta era:',
+          cast: 'Elenco',
           makeAGuess: 'Faça um palpite:',
           howToPlayGuide: {
             title: '📖 Como jogar',
@@ -1548,7 +1574,8 @@ class I18n {
             loadingMessage: '🏎️ Aquecendo os pneus...'
           },
           tennis: {
-            loadingMessage: '🎾 Aquecendo...'
+            loadingMessage: '🎾 Aquecendo...',
+            dailyIntro: 'Cada dia, um jogador de tênis secreto é selecionado. Adivinhe usando as dicas!'
           },
           music: {
             loadingMessage: '🎵 Afinando os instrumentos...'
@@ -1815,6 +1842,7 @@ class I18n {
             loadingMessage: '🎧 Conectando os fones...',
             howToPlay: {
               gameTitle: '📖 Como jogar o Blind Test',
+              title: '🎵 Como jogar',
               intro: 'O Blind Test é um quiz musical que testa seus conhecimentos. Ouça trechos de músicas e adivinhe o título o mais rápido possível para marcar o máximo de pontos!',
               gameModes: '🎯 Modos de jogo',
               easyMode: 'Modo fácil',
@@ -1838,8 +1866,10 @@ class I18n {
               step3: 'Envie sua resposta antes do tempo acabar',
               step4: 'Complete 5 músicas para terminar uma partida',
               step5: 'Compartilhe sua pontuação e desafie seus amigos!',
-              proTip: 'O trecho toca de uma parte aleatória da música. Ouça elementos distintivos como o refrão ou um instrumento único!'
-            }
+              proTip: '💡 Dica:',
+              proTipDesc: 'O trecho toca de uma parte aleatória da música. Ouça elementos distintivos como o refrão ou um instrumento único!'
+            },
+            footerTagline: 'Teste seus conhecimentos musicais! 🎧'
           },
           football: {
             title: 'FutQuiz',
@@ -2088,6 +2118,11 @@ class I18n {
           notGenre: '❌ Genere:',
           notDirector: '❌ Regista:',
           notActor: '❌ Attore:',
+          dailyIntro: 'Ogni giorno viene selezionato un(a) {subject} segreto(a). Indovina usando gli indizi!',
+          rankingsUpdated: 'Classifiche aggiornate:',
+          gameOverAfter: 'Game Over dopo {count} tentativi',
+          theAnswerWas: 'La risposta era:',
+          cast: 'Cast',
           makeAGuess: 'Fai un tentativo:',
           howToPlayGuide: {
             title: '📖 Come giocare',
@@ -2184,7 +2219,8 @@ class I18n {
             loadingMessage: '🏎️ Riscaldando le gomme...'
           },
           tennis: {
-            loadingMessage: '🎾 Riscaldamento...'
+            loadingMessage: '🎾 Riscaldamento...',
+            dailyIntro: 'Ogni giorno viene selezionato un tennista segreto. Indovina usando gli indizi!'
           },
           music: {
             loadingMessage: '🎵 Accordando gli strumenti...'
@@ -2451,6 +2487,7 @@ class I18n {
             loadingMessage: '🎧 Collegamento cuffie...',
             howToPlay: {
               gameTitle: '📖 Come giocare al Blind Test',
+              title: '🎵 Come giocare',
               intro: 'Il Blind Test è un quiz musicale che mette alla prova le tue conoscenze. Ascolta estratti di canzoni e indovina il titolo il più velocemente possibile per ottenere il massimo dei punti!',
               gameModes: '🎯 Modalità di gioco',
               easyMode: 'Modalità facile',
@@ -2474,8 +2511,10 @@ class I18n {
               step3: 'Invia la tua risposta prima che scada il tempo',
               step4: 'Completa 5 canzoni per finire una partita',
               step5: 'Condividi il tuo punteggio e sfida i tuoi amici!',
-              proTip: "L'estratto viene riprodotto da una parte casuale della canzone. Ascolta elementi distintivi come il ritornello o uno strumento unico!"
-            }
+              proTip: '💡 Suggerimento:',
+              proTipDesc: "L'estratto viene riprodotto da una parte casuale della canzone. Ascolta elementi distintivi come il ritornello o uno strumento unico!"
+            },
+            footerTagline: 'Metti alla prova le tue conoscenze musicali! 🎧'
           },
           football: {
             title: 'FutQuiz',
@@ -2724,6 +2763,11 @@ class I18n {
           notGenre: '❌ Género:',
           notDirector: '❌ Director:',
           notActor: '❌ Actor:',
+          dailyIntro: 'Cada día se selecciona un(a) {subject} secreto(a). ¡Adivina usando las pistas!',
+          rankingsUpdated: 'Rankings actualizados:',
+          gameOverAfter: 'Game Over después de {count} intentos',
+          theAnswerWas: 'La respuesta era:',
+          cast: 'Reparto',
           makeAGuess: 'Haz un intento:',
           howToPlayGuide: {
             title: '📖 Cómo jugar',
@@ -2820,7 +2864,8 @@ class I18n {
             loadingMessage: '🏎️ Calentando los neumáticos...'
           },
           tennis: {
-            loadingMessage: '🎾 Calentando...'
+            loadingMessage: '🎾 Calentando...',
+            dailyIntro: 'Cada día se selecciona un tenista secreto. ¡Adivina usando las pistas!'
           },
           music: {
             loadingMessage: '🎵 Afinando los instrumentos...'
@@ -3087,6 +3132,7 @@ class I18n {
             loadingMessage: '🎧 Conectando auriculares...',
             howToPlay: {
               gameTitle: '📖 Cómo jugar al Blind Test',
+              title: '🎵 Cómo jugar',
               intro: '¡El Blind Test es un quiz musical que pone a prueba tus conocimientos! Escucha extractos de canciones y adivina el título lo más rápido posible para conseguir el máximo de puntos.',
               gameModes: '🎯 Modos de juego',
               easyMode: 'Modo fácil',
@@ -3110,8 +3156,10 @@ class I18n {
               step3: 'Envía tu respuesta antes de que se acabe el tiempo',
               step4: 'Completa 5 canciones para terminar una partida',
               step5: '¡Comparte tu puntuación y reta a tus amigos!',
-              proTip: 'El extracto se reproduce desde una parte aleatoria de la canción. ¡Escucha elementos distintivos como el estribillo o un instrumento único!'
-            }
+              proTip: '💡 Consejo:',
+              proTipDesc: 'El extracto se reproduce desde una parte aleatoria de la canción. ¡Escucha elementos distintivos como el estribillo o un instrumento único!'
+            },
+            footerTagline: '¡Pon a prueba tus conocimientos musicales! 🎧'
           },
           football: {
             title: 'FutQuiz',
