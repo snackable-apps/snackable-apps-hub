@@ -100,7 +100,7 @@ const COLUMNS = {
 
 let allData = [];
 let filteredData = [];
-let currentDatabase = 'movies';
+let currentDatabase = 'quiz_results';
 let sortColumn = null;
 let sortDirection = 'asc';
 let filters = {};
