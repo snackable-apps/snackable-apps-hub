@@ -45,61 +45,123 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Use centralized normalizeText from GameUtils
   const normalizeText = GameUtils.normalizeText;
 
-  // Load embedded data
-  function loadDriversData() {
+  // API + Cache config
+  const API_URL = 'https://snackable-api.vercel.app/api/f1-drivers';
+  const CACHE_KEY = 'snackable_f1_drivers_cache_v1';
+  const CACHE_EXPIRY_HOURS = 24;
+
+  function isCacheValid() {
     try {
-      if (typeof DRIVERS_DATA === 'undefined' || !DRIVERS_DATA || DRIVERS_DATA.length === 0) {
-        throw new Error('Driver data not loaded. Please check if data/drivers_data.js is included.');
-      }
-      
-      // All drivers available for guessing
-      ALL_DRIVERS_LIST = DRIVERS_DATA;
-      
-      // Secret pool: only easy + medium drivers
-      SECRET_POOL = ALL_DRIVERS_LIST.filter(driver => 
-        driver.difficulty === 'easy' || driver.difficulty === 'medium'
-      );
-      
-      // Set data freshness info
-      if (dataSeasonInfoEl) {
-        try {
-          if (typeof DATA_SEASON !== 'undefined' && typeof DATA_LAST_RACE !== 'undefined' && typeof DATA_LAST_RACE_DATE !== 'undefined') {
-            const raceDate = new Date(DATA_LAST_RACE_DATE).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            dataSeasonInfoEl.textContent = `${DATA_SEASON} season (${DATA_LAST_RACE}, ${raceDate})`;
-          } else {
-            dataSeasonInfoEl.textContent = '2025 season';
-          }
-        } catch (e) {
-          console.error('Error setting data freshness:', e);
-          dataSeasonInfoEl.textContent = '2025 season';
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return false;
+      const { timestamp } = JSON.parse(cached);
+      return (Date.now() - timestamp) / (1000 * 60 * 60) < CACHE_EXPIRY_HOURS;
+    } catch { return false; }
+  }
+
+  function loadFromCache() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+      const { drivers } = JSON.parse(cached);
+      return drivers;
+    } catch { return null; }
+  }
+
+  function saveToCache(drivers) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ drivers, timestamp: Date.now() }));
+    } catch (e) {
+      console.warn('Cache write failed:', e);
+    }
+  }
+
+  async function refreshCacheInBackground() {
+    try {
+      const resp = await fetch(API_URL);
+      if (!resp.ok) return;
+      const data = await resp.json();
+      if (data.success && data.drivers?.length > 0) {
+        saveToCache(data.drivers);
+        if (Math.abs(data.drivers.length - ALL_DRIVERS_LIST.length) > 5) {
+          ALL_DRIVERS_LIST = data.drivers;
         }
       }
-      
-      // Hide loading state, show game
-      const loadingState = document.getElementById('loading-state');
-      if (loadingState) loadingState.style.display = 'none';
-      
-      if (SECRET_POOL.length > 0) {
-        // Check if daily is completed - show result instead of restarting
-        console.log('[F1Quiz] dailyCompleted:', dailyCompleted, 'dailyState:', dailyState);
-        if (dailyCompleted && dailyState) {
-          console.log('[F1Quiz] Restoring daily result...');
-          restoreDailyResult();
-        } else {
-          console.log('[F1Quiz] Starting new game (daily not completed)');
-          guessSection.style.display = 'flex';
-          initializeGame();
+    } catch { /* silent */ }
+  }
+
+  // Load drivers from API (with localStorage caching)
+  async function loadDriversData() {
+    try {
+      // Try cache first
+      if (isCacheValid()) {
+        const cached = loadFromCache();
+        if (cached?.length > 0) {
+          ALL_DRIVERS_LIST = cached;
+          initializeAfterLoad();
+          refreshCacheInBackground();
+          return;
         }
+      }
+
+      // Fetch from API
+      console.log('[F1Quiz] Fetching drivers from API...');
+      const resp = await fetch(API_URL);
+      if (!resp.ok) throw new Error(`API error: ${resp.status}`);
+      const data = await resp.json();
+
+      if (!data.success || !data.drivers?.length) throw new Error('No drivers from API');
+
+      ALL_DRIVERS_LIST = data.drivers;
+      console.log('[F1Quiz] Drivers loaded from API:', ALL_DRIVERS_LIST.length);
+      saveToCache(ALL_DRIVERS_LIST);
+
+    } catch (apiError) {
+      console.error('[F1Quiz] API fetch failed:', apiError.message);
+      // Fallback to cache even if stale
+      const fallback = loadFromCache();
+      if (fallback?.length > 0) {
+        ALL_DRIVERS_LIST = fallback;
+        console.log('[F1Quiz] Using stale cache as fallback');
       } else {
-        console.error('No drivers available in secret pool');
-        GameUtils.showError('common.noDataAvailable', true);
+        const loadingState = document.getElementById('loading-state');
+        if (loadingState) loadingState.style.display = 'none';
+        GameUtils.showError('common.loadError', true);
+        return;
       }
-    } catch (error) {
-      console.error('Error loading driver data:', error);
-      // Hide loading on error too
-      const loadingState = document.getElementById('loading-state');
-      if (loadingState) loadingState.style.display = 'none';
-      GameUtils.showError('common.loadError', true);
+    }
+
+    initializeAfterLoad();
+  }
+
+  function initializeAfterLoad() {
+    // Secret pool: only easy + medium drivers
+    SECRET_POOL = ALL_DRIVERS_LIST.filter(d =>
+      d.difficulty === 'easy' || d.difficulty === 'medium'
+    );
+
+    // Update freshness label
+    if (dataSeasonInfoEl) {
+      dataSeasonInfoEl.textContent = `${new Date().getFullYear()} season`;
+    }
+
+    // Hide loading state, show game
+    const loadingState = document.getElementById('loading-state');
+    if (loadingState) loadingState.style.display = 'none';
+
+    if (SECRET_POOL.length > 0) {
+      console.log('[F1Quiz] dailyCompleted:', dailyCompleted, 'dailyState:', dailyState);
+      if (dailyCompleted && dailyState) {
+        console.log('[F1Quiz] Restoring daily result...');
+        restoreDailyResult();
+      } else {
+        console.log('[F1Quiz] Starting new game');
+        guessSection.style.display = 'flex';
+        initializeGame();
+      }
+    } else {
+      console.error('[F1Quiz] No drivers in secret pool');
+      GameUtils.showError('common.noDataAvailable', true);
     }
   }
   
