@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // API endpoint
   const API_URL = 'https://snackable-api.vercel.app/api/movies';
-  const CACHE_KEY = 'snackable_movies_cache';
+  const CACHE_KEY = 'snackable_movies_cache_v2';
   const CACHE_EXPIRY_HOURS = 24;
 
   // Transform raw API movie data to internal format
@@ -898,7 +898,7 @@ function filterMovies(query) {
         return GameUtils.matchesAtWordBoundary(movie.title, query);
       })
       .sort((a, b) => (b.numVotes || 0) - (a.numVotes || 0))
-      .slice(0, 8);
+      .slice(0, 10);
   }
 
   function displayAutocomplete(movies) {
