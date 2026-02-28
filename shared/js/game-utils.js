@@ -37,26 +37,27 @@ const GameUtils = {
    * @param {string} query - The search query
    * @returns {boolean} True if query matches at a word boundary
    */
-  matchesAtWordBoundary(title, query) {
+matchesAtWordBoundary(title, query) {
     if (!title || !query) return false;
-    
+
     // Normalize: lowercase + remove accents + remove dots/commas/apostrophes
     const normalize = (text) => text
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '') // Remove accents
       .toLowerCase()
       .replace(/[.,']/g, '');           // Remove dots, commas, apostrophes
-    
+
     const normalizedTitle = normalize(title);
     const normalizedQuery = normalize(query);
-    
+
     if (!normalizedQuery) return false;
-    
-    // Split by word separators: space, hyphen, colon, semicolon
-    const wordParts = normalizedTitle.split(/[\s\-:;]+/).filter(p => p.length > 0);
-    
-    // Check if any word part starts with the query
-    return wordParts.some(part => part.startsWith(normalizedQuery));
+
+    // Escape special regex characters in query
+    const escapedQuery = normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    // Match at: start of string OR after word boundary (space, hyphen, colon, semicolon)
+    const regex = new RegExp(`(^|[\\s\\-:;])${escapedQuery}`);
+    return regex.test(normalizedTitle);
   },
 
   /**
