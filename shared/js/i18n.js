@@ -72,24 +72,11 @@ class I18n {
 
   /**
    * Load translations for a locale
+   * Uses inline translations directly (no external JSON files)
    */
   async loadTranslations(locale) {
     if (this.translations[locale]) return;
-
-    try {
-      // Try to load from shared/locales/
-      const basePath = this.getBasePath();
-      const response = await fetch(`${basePath}/shared/locales/${locale}.json`);
-      if (response.ok) {
-        this.translations[locale] = await response.json();
-      } else {
-        // Fallback to inline translations
-        this.translations[locale] = this.getInlineTranslations(locale);
-      }
-    } catch (e) {
-      console.warn(`Failed to load translations for ${locale}:`, e);
-      this.translations[locale] = this.getInlineTranslations(locale);
-    }
+    this.translations[locale] = this.getInlineTranslations(locale);
   }
 
   /**
