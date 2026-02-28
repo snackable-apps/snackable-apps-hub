@@ -68,7 +68,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       castWithImages: movie.castWithImages || [],
       posterUrl: movie.posterUrl || null,
       difficulty: movie.difficulty,
-      imdbId: movie.imdbId || null
+      imdbId: movie.imdbId || null,
+      numVotes: movie.numVotes || 0
     }));
   }
 
@@ -896,6 +897,7 @@ function filterMovies(query) {
         // Match at word boundaries only (not mid-word)
         return GameUtils.matchesAtWordBoundary(movie.title, query);
       })
+      .sort((a, b) => (b.numVotes || 0) - (a.numVotes || 0))
       .slice(0, 8);
   }
 
