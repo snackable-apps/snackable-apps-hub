@@ -44,34 +44,84 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Use centralized normalizeText from GameUtils
   const normalizeText = GameUtils.normalizeText;
 
-  // Load embedded data
-  function loadPlayersData() {
+  // API + Cache config
+  const API_URL = 'https://snackable-api.vercel.app/api/tennis-players';
+  const CACHE_KEY = 'snackable_tennis_players_cache_v1';
+  const CACHE_EXPIRY_HOURS = 24;
+
+  function isCacheValid(cached) {
+    if (!cached || !cached.timestamp || !cached.players) return false;
+    const age = (Date.now() - cached.timestamp) / (1000 * 60 * 60);
+    return age < CACHE_EXPIRY_HOURS;
+  }
+
+  function loadFromCache() {
     try {
-      if (typeof PLAYERS_DATA === 'undefined' || !PLAYERS_DATA || PLAYERS_DATA.length === 0) {
-        throw new Error('Player data not loaded. Please check if data/players_data.js is included.');
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const cached = JSON.parse(raw);
+      return isCacheValid(cached) ? cached : null;
+    } catch { return null; }
+  }
+
+  function saveToCache(players) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ players, timestamp: Date.now() }));
+    } catch (e) { console.warn('Cache save failed:', e); }
+  }
+
+  function refreshCacheInBackground() {
+    setTimeout(async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) return;
+        const data = await response.json();
+        if (data.success && data.players && data.players.length > 0) {
+          saveToCache(data.players);
+          console.log('Tennis players cache refreshed in background');
+        }
+      } catch { /* silent */ }
+    }, 2000);
+  }
+
+  async function loadPlayersData() {
+    const loadingState = document.getElementById('loading-state');
+    try {
+      // Try cache first
+      const cached = loadFromCache();
+      let players = null;
+
+      if (cached) {
+        players = cached.players;
+        console.log('Tennis players loaded from cache:', players.length);
+        refreshCacheInBackground();
+      } else {
+        // Fetch from API
+        console.log('Fetching tennis players from API...');
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error(`API error ${response.status}`);
+        const data = await response.json();
+        if (!data.success || !data.players) throw new Error('Invalid API response');
+        players = data.players;
+        saveToCache(players);
+        console.log('Tennis players fetched from API:', players.length);
       }
-      
-      ALL_PLAYERS = PLAYERS_DATA;
-      console.log('Total players loaded:', ALL_PLAYERS.length);
-      
-      // Display data update date
+
+      ALL_PLAYERS = players;
+
+      // Update data freshness label with current year
       const updateDateEl = document.getElementById('data-update-date');
-      if (updateDateEl && typeof DATA_UPDATE_DATE !== 'undefined') {
-        updateDateEl.textContent = DATA_UPDATE_DATE;
+      if (updateDateEl) {
+        updateDateEl.textContent = new Date().getFullYear();
       }
-      
+
       // Secret pool: only easy + medium players
-      SECRET_POOL = ALL_PLAYERS.filter(player => 
-        player.difficulty === 'easy' || player.difficulty === 'medium'
-      );
+      SECRET_POOL = ALL_PLAYERS.filter(p => p.difficulty === 'easy' || p.difficulty === 'medium');
       console.log('Secret pool (easy+medium):', SECRET_POOL.length);
-      
-      // Hide loading state, show game
-      const loadingState = document.getElementById('loading-state');
+
       if (loadingState) loadingState.style.display = 'none';
-      
+
       if (SECRET_POOL.length > 0) {
-        // Check if daily is completed - show result instead of restarting
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
@@ -84,8 +134,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     } catch (error) {
       console.error('Error loading player data:', error);
-      // Hide loading on error too
-      const loadingState = document.getElementById('loading-state');
       if (loadingState) loadingState.style.display = 'none';
       GameUtils.showError('common.loadError', true);
     }
@@ -193,13 +241,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     bestRankMin: null, bestRankMax: null, bestRankConfirmed: null,
     slamsMin: null, slamsMax: null, slamsConfirmed: null,
     titlesMin: null, titlesMax: null, titlesConfirmed: null,
-    proMin: null, proMax: null, proConfirmed: null,
     nationalityConfirmed: null,
-    handConfirmed: null,
-    backhandConfirmed: null,
-    excludedNationalities: new Set(),
-    excludedHands: new Set(),
-    excludedBackhands: new Set()
+    tourConfirmed: null,
+    excludedNationalities: new Set()
   };
 
   // Clues Panel Elements
@@ -234,25 +278,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Nationality
     comparisons.nationality = secret.nationality === guess.nationality ? 'match' : 'different';
-    
-    // Current Ranking (number for all players, 9999 = Retired)
-    // Lower number = better ranking, #1 is the TOP (arrow up)
+
+    // Tour (ATP / WTA)
+    comparisons.tour = secret.tour === guess.tour ? 'match' : 'different';
+
+    // Current Ranking (lower number = better = "higher" position)
     const secretRank = secret.currentRanking;
     const guessRank = guess.currentRanking;
     if (secretRank === guessRank) {
       comparisons.currentRanking = 'match';
     } else {
-      // For rankings: lower number = better = "higher" position (arrow up)
-      // If secret is #1 and guess is #50, arrow should point UP (secret is "higher")
       comparisons.currentRanking = secretRank < guessRank ? 'higher' : 'lower';
     }
-    
-    // Hand
-    comparisons.hand = secret.hand === guess.hand ? 'match' : 'different';
-    
-    // Backhand
-    comparisons.backhand = secret.backhand === guess.backhand ? 'match' : 'different';
-    
+
     // Grand Slam Titles
     if (secret.grandSlamTitles === guess.grandSlamTitles) {
       comparisons.grandSlamTitles = 'match';
@@ -261,7 +299,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       comparisons.grandSlamTitles = 'higher';
     }
-    
+
     // Career Titles
     if (secret.careerTitles === guess.careerTitles) {
       comparisons.careerTitles = 'match';
@@ -270,17 +308,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       comparisons.careerTitles = 'higher';
     }
-    
+
     // Highest Ranking (lower number = better = "higher" position)
     if (secret.highestRanking === guess.highestRanking) {
       comparisons.highestRanking = 'match';
     } else if (secret.highestRanking < guess.highestRanking) {
-      // Secret has better (lower) highest ranking = arrow UP
       comparisons.highestRanking = 'higher';
     } else {
       comparisons.highestRanking = 'lower';
     }
-    
+
     // Age (use death date for deceased players)
     const secretAge = calculateAge(secret.birthdate, secret.deathDate);
     const guessAge = calculateAge(guess.birthdate, guess.deathDate);
@@ -291,30 +328,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       comparisons.age = 'higher';
     }
-    
-    // Turned Pro Year
-    if (secret.turnedPro === guess.turnedPro) {
-      comparisons.turnedPro = 'match';
-    } else if (guess.turnedPro > secret.turnedPro) {
-      comparisons.turnedPro = 'lower';
-    } else {
-      comparisons.turnedPro = 'higher';
-    }
-    
+
     return comparisons;
   }
 
   function getFeedbackText(property, comparison, value) {
     const propertyNames = {
       'nationality': 'Country',
+      'tour': 'Tour',
       'currentRanking': 'Current Rank',
-      'hand': 'Hand',
-      'backhand': 'Backhand',
       'grandSlamTitles': 'Grand Slams',
       'careerTitles': 'Titles',
       'highestRanking': 'Best Rank',
-      'age': 'Age',
-      'turnedPro': 'Pro Since'
+      'age': 'Age'
     };
     const propertyName = propertyNames[property] || property;
     
@@ -392,16 +418,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (cluesState.titlesMax === null || guess.careerTitles < cluesState.titlesMax) cluesState.titlesMax = guess.careerTitles;
     }
 
-    // Turned Pro
-    if (comparisons.turnedPro === 'match') {
-      cluesState.proConfirmed = guess.turnedPro;
-    } else if (comparisons.turnedPro === 'higher') {
-      if (cluesState.proMin === null || guess.turnedPro > cluesState.proMin) cluesState.proMin = guess.turnedPro;
-    } else if (comparisons.turnedPro === 'lower') {
-      if (cluesState.proMax === null || guess.turnedPro < cluesState.proMax) cluesState.proMax = guess.turnedPro;
-    }
-
-    // Categorical clues (nationality, hand, backhand)
+    // Categorical clues (nationality, tour)
     GameUtils.updateCategoricalClue(cluesState, {
       comparison: comparisons.nationality,
       guessValue: guess.nationality,
@@ -409,16 +426,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       excludedKey: 'excludedNationalities'
     });
     GameUtils.updateCategoricalClue(cluesState, {
-      comparison: comparisons.hand,
-      guessValue: guess.hand,
-      confirmedKey: 'handConfirmed',
-      excludedKey: 'excludedHands'
-    });
-    GameUtils.updateCategoricalClue(cluesState, {
-      comparison: comparisons.backhand,
-      guessValue: guess.backhand,
-      confirmedKey: 'backhandConfirmed',
-      excludedKey: 'excludedBackhands'
+      comparison: comparisons.tour,
+      guessValue: guess.tour,
+      confirmedKey: 'tourConfirmed',
+      excludedKey: null
     });
   }
 
@@ -468,7 +479,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderRankingRange('clue-best-rank', 'clue-best-rank-value', cluesState.bestRankMin, cluesState.bestRankMax, cluesState.bestRankConfirmed);
     renderRange('clue-slams', 'clue-slams-value', cluesState.slamsMin, cluesState.slamsMax, cluesState.slamsConfirmed);
     renderRange('clue-titles', 'clue-titles-value', cluesState.titlesMin, cluesState.titlesMax, cluesState.titlesConfirmed);
-    renderRange('clue-pro', 'clue-pro-value', cluesState.proMin, cluesState.proMax, cluesState.proConfirmed);
 
     // Categorical properties
     function renderCategorical(itemId, valueId, confirmed) {
@@ -484,37 +494,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     renderCategorical('clue-nationality', 'clue-nationality-value', cluesState.nationalityConfirmed);
-    renderCategorical('clue-hand', 'clue-hand-value', cluesState.handConfirmed);
-    renderCategorical('clue-backhand', 'clue-backhand-value', cluesState.backhandConfirmed);
+    renderCategorical('clue-tour', 'clue-tour-value', cluesState.tourConfirmed);
 
-    // Render excluded sections using centralized utility
+    // Excluded nationalities
     const excludedRow = document.getElementById('clue-excluded-row');
     const nationalitySection = document.getElementById('clue-excluded-nationality-section');
-    const handSection = document.getElementById('clue-excluded-hand-section');
-    const backhandSection = document.getElementById('clue-excluded-backhand-section');
-    
+
     const hasNationality = GameUtils.renderExcludedSection({
       containerEl: nationalitySection,
       excludedSet: cluesState.excludedNationalities,
       confirmedValue: cluesState.nationalityConfirmed,
       maxItems: 5
     });
-    
-    const hasHand = GameUtils.renderExcludedSection({
-      containerEl: handSection,
-      excludedSet: cluesState.excludedHands,
-      confirmedValue: cluesState.handConfirmed,
-      maxItems: 2
-    });
-    
-    const hasBackhand = GameUtils.renderExcludedSection({
-      containerEl: backhandSection,
-      excludedSet: cluesState.excludedBackhands,
-      confirmedValue: cluesState.backhandConfirmed,
-      maxItems: 2
-    });
-    
-    excludedRow.style.display = (hasNationality || hasHand || hasBackhand) ? 'flex' : 'none';
+
+    excludedRow.style.display = hasNationality ? 'flex' : 'none';
   }
 
   // Reset clues state
@@ -525,13 +518,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       bestRankMin: null, bestRankMax: null, bestRankConfirmed: null,
       slamsMin: null, slamsMax: null, slamsConfirmed: null,
       titlesMin: null, titlesMax: null, titlesConfirmed: null,
-      proMin: null, proMax: null, proConfirmed: null,
       nationalityConfirmed: null,
-      handConfirmed: null,
-      backhandConfirmed: null,
-      excludedNationalities: new Set(),
-      excludedHands: new Set(),
-      excludedBackhands: new Set()
+      tourConfirmed: null,
+      excludedNationalities: new Set()
     };
   }
 
@@ -553,14 +542,12 @@ document.addEventListener("DOMContentLoaded", async () => {
           ${isCorrect ? '<span class="correct-badge">🎉</span>' : '<span class="wrong-badge">❌</span>'}
         </span>
         <span class="property-feedback ${getFeedbackClass(comparisons.nationality)}">${getFeedbackText('nationality', comparisons.nationality, guess.nationality)}</span>
+        <span class="property-feedback ${getFeedbackClass(comparisons.tour)}">${getFeedbackText('tour', comparisons.tour, guess.tour)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.currentRanking)}">${getFeedbackText('currentRanking', comparisons.currentRanking, formatRanking(guess.currentRanking))}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.age)}">${getFeedbackText('age', comparisons.age, ageDisplay)}</span>
-        <span class="property-feedback ${getFeedbackClass(comparisons.hand)}">${getFeedbackText('hand', comparisons.hand, guess.hand)}</span>
-        <span class="property-feedback ${getFeedbackClass(comparisons.backhand)}">${getFeedbackText('backhand', comparisons.backhand, guess.backhand)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.grandSlamTitles)}">${getFeedbackText('grandSlamTitles', comparisons.grandSlamTitles, guess.grandSlamTitles)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.careerTitles)}">${getFeedbackText('careerTitles', comparisons.careerTitles, guess.careerTitles)}</span>
         <span class="property-feedback ${getFeedbackClass(comparisons.highestRanking)}">${getFeedbackText('highestRanking', comparisons.highestRanking, '#' + guess.highestRanking)}</span>
-        <span class="property-feedback ${getFeedbackClass(comparisons.turnedPro)}">${getFeedbackText('turnedPro', comparisons.turnedPro, guess.turnedPro)}</span>
       </div>
     `;
     
@@ -675,14 +662,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   function getAnswerFeedbackText(property, value) {
     const propertyNames = {
       'nationality': 'Country',
+      'tour': 'Tour',
       'status': 'Status',
-      'hand': 'Hand',
-      'backhand': 'Backhand',
       'grandSlamTitles': 'Grand Slams',
       'careerTitles': 'Titles',
       'highestRanking': 'Best Rank',
-      'age': 'Age',
-      'turnedPro': 'Pro Since'
+      'age': 'Age'
     };
     const propertyName = propertyNames[property] || property;
     return `${propertyName}: ${value}`;
@@ -694,7 +679,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const secret = gameState.secretPlayer;
     const secretAge = calculateAge(secret.birthdate, secret.deathDate);
     const ageDisplay = secret.deathDate ? `${secretAge}†` : secretAge;
-    
+
     answerCard.innerHTML = `
       <div class="guess-line">
         <span class="guess-player-header answer-reveal-header">
@@ -703,14 +688,12 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span>😔</span>
         </span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('nationality', secret.nationality)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('status', secret.status)}</span>
+        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('tour', secret.tour)}</span>
+        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('status', formatRanking(secret.currentRanking))}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('age', ageDisplay)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('hand', secret.hand)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('backhand', secret.backhand)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('grandSlamTitles', secret.grandSlamTitles)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('careerTitles', secret.careerTitles)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('highestRanking', '#' + secret.highestRanking)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('turnedPro', secret.turnedPro)}</span>
       </div>
     `;
     guessesContainer.insertBefore(answerCard, guessesContainer.firstChild);
@@ -774,14 +757,12 @@ document.addEventListener("DOMContentLoaded", async () => {
           guesses: gameState.guesses.map(g => ({
             name: g.name,
             nationality: g.nationality,
+            tour: g.tour,
             currentRanking: g.currentRanking,
             highestRanking: g.highestRanking,
-            hand: g.hand,
-            backhand: g.backhand,
             grandSlamTitles: g.grandSlamTitles,
             careerTitles: g.careerTitles,
-            turnedPro: g.turnedPro,
-            dateOfBirth: g.dateOfBirth,
+            birthdate: g.birthdate,
             deathDate: g.deathDate,
             comparisons: g.comparisons,
             isCorrect: g.isCorrect
@@ -948,5 +929,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Load data and initialize
-  loadPlayersData();
+  await loadPlayersData();
 });

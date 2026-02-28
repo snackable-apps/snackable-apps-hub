@@ -498,27 +498,22 @@ class I18n {
             bestRank: 'Best Rank',
             slams: 'Slams',
             titles: 'Titles',
-            proSince: 'Pro Since',
+            tour: 'Tour',
             nationality: 'Nationality',
-            hand: 'Hand',
-            backhand: 'Backhand',
             notNationality: '❌ Nationality:',
-            notHand: '❌ Hand:',
-            notBackhand: '❌ Backhand:',
             howToPlay: {
               gameTitle: '📖 How to Play Tennis Quiz',
               intro: 'Tennis Quiz is a daily guessing game for tennis fans. Your mission is to identify the secret player using clues from their career statistics.',
               step1Desc: "Type any tennis player's name and select from the dropdown.",
               step2Desc: 'Each attribute shows how your guess compares to the secret player.',
               higherDesc: 'The secret player has a higher value (more titles, higher ranking, etc.).',
-              redDifferentDesc: "The attribute doesn't match (different nationality, playing hand, etc.).",
+              redDifferentDesc: "The attribute doesn't match (different nationality, tour, etc.).",
               clueNationality: "The player's country",
               clueRanking: 'Current ATP/WTA ranking',
               clueSlams: 'Grand Slam titles won',
               clueTitles: 'Career titles won',
-              clueHand: 'Playing hand (left/right)',
-              clueBackhand: 'Backhand style (one/two handed)',
-              proTip: 'Start with legendary players to narrow down the era, then use Grand Slam count and nationality to find the answer!'
+              clueTour: 'ATP (men) or WTA (women)',
+              proTip: 'Grand Slam titles and career titles are excellent clues — they separate the legends from the rest!'
             }
           },
           f1: {
@@ -1072,27 +1067,22 @@ class I18n {
             bestRank: 'Meilleur rang',
             slams: 'Grand Chelem',
             titles: 'Titres',
-            proSince: 'Pro depuis',
+            tour: 'Circuit',
             nationality: 'Nationalité',
-            hand: 'Main',
-            backhand: 'Revers',
             notNationality: '❌ Nationalité :',
-            notHand: '❌ Main :',
-            notBackhand: '❌ Revers :',
             howToPlay: {
               gameTitle: '📖 Comment jouer au Quiz Tennis',
               intro: 'Le Quiz Tennis est un jeu de devinettes quotidien pour les fans de tennis. Votre mission est d\'identifier le joueur secret en utilisant les indices de sa carrière.',
               step1Desc: 'Tapez le nom d\'un joueur de tennis et sélectionnez-le dans la liste.',
               step2Desc: 'Chaque attribut montre comment votre essai se compare au joueur secret.',
               higherDesc: 'Le joueur secret a une valeur plus élevée (plus de titres, meilleur classement, etc.).',
-              redDifferentDesc: 'L\'attribut ne correspond pas (nationalité, main de jeu différente, etc.).',
+              redDifferentDesc: 'L\'attribut ne correspond pas (nationalité, circuit différent, etc.).',
               clueNationality: 'Le pays du joueur',
               clueRanking: 'Classement ATP/WTA actuel',
               clueSlams: 'Titres du Grand Chelem gagnés',
               clueTitles: 'Titres en carrière',
-              clueHand: 'Main de jeu (gauche/droite)',
-              clueBackhand: 'Style de revers (à une/deux mains)',
-              proTip: 'Commencez par des joueurs légendaires pour cerner l\'époque, puis utilisez le nombre de Grand Chelem et la nationalité pour trouver la réponse !'
+              clueTour: 'ATP (hommes) ou WTA (femmes)',
+              proTip: 'Les titres du Grand Chelem et les titres en carrière sont d\'excellents indices — ils séparent les légendes du reste !'
             }
           },
           f1: {
@@ -1634,13 +1624,9 @@ class I18n {
             bestRank: 'Melhor Ranking',
             slams: 'Grand Slams',
             titles: 'Títulos',
-            proSince: 'Profissional desde',
+            tour: 'Circuito',
             nationality: 'Nacionalidade',
-            hand: 'Mão',
-            backhand: 'Backhand',
             notNationality: '❌ Nacionalidade:',
-            notHand: '❌ Mão:',
-            notBackhand: '❌ Backhand:',
             howToPlay: {
               gameTitle: '📖 Como jogar o Quiz de Tênis',
               intro: 'O Quiz de Tênis é um jogo de adivinhação diário para fãs de tênis. Sua missão é identificar o jogador secreto usando as dicas de sua carreira.',
@@ -1652,9 +1638,8 @@ class I18n {
               clueRanking: 'Ranking ATP/WTA atual',
               clueSlams: 'Títulos de Grand Slam',
               clueTitles: 'Títulos de carreira',
-              clueHand: 'Mão de jogo (esquerda/direita)',
-              clueBackhand: 'Estilo de backhand (uma/duas mãos)',
-              proTip: 'Comece por jogadores lendários para identificar a época, depois use a contagem de Grand Slam e nacionalidade para encontrar a resposta!'
+              clueTour: 'ATP (homens) ou WTA (mulheres)',
+              proTip: 'Os títulos de Grand Slam e títulos de carreira são excelentes pistas — eles separam as lendas do resto!'
             }
           },
           f1: {
@@ -2287,27 +2272,22 @@ class I18n {
             bestRank: 'Miglior ranking',
             slams: 'Slam',
             titles: 'Titoli',
-            proSince: 'Pro dal',
+            tour: 'Circuito',
             nationality: 'Nazionalità',
-            hand: 'Mano',
-            backhand: 'Rovescio',
             notNationality: '❌ Nazionalità:',
-            notHand: '❌ Mano:',
-            notBackhand: '❌ Rovescio:',
             howToPlay: {
               gameTitle: '📖 Come giocare al Quiz Tennis',
               intro: 'Il Quiz Tennis è un gioco quotidiano per gli appassionati di tennis. La tua missione è identificare il giocatore segreto usando gli indizi della sua carriera.',
               step1Desc: 'Digita il nome di qualsiasi tennista e selezionalo dalla lista.',
               step2Desc: 'Ogni attributo mostra come il tuo tentativo si confronta con il giocatore segreto.',
               higherDesc: 'Il giocatore segreto ha un valore più alto (più titoli, classifica migliore, ecc.).',
-              redDifferentDesc: "L'attributo non corrisponde (nazionalità diversa, mano diversa, ecc.).",
+              redDifferentDesc: "L'attributo non corrisponde (nazionalità diversa, circuito diverso, ecc.).",
               clueNationality: 'Il paese del giocatore',
               clueRanking: 'Classifica ATP/WTA attuale',
               clueSlams: 'Titoli Grand Slam vinti',
               clueTitles: 'Titoli in carriera',
-              clueHand: 'Mano di gioco (sinistra/destra)',
-              clueBackhand: 'Stile di rovescio (una/due mani)',
-              proTip: 'Inizia con giocatori leggendari per identificare l\'epoca, poi usa il conteggio dei Grand Slam e la nazionalità per trovare la risposta!'
+              clueTour: 'ATP (uomini) o WTA (donne)',
+              proTip: 'I titoli del Grand Slam e i titoli in carriera sono ottimi indizi — separano le leggende dal resto!'
             }
           },
           f1: {
@@ -2940,27 +2920,22 @@ class I18n {
             bestRank: 'Mejor ranking',
             slams: 'Grand Slams',
             titles: 'Títulos',
-            proSince: 'Pro desde',
+            tour: 'Circuito',
             nationality: 'Nacionalidad',
-            hand: 'Mano',
-            backhand: 'Revés',
             notNationality: '❌ Nacionalidad:',
-            notHand: '❌ Mano:',
-            notBackhand: '❌ Revés:',
             howToPlay: {
               gameTitle: '📖 Cómo jugar al Quiz de Tenis',
               intro: 'El Quiz de Tenis es un juego de adivinanzas diario para fans del tenis. Tu misión es identificar al jugador secreto usando las pistas de su carrera.',
               step1Desc: 'Escribe el nombre de cualquier tenista y selecciónalo de la lista.',
               step2Desc: 'Cada atributo muestra cómo tu intento se compara con el jugador secreto.',
               higherDesc: 'El jugador secreto tiene un valor más alto (más títulos, mejor ranking, etc.).',
-              redDifferentDesc: 'El atributo no coincide (nacionalidad diferente, mano diferente, etc.).',
+              redDifferentDesc: 'El atributo no coincide (nacionalidad diferente, circuito diferente, etc.).',
               clueNationality: 'El país del jugador',
               clueRanking: 'Ranking ATP/WTA actual',
               clueSlams: 'Títulos de Grand Slam ganados',
               clueTitles: 'Títulos de carrera',
-              clueHand: 'Mano de juego (izquierda/derecha)',
-              clueBackhand: 'Estilo de revés (una/dos manos)',
-              proTip: '¡Empieza con jugadores legendarios para identificar la época, luego usa el conteo de Grand Slam y la nacionalidad para encontrar la respuesta!'
+              clueTour: 'ATP (hombres) o WTA (mujeres)',
+              proTip: '¡Los títulos de Grand Slam y los títulos de carrera son excelentes pistas — separan a las leyendas del resto!'
             }
           },
           f1: {
