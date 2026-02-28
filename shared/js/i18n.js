@@ -342,6 +342,7 @@ class I18n {
             howToPlay: {
               gameTitle: '📖 How to Play Movie Quiz',
               intro: 'Movie Quiz is a daily guessing game for film enthusiasts. Your goal is to identify the secret movie using clues from your guesses.',
+              moviePool: '🎯 The secret movie is always a well-known film with 100,000+ IMDB votes — no obscure titles!',
               step1: 'Start guessing',
               step1Desc: 'Type any movie title in the search bar and select it from the dropdown.',
               step2: 'Compare the clues',
@@ -1255,6 +1256,7 @@ class I18n {
             howToPlay: {
               gameTitle: '📖 Comment jouer au Quiz Films',
               intro: 'Le Quiz Films est un jeu de devinettes quotidien pour les cinéphiles. Votre objectif est d\'identifier le film secret en utilisant les indices de vos essais.',
+              moviePool: '🎯 Le film secret est toujours un film connu avec plus de 100 000 votes IMDB — pas de titres obscurs !',
               step1: 'Commencez à deviner',
               step1Desc: 'Tapez un titre de film dans la barre de recherche et sélectionnez-le.',
               step2: 'Comparez les indices',
@@ -1816,6 +1818,7 @@ class I18n {
             howToPlay: {
               gameTitle: '📖 Como jogar o Quiz de Filmes',
               intro: 'O Quiz de Filmes é um jogo de adivinhação diário para cinéfilos. Seu objetivo é identificar o filme secreto usando as dicas dos seus palpites.',
+              moviePool: '🎯 O filme secreto é sempre um filme conhecido com mais de 100.000 votos no IMDB — nada de títulos obscuros!',
               step1: 'Comece a adivinhar',
               step1Desc: 'Digite um título de filme na barra de busca e selecione-o.',
               step2: 'Compare as dicas',
@@ -2468,6 +2471,7 @@ class I18n {
             howToPlay: {
               gameTitle: '📖 Come giocare al Quiz Film',
               intro: 'Il Quiz Film è un gioco quotidiano per i cinefili. Il tuo obiettivo è identificare il film segreto usando gli indizi dei tuoi tentativi.',
+              moviePool: '🎯 Il film segreto è sempre un film famoso con oltre 100.000 voti IMDB — niente titoli oscuri!',
               step1: 'Inizia a indovinare',
               step1Desc: 'Digita un titolo di film nella barra di ricerca e selezionalo.',
               step2: 'Confronta gli indizi',
@@ -3120,6 +3124,7 @@ class I18n {
             howToPlay: {
               gameTitle: '📖 Cómo jugar al Quiz de Películas',
               intro: 'El Quiz de Películas es un juego de adivinanzas diario para cinéfilos. Tu objetivo es identificar la película secreta usando las pistas de tus intentos.',
+              moviePool: '🎯 La película secreta siempre es una película conocida con más de 100.000 votos en IMDB — ¡nada de títulos oscuros!',
               step1: 'Empieza a adivinar',
               step1Desc: 'Escribe un título de película en la barra de búsqueda y selecciónalo.',
               step2: 'Compara las pistas',

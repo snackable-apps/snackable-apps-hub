@@ -906,6 +906,16 @@ header .header-controls {
   font-size: 0.85rem;
 }
 
+.how-to-play .movie-pool-note {
+  background: rgba(0, 212, 255, 0.1);
+  border-left: 3px solid var(--accent-primary, #00d4ff);
+  padding: 10px 14px;
+  margin: 12px 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+  color: var(--text-primary, #fff);
+}
+
 .how-to-play .tip strong {
   color: #f59e0b;
 }
