@@ -1134,16 +1134,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       ? `<img src="${guess.posterUrl}" alt="${guess.title}" class="guess-poster clickable" onclick="openActorLightbox('${guess.posterUrl.replace(/'/g, "\\'")}', '${guess.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
       : '';
     
-    // IMDB link for correct guesses
-    const imdbLinkHtml = guess.isCorrect && guess.imdbId 
-      ? `<a href="https://www.imdb.com/title/${guess.imdbId}/" target="_blank" rel="noopener noreferrer" class="imdb-link">View on IMDB ↗</a>` 
+// IMDB link for correct guesses (inline after title)
+    const imdbLinkHtml = guess.isCorrect && guess.imdbId
+      ? `<a href="https://www.imdb.com/title/${guess.imdbId}/" target="_blank" rel="noopener noreferrer" class="imdb-link">IMDB ↗</a>`
       : '';
-    
+
     card.innerHTML = `
       <div class="guess-row-main">
         ${guessPosterHtml}
         <div class="guess-content">
-          <div class="guess-title">🎬 ${guess.title}</div>
+          <div class="guess-title">🎬 ${guess.title}${imdbLinkHtml}</div>
           <div class="guess-properties">
             <div class="property ${guess.comparisons.director}">
               <div class="property-label">${i18n.t('games.movies.director')}</div>
@@ -1179,7 +1179,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="guess-genres">
             <span class="details-label">${i18n.t('games.movies.genres')}:</span> ${genresHtml}
           </div>
-          ${imdbLinkHtml}
         </div>
       </div>
       <div class="guess-row-cast">
@@ -1215,22 +1214,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       ? `<img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster clickable" onclick="openActorLightbox('${movie.posterUrl.replace(/'/g, "\\'")}', '${movie.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
       : '';
     
-    const imdbLinkHtml = movie.imdbId 
-      ? `<a href="https://www.imdb.com/title/${movie.imdbId}/" target="_blank" rel="noopener noreferrer" class="imdb-link">View on IMDB ↗</a>` 
+const imdbLinkHtml = movie.imdbId
+      ? `<a href="https://www.imdb.com/title/${movie.imdbId}/" target="_blank" rel="noopener noreferrer" class="imdb-link">IMDB ↗</a>`
       : '';
-    
+
     answerDiv.innerHTML = `
       <h3>📽️ ${i18n.t('common.theAnswerWas')}</h3>
       <div class="answer-content">
         ${posterHtml}
         <div class="answer-info">
-          <div class="movie-title">${movie.title}</div>
+          <div class="movie-title">${movie.title}${imdbLinkHtml}</div>
           <div class="movie-details">
-            <span>${movie.releaseYear}</span> • 
-            <span>${movie.director}</span> • 
+            <span>${movie.releaseYear}</span> •
+            <span>${movie.director}</span> •
             <span>${countryCodeToFlag(movie.country)}</span>
           </div>
-          ${imdbLinkHtml}
         </div>
       </div>
       <div class="answer-cast">
