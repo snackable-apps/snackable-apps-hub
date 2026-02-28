@@ -21,6 +21,45 @@ const GameUtils = {
   },
 
   /**
+   * Check if search query matches at word boundaries in title
+   * - Case insensitive
+   * - Accent insensitive  
+   * - Matches at start of any word (after space, hyphen, colon, semicolon)
+   * - Ignores dots, commas, apostrophes
+   * 
+   * Examples:
+   *   "la" matches "L.A. Confidential" (L.A. → LA)
+   *   "la" matches "La La Land" (word start)
+   *   "man" matches "Spider-Man" (hyphen = word boundary)
+   *   "der" does NOT match "Spider-Man" (mid-word)
+   * 
+   * @param {string} title - The title to search in
+   * @param {string} query - The search query
+   * @returns {boolean} True if query matches at a word boundary
+   */
+  matchesAtWordBoundary(title, query) {
+    if (!title || !query) return false;
+    
+    // Normalize: lowercase + remove accents + remove dots/commas/apostrophes
+    const normalize = (text) => text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove accents
+      .toLowerCase()
+      .replace(/[.,']/g, '');           // Remove dots, commas, apostrophes
+    
+    const normalizedTitle = normalize(title);
+    const normalizedQuery = normalize(query);
+    
+    if (!normalizedQuery) return false;
+    
+    // Split by word separators: space, hyphen, colon, semicolon
+    const wordParts = normalizedTitle.split(/[\s\-:;]+/).filter(p => p.length > 0);
+    
+    // Check if any word part starts with the query
+    return wordParts.some(part => part.startsWith(normalizedQuery));
+  },
+
+  /**
    * Get current date as a string in YYYY-MM-DD format
    * Used for daily game selection consistency
    * @returns {string} Date string

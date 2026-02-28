@@ -886,15 +886,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateUI();
   }
 
-  function filterMovies(query) {
+function filterMovies(query) {
     if (!query || query.length < 2) return [];
-    
-    const normalizedQuery = normalizeText(query);
+
     return ALL_MOVIES
       .filter(movie => {
         const alreadyGuessed = gameState.guesses.some(g => g.title === movie.title);
         if (alreadyGuessed) return false;
-        return normalizeText(movie.title).includes(normalizedQuery);
+        // Match at word boundaries only (not mid-word)
+        return GameUtils.matchesAtWordBoundary(movie.title, query);
       })
       .slice(0, 8);
   }
