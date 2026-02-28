@@ -298,6 +298,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     return comparisons;
   }
 
+  // Format team display - combines "Retired" and "Without Seat" into clearer label
+  function formatTeamDisplay(team) {
+    if (team === 'Retired' || team === 'Without Seat') {
+      return 'Not Racing';
+    }
+    return team;
+  }
+
   function getFeedbackText(property, comparison, value) {
     const propertyNames = {
       'nationality': 'Nationality',
@@ -324,7 +332,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       return `${emoji} ${propertyName}: ${teamsHtml}`;
     }
     
-    const formattedValue = property === 'age' ? `${value}` : value;
+    // Format team display for currentTeam property
+    let formattedValue = property === 'currentTeam' ? formatTeamDisplay(value) : value;
+    formattedValue = property === 'age' ? `${formattedValue}` : formattedValue;
     
     if (comparison === 'match') {
       return `✅ ${propertyName}: ${formattedValue}`;
@@ -399,13 +409,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     function renderRange(itemId, valueId, min, max, confirmed) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
-      if (confirmed !== null) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
-      else if (min !== null || max !== null) {
-        item.className = 'clue-item narrowed';
-        if (min !== null && max !== null) value.textContent = `${min + 1}-${max - 1}`;
-        else if (min !== null) value.textContent = `>${min}`;
-        else value.textContent = `<${max}`;
-      } else { item.className = 'clue-item'; value.textContent = '?'; }
+      const result = GameUtils.formatClueRange({ min, max, confirmed });
+      item.className = result.className ? `clue-item ${result.className}` : 'clue-item';
+      value.textContent = result.text;
     }
 
     renderRange('clue-age', 'clue-age-value', cluesState.ageMin, cluesState.ageMax, cluesState.ageConfirmed);
@@ -421,7 +427,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     renderCategorical('clue-nationality', 'clue-nationality-value', cluesState.nationalityConfirmed);
-    renderCategorical('clue-team', 'clue-team-value', cluesState.teamConfirmed);
+    renderCategorical('clue-team', 'clue-team-value', cluesState.teamConfirmed ? formatTeamDisplay(cluesState.teamConfirmed) : null);
 
     const teamsRow = document.getElementById('clue-teams-row');
     const teamsContainer = document.getElementById('clue-teams');
@@ -613,7 +619,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span>🏆</span>
         </span>
         <span class="property-feedback answer-reveal-feedback">Nationality: ${secret.nationality}</span>
-        <span class="property-feedback answer-reveal-feedback">Current Team: ${secret.currentTeam}</span>
+        <span class="property-feedback answer-reveal-feedback">Current Team: ${formatTeamDisplay(secret.currentTeam)}</span>
         <span class="property-feedback answer-reveal-feedback">WDC: ${secret.worldChampionships}</span>
         <span class="property-feedback answer-reveal-feedback">Wins: ${secret.wins}</span>
         <span class="property-feedback answer-reveal-feedback">Podiums: ${secret.podiums}</span>

@@ -552,12 +552,16 @@ header .header-controls {
   gap: 12px;
   flex-wrap: wrap;
   width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .share-section .btn-share,
 .share-section .share-btn,
 .share-section .submit-btn,
-.share-section .play-random-btn {
+.share-section .play-random-btn,
+.share-section button {
   flex: 1 1 calc(50% - 6px);
   min-width: 140px;
   max-width: none;
@@ -568,7 +572,8 @@ header .header-controls {
   .share-section .btn-share,
   .share-section .share-btn,
   .share-section .submit-btn,
-  .share-section .play-random-btn {
+  .share-section .play-random-btn,
+  .share-section button {
     flex: 1 1 100%;
   }
 }

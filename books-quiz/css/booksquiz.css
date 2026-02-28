@@ -571,6 +571,16 @@ main {
   color: var(--success-color);
 }
 
+/* Disabled toggle state */
+.toggle-switch.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.toggle-switch.disabled .toggle-slider {
+  cursor: not-allowed;
+}
+
 /* Autocomplete with author info */
 .autocomplete-item .book-title {
   font-weight: 600;

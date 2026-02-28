@@ -447,13 +447,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     function renderRange(itemId, valueId, min, max, confirmed, formatter = v => v) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
-      if (confirmed !== null) { item.className = 'clue-item confirmed'; value.textContent = formatter(confirmed); }
-      else if (min !== null || max !== null) {
-        item.className = 'clue-item narrowed';
-        if (min !== null && max !== null) value.textContent = `${formatter(min + 1)}-${formatter(max - 1)}`;
-        else if (min !== null) value.textContent = `>${formatter(min)}`;
-        else value.textContent = `<${formatter(max)}`;
-      } else { item.className = 'clue-item'; value.textContent = '?'; }
+      const result = GameUtils.formatClueRange({ min, max, confirmed, formatter });
+      item.className = result.className ? `clue-item ${result.className}` : 'clue-item';
+      value.textContent = result.text;
     }
 
     const formatWeight = w => w >= 1000 ? `${(w/1000).toFixed(0)}t` : `${w}kg`;

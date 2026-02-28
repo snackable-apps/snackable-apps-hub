@@ -127,14 +127,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     return dailyIndexes;
   }
 
-  // Calculate points based on time used
-  // Max 100 points if guessed instantly, decreasing to ~20 points at 30 seconds
+  // Calculate points based on time used (exponential decay)
+  // Instant: 100, ~7.5s: 50, ~15s: 30, ~22.5s: 20, 30s: 10
+  // Formula: 100 * 0.925^time, with minimum of 10 points
   function calculatePoints(timeUsed, isCorrect) {
     if (!isCorrect) return 0;
     
-    const minPoints = 20;
-    const timeRatio = Math.min(timeUsed, SONG_DURATION) / SONG_DURATION;
-    const points = Math.round(MAX_POINTS_PER_SONG - (MAX_POINTS_PER_SONG - minPoints) * timeRatio);
+    const minPoints = 10;
+    const decayRate = 0.925;
+    const clampedTime = Math.min(timeUsed, SONG_DURATION);
+    const points = Math.round(MAX_POINTS_PER_SONG * Math.pow(decayRate, clampedTime));
     
     return Math.max(minPoints, points);
   }
@@ -899,6 +901,14 @@ ${playAtLabel} snackable-games.com/blind-test/`;
 
   // Event Listeners
   audioPlayer.addEventListener('timeupdate', updateProgress);
+  
+  // Prevent pausing via external controls (headphones, media keys)
+  // Auto-resume immediately if paused during active play
+  audioPlayer.addEventListener('pause', () => {
+    if (!hasAnswered && audioPlayer.currentTime > 0 && !audioPlayer.ended) {
+      audioPlayer.play().catch(e => console.log('Auto-resume blocked:', e.message));
+    }
+  });
   
   // When song ends naturally (30s), auto-skip if not answered
   audioPlayer.addEventListener('ended', () => {

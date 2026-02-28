@@ -419,6 +419,42 @@ const GameUtils = {
   },
 
   /**
+   * Format a numeric range for clues display.
+   * Handles the case where min+1 === max-1 (single value narrowed down).
+   * When the range collapses to a single value, returns that value with 'narrowed' class.
+   * 
+   * @param {Object} options - Formatting options
+   * @param {number|null} options.min - Lower bound (exclusive) - secret is > min
+   * @param {number|null} options.max - Upper bound (exclusive) - secret is < max
+   * @param {number|null} options.confirmed - Confirmed value (if any)
+   * @param {function} [options.formatter] - Function to format the value (default: identity)
+   * @param {number} [options.step] - Step for range bounds (default: 1)
+   * @returns {Object} { text: string, className: 'confirmed'|'narrowed'|'' }
+   */
+  formatClueRange({ min, max, confirmed, formatter = v => v, step = 1 }) {
+    if (confirmed !== null && confirmed !== undefined) {
+      return { text: formatter(confirmed), className: 'confirmed' };
+    }
+    
+    if (min !== null || max !== null) {
+      if (min !== null && max !== null) {
+        const rangeMin = min + step;
+        const rangeMax = max - step;
+        if (rangeMin === rangeMax) {
+          return { text: formatter(rangeMin), className: 'narrowed' };
+        }
+        return { text: `${formatter(rangeMin)}-${formatter(rangeMax)}`, className: 'narrowed' };
+      } else if (min !== null) {
+        return { text: `>${formatter(min)}`, className: 'narrowed' };
+      } else {
+        return { text: `<${formatter(max)}`, className: 'narrowed' };
+      }
+    }
+    
+    return { text: '?', className: '' };
+  },
+
+  /**
    * Fisher-Yates shuffle for uniform randomness
    * @param {Array} array - Array to shuffle
    * @returns {Array} New shuffled array

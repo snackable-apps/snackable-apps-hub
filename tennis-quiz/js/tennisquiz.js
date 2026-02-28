@@ -430,32 +430,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     cluesPanel.style.display = 'block';
 
-    // Helper for range display
+    // Helper for range display using centralized utility
     function renderRange(itemId, valueId, min, max, confirmed, formatter = v => v) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
-      if (confirmed !== null) {
-        item.className = 'clue-item confirmed';
-        value.textContent = formatter(confirmed);
-      } else if (min !== null || max !== null) {
-        item.className = 'clue-item narrowed';
-        if (min !== null && max !== null) {
-          value.textContent = `${formatter(min + 1)}-${formatter(max - 1)}`;
-        } else if (min !== null) {
-          value.textContent = `>${formatter(min)}`;
-        } else {
-          value.textContent = `<${formatter(max)}`;
-        }
-      } else {
-        item.className = 'clue-item';
-        value.textContent = '?';
-      }
+      const result = GameUtils.formatClueRange({ min, max, confirmed, formatter });
+      item.className = result.className ? `clue-item ${result.className}` : 'clue-item';
+      value.textContent = result.text;
     }
 
     // Helper for ranking (inverted - lower number is better)
-    // min = largest guess where secret is WORSE (higher number) than guess. So: secret > min
-    // max = smallest guess where secret is BETTER (lower number) than guess. So: secret < max
-    // Range: min < secret < max, display: #(min+1) to #(max-1)
     function renderRankingRange(itemId, valueId, min, max, confirmed) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
@@ -465,13 +449,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else if (min !== null || max !== null) {
         item.className = 'clue-item narrowed';
         if (min !== null && max !== null) {
-          // Secret is between min+1 and max-1 (secret > min AND secret < max)
-          value.textContent = `#${min + 1}-#${max - 1}`;
+          const rangeMin = min + 1;
+          const rangeMax = max - 1;
+          value.textContent = rangeMin === rangeMax ? `#${rangeMin}` : `#${rangeMin}-#${rangeMax}`;
         } else if (min !== null) {
-          // Only know secret > min (worse rank), so secret could be #min+1 or higher
           value.textContent = `worse than #${min}`;
         } else {
-          // Only know secret < max (better rank), so secret could be #max-1 or lower
           value.textContent = `better than #${max}`;
         }
       } else {

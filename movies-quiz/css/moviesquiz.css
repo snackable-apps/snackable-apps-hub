@@ -842,41 +842,45 @@ main {
 
 /* Share section styling now in shared.css */
 
-/* Answer Reveal */
+/* Answer Reveal - styled to match guess-card but with yellow/gold theme */
 .answer-reveal {
-  background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(245, 197, 24, 0.08);
+  border-radius: 10px;
+  padding: 16px;
   border: 2px solid var(--accent-gold);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 15px;
+  animation: slideIn 0.3s ease;
 }
 
 .answer-reveal h3 {
   color: var(--accent-gold);
-  font-size: 1rem;
-  margin-bottom: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 4px;
 }
 
 .answer-reveal .movie-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 2rem;
-  color: var(--text-primary);
+  font-size: 1.6rem;
+  color: var(--accent-gold);
   letter-spacing: 1px;
 }
 
 .answer-reveal .movie-details {
   color: var(--text-secondary);
   font-size: 0.9rem;
-  margin-top: 8px;
+  margin-top: 4px;
 }
 
-.answer-reveal .movie-cast {
+.answer-reveal .movie-cast,
+.answer-reveal .answer-cast {
   color: var(--text-secondary);
   font-size: 0.85rem;
-  margin-top: 10px;
+  margin-top: 8px;
   padding-top: 10px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--accent-gold);
 }
 
 /* Answer content with poster */
@@ -897,6 +901,24 @@ main {
 
 .answer-info {
   text-align: left;
+}
+
+.imdb-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 14px;
+  background: #f5c518;
+  color: #000;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.imdb-link:hover {
+  background: #e6b800;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 500px) {

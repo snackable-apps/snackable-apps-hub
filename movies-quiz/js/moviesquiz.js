@@ -67,7 +67,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       cast: movie.cast,
       castWithImages: movie.castWithImages || [],
       posterUrl: movie.posterUrl || null,
-      difficulty: movie.difficulty
+      difficulty: movie.difficulty,
+      imdbId: movie.imdbId || null
     }));
   }
 
@@ -1133,6 +1134,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       ? `<img src="${guess.posterUrl}" alt="${guess.title}" class="guess-poster clickable" onclick="openActorLightbox('${guess.posterUrl.replace(/'/g, "\\'")}', '${guess.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
       : '';
     
+    // IMDB link for correct guesses
+    const imdbLinkHtml = guess.isCorrect && guess.imdbId 
+      ? `<a href="https://www.imdb.com/title/${guess.imdbId}/" target="_blank" rel="noopener noreferrer" class="imdb-link">View on IMDB ↗</a>` 
+      : '';
+    
     card.innerHTML = `
       <div class="guess-row-main">
         ${guessPosterHtml}
@@ -1173,6 +1179,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="guess-genres">
             <span class="details-label">${i18n.t('games.movies.genres')}:</span> ${genresHtml}
           </div>
+          ${imdbLinkHtml}
         </div>
       </div>
       <div class="guess-row-cast">
@@ -1208,6 +1215,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       ? `<img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster clickable" onclick="openActorLightbox('${movie.posterUrl.replace(/'/g, "\\'")}', '${movie.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
       : '';
     
+    const imdbLinkHtml = movie.imdbId 
+      ? `<a href="https://www.imdb.com/title/${movie.imdbId}/" target="_blank" rel="noopener noreferrer" class="imdb-link">View on IMDB ↗</a>` 
+      : '';
+    
     answerDiv.innerHTML = `
       <h3>📽️ ${i18n.t('common.theAnswerWas')}</h3>
       <div class="answer-content">
@@ -1219,6 +1230,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <span>${movie.director}</span> • 
             <span>${countryCodeToFlag(movie.country)}</span>
           </div>
+          ${imdbLinkHtml}
         </div>
       </div>
       <div class="answer-cast">

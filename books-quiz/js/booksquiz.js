@@ -265,6 +265,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       autocompleteState
     });
     
+    // Re-enable easy mode toggle for new game
+    if (easyModeToggle) {
+      easyModeToggle.disabled = false;
+      easyModeToggle.parentElement.classList.remove('disabled');
+    }
+    
     if (typeof gtag === 'function') {
       gtag('event', 'books_play_random', { book: randomBook.title });
     }
@@ -382,14 +388,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     function renderRange(itemId, valueId, min, max, confirmed) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
-      if (!item || !value) return; // Skip if element doesn't exist
-      if (confirmed !== null) { item.className = 'clue-item confirmed'; value.textContent = confirmed; }
-      else if (min !== null || max !== null) {
-        item.className = 'clue-item narrowed';
-        if (min !== null && max !== null) value.textContent = `${min + 1}-${max - 1}`;
-        else if (min !== null) value.textContent = `>${min}`;
-        else value.textContent = `<${max}`;
-      } else { item.className = 'clue-item'; value.textContent = '?'; }
+      if (!item || !value) return;
+      const result = GameUtils.formatClueRange({ min, max, confirmed });
+      item.className = result.className ? `clue-item ${result.className}` : 'clue-item';
+      value.textContent = result.text;
     }
 
     renderRange('clue-year', 'clue-year-value', cluesState.yearMin, cluesState.yearMax, cluesState.yearConfirmed);
@@ -566,6 +568,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     
+    // Lock easy mode after first guess
+    if (gameState.guesses.length === 0 && easyModeToggle) {
+      easyModeToggle.disabled = true;
+      easyModeToggle.parentElement.classList.add('disabled');
+    }
+    
     const comparisons = compareProperties(gameState.secretBook, guess);
     updateCluesState(guess, comparisons);
     
@@ -729,17 +737,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   function shareResults() {
     const gameUrl = window.location.origin + window.location.pathname;
     const gameType = gameState.isRandomMode ? '🎲 Random' : getDateString();
+    const modeText = easyModeEnabled ? ' (Easy Mode)' : '';
     let shareText;
-    
+
     if (gameState.isSolved) {
       const status = `Solved in ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}!`;
-      shareText = `🎉 Books Quiz ${gameType} 📚\n${status}\n\nPlay at: ${gameUrl}`;
+      shareText = `🎉 Books Quiz ${gameType}${modeText} 📚\n${status}\n\nPlay at: ${gameUrl}`;
     } else if (gameState.gaveUp) {
       const status = `Gave up after ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}`;
-      shareText = `😞 Books Quiz ${gameType} 📚\n${status}\n\nPlay at: ${gameUrl}`;
+      shareText = `😞 Books Quiz ${gameType}${modeText} 📚\n${status}\n\nPlay at: ${gameUrl}`;
     } else {
       const status = `Game Over after ${gameState.guesses.length} guess${gameState.guesses.length !== 1 ? 'es' : ''}`;
-      shareText = `❌ Books Quiz ${gameType} 📚\n${status}\n\nPlay at: ${gameUrl}`;
+      shareText = `❌ Books Quiz ${gameType}${modeText} 📚\n${status}\n\nPlay at: ${gameUrl}`;
     }
     
     GameUtils.shareGameResult({
