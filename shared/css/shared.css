@@ -550,11 +550,8 @@ header .header-controls {
   display: flex;
   justify-content: center;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   width: 100%;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .share-section .btn-share,
@@ -562,13 +559,16 @@ header .header-controls {
 .share-section .submit-btn,
 .share-section .play-random-btn,
 .share-section button {
-  flex: 1 1 calc(50% - 6px);
-  min-width: 140px;
+  flex: 1 1 0;
+  min-width: 0;
   max-width: none;
 }
 
 /* On very small screens, stack buttons vertically */
 @media (max-width: 360px) {
+  .share-section {
+    flex-wrap: wrap;
+  }
   .share-section .btn-share,
   .share-section .share-btn,
   .share-section .submit-btn,
