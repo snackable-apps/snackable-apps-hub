@@ -508,6 +508,37 @@ matchesAtWordBoundary(title, query) {
     return shuffled;
   },
 
+  /**
+   * Fisher-Yates shuffle with seeded random (deterministic)
+   * Use for daily challenges where all users need the same result
+   * @param {Array} array - Array to shuffle
+   * @param {string} seed - Seed string for deterministic results
+   * @returns {Array} New shuffled array (same seed = same result)
+   */
+  seededShuffle(array, seed) {
+    const rng = this.seededRandom(seed);
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  },
+
+  /**
+   * Get deterministic daily index using hash-based selection
+   * Unlike simple modulo, this produces pseudo-random distribution
+   * @param {string} dateStr - Date string (YYYY-MM-DD)
+   * @param {number} poolSize - Size of the pool to select from
+   * @param {string} gamePrefix - Game identifier for unique selection
+   * @returns {number} Index into the pool
+   */
+  getDailyIndex(dateStr, poolSize, gamePrefix = 'game') {
+    const seed = gamePrefix + dateStr;
+    const rng = this.seededRandom(seed);
+    return Math.floor(rng() * poolSize);
+  },
+
   // ========== NOTIFICATIONS ==========
 
   /**

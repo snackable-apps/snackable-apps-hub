@@ -480,13 +480,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Only generate new choices if forced or no choices exist
     if (forceNewChoices || currentChoices.length === 0) {
-      // Get 3 wrong answers using Fisher-Yates shuffle
       const otherSongs = songsWithPreview.filter(s => s.id !== currentSong.id);
-      const shuffledOthers = shuffleArray(otherSongs);
-      const wrongChoices = shuffledOthers.slice(0, 3);
       
-      // Combine with correct answer and shuffle again
-      currentChoices = shuffleArray([...wrongChoices, currentSong]);
+      // For daily games, use seeded shuffle so all users get same alternatives
+      // For random games, use regular shuffle
+      if (isFirstMatch) {
+        const seed = `blindtest-${getDateString()}-round${currentRound}`;
+        const shuffledOthers = GameUtils.seededShuffle(otherSongs, seed);
+        const wrongChoices = shuffledOthers.slice(0, 3);
+        currentChoices = GameUtils.seededShuffle([...wrongChoices, currentSong], seed + '-final');
+      } else {
+        const shuffledOthers = shuffleArray(otherSongs);
+        const wrongChoices = shuffledOthers.slice(0, 3);
+        currentChoices = shuffleArray([...wrongChoices, currentSong]);
+      }
     }
     
     currentChoices.forEach(song => {

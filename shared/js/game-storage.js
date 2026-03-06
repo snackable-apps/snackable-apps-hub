@@ -230,12 +230,12 @@ class GameStorage {
   }
 
   /**
-   * Clean up old daily states (keep only last 30 days)
+   * Clean up old daily states (keep only last 7 days to prevent quota issues)
    */
   cleanupOldStates() {
     const today = new Date();
     const cutoff = new Date(today);
-    cutoff.setDate(cutoff.getDate() - 30);
+    cutoff.setDate(cutoff.getDate() - 7);
     const cutoffStr = this.getDateString(cutoff);
 
     const keysToRemove = [];
@@ -248,9 +248,65 @@ class GameStorage {
         }
       }
     }
-    keysToRemove.forEach(key => localStorage.removeItem(key));
+    
+    if (keysToRemove.length > 0) {
+      console.log(`[GameStorage] Cleaning up ${keysToRemove.length} old daily states`);
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+    }
+  }
+
+  /**
+   * Clean up ALL old daily states across ALL games
+   * Call this once on page load to prevent quota issues
+   */
+  static cleanupAllGames() {
+    const today = new Date();
+    const cutoff = new Date(today);
+    cutoff.setDate(cutoff.getDate() - 7);
+    const cutoffStr = cutoff.toISOString().split('T')[0];
+
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key) continue;
+      
+      // Clean up old daily states (format: prefix_daily_YYYY-MM-DD)
+      if (key.includes('_daily_')) {
+        const match = key.match(/_daily_(\d{4}-\d{2}-\d{2})$/);
+        if (match && match[1] < cutoffStr) {
+          keysToRemove.push(key);
+        }
+      }
+      
+      // Clean up old stats_sent markers (format: stats_sent_*_YYYY-MM-DD)
+      if (key.startsWith('stats_sent_')) {
+        const match = key.match(/_(\d{4}-\d{2}-\d{2})$/);
+        if (match && match[1] < cutoffStr) {
+          keysToRemove.push(key);
+        }
+      }
+      
+      // Clean up old blindtest daily markers (format: blindtest_daily_YYYY-MM-DD)
+      if (key.startsWith('blindtest_daily_')) {
+        const dateStr = key.replace('blindtest_daily_', '');
+        if (dateStr < cutoffStr) {
+          keysToRemove.push(key);
+        }
+      }
+    }
+    
+    if (keysToRemove.length > 0) {
+      console.log(`[GameStorage] Global cleanup: removing ${keysToRemove.length} old entries`);
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+    }
   }
 }
 
 // Export for use in games
 window.GameStorage = GameStorage;
+
+// Auto-run global cleanup on script load (once per page load)
+if (!window._gameStorageCleanupRan) {
+  window._gameStorageCleanupRan = true;
+  GameStorage.cleanupAllGames();
+}

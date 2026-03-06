@@ -402,9 +402,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function getDailyMovie() {
     const dateString = getDateString();
-    const date = new Date(dateString);
-    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-    const index = dayOfYear % SECRET_POOL.length;
+    const index = GameUtils.getDailyIndex(dateString, SECRET_POOL.length, 'movies');
     return SECRET_POOL[index];
   }
 
@@ -963,12 +961,13 @@ function filterMovies(query) {
   function submitGuess(movie) {
     if (gameState.isGameOver) return;
     
-    // Check if already guessed
-    if (gameState.guesses.some(g => g.title === movie.title)) {
+    // Check if already guessed (use imdbId for accurate matching with duplicate titles)
+    if (gameState.guesses.some(g => g.imdbId === movie.imdbId)) {
       return;
     }
     
-    const isCorrect = movie.title === gameState.secretMovie.title;
+    // Use imdbId for win condition (handles movies with same title, e.g., Aladdin 1992 vs 2019)
+    const isCorrect = movie.imdbId === gameState.secretMovie.imdbId;
     const comparisons = compareProperties(gameState.secretMovie, movie);
     
     // Update clues state with this guess
