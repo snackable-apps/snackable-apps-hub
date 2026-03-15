@@ -360,7 +360,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Format team display - combines "Retired" and "Without Seat" into clearer label
   function formatTeamDisplay(team) {
     if (team === 'Retired' || team === 'Without Seat') {
-      return 'Not Racing';
+      return i18n.t('games.f1.notRacing');
     }
     return team;
   }

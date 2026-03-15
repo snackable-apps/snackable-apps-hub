@@ -38,8 +38,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   // Data storage
+  let ALL_PLAYERS_FULL = [];
   let ALL_PLAYERS = [];
   let SECRET_POOL = [];
+
+  // Tour filter state
+  let selectedTour = 'ATP';
+  let tourLocked = false;
+  const tourFilter = document.getElementById('tour-filter');
 
   // Use centralized normalizeText from GameUtils
   const normalizeText = GameUtils.normalizeText;
@@ -84,6 +90,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 2000);
   }
 
+  function applyTourFilter() {
+    if (selectedTour === 'Both') {
+      ALL_PLAYERS = ALL_PLAYERS_FULL.slice();
+    } else {
+      ALL_PLAYERS = ALL_PLAYERS_FULL.filter(p => p.tour === selectedTour);
+    }
+    SECRET_POOL = ALL_PLAYERS.filter(p => p.difficulty === 'easy' || p.difficulty === 'medium');
+    console.log(`Tour filter: ${selectedTour} → ${ALL_PLAYERS.length} players, ${SECRET_POOL.length} in secret pool`);
+  }
+
   async function loadPlayersData() {
     const loadingState = document.getElementById('loading-state');
     try {
@@ -107,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log('Tennis players fetched from API:', players.length);
       }
 
-      ALL_PLAYERS = players;
+      ALL_PLAYERS_FULL = players;
 
       // Update data freshness label with current year
       const updateDateEl = document.getElementById('data-update-date');
@@ -115,9 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateDateEl.textContent = new Date().getFullYear();
       }
 
-      // Secret pool: only easy + medium players
-      SECRET_POOL = ALL_PLAYERS.filter(p => p.difficulty === 'easy' || p.difficulty === 'medium');
-      console.log('Secret pool (easy+medium):', SECRET_POOL.length);
+      applyTourFilter();
 
       if (loadingState) loadingState.style.display = 'none';
 
@@ -125,6 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
+          tourFilter.style.display = 'flex';
           guessSection.style.display = 'flex';
           initializeGame();
         }
@@ -193,6 +208,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Play Random
   function playRandom() {
+    // Unlock tour filter for random play
+    tourLocked = false;
+    tourFilter.classList.remove('locked');
+    tourFilter.style.display = 'flex';
+
     // Select random player using centralized utility
     const randomPlayer = GameUtils.selectRandomFromPool(SECRET_POOL, gameState.secretPlayer, 'name');
     if (!randomPlayer) {
@@ -257,9 +277,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const calculateAge = GameUtils.calculateAge;
 
   function formatRanking(ranking) {
-    // 9999 = Retired (from RETIRED_RANKING constant in data file)
     if (ranking >= 9999) {
-      return 'Retired';
+      return i18n.t('games.tennis.retired');
     }
     return '#' + ranking;
   }
@@ -461,9 +480,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           const rangeMax = max - 1;
           value.textContent = rangeMin === rangeMax ? `#${rangeMin}` : `#${rangeMin}-#${rangeMax}`;
         } else if (min !== null) {
-          value.textContent = `worse than #${min}`;
+          value.textContent = i18n.t('games.tennis.worseThan', { rank: min });
         } else {
-          value.textContent = `better than #${max}`;
+          value.textContent = i18n.t('games.tennis.betterThan', { rank: max });
         }
       } else {
         item.className = 'clue-item';
@@ -628,6 +647,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     
+    lockTourFilter();
+
     const comparisons = compareProperties(gameState.secretPlayer, guess);
     updateCluesState(guess, comparisons);
     
@@ -781,6 +802,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
     guessSection.style.display = 'none';
+    tourFilter.style.display = 'none';
     shareSection.style.display = 'flex';
     
     // Hide share button for random games (only daily results can be shared)
@@ -854,6 +876,31 @@ document.addEventListener("DOMContentLoaded", async () => {
         date: gameState.currentDate
       });
     }
+  }
+
+  // Tour filter event listeners
+  document.querySelectorAll('.tour-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (tourLocked) return;
+      const tour = btn.dataset.tour;
+      if (tour === selectedTour) return;
+
+      selectedTour = tour;
+      document.querySelectorAll('.tour-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      applyTourFilter();
+
+      if (SECRET_POOL.length > 0) {
+        gameState.secretPlayer = getDailyPlayer();
+      }
+    });
+  });
+
+  function lockTourFilter() {
+    if (tourLocked) return;
+    tourLocked = true;
+    tourFilter.classList.add('locked');
   }
 
   // Event Listeners

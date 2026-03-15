@@ -501,6 +501,11 @@ class I18n {
             tour: 'Tour',
             nationality: 'Nationality',
             notNationality: '❌ Nationality:',
+            retired: 'Retired',
+            betterThan: 'better than #{rank}',
+            worseThan: 'worse than #{rank}',
+            tourAll: 'All',
+            tourFilterLabel: 'Tour:',
             howToPlay: {
               gameTitle: '📖 How to Play Tennis Quiz',
               intro: 'Tennis Quiz is a daily guessing game for tennis fans. Your mission is to identify the secret player using clues from their career statistics.',
@@ -532,6 +537,7 @@ class I18n {
             teams: 'Teams',
             notNationality: '❌ Nationality:',
             notTeam: '❌ Team:',
+            notRacing: 'Not Racing',
             howToPlay: {
               gameTitle: '📖 How to Play F1 Quiz',
               intro: 'F1 Quiz is a daily guessing game for Formula 1 fans. Your mission is to identify the secret driver using clues from their career statistics.',
@@ -1070,6 +1076,11 @@ class I18n {
             tour: 'Circuit',
             nationality: 'Nationalité',
             notNationality: '❌ Nationalité :',
+            retired: 'Retraité',
+            betterThan: 'mieux que #{rank}',
+            worseThan: 'pire que #{rank}',
+            tourAll: 'Tous',
+            tourFilterLabel: 'Circuit :',
             howToPlay: {
               gameTitle: '📖 Comment jouer au Quiz Tennis',
               intro: 'Le Quiz Tennis est un jeu de devinettes quotidien pour les fans de tennis. Votre mission est d\'identifier le joueur secret en utilisant les indices de sa carrière.',
@@ -1100,6 +1111,7 @@ class I18n {
             teams: 'Équipes',
             notNationality: '❌ Nationalité :',
             notTeam: '❌ Équipe :',
+            notRacing: 'Ne court plus',
             howToPlay: {
               gameTitle: '📖 Comment jouer au Quiz F1',
               intro: 'Le Quiz F1 est un jeu de devinettes quotidien pour les fans de Formule 1. Votre mission est d\'identifier le pilote secret en utilisant les indices de sa carrière.',
@@ -1627,6 +1639,11 @@ class I18n {
             tour: 'Circuito',
             nationality: 'Nacionalidade',
             notNationality: '❌ Nacionalidade:',
+            retired: 'Aposentado',
+            betterThan: 'melhor que #{rank}',
+            worseThan: 'pior que #{rank}',
+            tourAll: 'Todos',
+            tourFilterLabel: 'Circuito:',
             howToPlay: {
               gameTitle: '📖 Como jogar o Quiz de Tênis',
               intro: 'O Quiz de Tênis é um jogo de adivinhação diário para fãs de tênis. Sua missão é identificar o jogador secreto usando as dicas de sua carreira.',
@@ -1657,6 +1674,7 @@ class I18n {
             teams: 'Equipes',
             notNationality: '❌ Nacionalidade:',
             notTeam: '❌ Equipe:',
+            notRacing: 'Não corre mais',
             howToPlay: {
               gameTitle: '📖 Como jogar o Quiz F1',
               intro: 'O Quiz F1 é um jogo de adivinhação diário para fãs de Fórmula 1. Sua missão é identificar o piloto secreto usando as dicas de sua carreira.',
@@ -2275,6 +2293,11 @@ class I18n {
             tour: 'Circuito',
             nationality: 'Nazionalità',
             notNationality: '❌ Nazionalità:',
+            retired: 'Ritirato',
+            betterThan: 'meglio di #{rank}',
+            worseThan: 'peggio di #{rank}',
+            tourAll: 'Tutti',
+            tourFilterLabel: 'Circuito:',
             howToPlay: {
               gameTitle: '📖 Come giocare al Quiz Tennis',
               intro: 'Il Quiz Tennis è un gioco quotidiano per gli appassionati di tennis. La tua missione è identificare il giocatore segreto usando gli indizi della sua carriera.',
@@ -2305,6 +2328,7 @@ class I18n {
             teams: 'Squadre',
             notNationality: '❌ Nazionalità:',
             notTeam: '❌ Squadra:',
+            notRacing: 'Non gareggia',
             howToPlay: {
               gameTitle: '📖 Come giocare al Quiz F1',
               intro: 'Il Quiz F1 è un gioco quotidiano per gli appassionati di Formula 1. La tua missione è identificare il pilota segreto usando gli indizi della sua carriera.',
@@ -2923,6 +2947,11 @@ class I18n {
             tour: 'Circuito',
             nationality: 'Nacionalidad',
             notNationality: '❌ Nacionalidad:',
+            retired: 'Retirado',
+            betterThan: 'mejor que #{rank}',
+            worseThan: 'peor que #{rank}',
+            tourAll: 'Todos',
+            tourFilterLabel: 'Circuito:',
             howToPlay: {
               gameTitle: '📖 Cómo jugar al Quiz de Tenis',
               intro: 'El Quiz de Tenis es un juego de adivinanzas diario para fans del tenis. Tu misión es identificar al jugador secreto usando las pistas de su carrera.',
@@ -2953,6 +2982,7 @@ class I18n {
             teams: 'Equipos',
             notNationality: '❌ Nacionalidad:',
             notTeam: '❌ Equipo:',
+            notRacing: 'No compite',
             howToPlay: {
               gameTitle: '📖 Cómo jugar al Quiz F1',
               intro: 'El Quiz F1 es un juego de adivinanzas diario para fans de la Fórmula 1. Tu misión es identificar al piloto secreto usando las pistas de su carrera.',
