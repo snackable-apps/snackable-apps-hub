@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // API endpoint
   const API_URL = 'https://snackable-api.vercel.app/api/movies';
-  const CACHE_KEY = 'snackable_movies_cache_v2';
+  const CACHE_KEY = 'snackable_movies_cache_v3';
   const CACHE_EXPIRY_HOURS = 24;
 
   // Transform raw API movie data to internal format
@@ -69,8 +69,42 @@ document.addEventListener("DOMContentLoaded", async () => {
       posterUrl: movie.posterUrl || null,
       difficulty: movie.difficulty,
       imdbId: movie.imdbId || null,
-      numVotes: movie.numVotes || 0
+      numVotes: movie.numVotes || 0,
+      translations: movie.translations || {}
     }));
+  }
+
+  /**
+   * Get the display title for a movie based on the current locale.
+   * Falls back to English title if no translation exists.
+   */
+  function getDisplayTitle(movie) {
+    const locale = i18n.locale;
+    if (locale === 'en' || !movie.translations) return movie.title;
+    const trans = movie.translations[locale];
+    return (trans && trans.title) ? trans.title : movie.title;
+  }
+
+  /**
+   * Get all searchable titles for a movie (English + all translations + alt titles).
+   * Used for cross-language search.
+   */
+  function getSearchTitles(movie) {
+    const titles = [movie.title];
+    if (!movie.translations) return titles;
+    for (const langData of Object.values(movie.translations)) {
+      if (langData.title && !titles.includes(langData.title)) {
+        titles.push(langData.title);
+      }
+      if (langData.altTitles) {
+        for (const alt of langData.altTitles) {
+          if (alt && !titles.includes(alt)) {
+            titles.push(alt);
+          }
+        }
+      }
+    }
+    return titles;
   }
 
   // Check if cached data is still valid
@@ -872,7 +906,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Reset clues state
     resetCluesState();
     
-    console.log('Secret movie:', gameState.secretMovie.title);
+    console.log('Secret movie:', gameState.secretMovie.title, '→', getDisplayTitle(gameState.secretMovie));
     
     // Track game start
     if (typeof gtag === 'function') {
@@ -890,10 +924,12 @@ function filterMovies(query) {
 
     return ALL_MOVIES
       .filter(movie => {
-        const alreadyGuessed = gameState.guesses.some(g => g.title === movie.title);
+        const alreadyGuessed = gameState.guesses.some(g => g.imdbId === movie.imdbId);
         if (alreadyGuessed) return false;
-        // Match at word boundaries only (not mid-word)
-        return GameUtils.matchesAtWordBoundary(movie.title, query);
+        // Match against all known titles (English + translations + alt titles)
+        return getSearchTitles(movie).some(
+          title => GameUtils.matchesAtWordBoundary(title, query)
+        );
       })
       .sort((a, b) => (b.numVotes || 0) - (a.numVotes || 0))
       .slice(0, 10);
@@ -910,6 +946,7 @@ function filterMovies(query) {
     }
     
     autocompleteDropdown.innerHTML = movies.map((movie, index) => {
+      const displayTitle = getDisplayTitle(movie);
       const posterHtml = movie.posterUrl 
         ? `<img src="${movie.posterUrl}" alt="" class="autocomplete-poster" onerror="this.style.display='none'">`
         : '<div class="autocomplete-poster-placeholder">🎬</div>';
@@ -917,7 +954,7 @@ function filterMovies(query) {
         <div class="autocomplete-item" data-index="${index}">
           ${posterHtml}
           <div class="autocomplete-info">
-            <span class="autocomplete-title">${movie.title}</span>
+            <span class="autocomplete-title">${displayTitle}</span>
             <span class="autocomplete-year">(${movie.releaseYear})</span>
           </div>
         </div>
@@ -939,7 +976,7 @@ function filterMovies(query) {
   function selectAutocompleteItem(index) {
     if (index >= 0 && index < autocompleteState.filteredMovies.length) {
       const movie = autocompleteState.filteredMovies[index];
-      movieInput.value = movie.title;
+      movieInput.value = getDisplayTitle(movie);
       autocompleteDropdown.classList.remove('active');
       autocompleteState.isOpen = false;
       submitGuess(movie);
@@ -1130,9 +1167,11 @@ function filterMovies(query) {
       .map(g => `<span class="genre ${g.match ? 'genre-match' : 'genre-different'}">${g.name}</span>`)
       .join('');
     
+    const guessDisplayTitle = getDisplayTitle(guess);
+    
     // Movie poster for the guessed movie (clickable to view large)
     const guessPosterHtml = guess.posterUrl 
-      ? `<img src="${guess.posterUrl}" alt="${guess.title}" class="guess-poster clickable" onclick="openActorLightbox('${guess.posterUrl.replace(/'/g, "\\'")}', '${guess.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
+      ? `<img src="${guess.posterUrl}" alt="${guessDisplayTitle}" class="guess-poster clickable" onclick="openActorLightbox('${guess.posterUrl.replace(/'/g, "\\'")}', '${guessDisplayTitle.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
       : '';
     
 // IMDB link for correct guesses (inline after title)
@@ -1144,7 +1183,7 @@ function filterMovies(query) {
       <div class="guess-row-main">
         ${guessPosterHtml}
         <div class="guess-content">
-          <div class="guess-title">🎬 ${guess.title}${imdbLinkHtml}</div>
+          <div class="guess-title">🎬 ${guessDisplayTitle}${imdbLinkHtml}</div>
           <div class="guess-properties">
             <div class="property ${guess.comparisons.director}">
               <div class="property-label">${i18n.t('games.movies.director')}</div>
@@ -1211,8 +1250,10 @@ function filterMovies(query) {
       return `<div class="actor answer-actor"><div class="actor-avatar ${clickableClass}" ${onclickAttr}>${imageHtml}</div><span class="actor-name">${formatActorName(actor.name)}</span></div>`;
     }).join('');
     
+    const answerDisplayTitle = getDisplayTitle(movie);
+    
     const posterHtml = movie.posterUrl 
-      ? `<img src="${movie.posterUrl}" alt="${movie.title}" class="movie-poster clickable" onclick="openActorLightbox('${movie.posterUrl.replace(/'/g, "\\'")}', '${movie.title.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
+      ? `<img src="${movie.posterUrl}" alt="${answerDisplayTitle}" class="movie-poster clickable" onclick="openActorLightbox('${movie.posterUrl.replace(/'/g, "\\'")}', '${answerDisplayTitle.replace(/'/g, "\\'")}')" onerror="this.style.display='none'">`
       : '';
     
 const imdbLinkHtml = movie.imdbId
@@ -1224,7 +1265,7 @@ const imdbLinkHtml = movie.imdbId
       <div class="answer-content">
         ${posterHtml}
         <div class="answer-info">
-          <div class="movie-title">${movie.title}${imdbLinkHtml}</div>
+          <div class="movie-title">${answerDisplayTitle}${imdbLinkHtml}</div>
           <div class="movie-details">
             <span>${movie.releaseYear}</span> •
             <span>${movie.director}</span> •
@@ -1339,7 +1380,10 @@ const imdbLinkHtml = movie.imdbId
     if (!autocompleteState.isOpen) {
       if (e.key === 'Enter') {
         const normalizedQuery = normalizeText(movieInput.value.trim());
-        const movie = ALL_MOVIES.find(m => normalizeText(m.title) === normalizedQuery);
+        const movie = ALL_MOVIES.find(m => 
+          normalizeText(m.title) === normalizedQuery ||
+          normalizeText(getDisplayTitle(m)) === normalizedQuery
+        );
         if (movie) {
           submitGuess(movie);
         }
@@ -1383,7 +1427,10 @@ const imdbLinkHtml = movie.imdbId
 
   submitBtn.addEventListener('click', () => {
     const normalizedQuery = normalizeText(movieInput.value.trim());
-    const movie = ALL_MOVIES.find(m => normalizeText(m.title) === normalizedQuery);
+    const movie = ALL_MOVIES.find(m => 
+      normalizeText(m.title) === normalizedQuery ||
+      normalizeText(getDisplayTitle(m)) === normalizedQuery
+    );
     if (movie) {
       submitGuess(movie);
     }
