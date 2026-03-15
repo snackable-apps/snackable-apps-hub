@@ -1276,7 +1276,7 @@ const imdbLinkHtml = movie.imdbId
     // Show/hide sections
     if (gameState.isGameOver) {
       guessSection.style.display = 'none';
-      shareSection.style.display = 'block';
+      shareSection.style.display = 'flex';
       // Hide share button for random games (only daily results can be shared)
       shareResultsBtn.style.display = gameState.isRandomMode ? 'none' : '';
       // Hide clues panel when game is over
