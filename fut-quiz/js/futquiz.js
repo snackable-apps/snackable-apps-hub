@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     ? 'http://localhost:3000/api/football'
     : 'https://snackable-api.vercel.app/api/football';
   const CACHE_KEY = 'snackable_football_cache_v1';
-  const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+  const CACHE_TTL = 12 * 60 * 60 * 1000; // 12 hours
 
   function getCachedData() {
     try {
