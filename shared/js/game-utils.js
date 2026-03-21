@@ -1435,6 +1435,44 @@ matchesAtWordBoundary(title, query) {
     if (shareSection) shareSection.style.display = 'flex';
     if (gameInfo) gameInfo.style.display = 'block';
     if (cluesPanel) cluesPanel.style.display = 'none';
+  },
+
+  /**
+   * Restore in-progress daily game UI (game still active, not ended)
+   * Replays saved guesses and keeps the game playable.
+   */
+  restoreInProgressUI(options) {
+    const {
+      guesses = [],
+      displayGuess,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessCountEl
+    } = options;
+
+    if (resetCluesState) {
+      resetCluesState();
+    }
+
+    if (guessesContainer) {
+      guessesContainer.innerHTML = '';
+    }
+
+    guesses.forEach(guess => {
+      if (guess.comparisons) {
+        if (updateCluesState) {
+          updateCluesState(guess, guess.comparisons);
+        }
+        if (displayGuess) {
+          displayGuess(guess, guess.comparisons);
+        }
+      }
+    });
+
+    if (guessCountEl) {
+      guessCountEl.textContent = guesses.length;
+    }
   }
 };
 

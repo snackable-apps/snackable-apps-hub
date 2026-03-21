@@ -139,9 +139,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
+          const inProgress = gameStorage.getDailyProgress();
           tourFilter.style.display = 'flex';
           guessSection.style.display = 'flex';
           initializeGame();
+          if (inProgress && inProgress.gameData && inProgress.gameData.guesses && inProgress.gameData.guesses.length > 0) {
+            restoreInProgress(inProgress);
+          }
         }
       } else {
         console.error('No players available in secret pool');
@@ -204,6 +208,52 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Update guess count display
     guessCountEl.textContent = gameState.guesses.length;
+  }
+
+  function restoreInProgress(progress) {
+    const savedGuesses = progress.gameData.guesses;
+
+    if (progress.tourFilter) {
+      selectedTour = progress.tourFilter;
+      document.querySelectorAll('.tour-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.tour === selectedTour);
+      });
+      applyTourFilter();
+      gameState.secretPlayer = getDailyPlayer();
+    }
+
+    lockTourFilter();
+
+    gameState.guesses = savedGuesses;
+    GameUtils.restoreInProgressUI({
+      guesses: savedGuesses,
+      displayGuess,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessCountEl
+    });
+  }
+
+  function saveProgress() {
+    if (gameState.isRandomMode || gameState.isGameOver) return;
+    gameStorage.saveDailyProgress({
+      tourFilter: selectedTour,
+      gameData: {
+        guesses: gameState.guesses.map(g => ({
+          name: g.name,
+          nationality: g.nationality,
+          tour: g.tour,
+          currentRanking: g.currentRanking,
+          highestRanking: g.highestRanking,
+          grandSlamTitles: g.grandSlamTitles,
+          careerTitles: g.careerTitles,
+          birthdate: g.birthdate,
+          deathDate: g.deathDate,
+          comparisons: g.comparisons
+        }))
+      }
+    });
   }
   
   // Play Random
@@ -658,6 +708,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     displayGuess(guess, comparisons);
     updateGameState();
+    saveProgress();
     
     if (guess.name === gameState.secretPlayer.name) {
       endGame(true);

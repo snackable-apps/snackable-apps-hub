@@ -248,8 +248,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log('[MoviesQuiz] Restoring daily result...');
         restoreDailyResult();
       } else {
+        const inProgress = gameStorage.getDailyProgress();
         console.log('[MoviesQuiz] Starting new game (daily not completed)');
         initializeGame();
+        if (inProgress && inProgress.gameData && inProgress.gameData.guesses && inProgress.gameData.guesses.length > 0) {
+          restoreInProgress(inProgress);
+        }
       }
     } else {
       GameUtils.showError('common.noDataAvailable', true);
@@ -307,6 +311,48 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Update guess count display
     guessCountEl.textContent = gameState.guesses.length;
+  }
+
+  function restoreInProgress(progress) {
+    const savedGuesses = progress.gameData.guesses;
+    gameState.guesses = savedGuesses;
+
+    const displayGuessAndInsert = (guess) => {
+      const card = displayGuess(guess);
+      guessesContainer.insertBefore(card, guessesContainer.firstChild);
+    };
+
+    GameUtils.restoreInProgressUI({
+      guesses: savedGuesses,
+      displayGuess: displayGuessAndInsert,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessCountEl
+    });
+  }
+
+  function saveProgress() {
+    if (gameState.isRandomMode || gameState.isGameOver) return;
+    gameStorage.saveDailyProgress({
+      gameData: {
+        guesses: gameState.guesses.map(g => ({
+          title: g.title,
+          imdbId: g.imdbId,
+          director: g.director,
+          releaseYear: g.releaseYear,
+          runtimeMinutes: g.runtimeMinutes,
+          imdbRating: g.imdbRating,
+          country: g.country,
+          genres: g.genres,
+          cast: g.cast,
+          castWithImages: g.castWithImages,
+          posterUrl: g.posterUrl,
+          comparisons: g.comparisons,
+          isCorrect: g.isCorrect
+        }))
+      }
+    });
   }
   
   function playRandom() {
@@ -1080,6 +1126,7 @@ function filterMovies(query) {
       }
     }
     
+    saveProgress();
     movieInput.value = '';
     updateUI();
   }

@@ -69,6 +69,30 @@ class GameStorage {
   }
 
   /**
+   * Save in-progress daily game state (survives page refresh)
+   * @param {object} progressData - { guesses, gameData, ... }
+   */
+  saveDailyProgress(progressData) {
+    this.saveDailyState({
+      completed: false,
+      inProgress: true,
+      ...progressData
+    });
+  }
+
+  /**
+   * Get in-progress daily state (if exists and not completed)
+   * @returns {object|null}
+   */
+  getDailyProgress() {
+    const state = this.getDailyState();
+    if (state && state.inProgress && !state.completed) {
+      return state;
+    }
+    return null;
+  }
+
+  /**
    * Mark today's daily game as completed
    * @param {object} result - Game result (score, guesses, etc.)
    */

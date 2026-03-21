@@ -83,8 +83,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
+          const inProgress = gameStorage.getDailyProgress();
           guessSection.style.display = 'flex';
           initializeGame();
+          if (inProgress && inProgress.gameData && inProgress.gameData.guesses && inProgress.gameData.guesses.length > 0) {
+            restoreInProgress(inProgress);
+          }
         }
       } else {
         console.error('No players available');
@@ -149,6 +153,42 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Update guess count display
     guessCountEl.textContent = gameState.guesses.length;
+  }
+
+  function restoreInProgress(progress) {
+    const savedGuesses = progress.gameData.guesses;
+    gameState.guesses = savedGuesses;
+    GameUtils.restoreInProgressUI({
+      guesses: savedGuesses,
+      displayGuess,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessCountEl
+    });
+  }
+
+  function saveProgress() {
+    if (gameState.isRandomMode || gameState.isGameOver) return;
+    gameStorage.saveDailyProgress({
+      gameData: {
+        guesses: gameState.guesses.map(g => ({
+          name: g.name,
+          nationality: g.nationality,
+          currentClub: g.currentClub,
+          leaguesPlayed: g.leaguesPlayed,
+          primaryPosition: g.primaryPosition,
+          preferredFoot: g.preferredFoot,
+          height: g.height,
+          dateOfBirth: g.dateOfBirth,
+          deathDate: g.deathDate,
+          individualTitles: g.individualTitles,
+          teamTitles: g.teamTitles,
+          playedWorldCup: g.playedWorldCup,
+          comparisons: g.comparisons
+        }))
+      }
+    });
   }
   
   // Play Random - start a new random game
@@ -756,6 +796,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     displayGuess(guess, comparisons);
     updateGameState();
+    saveProgress();
     
     // Check if solved
     if (guess.name === gameState.secretPlayer.name) {

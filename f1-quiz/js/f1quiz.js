@@ -155,9 +155,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log('[F1Quiz] Restoring daily result...');
         restoreDailyResult();
       } else {
+        const inProgress = gameStorage.getDailyProgress();
         console.log('[F1Quiz] Starting new game');
         guessSection.style.display = 'flex';
         initializeGame();
+        if (inProgress && inProgress.gameData && inProgress.gameData.guesses && inProgress.gameData.guesses.length > 0) {
+          restoreInProgress(inProgress);
+        }
       }
     } else {
       console.error('[F1Quiz] No drivers in secret pool');
@@ -204,6 +208,39 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Update guess count display
     guessCountEl.textContent = gameState.guesses.length;
+  }
+
+  function restoreInProgress(progress) {
+    const savedGuesses = progress.gameData.guesses;
+    gameState.guesses = savedGuesses;
+    GameUtils.restoreInProgressUI({
+      guesses: savedGuesses,
+      displayGuess,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessCountEl
+    });
+  }
+
+  function saveProgress() {
+    if (gameState.isRandomMode || gameState.isGameOver) return;
+    gameStorage.saveDailyProgress({
+      gameData: {
+        guesses: gameState.guesses.map(g => ({
+          name: g.name,
+          nationality: g.nationality,
+          currentTeam: g.currentTeam,
+          worldChampionships: g.worldChampionships,
+          wins: g.wins,
+          podiums: g.podiums,
+          birthdate: g.birthdate,
+          deathDate: g.deathDate,
+          teamsHistory: g.teamsHistory,
+          comparisons: g.comparisons
+        }))
+      }
+    });
   }
   
   // Play Random - start a new random game
@@ -647,6 +684,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     displayGuess(guess, comparisons);
     updateGameState();
+    saveProgress();
     
     if (guess.name === gameState.secretDriver.name) {
       endGame(true);
