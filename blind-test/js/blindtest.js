@@ -182,14 +182,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       const loadingState = document.getElementById('loading-state');
       if (loadingState) loadingState.style.display = 'none';
       
-      // Check if daily is completed - show results, otherwise show start screen
+      // Check if daily is completed - show results, otherwise check for in-progress or start fresh
       console.log('[BlindTest] dailyCompleted:', dailyCompleted, 'dailyState:', dailyState);
       if (dailyCompleted && dailyState) {
         console.log('[BlindTest] Restoring daily result...');
         restoreDailyResult();
       } else {
-        console.log('[BlindTest] Showing start screen (daily not completed)');
-        showStartScreen();
+        const inProgress = gameStorage.getDailyProgress();
+        if (inProgress && inProgress.gameData && inProgress.gameData.matchResults && inProgress.gameData.matchResults.length > 0) {
+          console.log('[BlindTest] Restoring in-progress match...');
+          restoreInProgress(inProgress);
+        } else {
+          console.log('[BlindTest] Showing start screen (daily not completed)');
+          showStartScreen();
+        }
       }
       
     } catch (error) {
@@ -291,7 +297,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     shareResultsBtn.style.display = '';
   }
   
-  // Note: Daily result restoration is handled inside loadSongsData() after data is loaded
+  function restoreInProgress(progress) {
+    const data = progress.gameData;
+    const savedResults = data.matchResults || [];
+
+    easyModeEnabled = data.easyModeEnabled || false;
+    multipleChoiceEnabled = data.multipleChoiceEnabled !== undefined ? data.multipleChoiceEnabled : true;
+    easyModeToggle.checked = easyModeEnabled;
+    multipleChoiceToggle.checked = multipleChoiceEnabled;
+
+    isFirstMatch = true;
+    currentRound = savedResults.length;
+    matchScore = savedResults.reduce((sum, r) => sum + r.points, 0);
+    matchResults = savedResults;
+
+    startScreen.style.display = 'none';
+    document.getElementById('game-info').style.display = 'block';
+    modeToggles.style.display = 'none';
+    playerSection.style.display = 'flex';
+
+    scoreEl.textContent = matchScore;
+    startRound();
+  }
+
+  function saveBlindtestProgress() {
+    if (!isFirstMatch) return;
+    gameStorage.saveDailyProgress({
+      gameData: {
+        matchResults: matchResults.map(r => ({
+          song: { title: r.song.title, artist: r.song.artist },
+          correct: r.correct,
+          skipped: r.skipped,
+          points: r.points,
+          timeUsed: r.timeUsed
+        })),
+        easyModeEnabled: easyModeEnabled,
+        multipleChoiceEnabled: multipleChoiceEnabled
+      }
+    });
+  }
   
   // Start game button handler
   if (startGameBtn) {
@@ -652,6 +696,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       points,
       timeUsed
     });
+
+    saveBlindtestProgress();
     
     // Update display
     if (isCorrect) {
