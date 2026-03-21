@@ -210,7 +210,8 @@ class I18n {
             animal: { title: 'Animal Quiz', desc: 'Guess the mystery animal from habitat, diet, and trait clues.' },
             sudoku: { title: 'Sudoku', desc: 'Classic number puzzle. Clean design, no distractions.' },
             tennis: { title: 'Tennis Quiz', desc: 'Guess the tennis player using clues about their career and stats.' },
-            books: { title: 'Books Quiz', desc: 'Guess the classic book using clues about author and publication.' }
+            books: { title: 'Books Quiz', desc: 'Guess the classic book using clues about author and publication.' },
+            clubs: { title: 'Clubs Quiz', desc: 'Guess the football club using clues about country, stadium, and titles.' }
           }
         },
         common: {
@@ -484,6 +485,32 @@ class I18n {
               clueAge: 'Player age',
               clueWorldCup: 'World Cup winner',
               proTip: 'Start with famous players to narrow down the era and league, then use position and nationality to find the answer!'
+            }
+          },
+          clubs: {
+            title: 'Clubs Quiz',
+            subtitle: 'Guess the football club',
+            inputPlaceholder: 'Type a club name...',
+            loadingMessage: '🏟️ Opening the gates...',
+            dailyIntro: 'Each day, a secret football club is selected. Make guesses and use the clues to find it!',
+            cluesSummary: 'Clues Summary',
+            country: 'Country',
+            founded: 'Founded',
+            capacity: 'Capacity',
+            titles: 'Titles',
+            notCountry: '❌ Country:',
+            howToPlay: {
+              gameTitle: '📖 How to Play Clubs Quiz',
+              intro: 'Clubs Quiz is a daily guessing game for football fans. Your mission is to identify the secret club using clues.',
+              step1Desc: 'Type any football club name and select from the dropdown.',
+              step2Desc: 'Each attribute shows how your guess compares to the secret club.',
+              higherDesc: 'The secret club has a higher value (older, bigger stadium).',
+              redDifferentDesc: "The attribute doesn't match (different country, title, etc.).",
+              clueCountry: "The club's country",
+              clueFounded: 'The year the club was established',
+              clueCapacity: 'How many fans the stadium holds',
+              clueTitles: 'Major trophies the club has won',
+              proTip: 'Start with a well-known club to quickly narrow down the country and title range!'
             }
           },
           tennis: {
@@ -811,7 +838,8 @@ class I18n {
             animal: { title: 'Quiz Animaux', desc: 'Devinez l\'animal mystère grâce aux indices sur son habitat et son régime.' },
             sudoku: { title: 'Sudoku', desc: 'Le puzzle de chiffres classique. Design épuré, sans distractions.' },
             tennis: { title: 'Quiz Tennis', desc: 'Devinez le joueur de tennis grâce aux indices sur sa carrière.' },
-            books: { title: 'Quiz Livres', desc: 'Devinez le livre classique grâce aux indices sur l\'auteur et la publication.' }
+            books: { title: 'Quiz Livres', desc: 'Devinez le livre classique grâce aux indices sur l\'auteur et la publication.' },
+            clubs: { title: 'Quiz Clubs', desc: 'Devinez le club de football grâce aux indices sur le pays, le stade et les titres.' }
           }
         },
         common: {
@@ -1059,6 +1087,32 @@ class I18n {
               clueAge: 'Âge du joueur',
               clueWorldCup: 'Vainqueur de la Coupe du Monde',
               proTip: 'Commencez par des joueurs célèbres pour cerner l\'époque et la ligue, puis utilisez la position et la nationalité pour trouver la réponse !'
+            }
+          },
+          clubs: {
+            title: 'Quiz Clubs',
+            subtitle: 'Devinez le club de football',
+            inputPlaceholder: 'Tapez un nom de club...',
+            loadingMessage: '🏟️ Ouverture des portes...',
+            dailyIntro: 'Chaque jour, un club de football secret est sélectionné. Devinez en utilisant les indices !',
+            cluesSummary: 'Résumé des indices',
+            country: 'Pays',
+            founded: 'Fondé',
+            capacity: 'Capacité',
+            titles: 'Titres',
+            notCountry: '❌ Pays :',
+            howToPlay: {
+              gameTitle: '📖 Comment jouer au Quiz Clubs',
+              intro: 'Quiz Clubs est un jeu de devinettes quotidien pour les fans de football. Votre mission est d\'identifier le club secret.',
+              step1Desc: 'Tapez le nom d\'un club de football et sélectionnez-le dans la liste.',
+              step2Desc: 'Chaque attribut montre comment votre essai se compare au club secret.',
+              higherDesc: 'Le club secret a une valeur plus élevée (plus ancien, stade plus grand).',
+              redDifferentDesc: 'L\'attribut ne correspond pas (pays différent, titre différent, etc.).',
+              clueCountry: 'Le pays du club',
+              clueFounded: 'L\'année de fondation du club',
+              clueCapacity: 'La capacité du stade',
+              clueTitles: 'Les grands trophées remportés par le club',
+              proTip: 'Commencez par un club bien connu pour cerner rapidement le pays et la gamme de titres !'
             }
           },
           tennis: {
@@ -1426,7 +1480,8 @@ class I18n {
             animal: { title: 'Quiz de Animais', desc: 'Adivinhe o animal misterioso usando dicas sobre habitat e dieta.' },
             sudoku: { title: 'Sudoku', desc: 'O clássico puzzle de números. Design limpo, sem distrações.' },
             tennis: { title: 'Quiz de Tênis', desc: 'Adivinhe o jogador de tênis usando dicas sobre sua carreira.' },
-            books: { title: 'Quiz de Livros', desc: 'Adivinhe o livro clássico usando dicas sobre autor e publicação.' }
+            books: { title: 'Quiz de Livros', desc: 'Adivinhe o livro clássico usando dicas sobre autor e publicação.' },
+            clubs: { title: 'Quiz de Clubes', desc: 'Adivinhe o clube de futebol usando dicas sobre país, estádio e títulos.' }
           }
         },
         common: {
@@ -1920,6 +1975,32 @@ class I18n {
               proTip: 'Comece por jogadores famosos para identificar a época e a liga, depois use posição e nacionalidade para encontrar a resposta!'
             }
           },
+          clubs: {
+            title: 'Quiz de Clubes',
+            subtitle: 'Adivinhe o clube de futebol',
+            inputPlaceholder: 'Digite o nome de um clube...',
+            loadingMessage: '🏟️ Abrindo os portões...',
+            dailyIntro: 'Cada dia, um clube de futebol secreto é selecionado. Faça palpites e use as dicas para encontrá-lo!',
+            cluesSummary: 'Resumo das dicas',
+            country: 'País',
+            founded: 'Fundado',
+            capacity: 'Capacidade',
+            titles: 'Títulos',
+            notCountry: '❌ País:',
+            howToPlay: {
+              gameTitle: '📖 Como jogar Quiz de Clubes',
+              intro: 'Quiz de Clubes é um jogo diário para fãs de futebol. Sua missão é identificar o clube secreto usando dicas.',
+              step1Desc: 'Digite o nome de um clube de futebol e selecione na lista.',
+              step2Desc: 'Cada atributo mostra como seu palpite se compara ao clube secreto.',
+              higherDesc: 'O clube secreto tem um valor maior (mais antigo, estádio maior).',
+              redDifferentDesc: 'O atributo não corresponde (país diferente, título diferente, etc.).',
+              clueCountry: 'O país do clube',
+              clueFounded: 'O ano de fundação do clube',
+              clueCapacity: 'Quantos torcedores o estádio comporta',
+              clueTitles: 'Os grandes troféus conquistados pelo clube',
+              proTip: 'Comece por um clube famoso para identificar rapidamente o país e a faixa de títulos!'
+            }
+          },
           sudoku: {
             title: 'Sudoku',
             subtitle: 'Puzzle de números clássico',
@@ -2080,7 +2161,8 @@ class I18n {
             animal: { title: 'Quiz Animali', desc: 'Indovina l\'animale misterioso usando indizi su habitat e dieta.' },
             sudoku: { title: 'Sudoku', desc: 'Il classico puzzle numerico. Design pulito, senza distrazioni.' },
             tennis: { title: 'Quiz Tennis', desc: 'Indovina il tennista usando indizi sulla sua carriera.' },
-            books: { title: 'Quiz Libri', desc: 'Indovina il libro classico usando indizi su autore e pubblicazione.' }
+            books: { title: 'Quiz Libri', desc: 'Indovina il libro classico usando indizi su autore e pubblicazione.' },
+            clubs: { title: 'Quiz Club', desc: 'Indovina il club di calcio usando indizi su paese, stadio e titoli.' }
           }
         },
         common: {
@@ -2574,6 +2656,32 @@ class I18n {
               proTip: 'Inizia con giocatori famosi per identificare l\'epoca e la lega, poi usa posizione e nazionalità per trovare la risposta!'
             }
           },
+          clubs: {
+            title: 'Quiz Club',
+            subtitle: 'Indovina il club di calcio',
+            inputPlaceholder: 'Digita il nome di un club...',
+            loadingMessage: '🏟️ Apertura dei cancelli...',
+            dailyIntro: 'Ogni giorno viene selezionato un club di calcio segreto. Fai ipotesi e usa gli indizi per trovarlo!',
+            cluesSummary: 'Riepilogo indizi',
+            country: 'Paese',
+            founded: 'Fondato',
+            capacity: 'Capacità',
+            titles: 'Titoli',
+            notCountry: '❌ Paese:',
+            howToPlay: {
+              gameTitle: '📖 Come giocare a Quiz Club',
+              intro: 'Quiz Club è un gioco quotidiano per appassionati di calcio. La tua missione è identificare il club segreto usando gli indizi.',
+              step1Desc: 'Digita il nome di un club di calcio e selezionalo dalla lista.',
+              step2Desc: 'Ogni attributo mostra come la tua ipotesi si confronta con il club segreto.',
+              higherDesc: 'Il club segreto ha un valore più alto (più antico, stadio più grande).',
+              redDifferentDesc: 'L\'attributo non corrisponde (paese diverso, titolo diverso, ecc.).',
+              clueCountry: 'Il paese del club',
+              clueFounded: 'L\'anno di fondazione del club',
+              clueCapacity: 'Quanti tifosi contiene lo stadio',
+              clueTitles: 'I grandi trofei vinti dal club',
+              proTip: 'Inizia con un club famoso per identificare rapidamente il paese e la gamma di titoli!'
+            }
+          },
           sudoku: {
             title: 'Sudoku',
             subtitle: 'Puzzle numerico classico',
@@ -2734,7 +2842,8 @@ class I18n {
             animal: { title: 'Quiz de Animales', desc: 'Adivina el animal misterioso usando pistas sobre hábitat y dieta.' },
             sudoku: { title: 'Sudoku', desc: 'El clásico puzzle numérico. Diseño limpio, sin distracciones.' },
             tennis: { title: 'Quiz de Tenis', desc: 'Adivina el tenista usando pistas sobre su carrera.' },
-            books: { title: 'Quiz de Libros', desc: 'Adivina el libro clásico usando pistas sobre autor y publicación.' }
+            books: { title: 'Quiz de Libros', desc: 'Adivina el libro clásico usando pistas sobre autor y publicación.' },
+            clubs: { title: 'Quiz de Clubes', desc: 'Adivina el club de fútbol usando pistas sobre país, estadio y títulos.' }
           }
         },
         common: {
@@ -3226,6 +3335,32 @@ class I18n {
               clueAge: 'Edad del jugador',
               clueWorldCup: 'Campeón del Mundo',
               proTip: '¡Empieza con jugadores famosos para identificar la época y la liga, luego usa posición y nacionalidad para encontrar la respuesta!'
+            }
+          },
+          clubs: {
+            title: 'Quiz de Clubes',
+            subtitle: 'Adivina el club de fútbol',
+            inputPlaceholder: 'Escribe el nombre de un club...',
+            loadingMessage: '🏟️ Abriendo las puertas...',
+            dailyIntro: '¡Cada día se selecciona un club de fútbol secreto. Haz conjeturas y usa las pistas para encontrarlo!',
+            cluesSummary: 'Resumen de pistas',
+            country: 'País',
+            founded: 'Fundado',
+            capacity: 'Capacidad',
+            titles: 'Títulos',
+            notCountry: '❌ País:',
+            howToPlay: {
+              gameTitle: '📖 Cómo jugar Quiz de Clubes',
+              intro: 'Quiz de Clubes es un juego diario para fans del fútbol. Tu misión es identificar el club secreto usando pistas.',
+              step1Desc: 'Escribe el nombre de un club de fútbol y selecciónalo de la lista.',
+              step2Desc: 'Cada atributo muestra cómo tu conjetura se compara con el club secreto.',
+              higherDesc: 'El club secreto tiene un valor más alto (más antiguo, estadio más grande).',
+              redDifferentDesc: 'El atributo no coincide (país diferente, título diferente, etc.).',
+              clueCountry: 'El país del club',
+              clueFounded: 'El año de fundación del club',
+              clueCapacity: 'Cuántos aficionados caben en el estadio',
+              clueTitles: 'Los grandes trofeos ganados por el club',
+              proTip: '¡Empieza con un club conocido para identificar rápidamente el país y el rango de títulos!'
             }
           },
           sudoku: {

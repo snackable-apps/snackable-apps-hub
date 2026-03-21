@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/favicon.png">
+  <meta name="description" content="A daily football clubs trivia game. Guess the mystery club using clues about country, founded year, stadium capacity, and titles. Free to play!">
+  <link rel="canonical" href="https://snackable-games.com/clubs-quiz/">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://snackable-games.com/clubs-quiz/">
+  <meta property="og:title" content="Clubs Quiz - Guess the Football Club | Snackable Games">
+  <meta property="og:description" content="A daily football clubs trivia game. Guess the mystery club using clues about country, stadium, and titles!">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://snackable-games.com/clubs-quiz/">
+  <meta name="twitter:title" content="Clubs Quiz - Guess the Football Club | Snackable Games">
+  <meta name="twitter:description" content="A daily football clubs trivia game. Guess the mystery club using clues about country, stadium, and titles!">
+
+  <title>Clubs Quiz - Daily Football Club Guessing Game | Free Online</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏟️</text></svg>">
+  <link rel="stylesheet" href="css/clubsquiz.css" />
+  <link rel="stylesheet" href="../shared/css/shared.css" />
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DC68HTMMT2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DC68HTMMT2');
+    gtag('config', 'G-Z9BWP9G3HS');
+  </script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Clubs Quiz - Guess the Football Club",
+    "description": "A daily football clubs trivia game. Guess the mystery club using clues about country, founded year, stadium capacity, and titles.",
+    "url": "https://snackable-games.com/clubs-quiz/",
+    "applicationCategory": "GameApplication",
+    "genre": "Sports Trivia",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Organization", "name": "Snackable Games", "url": "https://snackable-games.com" }
+  }
+  </script>
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="en" href="https://snackable-games.com/clubs-quiz/">
+  <link rel="alternate" hreflang="fr" href="https://snackable-games.com/clubs-quiz/?lang=fr">
+  <link rel="alternate" hreflang="pt" href="https://snackable-games.com/clubs-quiz/?lang=pt-br">
+  <link rel="alternate" hreflang="it" href="https://snackable-games.com/clubs-quiz/?lang=it">
+  <link rel="alternate" hreflang="es" href="https://snackable-games.com/clubs-quiz/?lang=es">
+  <link rel="alternate" hreflang="x-default" href="https://snackable-games.com/clubs-quiz/">
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <a href="/" class="back-link">← <span data-i18n="common.back">Back</span></a>
+      <div class="header-controls">
+        <div class="language-selector">
+          <select id="language-selector">
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+            <option value="pt-br">PT</option>
+            <option value="it">IT</option>
+            <option value="es">ES</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <h1 data-i18n="games.clubs.title">🏟️ Clubs Quiz</h1>
+    <p data-i18n="games.clubs.subtitle">Guess the football club using logical clues!</p>
+  </header>
+
+  <main>
+    <!-- Game Info -->
+    <div class="game-info" id="game-info" style="display: none;">
+      <p data-i18n="games.clubs.dailyIntro">Each day, a secret football club is selected. Make guesses and use the clues to find it!</p>
+      <div class="game-stats">
+        <span><span data-i18n="common.guesses">Guesses</span>: <strong id="guess-count">0</strong></span>
+        <span id="game-status"></span>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+      <div class="loading-spinner"></div>
+      <span data-i18n="games.clubs.loadingMessage">🏟️ Opening the gates...</span>
+    </div>
+
+    <!-- Guess Input -->
+    <div class="guess-section" id="guess-section" style="display: none;">
+      <label for="club-input" data-i18n="common.makeAGuess">Make a guess:</label>
+      <div class="autocomplete-wrapper">
+        <input type="text" id="club-input" placeholder="Type a club name..." autocomplete="off" data-i18n-placeholder="games.clubs.inputPlaceholder" />
+        <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
+      </div>
+      <div class="button-group">
+        <button id="submit-guess" class="submit-btn" data-i18n="common.guess">Guess</button>
+        <button id="give-up-btn" class="submit-btn secondary" data-i18n="common.giveUp">Give Up</button>
+      </div>
+    </div>
+
+    <!-- Clues Summary Panel -->
+    <div id="clues-panel" class="clues-panel" style="display: none;">
+      <div class="clues-header" id="clues-header">
+        <span class="clues-title">🔍 <span data-i18n="games.clubs.cluesSummary">Clues Summary</span></span>
+        <button class="clues-toggle" id="clues-toggle">▼</button>
+      </div>
+      <div class="clues-content" id="clues-content">
+        <div class="clues-row clues-ranges">
+          <div class="clue-item" id="clue-founded"><span class="clue-label" data-i18n="games.clubs.founded">Founded</span><span class="clue-value" id="clue-founded-value">?</span></div>
+          <div class="clue-item" id="clue-capacity"><span class="clue-label" data-i18n="games.clubs.capacity">Capacity</span><span class="clue-value" id="clue-capacity-value">?</span></div>
+        </div>
+        <div class="clues-row clues-confirmed">
+          <div class="clue-item" id="clue-country"><span class="clue-label" data-i18n="games.clubs.country">Country</span><span class="clue-value" id="clue-country-value">?</span></div>
+        </div>
+        <div class="clues-row clues-tags" id="clue-titles-row" style="display: none;">
+          <span class="clue-label">🏆 <span data-i18n="games.clubs.titles">Titles</span>:</span>
+          <span class="clue-tags" id="clue-titles"></span>
+        </div>
+        <div class="clues-row clues-excluded" id="clue-excluded-row" style="display: none;">
+          <div class="clue-excluded-section" id="clue-excluded-country-section" style="display: none;">
+            <span class="clue-label" data-i18n="games.clubs.notCountry">❌ Country:</span>
+            <span class="clue-excluded-values" id="clue-excluded-country"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Share Results -->
+    <div class="share-section" id="share-section" style="display: none;">
+      <button id="share-results-btn" class="submit-btn" data-i18n="common.shareResults">Share Results</button>
+      <button id="play-random-btn" class="submit-btn secondary" data-i18n="common.playRandom">🎲 Play Random</button>
+    </div>
+
+    <!-- Guesses History -->
+    <div class="guesses-container" id="guesses-container"></div>
+
+    <!-- How to Play -->
+    <section class="how-to-play">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');" data-i18n="common.howToPlayGuide.title">
+        📖 How to Play
+      </button>
+      <div class="how-to-play-content">
+        <h2 data-i18n="games.clubs.howToPlay.gameTitle">📖 How to Play Clubs Quiz</h2>
+        <p data-i18n="games.clubs.howToPlay.intro">Clubs Quiz is a daily guessing game for football fans. Your mission is to identify the secret football club using clues.</p>
+        
+        <h3 data-i18n="common.howToPlayGuide.rules">🏁 The Rules</h3>
+        <ol>
+          <li><strong data-i18n="common.howToPlayGuide.step1">Make a guess</strong> — <span data-i18n="games.clubs.howToPlay.step1Desc">Type any football club name and select from the dropdown.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.step2">Read the feedback</strong> — <span data-i18n="games.clubs.howToPlay.step2Desc">Each attribute shows how your guess compares to the secret club.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.step3">Narrow it down</strong> — <span data-i18n="common.howToPlayGuide.step3Desc">Use the clues to eliminate possibilities and find the answer.</span></li>
+        </ol>
+
+        <h3 data-i18n="common.howToPlayGuide.understandingClues">🎯 Understanding the Clues</h3>
+        <ul>
+          <li><strong data-i18n="common.howToPlayGuide.greenMatch">✅ Green (Match)</strong> — <span data-i18n="common.howToPlayGuide.greenMatchDesc">This attribute matches exactly.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.higher">🔼 Higher</strong> — <span data-i18n="games.clubs.howToPlay.higherDesc">The secret club has a higher value (older, bigger stadium).</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.lower">🔽 Lower</strong> — <span data-i18n="common.howToPlayGuide.lowerDesc">The secret answer has a lower value.</span></li>
+          <li><strong data-i18n="common.howToPlayGuide.redDifferent">❌ Red (Different)</strong> — <span data-i18n="games.clubs.howToPlay.redDifferentDesc">The attribute doesn't match (different country, title, etc.).</span></li>
+        </ul>
+
+        <h3 data-i18n="common.howToPlayGuide.availableClues">📊 Available Clues</h3>
+        <p data-i18n="common.howToPlayGuide.eachGuessReveals">Each guess reveals information about:</p>
+        <ul>
+          <li><strong data-i18n="games.clubs.country">Country</strong> — <span data-i18n="games.clubs.howToPlay.clueCountry">The club's country</span></li>
+          <li><strong data-i18n="games.clubs.founded">Founded</strong> — <span data-i18n="games.clubs.howToPlay.clueFounded">The year the club was established</span></li>
+          <li><strong data-i18n="games.clubs.capacity">Stadium Capacity</strong> — <span data-i18n="games.clubs.howToPlay.clueCapacity">How many fans the stadium holds</span></li>
+          <li><strong data-i18n="games.clubs.titles">Titles</strong> — <span data-i18n="games.clubs.howToPlay.clueTitles">Major trophies the club has won</span></li>
+        </ul>
+
+        <div class="tip">
+          <strong data-i18n="common.howToPlayGuide.tips">💡 Pro tip:</strong> <span data-i18n="games.clubs.howToPlay.proTip">Start with a well-known club to quickly narrow down the country and title range!</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared utilities -->
+  <script src="../shared/js/game-storage.js"></script>
+  <script src="../shared/js/game-utils.js"></script>
+  <script src="../shared/js/i18n.js"></script>
+  <script src="../shared/js/stats-modal.js"></script>
+  <script src="../shared/js/hub-analytics.js"></script>
+  
+  <script src="js/clubsquiz.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      GameUtils.injectFeedbackModal('Clubs Quiz');
+    });
+  </script>
+</body>
+</html>

@@ -202,8 +202,11 @@ main {
 .game-card.sudoku { --card-accent: #00d4ff; --card-accent-rgb: 0,212,255; }
 .game-card.pomodoro { --card-accent: #ff6b6b; --card-accent-rgb: 255,107,107; }
 .game-card.tennis { --card-accent: #c4a000; --card-accent-rgb: 196,160,0; }
+.game-card.clubs { --card-accent: #16a34a; --card-accent-rgb: 22,163,74; }
 .game-card.books { --card-accent: #8b4513; --card-accent-rgb: 139,69,19; }
 .game-card.movies { --card-accent: #e50914; --card-accent-rgb: 229,9,20; }
+.game-card.blindtest-brasil { --card-accent: #009c3b; --card-accent-rgb: 0,156,59; }
+.game-card.blindtest-sertanejo { --card-accent: #d4a574; --card-accent-rgb: 212,165,116; }
 
 /* Featured Badge */
 .badge {

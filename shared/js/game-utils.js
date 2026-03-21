@@ -873,6 +873,7 @@ matchesAtWordBoundary(title, query) {
     { value: 'Movies Quiz', labelKey: 'games.movies.title' },
     { value: 'Animal Quiz', labelKey: 'games.animal.title' },
     { value: 'Books Quiz', labelKey: 'games.books.title' },
+    { value: 'Clubs Quiz', labelKey: 'games.clubs.title' },
     { value: 'Sudoku', labelKey: 'games.sudoku.title' },
     { value: 'General / Website', labelKey: 'feedback.general' }
   ],
