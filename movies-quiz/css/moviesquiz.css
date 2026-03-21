@@ -1063,6 +1063,7 @@ footer a:hover {
   
   .guess-section {
     flex-direction: column;
+    align-items: stretch;
   }
   
   .btn-primary,

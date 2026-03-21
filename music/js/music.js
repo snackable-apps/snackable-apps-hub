@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let SECRET_POOL = []; // Easy + Medium songs (for daily secret selection)
 
   // API endpoint
-  const API_URL = 'https://snackable-api.vercel.app/api/songs';
+  const API_URL = 'https://snackable-api.vercel.app/api/songs?category=international';
 
   // Cache configuration
   const CACHE_KEY = 'music_quiz_cache';

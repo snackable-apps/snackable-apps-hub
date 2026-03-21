@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   await i18n.init();
   
   // Initialize game storage for persistence
-  const gameStorage = new GameStorage('blindtest');
+  const gameStorage = new GameStorage(STORAGE_KEY);
   gameStorage.cleanupOldStates();
   
   // Initialize stats modal
@@ -70,11 +70,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   const summaryEasyMode = document.getElementById("summary-easy-mode");
   const summaryMultipleChoice = document.getElementById("summary-multiple-choice");
 
+  // Configurable via window.BLINDTEST_CONFIG (set before loading this script)
+  const _cfg = window.BLINDTEST_CONFIG || {};
+  const CATEGORY = _cfg.category || 'international';
+  const STORAGE_KEY = _cfg.storageKey || 'blindtest';
+  const GA4_ID = _cfg.ga4Id || 'G-KW4DNXXF1X';
+  const SHARE_EMOJI = _cfg.shareEmoji || '🎧';
+  const SHARE_TITLE = _cfg.shareTitle || 'Blind Test';
+  const SHARE_PATH = _cfg.sharePath || 'blind-test';
+  const FEEDBACK_LABEL = _cfg.feedbackLabel || 'Blind Test';
+
   // Constants
   const SONGS_PER_MATCH = 5;
   const MAX_POINTS_PER_SONG = 100;
   const SONG_DURATION = 30; // 30 seconds max
-  const API_URL = 'https://snackable-api.vercel.app/api/songs';
+  const API_URL = `https://snackable-api.vercel.app/api/songs?category=${CATEGORY}`;
 
   // State
   let allSongs = [];
@@ -453,7 +463,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         song: currentSong.title,
         round: currentRound,
         is_daily: isFirstMatch,
-        send_to: 'G-KW4DNXXF1X'
+        send_to: GA4_ID
       });
     }
   }
@@ -744,7 +754,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         song: currentSong.title,
         correct: isCorrect,
         skipped: skipped,
-        send_to: 'G-KW4DNXXF1X',
+        send_to: GA4_ID,
         points: points,
         round: currentRound,
         is_daily: isFirstMatch
@@ -880,7 +890,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         score: matchScore,
         correct: correctCount,
         is_daily: isFirstMatch,
-        send_to: 'G-KW4DNXXF1X',
+        send_to: GA4_ID,
         easy_mode: easyModeEnabled,
         multiple_choice: multipleChoiceEnabled
       });
@@ -912,12 +922,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const scoreLabel = i18n.t('common.score');
     const playAtLabel = i18n.t('common.playAt') || 'Play at';
     
-    return `🎧 Blind Test ${gameType}${modeText}
+    return `${SHARE_EMOJI} ${SHARE_TITLE} ${gameType}${modeText}
 
 ${emojis}
 ${scoreLabel}: ${matchScore}/500 (${correctCount}/${SONGS_PER_MATCH})
 
-${playAtLabel} snackable-games.com/blind-test/`;
+${playAtLabel} snackable-games.com/${SHARE_PATH}/`;
   }
 
   // Share results
@@ -933,7 +943,7 @@ ${playAtLabel} snackable-games.com/blind-test/`;
       analytics: {
         gtag: typeof gtag === 'function' ? gtag : null,
         event: 'blindtest_share',
-        params: { score: matchScore, is_daily: isFirstMatch, send_to: 'G-KW4DNXXF1X' }
+        params: { score: matchScore, is_daily: isFirstMatch, send_to: GA4_ID }
       }
     });
   }

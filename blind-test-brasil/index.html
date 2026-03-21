@@ -1,64 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="../assets/favicon.png">
   <link rel="apple-touch-icon" href="../assets/favicon.png">
-  <meta name="description" content="A daily music blind test. Listen to song clips and guess the title. Test your music knowledge! Free to play!">
-  <link rel="canonical" href="https://snackable-games.com/blind-test/">
+  <meta name="description" content="Blind Test de música brasileira! Ouça trechos de MPB, samba, pagode, rock, bossa nova e mais. Teste seu conhecimento musical!">
+  <link rel="canonical" href="https://snackable-games.com/blind-test-brasil/">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://snackable-games.com/blind-test/">
-  <meta property="og:title" content="Blind Test - Guess the Song | Snackable Games">
-  <meta property="og:description" content="A daily music blind test. Listen to song clips and guess the title. Test your music knowledge!">
+  <meta property="og:url" content="https://snackable-games.com/blind-test-brasil/">
+  <meta property="og:title" content="Blind Test Brasil - Música Brasileira | Snackable Games">
+  <meta property="og:description" content="Blind Test de música brasileira! Ouça trechos de MPB, samba, pagode, rock, bossa nova e mais.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Blind Test - Guess the Song | Snackable Games">
-  <title>Blind Test - Daily Music Audio Quiz Game | Free Online</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎧</text></svg>">
-  <link rel="stylesheet" href="css/blindtest.css" />
+  <meta name="twitter:title" content="Blind Test Brasil - Música Brasileira | Snackable Games">
+  <title>Blind Test Brasil - Brazilian Music Audio Quiz | Free Online</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇧🇷</text></svg>">
+  <link rel="stylesheet" href="css/blindtest-brasil.css" />
   <link rel="stylesheet" href="../shared/css/shared.css" />
 
-  <!-- GA4 - Game specific + Hub -->
+  <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-KW4DNXXF1X"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-KW4DNXXF1X'); // Blind Test property
-    gtag('config', 'G-Z9BWP9G3HS'); // Hub property (for cross-game tracking)
+    gtag('config', 'G-KW4DNXXF1X');
+    gtag('config', 'G-Z9BWP9G3HS');
   </script>
 
-  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Blind Test - Music Guessing Game",
-    "description": "Listen to 30-second song samples and guess the title. Test your music knowledge across multiple decades and genres with this fun audio quiz game.",
-    "url": "https://snackable-games.com/blind-test/",
+    "name": "Blind Test Brasil - Brazilian Music Quiz",
+    "description": "Listen to 30-second samples of Brazilian music and guess the title. MPB, samba, pagode, bossa nova, rock brasileiro and more!",
+    "url": "https://snackable-games.com/blind-test-brasil/",
     "applicationCategory": "GameApplication",
     "genre": "Music Trivia",
     "operatingSystem": "Any",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "author": {
-      "@type": "Organization",
-      "name": "Snackable Games",
-      "url": "https://snackable-games.com"
-    }
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Organization", "name": "Snackable Games", "url": "https://snackable-games.com" }
   }
   </script>
 
-  <!-- hreflang for language versions -->
-  <link rel="alternate" hreflang="en" href="https://snackable-games.com/blind-test/">
-  <link rel="alternate" hreflang="fr" href="https://snackable-games.com/blind-test/?lang=fr">
-  <link rel="alternate" hreflang="pt" href="https://snackable-games.com/blind-test/?lang=pt-br">
-  <link rel="alternate" hreflang="it" href="https://snackable-games.com/blind-test/?lang=it">
-  <link rel="alternate" hreflang="es" href="https://snackable-games.com/blind-test/?lang=es">
-  <link rel="alternate" hreflang="x-default" href="https://snackable-games.com/blind-test/">
+  <link rel="alternate" hreflang="en" href="https://snackable-games.com/blind-test-brasil/">
+  <link rel="alternate" hreflang="pt" href="https://snackable-games.com/blind-test-brasil/?lang=pt-br">
+  <link rel="alternate" hreflang="x-default" href="https://snackable-games.com/blind-test-brasil/">
 </head>
 <body>
   <header>
@@ -69,31 +56,28 @@
           <select id="language-selector">
             <option value="en">EN</option>
             <option value="fr">FR</option>
-            <option value="pt-br">PT</option>
+            <option value="pt-br" selected>PT</option>
             <option value="it">IT</option>
             <option value="es">ES</option>
           </select>
         </div>
-        <!-- Stats button removed -->
       </div>
     </div>
-    <h1 data-i18n="games.blindtest.title">🎧 Blind Test</h1>
+    <h1>🇧🇷 Blind Test Brasil</h1>
     <p data-i18n="games.blindtest.subtitle">Listen to the song sample and guess the title!</p>
   </header>
 
   <main>
-    <!-- Loading State -->
     <div id="loading-state" class="loading-state">
       <div class="loading-spinner"></div>
-      <span data-i18n="games.blindtest.loadingMessage">🎧 Plugging in the headphones...</span>
+      <span>🇧🇷 Loading Brazilian music...</span>
     </div>
 
-    <!-- Start Screen (shown before game starts) -->
     <div class="start-screen" id="start-screen" style="display: none;">
       <div class="start-content">
-        <div class="start-icon">🎧</div>
+        <div class="start-icon">🇧🇷</div>
         <h2 data-i18n="games.blindtest.startTitle">Ready to play?</h2>
-        <p data-i18n="games.blindtest.startDesc">Listen to 5 song samples and guess the titles. The faster you answer, the more points you get!</p>
+        <p>Listen to 5 Brazilian song samples and guess the titles. MPB, samba, bossa nova, rock and more!</p>
         <div class="start-options">
           <div class="option-row">
             <div class="option-item">
@@ -122,7 +106,6 @@
       </div>
     </div>
 
-    <!-- Game Info (hidden until game starts) -->
     <div class="game-info" id="game-info" style="display: none;">
       <div class="game-stats">
         <span><span data-i18n="games.blindtest.round">Round</span>: <strong id="round-display">1/5</strong></span>
@@ -131,7 +114,6 @@
       </div>
     </div>
 
-    <!-- Mode Toggles - Side by Side (hidden until game starts) -->
     <div class="mode-toggles" id="mode-toggles" style="display: none;">
       <div class="toggle-row">
         <div class="toggle-container compact">
@@ -151,7 +133,6 @@
       </div>
     </div>
 
-    <!-- Album Art & Player (hidden until game starts) -->
     <div class="player-section" id="player-section" style="display: none;">
       <div class="album-art-container">
         <div class="album-art" id="album-art">
@@ -170,7 +151,6 @@
       <audio id="audio-player" preload="auto"></audio>
     </div>
 
-    <!-- Search Mode Input (hidden until game starts) -->
     <div class="guess-section" id="guess-section" style="display: none;">
       <label for="song-input">What's this song?</label>
       <div class="autocomplete-wrapper">
@@ -183,15 +163,11 @@
       </div>
     </div>
 
-    <!-- Multiple Choice Mode -->
     <div class="choices-section" id="choices-section" style="display: none;">
       <p class="choices-label">Choose the correct song:</p>
-      <div class="choices-grid" id="choices-grid">
-        <!-- Choices will be inserted here -->
-      </div>
+      <div class="choices-grid" id="choices-grid"></div>
     </div>
 
-    <!-- Result Section (per song) -->
     <div class="result-section" id="result-section" style="display: none;">
       <div class="result-card" id="result-card">
         <div class="result-icon" id="result-icon">✅</div>
@@ -206,9 +182,8 @@
       </div>
     </div>
 
-    <!-- Match Summary Section (after 5 songs) -->
     <div class="match-summary" id="match-summary" style="display: none;">
-      <h2 class="summary-title">🎧 <span data-i18n="games.blindtest.matchComplete">Match Complete!</span></h2>
+      <h2 class="summary-title">🇧🇷 <span data-i18n="games.blindtest.matchComplete">Match Complete!</span></h2>
       <div class="summary-score">
         <span class="score-label" data-i18n="games.blindtest.totalScore">Total Score</span>
         <span class="score-value" id="summary-score">0</span>
@@ -229,13 +204,9 @@
         </div>
       </div>
       <div class="summary-mode" id="summary-mode"></div>
-      <div class="summary-results" id="summary-results">
-        <!-- Individual song results will be shown here -->
-      </div>
+      <div class="summary-results" id="summary-results"></div>
       <div class="summary-actions">
         <button id="share-results-btn" class="submit-btn">📋 <span data-i18n="common.shareResults">Share Results</span></button>
-        
-        <!-- Toggles for next game settings -->
         <div class="summary-toggles" id="summary-toggles">
           <p class="toggles-label" data-i18n="games.blindtest.nextMatchSettings">Settings for next match:</p>
           <div class="toggle-row compact">
@@ -255,71 +226,57 @@
             </div>
           </div>
         </div>
-        
         <button id="play-random-match-btn" class="submit-btn secondary">🎲 <span data-i18n="games.blindtest.nextMatch">Play Random Match</span></button>
       </div>
     </div>
 
-    <!-- How to Play -->
     <section class="how-to-play">
-      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');" data-i18n="common.howToPlayGuide.title">
+      <button class="how-to-play-toggle" onclick="this.classList.toggle('expanded'); this.nextElementSibling.classList.toggle('expanded');">
         📖 How to Play
       </button>
       <div class="how-to-play-content">
-        <h2 data-i18n="games.blindtest.howToPlay.gameTitle">📖 How to Play Blind Test</h2>
-        <p data-i18n="games.blindtest.howToPlay.intro">Blind Test is an audio quiz game that challenges your music knowledge. Listen to song samples and guess the title as fast as you can to score maximum points!</p>
-        
-        <h3 data-i18n="games.blindtest.howToPlay.gameModes">🎯 Game Modes</h3>
+        <h2>📖 How to Play Blind Test Brasil</h2>
+        <p>Test your knowledge of Brazilian music! Listen to 30-second samples from MPB, samba, pagode, bossa nova, rock brasileiro, and more.</p>
+        <h3>🎯 Game Modes</h3>
         <ul>
-          <li><strong data-i18n="games.blindtest.howToPlay.easyMode">Easy Mode</strong> — <span data-i18n="games.blindtest.howToPlay.easyModeDesc">The artist name is displayed. You just need to identify the song title.</span></li>
-          <li><strong data-i18n="games.blindtest.howToPlay.hardMode">Hard Mode</strong> — <span data-i18n="games.blindtest.howToPlay.hardModeDesc">No hints! You must recognize both the song and artist from the audio alone.</span></li>
-          <li><strong data-i18n="games.blindtest.howToPlay.multipleChoiceMode">Multiple Choice</strong> — <span data-i18n="games.blindtest.howToPlay.multipleChoiceModeDesc">Toggle this option to choose from 4 possible answers instead of typing.</span></li>
+          <li><strong>Easy Mode</strong> — The artist name is displayed as a hint.</li>
+          <li><strong>Hard Mode</strong> — No hints! Recognize the song from audio alone.</li>
+          <li><strong>Multiple Choice</strong> — Choose from 4 options instead of typing.</li>
         </ul>
-
-        <h3 data-i18n="games.blindtest.howToPlay.scoringSystem">⚡ Scoring System</h3>
-        <p data-i18n="games.blindtest.howToPlay.scoringIntro">Speed matters! Your score depends on how quickly you answer:</p>
-        <ul>
-          <li><strong data-i18n="games.blindtest.howToPlay.points100">100 points</strong> — <span data-i18n="games.blindtest.howToPlay.points100Desc">Instant recognition (within 2 seconds)</span></li>
-          <li><strong data-i18n="games.blindtest.howToPlay.points50">50-99 points</strong> — <span data-i18n="games.blindtest.howToPlay.points50Desc">Fast answer (2-15 seconds)</span></li>
-          <li><strong data-i18n="games.blindtest.howToPlay.points10">10-49 points</strong> — <span data-i18n="games.blindtest.howToPlay.points10Desc">Slow but correct (15-30 seconds)</span></li>
-          <li><strong data-i18n="games.blindtest.howToPlay.points0">0 points</strong> — <span data-i18n="games.blindtest.howToPlay.points0Desc">Wrong answer or time runs out</span></li>
-        </ul>
-
-        <h3 data-i18n="games.blindtest.howToPlay.title">🎵 How to Play</h3>
-        <ol>
-          <li data-i18n="games.blindtest.howToPlay.step1">Press the <strong>play button</strong> to start the 30-second sample</li>
-          <li data-i18n="games.blindtest.howToPlay.step2"><strong>Type the song title</strong> in the search box (or pick from multiple choice)</li>
-          <li data-i18n="games.blindtest.howToPlay.step3">Submit your answer before the timer runs out</li>
-          <li data-i18n="games.blindtest.howToPlay.step4">Complete <strong>5 songs</strong> to finish a match</li>
-          <li data-i18n="games.blindtest.howToPlay.step5">Share your score and challenge your friends!</li>
-        </ol>
-
-        <div class="tip">
-          <strong data-i18n="common.howToPlayGuide.tips">💡 Pro tip:</strong> <span data-i18n="games.blindtest.howToPlay.proTipDesc">The sample plays from a random part of the song, so even familiar tracks might sound different. Listen for distinctive elements like the chorus or a unique instrument!</span>
-        </div>
+        <h3>⚡ Scoring</h3>
+        <p>The faster you answer, the more points you get! Max 100 points per song, 500 total.</p>
       </div>
     </section>
   </main>
 
   <footer style="text-align: center; padding: 20px; color: #888; font-size: 0.85rem;">
-    <p data-i18n="games.blindtest.footerTagline">Test your music knowledge! 🎧</p>
-    <p><a href="../about.html" style="color: #00d4ff;">About</a> | <a href="../privacy.html" style="color: #00d4ff;">Privacy</a></p>
-    <p class="data-attribution">Data provided by <a href="https://www.apple.com/itunes/" target="_blank" rel="noopener" style="color: #00d4ff;">iTunes</a></p>
+    <p>Teste seu conhecimento de música brasileira! 🇧🇷</p>
+    <p><a href="../about.html" style="color: #009c3b;">About</a> | <a href="../privacy.html" style="color: #009c3b;">Privacy</a></p>
+    <p class="data-attribution">Data provided by <a href="https://www.apple.com/itunes/" target="_blank" rel="noopener" style="color: #009c3b;">iTunes</a></p>
   </footer>
 
-  <!-- Shared utilities -->
   <script src="../shared/js/game-storage.js"></script>
   <script src="../shared/js/game-utils.js"></script>
   <script src="../shared/js/i18n.js"></script>
   <script src="../shared/js/stats-modal.js"></script>
   <script src="../shared/js/hub-analytics.js"></script>
-  
-  <script src="js/blindtest.js"></script>
-  
-  <!-- Initialize Feedback -->
+
+  <script>
+    window.BLINDTEST_CONFIG = {
+      category: 'brazilian',
+      storageKey: 'blindtest-brasil',
+      ga4Id: 'G-KW4DNXXF1X',
+      shareEmoji: '🇧🇷',
+      shareTitle: 'Blind Test Brasil',
+      sharePath: 'blind-test-brasil',
+      feedbackLabel: 'Blind Test Brasil'
+    };
+  </script>
+  <script src="../blind-test/js/blindtest.js"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const label = (window.BLINDTEST_CONFIG && window.BLINDTEST_CONFIG.feedbackLabel) || 'Blind Test';
+      const label = (window.BLINDTEST_CONFIG && window.BLINDTEST_CONFIG.feedbackLabel) || 'Blind Test Brasil';
       GameUtils.injectFeedbackModal(label);
     });
   </script>

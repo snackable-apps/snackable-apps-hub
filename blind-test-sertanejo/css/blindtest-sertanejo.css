@@ -1,0 +1,6 @@
+@import url('../../blind-test/css/blindtest.css');
+
+:root {
+  --primary-color: #d4a574;
+  --secondary-color: #8b4513;
+}
