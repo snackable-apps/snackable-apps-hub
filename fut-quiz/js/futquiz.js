@@ -47,39 +47,61 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Use centralized normalizeText from GameUtils
   const normalizeText = GameUtils.normalizeText;
 
-  // Load embedded data
-  function loadPlayersData() {
+  // API Configuration
+  const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000/api/football'
+    : 'https://snackable-api.vercel.app/api/football';
+  const CACHE_KEY = 'snackable_football_cache_v1';
+  const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+  function getCachedData() {
     try {
-      // Check if PLAYERS_DATA is available (loaded from data/players_data.js)
-      if (typeof PLAYERS_DATA === 'undefined' || !PLAYERS_DATA || PLAYERS_DATA.length === 0) {
-        throw new Error('Player data not loaded. Please check if data/players_data.js is included.');
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+      const { timestamp, data } = JSON.parse(cached);
+      if (Date.now() - timestamp > CACHE_TTL) {
+        localStorage.removeItem(CACHE_KEY);
+        return null;
       }
-      
-      ALL_PLAYERS = PLAYERS_DATA;
-      
-      // Filter for daily secret selection: only easy/medium difficulty
-      DAILY_ELIGIBLE_PLAYERS = ALL_PLAYERS.filter(player => 
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function setCachedData(data) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
+    } catch (e) { /* storage full, ignore */ }
+  }
+
+  async function fetchPlayersFromAPI() {
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    const json = await response.json();
+    if (!json.success || !json.players) throw new Error('Invalid API response');
+    return json.players;
+  }
+
+  async function loadPlayersData() {
+    try {
+      let playersData = getCachedData();
+
+      if (!playersData) {
+        playersData = await fetchPlayersFromAPI();
+        setCachedData(playersData);
+      }
+
+      ALL_PLAYERS = playersData;
+
+      DAILY_ELIGIBLE_PLAYERS = ALL_PLAYERS.filter(player =>
         player.difficulty === 'easy' || player.difficulty === 'medium'
       );
-      
-      // Display data update date
-      if (typeof DATA_UPDATE_DATE !== 'undefined' && dataUpdateDateEl) {
-        const updateDate = new Date(DATA_UPDATE_DATE);
-        const formattedDate = updateDate.toLocaleDateString('pt-BR', { 
-          day: '2-digit', 
-          month: '2-digit', 
-          year: 'numeric' 
-        });
-        dataUpdateDateEl.textContent = formattedDate;
-      }
-      
-      // Hide loading state, show game
+
       const loadingState = document.getElementById('loading-state');
       if (loadingState) loadingState.style.display = 'none';
-      
-      // Initialize game
+
       if (DAILY_ELIGIBLE_PLAYERS.length > 0) {
-        // Check if daily is completed - show result instead of restarting
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
@@ -96,7 +118,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     } catch (error) {
       console.error('Error loading player data:', error);
-      // Hide loading on error too
       const loadingState = document.getElementById('loading-state');
       if (loadingState) loadingState.style.display = 'none';
       GameUtils.showError('common.loadError', true);
@@ -178,12 +199,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           currentClub: g.currentClub,
           leaguesPlayed: g.leaguesPlayed,
           primaryPosition: g.primaryPosition,
-          preferredFoot: g.preferredFoot,
           height: g.height,
           dateOfBirth: g.dateOfBirth,
           deathDate: g.deathDate,
-          individualTitles: g.individualTitles,
-          teamTitles: g.teamTitles,
           playedWorldCup: g.playedWorldCup,
           comparisons: g.comparisons
         }))
@@ -245,16 +263,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     nationalityConfirmed: null,
     clubConfirmed: null,
     positionConfirmed: null,
-    footConfirmed: null,
     worldCupConfirmed: null,
     matchedLeagues: new Set(),
     totalLeaguesCount: 0,
-    matchedTeamTitles: new Set(),
-    totalTitlesCount: 0,
     excludedNationalities: new Set(),
     excludedClubs: new Set(),
-    excludedPositions: new Set(),
-    excludedFoot: new Set()
+    excludedPositions: new Set()
   };
 
   // Clues Panel Elements
@@ -310,53 +324,34 @@ document.addEventListener("DOMContentLoaded", async () => {
   function compareProperties(secret, guess) {
     const comparisons = {};
     
-    // Nationality - can be array or string
     const nationalityComparison = compareArrayProperty(secret.nationality, guess.nationality);
     comparisons.nationality = nationalityComparison;
     
-    // Current Club - categorical
     comparisons.currentClub = secret.currentClub === guess.currentClub ? 'match' : 'different';
     
-    // Leagues Played - array
     const leaguesComparison = compareArrayProperty(secret.leaguesPlayed, guess.leaguesPlayed);
     comparisons.leaguesPlayed = leaguesComparison;
     
-    // Primary Position - categorical
     comparisons.primaryPosition = secret.primaryPosition === guess.primaryPosition ? 'match' : 'different';
     
-    // Age - calculate from dateOfBirth and compare (numeric)
-    // Use deathDate for deceased players to show age at death
     const secretAge = calculateAge(secret.dateOfBirth, secret.deathDate);
     const guessAge = calculateAge(guess.dateOfBirth, guess.deathDate);
     if (secretAge === guessAge) {
       comparisons.age = 'match';
     } else if (guessAge > secretAge) {
-      comparisons.age = 'lower'; // Guess is higher, so secret is lower - tell user to guess lower
+      comparisons.age = 'lower';
     } else {
-      comparisons.age = 'higher'; // Guess is lower, so secret is higher - tell user to guess higher
+      comparisons.age = 'higher';
     }
     
-    // Preferred Foot - categorical
-    comparisons.preferredFoot = secret.preferredFoot === guess.preferredFoot ? 'match' : 'different';
-    
-    // Height - numeric
     if (secret.height === guess.height) {
       comparisons.height = 'match';
     } else if (guess.height > secret.height) {
-      comparisons.height = 'lower'; // Guess is higher, so secret is lower - tell user to guess lower
+      comparisons.height = 'lower';
     } else {
-      comparisons.height = 'higher'; // Guess is lower, so secret is higher - tell user to guess higher
+      comparisons.height = 'higher';
     }
     
-    // Individual Titles - array (just check if there's overlap)
-    const individualTitlesComparison = compareArrayProperty(secret.individualTitles, guess.individualTitles);
-    comparisons.individualTitles = individualTitlesComparison;
-    
-    // Team Titles - array (just check if there's overlap)
-    const teamTitlesComparison = compareArrayProperty(secret.teamTitles, guess.teamTitles);
-    comparisons.teamTitles = teamTitlesComparison;
-    
-    // Played World Cup - boolean/categorical
     comparisons.playedWorldCup = secret.playedWorldCup === guess.playedWorldCup ? 'match' : 'different';
     
     return comparisons;
@@ -364,21 +359,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function getFeedbackText(property, comparison, value) {
     const propertyNames = {
-      'nationality': 'Nacionalidade',
-      'currentClub': 'Clube Atual',
-      'leaguesPlayed': 'Ligas Jogadas',
-      'primaryPosition': 'Posição Primária',
-      'age': 'Idade',
-      'preferredFoot': 'Pé Preferido',
-      'height': 'Altura',
-      'individualTitles': 'Prêmios Individuais',
-      'teamTitles': 'Títulos Coletivos',
-      'playedWorldCup': 'Jogou Copa?'
+      'nationality': i18n.t('games.football.nationality') || 'Nationality',
+      'currentClub': i18n.t('games.football.club') || 'Club',
+      'leaguesPlayed': i18n.t('games.football.leagues') || 'Leagues',
+      'primaryPosition': i18n.t('games.football.position') || 'Position',
+      'age': i18n.t('games.football.age') || 'Age',
+      'height': i18n.t('games.football.height') || 'Height',
+      'playedWorldCup': i18n.t('games.football.worldCup') || 'World Cup?'
     };
     const propertyName = propertyNames[property] || property;
     
-    // Handle array properties (nationality, leaguesPlayed, individualTitles, teamTitles)
-    const arrayProperties = ['nationality', 'leaguesPlayed', 'individualTitles', 'teamTitles'];
+    const arrayProperties = ['nationality', 'leaguesPlayed'];
     if (arrayProperties.includes(property) && typeof comparison === 'object' && comparison.matches !== undefined) {
       const valueArray = normalizeProperty(value);
       const parts = [];
@@ -481,35 +472,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       excludedKey: 'excludedPositions'
     });
 
-    // Foot
-    GameUtils.updateCategoricalClue(cluesState, {
-      comparison: comparisons.preferredFoot,
-      guessValue: guess.preferredFoot,
-      confirmedKey: 'footConfirmed',
-      excludedKey: 'excludedFoot'
-    });
-
-    // World Cup (binary - no excluded needed)
+    // World Cup (binary)
+    const wcYes = i18n.t('common.yes') || 'Yes';
+    const wcNo = i18n.t('common.no') || 'No';
     GameUtils.updateCategoricalClue(cluesState, {
       comparison: comparisons.playedWorldCup,
-      guessValue: guess.playedWorldCup ? 'Sim' : 'Não',
+      guessValue: guess.playedWorldCup ? wcYes : wcNo,
       confirmedKey: 'worldCupConfirmed'
     });
 
-    // Leagues - track total count on first guess
+    // Leagues
     if (cluesState.totalLeaguesCount === 0 && gameState.secretPlayer && gameState.secretPlayer.leaguesPlayed) {
       cluesState.totalLeaguesCount = gameState.secretPlayer.leaguesPlayed.length;
     }
     if (comparisons.leaguesPlayed && comparisons.leaguesPlayed.matches) {
       comparisons.leaguesPlayed.matches.forEach(l => cluesState.matchedLeagues.add(l));
-    }
-
-    // Team Titles - track total count on first guess
-    if (cluesState.totalTitlesCount === 0 && gameState.secretPlayer && gameState.secretPlayer.teamTitles) {
-      cluesState.totalTitlesCount = gameState.secretPlayer.teamTitles.length;
-    }
-    if (comparisons.teamTitles && comparisons.teamTitles.matches) {
-      comparisons.teamTitles.matches.forEach(t => cluesState.matchedTeamTitles.add(t));
     }
   }
 
@@ -560,7 +537,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCategorical('clue-nationality', 'clue-nationality-value', cluesState.nationalityConfirmed);
     renderCategorical('clue-club', 'clue-club-value', cluesState.clubConfirmed);
     renderCategorical('clue-position', 'clue-position-value', cluesState.positionConfirmed);
-    renderCategorical('clue-foot', 'clue-foot-value', cluesState.footConfirmed);
     renderCategorical('clue-worldcup', 'clue-worldcup-value', cluesState.worldCupConfirmed);
 
     // Matched leagues with ???? for undiscovered
@@ -576,25 +552,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       leaguesRow.style.display = 'none';
     }
 
-    // Matched team titles with ???? for undiscovered
-    const titlesRow = document.getElementById('clue-titles-row');
-    const titlesContainer = document.getElementById('clue-titles');
-    if (cluesState.totalTitlesCount > 0) {
-      titlesRow.style.display = 'flex';
-      const unknownCount = cluesState.totalTitlesCount - cluesState.matchedTeamTitles.size;
-      const matchedTags = [...cluesState.matchedTeamTitles].map(t => `<span class="clue-tag">${t}</span>`);
-      const unknownTags = Array(unknownCount).fill('<span class="clue-tag unknown">????</span>');
-      titlesContainer.innerHTML = [...matchedTags, ...unknownTags].join('');
-    } else {
-      titlesRow.style.display = 'none';
-    }
-
     // Render excluded sections using centralized utility
     const excludedRow = document.getElementById('clue-excluded-row');
     const nationalitySection = document.getElementById('clue-excluded-nationality-section');
     const clubSection = document.getElementById('clue-excluded-club-section');
     const positionSection = document.getElementById('clue-excluded-position-section');
-    const footSection = document.getElementById('clue-excluded-foot-section');
     
     const hasNationality = GameUtils.renderExcludedSection({
       containerEl: nationalitySection,
@@ -617,14 +579,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       maxItems: 4
     });
     
-    const hasFoot = GameUtils.renderExcludedSection({
-      containerEl: footSection,
-      excludedSet: cluesState.excludedFoot,
-      confirmedValue: cluesState.footConfirmed,
-      maxItems: 3
-    });
-    
-    excludedRow.style.display = (hasNationality || hasClub || hasPosition || hasFoot) ? 'flex' : 'none';
+    excludedRow.style.display = (hasNationality || hasClub || hasPosition) ? 'flex' : 'none';
   }
 
   function resetCluesState() {
@@ -634,16 +589,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       nationalityConfirmed: null,
       clubConfirmed: null,
       positionConfirmed: null,
-      footConfirmed: null,
       worldCupConfirmed: null,
       matchedLeagues: new Set(),
       totalLeaguesCount: 0,
-      matchedTeamTitles: new Set(),
-      totalTitlesCount: 0,
       excludedNationalities: new Set(),
       excludedClubs: new Set(),
-      excludedPositions: new Set(),
-      excludedFoot: new Set()
+      excludedPositions: new Set()
     };
   }
 
@@ -651,9 +602,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (property === 'height') {
       return `${value} cm`;
     } else if (property === 'age') {
-      return `${value} anos`;
+      return `${value}`;
     } else if (property === 'playedWorldCup') {
-      return value ? 'Sim' : 'Não';
+      const yes = i18n.t('common.yes') || 'Yes';
+      const no = i18n.t('common.no') || 'No';
+      return value ? yes : no;
     }
     return value;
   }
@@ -691,10 +644,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       { key: 'leaguesPlayed', value: guess.leaguesPlayed, comparison: comparisons.leaguesPlayed },
       { key: 'primaryPosition', value: guess.primaryPosition, comparison: comparisons.primaryPosition },
       { key: 'age', value: ageDisplay, comparison: comparisons.age },
-      { key: 'preferredFoot', value: guess.preferredFoot, comparison: comparisons.preferredFoot },
       { key: 'height', value: guess.height, comparison: comparisons.height },
-      { key: 'individualTitles', value: guess.individualTitles, comparison: comparisons.individualTitles },
-      { key: 'teamTitles', value: guess.teamTitles, comparison: comparisons.teamTitles },
       { key: 'playedWorldCup', value: guess.playedWorldCup, comparison: comparisons.playedWorldCup }
     ];
     
@@ -820,16 +770,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function getAnswerFeedbackText(property, value) {
     const propertyNames = {
-      'nationality': 'Nacionalidade',
-      'currentClub': 'Clube Atual',
-      'leaguesPlayed': 'Ligas Jogadas',
-      'primaryPosition': 'Posição Primária',
-      'age': 'Idade',
-      'preferredFoot': 'Pé Preferido',
-      'height': 'Altura',
-      'individualTitles': 'Prêmios Individuais',
-      'teamTitles': 'Títulos Coletivos',
-      'playedWorldCup': 'Jogou Copa?'
+      'nationality': i18n.t('games.football.nationality') || 'Nationality',
+      'currentClub': i18n.t('games.football.club') || 'Club',
+      'leaguesPlayed': i18n.t('games.football.leagues') || 'Leagues',
+      'primaryPosition': i18n.t('games.football.position') || 'Position',
+      'age': i18n.t('games.football.age') || 'Age',
+      'height': i18n.t('games.football.height') || 'Height',
+      'playedWorldCup': i18n.t('games.football.worldCup') || 'World Cup?'
     };
     const propertyName = propertyNames[property] || property;
     
@@ -861,10 +808,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('leaguesPlayed', secret.leaguesPlayed)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('primaryPosition', secret.primaryPosition)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('age', secret.deathDate ? calculateAge(secret.dateOfBirth, secret.deathDate) + '†' : calculateAge(secret.dateOfBirth))}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('preferredFoot', secret.preferredFoot)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('height', secret.height)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('individualTitles', secret.individualTitles)}</span>
-        <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('teamTitles', secret.teamTitles)}</span>
         <span class="property-feedback answer-reveal-feedback">${getAnswerFeedbackText('playedWorldCup', secret.playedWorldCup)}</span>
       </div>
     `;
@@ -929,12 +873,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             currentClub: g.currentClub,
             leaguesPlayed: g.leaguesPlayed,
             primaryPosition: g.primaryPosition,
-            preferredFoot: g.preferredFoot,
             height: g.height,
             dateOfBirth: g.dateOfBirth,
             deathDate: g.deathDate,
-            individualTitles: g.individualTitles,
-            teamTitles: g.teamTitles,
             playedWorldCup: g.playedWorldCup,
             comparisons: g.comparisons,
             isCorrect: g.isCorrect
