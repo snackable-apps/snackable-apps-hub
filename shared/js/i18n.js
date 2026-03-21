@@ -351,23 +351,6 @@ class I18n {
               proTip: 'Start with popular movies to quickly narrow down the decade and genre!'
             }
           },
-          books: {
-            title: 'Books Quiz',
-            subtitle: 'Guess the book from the clues',
-            inputPlaceholder: 'Type a book title...',
-            author: 'Author',
-            year: 'Year',
-            pages: 'Pages',
-            genres: 'Genres'
-          },
-          music: {
-            title: 'Music Quiz',
-            subtitle: 'Guess the song from the clues',
-            inputPlaceholder: 'Type a song title...',
-            artist: 'Artist',
-            album: 'Album',
-            year: 'Year'
-          },
           blindtest: {
             title: 'Blind Test',
             subtitle: 'Listen and guess the song',
@@ -423,34 +406,6 @@ class I18n {
               artistDisplayed: 'Artist displayed',
               artistNotDisplayed: 'Artist NOT displayed'
             }
-          },
-          f1: {
-            loadingMessage: '🏎️ Warming up the tires...'
-          },
-          tennis: {
-            loadingMessage: '🎾 Stretching up...'
-          },
-          music: {
-            loadingMessage: '🎵 Tuning the instruments...'
-          },
-          books: {
-            loadingMessage: '📚 Opening the library...'
-          },
-          animal: {
-            loadingMessage: '🐾 On safari...'
-          },
-          fut: {
-            loadingMessage: '⚽ Warming up on the pitch...'
-          },
-          animals: {
-            title: 'Animal Quiz',
-            subtitle: 'Guess the animal from the clues',
-            inputPlaceholder: 'Type an animal name...'
-          },
-          f1: {
-            title: 'F1 Quiz',
-            subtitle: 'Guess the F1 driver',
-            inputPlaceholder: 'Type a driver name...'
           },
           football: {
             title: 'Football Quiz',
@@ -934,41 +889,6 @@ class I18n {
           wrong: 'Faux'
         },
         games: {
-          movies: {
-            title: 'Quiz Films',
-            subtitle: 'Devinez le film à partir des indices',
-            inputPlaceholder: 'Tapez un titre de film...',
-            cluesSummary: 'Résumé des indices',
-            director: 'Réalisateur',
-            directors: 'Réalisateurs',
-            year: 'Année',
-            country: 'Pays',
-            cast: 'Casting',
-            actors: 'Acteurs',
-            rating: 'Note IMDB',
-            runtime: 'Durée',
-            genres: 'Genres',
-            loadingMessage: '🎬 Fin du tournage...',
-            newMovieDaily: 'Un nouveau film chaque jour ! 🎬',
-            dataAttribution: 'Données fournies par IMDb API sur RapidAPI'
-          },
-          books: {
-            title: 'Quiz Livres',
-            subtitle: 'Devinez le livre à partir des indices',
-            inputPlaceholder: 'Tapez un titre de livre...',
-            author: 'Auteur',
-            year: 'Année',
-            pages: 'Pages',
-            genres: 'Genres'
-          },
-          music: {
-            title: 'Quiz Musique',
-            subtitle: 'Devinez la chanson à partir des indices',
-            inputPlaceholder: 'Tapez un titre de chanson...',
-            artist: 'Artiste',
-            album: 'Album',
-            year: 'Année'
-          },
           blindtest: {
             title: 'Blind Test',
             subtitle: 'Écoutez et devinez la chanson',
@@ -1024,35 +944,6 @@ class I18n {
               artistDisplayed: 'Artiste affiché',
               artistNotDisplayed: 'Artiste NON affiché'
             }
-          },
-          f1: {
-            loadingMessage: '🏎️ Chauffe des pneus...',
-            dailyIntro: 'Chaque jour, un pilote de F1 secret est sélectionné. Devinez en utilisant les indices !'
-          },
-          tennis: {
-            loadingMessage: '🎾 Échauffement en cours...'
-          },
-          music: {
-            loadingMessage: '🎵 Accordage des instruments...'
-          },
-          books: {
-            loadingMessage: '📚 Ouverture de la bibliothèque...'
-          },
-          animal: {
-            loadingMessage: '🐾 En safari...'
-          },
-          fut: {
-            loadingMessage: '⚽ Échauffement sur le terrain...'
-          },
-          animals: {
-            title: 'Quiz Animaux',
-            subtitle: 'Devinez l\'animal',
-            inputPlaceholder: 'Tapez un nom d\'animal...'
-          },
-          f1: {
-            title: 'Quiz F1',
-            subtitle: 'Devinez le pilote F1',
-            inputPlaceholder: 'Tapez un nom de pilote...'
           },
           football: {
             title: 'Quiz Football',
@@ -1155,6 +1046,7 @@ class I18n {
             subtitle: 'Devinez le pilote F1',
             inputPlaceholder: 'Tapez un nom de pilote...',
             loadingMessage: '🏎️ Chauffe des pneus...',
+            dailyIntro: 'Chaque jour, un pilote de F1 secret est sélectionné. Devinez en utilisant les indices !',
             cluesSummary: 'Résumé des indices',
             age: 'Âge',
             wdc: 'WDC',
@@ -1576,115 +1468,12 @@ class I18n {
           wrong: 'Errado'
         },
         games: {
-          movies: {
-            title: 'Quiz de Filmes',
-            subtitle: 'Adivinhe o filme pelas dicas',
-            inputPlaceholder: 'Digite o título do filme...',
-            cluesSummary: 'Resumo das dicas',
-            director: 'Diretor',
-            directors: 'Diretores',
-            year: 'Ano',
-            country: 'País',
-            cast: 'Elenco',
-            actors: 'Atores',
-            rating: 'Nota IMDB',
-            runtime: 'Duração',
-            genres: 'Gêneros',
-            loadingMessage: '🎬 Finalizando as filmagens...',
-            newMovieDaily: 'Um novo filme todo dia! 🎬',
-            dataAttribution: 'Dados fornecidos por IMDb API no RapidAPI'
-          },
-          books: {
-            title: 'Quiz de Livros',
-            subtitle: 'Adivinhe o livro pelas dicas',
-            inputPlaceholder: 'Digite o título do livro...',
-            author: 'Autor',
-            year: 'Ano',
-            pages: 'Páginas',
-            genres: 'Gêneros'
-          },
-          music: {
-            title: 'Quiz de Música',
-            subtitle: 'Adivinhe a música pelas dicas',
-            inputPlaceholder: 'Digite o título da música...',
-            artist: 'Artista',
-            album: 'Álbum',
-            year: 'Ano'
-          },
-          blindtest: {
-            title: 'Blind Test',
-            subtitle: 'Ouça e adivinhe a música',
-            inputPlaceholder: 'Digite o título...',
-            displayArtist: 'Exibir Artista',
-            displayArtistDesc: 'Mostra o nome do artista como dica',
-            multipleChoice: 'Múltipla escolha',
-            multipleChoiceDesc: 'Escolha entre 4 opções',
-            round: 'Rodada',
-            matchComplete: 'Partida completa!',
-            totalScore: 'Pontuação total',
-            avgTime: 'Tempo médio',
-            nextMatchSettings: 'Configurações para a próxima partida:',
-            nextMatch: 'Partida aleatória',
-            startTitle: 'Pronto para jogar?',
-            startDesc: 'Ouça 5 trechos e adivinhe os títulos. Quanto mais rápido responder, mais pontos você ganha!',
-            dailyComplete: 'Desafio diário completo!',
-            playRandomDesc: 'Você pode jogar quantas partidas aleatórias quiser.',
-            loadingMessage: '🎧 Conectando os fones...'
-          },
-          f1: {
-            loadingMessage: '🏎️ Aquecendo os pneus...'
-          },
-          tennis: {
-            loadingMessage: '🎾 Aquecendo...',
-            dailyIntro: 'Cada dia, um jogador de tênis secreto é selecionado. Adivinhe usando as dicas!'
-          },
-          music: {
-            loadingMessage: '🎵 Afinando os instrumentos...'
-          },
-          books: {
-            loadingMessage: '📚 Abrindo a biblioteca...'
-          },
-          animal: {
-            loadingMessage: '🐾 Em safári...'
-          },
-          fut: {
-            loadingMessage: '⚽ Aquecendo em campo...'
-          },
-          animals: {
-            title: 'Quiz de Animais',
-            subtitle: 'Adivinhe o animal',
-            inputPlaceholder: 'Digite o nome do animal...'
-          },
-          f1: {
-            title: 'Quiz de F1',
-            subtitle: 'Adivinhe o piloto de F1',
-            inputPlaceholder: 'Digite o nome do piloto...'
-          },
-          football: {
-            title: 'Quiz de Futebol',
-            subtitle: 'Adivinhe o jogador',
-            inputPlaceholder: 'Digite o nome do jogador...',
-            loadingMessage: '⚽ Aquecendo em campo...',
-            cluesSummary: 'Resumo das Pistas',
-            age: 'Idade',
-            height: 'Altura',
-            nationality: 'Nacionalidade',
-            club: 'Clube',
-            position: 'Posição',
-            foot: 'Pé',
-            worldCup: 'Copa do Mundo?',
-            leagues: 'Ligas',
-            titles: 'Títulos',
-            notNationality: '❌ Nacionalidade:',
-            notClub: '❌ Clube:',
-            notPosition: '❌ Posição:',
-            notFoot: '❌ Pé:'
-          },
           tennis: {
             title: 'Quiz de Tênis',
             subtitle: 'Adivinhe o tenista',
             inputPlaceholder: 'Digite o nome do jogador...',
             loadingMessage: '🎾 Aquecendo...',
+            dailyIntro: 'Cada dia, um jogador de tênis secreto é selecionado. Adivinhe usando as dicas!',
             cluesSummary: 'Resumo das Pistas',
             age: 'Idade',
             ranking: 'Ranking',
@@ -1719,6 +1508,7 @@ class I18n {
             subtitle: 'Adivinhe o piloto de F1',
             inputPlaceholder: 'Digite o nome do piloto...',
             loadingMessage: '🏎️ Esquentando os pneus...',
+            dailyIntro: 'Cada dia, um piloto de F1 secreto é selecionado. Adivinhe usando as dicas!',
             cluesSummary: 'Resumo das Dicas',
             age: 'Idade',
             wdc: 'WDC',
@@ -2257,115 +2047,12 @@ class I18n {
           wrong: 'Sbagliato'
         },
         games: {
-          movies: {
-            title: 'Quiz Film',
-            subtitle: 'Indovina il film dagli indizi',
-            inputPlaceholder: 'Scrivi il titolo del film...',
-            cluesSummary: 'Riepilogo indizi',
-            director: 'Regista',
-            directors: 'Registi',
-            year: 'Anno',
-            country: 'Paese',
-            cast: 'Cast',
-            actors: 'Attori',
-            rating: 'Voto IMDB',
-            runtime: 'Durata',
-            genres: 'Generi',
-            loadingMessage: '🎬 Fine delle riprese...',
-            newMovieDaily: 'Un nuovo film ogni giorno! 🎬',
-            dataAttribution: 'Dati forniti da IMDb API su RapidAPI'
-          },
-          books: {
-            title: 'Quiz Libri',
-            subtitle: 'Indovina il libro dagli indizi',
-            inputPlaceholder: 'Scrivi il titolo del libro...',
-            author: 'Autore',
-            year: 'Anno',
-            pages: 'Pagine',
-            genres: 'Generi'
-          },
-          music: {
-            title: 'Quiz Musica',
-            subtitle: 'Indovina la canzone dagli indizi',
-            inputPlaceholder: 'Scrivi il titolo della canzone...',
-            artist: 'Artista',
-            album: 'Album',
-            year: 'Anno'
-          },
-          blindtest: {
-            title: 'Blind Test',
-            subtitle: 'Ascolta e indovina la canzone',
-            inputPlaceholder: 'Scrivi il titolo...',
-            displayArtist: 'Mostra Artista',
-            displayArtistDesc: 'Mostra il nome dell\'artista come suggerimento',
-            multipleChoice: 'Scelta multipla',
-            multipleChoiceDesc: 'Scegli tra 4 opzioni',
-            round: 'Round',
-            matchComplete: 'Match completo!',
-            totalScore: 'Punteggio totale',
-            avgTime: 'Tempo medio',
-            nextMatchSettings: 'Impostazioni per il prossimo match:',
-            nextMatch: 'Match casuale',
-            startTitle: 'Pronto a giocare?',
-            startDesc: 'Ascolta 5 estratti e indovina i titoli. Più veloce rispondi, più punti guadagni!',
-            dailyComplete: 'Sfida giornaliera completata!',
-            playRandomDesc: 'Puoi giocare quanti match casuali vuoi.',
-            loadingMessage: '🎧 Collegando le cuffie...'
-          },
-          f1: {
-            loadingMessage: '🏎️ Riscaldando le gomme...'
-          },
-          tennis: {
-            loadingMessage: '🎾 Riscaldamento...',
-            dailyIntro: 'Ogni giorno viene selezionato un tennista segreto. Indovina usando gli indizi!'
-          },
-          music: {
-            loadingMessage: '🎵 Accordando gli strumenti...'
-          },
-          books: {
-            loadingMessage: '📚 Aprendo la biblioteca...'
-          },
-          animal: {
-            loadingMessage: '🐾 In safari...'
-          },
-          fut: {
-            loadingMessage: '⚽ Riscaldamento in campo...'
-          },
-          animals: {
-            title: 'Quiz Animali',
-            subtitle: 'Indovina l\'animale',
-            inputPlaceholder: 'Scrivi il nome dell\'animale...'
-          },
-          f1: {
-            title: 'Quiz F1',
-            subtitle: 'Indovina il pilota F1',
-            inputPlaceholder: 'Scrivi il nome del pilota...'
-          },
-          football: {
-            title: 'Quiz Calcio',
-            subtitle: 'Indovina il calciatore',
-            inputPlaceholder: 'Scrivi il nome del giocatore...',
-            loadingMessage: '⚽ Riscaldamento in campo...',
-            cluesSummary: 'Riepilogo indizi',
-            age: 'Età',
-            height: 'Altezza',
-            nationality: 'Nazionalità',
-            club: 'Club',
-            position: 'Posizione',
-            foot: 'Piede',
-            worldCup: 'Coppa del Mondo?',
-            leagues: 'Campionati',
-            titles: 'Titoli',
-            notNationality: '❌ Nazionalità:',
-            notClub: '❌ Club:',
-            notPosition: '❌ Posizione:',
-            notFoot: '❌ Piede:'
-          },
           tennis: {
             title: 'Quiz Tennis',
             subtitle: 'Indovina il tennista',
             inputPlaceholder: 'Scrivi il nome del giocatore...',
             loadingMessage: '🎾 Riscaldamento...',
+            dailyIntro: 'Ogni giorno viene selezionato un tennista segreto. Indovina usando gli indizi!',
             cluesSummary: 'Riepilogo indizi',
             age: 'Età',
             ranking: 'Classifica',
@@ -2400,6 +2087,7 @@ class I18n {
             subtitle: 'Indovina il pilota F1',
             inputPlaceholder: 'Scrivi il nome del pilota...',
             loadingMessage: '🏎️ Riscaldamento gomme...',
+            dailyIntro: 'Ogni giorno viene selezionato un pilota di F1 segreto. Indovina usando gli indizi!',
             cluesSummary: 'Riepilogo indizi',
             age: 'Età',
             wdc: 'WDC',
@@ -2938,115 +2626,12 @@ class I18n {
           wrong: 'Incorrecto'
         },
         games: {
-          movies: {
-            title: 'Quiz de Películas',
-            subtitle: 'Adivina la película por las pistas',
-            inputPlaceholder: 'Escribe el título de la película...',
-            cluesSummary: 'Resumen de pistas',
-            director: 'Director',
-            directors: 'Directores',
-            year: 'Año',
-            country: 'País',
-            cast: 'Reparto',
-            actors: 'Actores',
-            rating: 'Nota IMDB',
-            runtime: 'Duración',
-            genres: 'Géneros',
-            loadingMessage: '🎬 Finalizando el rodaje...',
-            newMovieDaily: '¡Una nueva película cada día! 🎬',
-            dataAttribution: 'Datos proporcionados por IMDb API en RapidAPI'
-          },
-          books: {
-            title: 'Quiz de Libros',
-            subtitle: 'Adivina el libro por las pistas',
-            inputPlaceholder: 'Escribe el título del libro...',
-            author: 'Autor',
-            year: 'Año',
-            pages: 'Páginas',
-            genres: 'Géneros'
-          },
-          music: {
-            title: 'Quiz de Música',
-            subtitle: 'Adivina la canción por las pistas',
-            inputPlaceholder: 'Escribe el título de la canción...',
-            artist: 'Artista',
-            album: 'Álbum',
-            year: 'Año'
-          },
-          blindtest: {
-            title: 'Blind Test',
-            subtitle: 'Escucha y adivina la canción',
-            inputPlaceholder: 'Escribe el título...',
-            displayArtist: 'Mostrar Artista',
-            displayArtistDesc: 'Muestra el nombre del artista como pista',
-            multipleChoice: 'Opción múltiple',
-            multipleChoiceDesc: 'Elige entre 4 opciones',
-            round: 'Ronda',
-            matchComplete: '¡Partida completa!',
-            totalScore: 'Puntuación total',
-            avgTime: 'Tiempo promedio',
-            nextMatchSettings: 'Configuración para la próxima partida:',
-            nextMatch: 'Partida aleatoria',
-            startTitle: '¿Listo para jugar?',
-            startDesc: 'Escucha 5 fragmentos y adivina los títulos. ¡Cuanto más rápido respondas, más puntos ganas!',
-            dailyComplete: '¡Desafío diario completado!',
-            playRandomDesc: 'Puedes jugar tantas partidas aleatorias como quieras.',
-            loadingMessage: '🎧 Conectando los auriculares...'
-          },
-          f1: {
-            loadingMessage: '🏎️ Calentando los neumáticos...'
-          },
-          tennis: {
-            loadingMessage: '🎾 Calentando...',
-            dailyIntro: 'Cada día se selecciona un tenista secreto. ¡Adivina usando las pistas!'
-          },
-          music: {
-            loadingMessage: '🎵 Afinando los instrumentos...'
-          },
-          books: {
-            loadingMessage: '📚 Abriendo la biblioteca...'
-          },
-          animal: {
-            loadingMessage: '🐾 En safari...'
-          },
-          fut: {
-            loadingMessage: '⚽ Calentando en el campo...'
-          },
-          animals: {
-            title: 'Quiz de Animales',
-            subtitle: 'Adivina el animal',
-            inputPlaceholder: 'Escribe el nombre del animal...'
-          },
-          f1: {
-            title: 'Quiz de F1',
-            subtitle: 'Adivina el piloto de F1',
-            inputPlaceholder: 'Escribe el nombre del piloto...'
-          },
-          football: {
-            title: 'Quiz de Fútbol',
-            subtitle: 'Adivina el jugador',
-            inputPlaceholder: 'Escribe el nombre del jugador...',
-            loadingMessage: '⚽ Calentando en el campo...',
-            cluesSummary: 'Resumen de pistas',
-            age: 'Edad',
-            height: 'Altura',
-            nationality: 'Nacionalidad',
-            club: 'Club',
-            position: 'Posición',
-            foot: 'Pie',
-            worldCup: '¿Copa del Mundo?',
-            leagues: 'Ligas',
-            titles: 'Títulos',
-            notNationality: '❌ Nacionalidad:',
-            notClub: '❌ Club:',
-            notPosition: '❌ Posición:',
-            notFoot: '❌ Pie:'
-          },
           tennis: {
             title: 'Quiz de Tenis',
             subtitle: 'Adivina el tenista',
             inputPlaceholder: 'Escribe el nombre del jugador...',
             loadingMessage: '🎾 Calentando...',
+            dailyIntro: 'Cada día se selecciona un tenista secreto. ¡Adivina usando las pistas!',
             cluesSummary: 'Resumen de pistas',
             age: 'Edad',
             ranking: 'Ranking',
@@ -3081,6 +2666,7 @@ class I18n {
             subtitle: 'Adivina el piloto de F1',
             inputPlaceholder: 'Escribe el nombre del piloto...',
             loadingMessage: '🏎️ Calentando neumáticos...',
+            dailyIntro: '¡Cada día se selecciona un piloto de F1 secreto. ¡Adivina usando las pistas!',
             cluesSummary: 'Resumen de pistas',
             age: 'Edad',
             wdc: 'WDC',

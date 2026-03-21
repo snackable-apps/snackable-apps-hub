@@ -139,6 +139,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log('initializeAfterLoad: Starting new game');
         guessSection.style.display = 'flex';
         initializeGame();
+        const inProgress = gameStorage.getDailyProgress();
+        if (inProgress && inProgress.gameData && inProgress.gameData.guesses && inProgress.gameData.guesses.length > 0) {
+          restoreInProgress(inProgress);
+        }
       }
     } else {
       console.error('No songs available in secret pool. ALL_SONGS difficulties:', 
@@ -252,6 +256,38 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Update guess count display
     guessCountEl.textContent = gameState.guesses.length;
+  }
+
+  function restoreInProgress(progress) {
+    const savedGuesses = progress.gameData.guesses;
+    gameState.guesses = savedGuesses;
+    GameUtils.restoreInProgressUI({
+      guesses: savedGuesses,
+      displayGuess,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessCountEl
+    });
+    renderCluesPanel();
+  }
+
+  function saveProgress() {
+    if (gameState.isRandomMode || gameState.isGameOver) return;
+    gameStorage.saveDailyProgress({
+      gameData: {
+        guesses: gameState.guesses.map(g => ({
+          name: g.name,
+          artist: g.artist,
+          albumImage: g.albumImage,
+          releaseYear: g.releaseYear,
+          decade: g.decade,
+          primaryGenre: g.primaryGenre,
+          duration: g.duration,
+          comparisons: g.comparisons
+        }))
+      }
+    });
   }
   
   // Play Random
@@ -639,7 +675,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     displayGuess(guess, comparisons);
     updateGameState();
-    
+    saveProgress();
+
     // Check if solved
     if (guess.name === gameState.secretSong.name) {
       endGame(true);

@@ -17,10 +17,13 @@
   // Map pathname to clean game name (for event naming)
   const GAME_NAME_MAP = {
     'blind-test': 'blindtest',
+    'blind-test-brasil': 'blindtest_brasil',
+    'blind-test-sertanejo': 'blindtest_sertanejo',
     'movies-quiz': 'movies',
     'f1-quiz': 'f1',
     'fut-quiz': 'futquiz',
     'tennis-quiz': 'tennis',
+    'clubs-quiz': 'clubs',
     'animal': 'animal',
     'music': 'music',
     'books-quiz': 'books',

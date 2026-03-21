@@ -74,8 +74,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (dailyCompleted && dailyState) {
           restoreDailyResult();
         } else {
+          const inProgress = gameStorage.getDailyProgress();
           guessSection.style.display = 'flex';
           initializeGame();
+          if (inProgress && inProgress.gameData && inProgress.gameData.guesses && inProgress.gameData.guesses.length > 0) {
+            restoreInProgress(inProgress);
+          }
         }
       } else {
         console.error('No animals available in secret pool');
@@ -154,6 +158,41 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Update guess count display
     guessCountEl.textContent = gameState.guesses.length;
+  }
+
+  function restoreInProgress(progress) {
+    const savedGuesses = progress.gameData.guesses;
+    gameState.guesses = savedGuesses;
+    GameUtils.restoreInProgressUI({
+      guesses: savedGuesses,
+      displayGuess,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessCountEl
+    });
+    renderCluesPanel();
+  }
+
+  function saveProgress() {
+    if (gameState.isRandomMode || gameState.isGameOver) return;
+    gameStorage.saveDailyProgress({
+      gameData: {
+        guesses: gameState.guesses.map(g => ({
+          name: g.name,
+          class: g.class,
+          diet: g.diet,
+          activity: g.activity,
+          continent: g.continent,
+          habitat: g.habitat,
+          weight: g.weight,
+          lifespan: g.lifespan,
+          domesticated: g.domesticated,
+          emoji: g.emoji,
+          comparisons: g.comparisons
+        }))
+      }
+    });
   }
   
   // Play Random
@@ -653,7 +692,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     displayGuess(guess, comparisons);
     updateGameState();
-    
+    saveProgress();
+
     // Check if solved
     if (guess.name === gameState.secretAnimal.name) {
       endGame(true);

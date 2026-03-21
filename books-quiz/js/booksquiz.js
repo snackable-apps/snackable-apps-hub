@@ -121,8 +121,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (dailyCompleted && dailyState) {
         restoreDailyResult();
       } else {
+        const inProgress = gameStorage.getDailyProgress();
         guessSection.style.display = 'flex';
         initializeGame();
+        if (inProgress && inProgress.gameData && inProgress.gameData.guesses && inProgress.gameData.guesses.length > 0) {
+          restoreInProgress(inProgress);
+        }
       }
     } else {
       console.error('No books available in secret pool');
@@ -224,6 +228,42 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Update guess count display
     guessCountEl.textContent = gameState.guesses.length;
+  }
+
+  function restoreInProgress(progress) {
+    const savedGuesses = progress.gameData.guesses;
+    gameState.guesses = savedGuesses;
+    GameUtils.restoreInProgressUI({
+      guesses: savedGuesses,
+      displayGuess,
+      updateCluesState,
+      resetCluesState,
+      guessesContainer,
+      guessCountEl
+    });
+    renderCluesPanel();
+    if (gameState.guesses.length > 0 && easyModeToggle) {
+      easyModeToggle.disabled = true;
+      easyModeToggle.parentElement.classList.add('disabled');
+    }
+  }
+
+  function saveProgress() {
+    if (gameState.isRandomMode || gameState.isGameOver) return;
+    gameStorage.saveDailyProgress({
+      gameData: {
+        guesses: gameState.guesses.map(g => ({
+          title: g.title,
+          author: g.author,
+          genre: g.genre,
+          publicationYear: g.publicationYear,
+          originalLanguage: g.originalLanguage,
+          coverImage: g.coverImage,
+          comparisons: g.comparisons,
+          isCorrect: g.isCorrect
+        }))
+      }
+    });
   }
   
   // Play Random
@@ -580,7 +620,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     displayGuess(guess, comparisons);
     updateGameState();
-    
+    saveProgress();
+
     if (guess.title === gameState.secretBook.title) {
       endGame(true);
       return;
