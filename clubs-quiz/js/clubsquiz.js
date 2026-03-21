@@ -200,6 +200,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ========== DISPLAY ==========
+  function formatCapacity(num) {
+    if (num == null) return '?';
+    return Math.round(num / 1000) + 'k';
+  }
+
   function getFeedbackText(property, comparison, value) {
     const propertyNames = {
       'country': 'Country',
@@ -224,7 +229,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (property === 'stadiumCapacity') {
-      value = value ? GameUtils.formatNumber(value) : '?';
+      value = value ? formatCapacity(value) : '?';
     }
 
     if (comparison === 'match') return `✅ ${propertyName}: ${value}`;
@@ -312,16 +317,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (gameState.guesses.length === 0) { cluesPanel.style.display = 'none'; return; }
     cluesPanel.style.display = 'block';
 
-    function renderRange(itemId, valueId, min, max, confirmed, formatter) {
+    function renderRange(itemId, valueId, min, max, confirmed, formatter, step) {
       const item = document.getElementById(itemId);
       const value = document.getElementById(valueId);
-      const result = GameUtils.formatClueRange({ min, max, confirmed, formatter: formatter || (v => v) });
+      const fmt = formatter || (v => v);
+      const s = step || 1;
+
+      if (s > 1) {
+        if (confirmed !== null && confirmed !== undefined) {
+          item.className = 'clue-item confirmed';
+          value.textContent = fmt(confirmed);
+        } else if (min !== null || max !== null) {
+          item.className = 'clue-item narrowed';
+          if (min !== null && max !== null) {
+            const lo = min + s, hi = max - s;
+            value.textContent = lo >= hi ? fmt(lo) : `${fmt(lo)} – ${fmt(hi)}`;
+          } else if (min !== null) {
+            value.textContent = `> ${fmt(min + s)}`;
+          } else {
+            value.textContent = `< ${fmt(max - s)}`;
+          }
+        } else {
+          item.className = 'clue-item';
+          value.textContent = '?';
+        }
+        return;
+      }
+
+      const result = GameUtils.formatClueRange({ min, max, confirmed, formatter: fmt });
       item.className = result.className ? `clue-item ${result.className}` : 'clue-item';
       value.textContent = result.text;
     }
 
     renderRange('clue-founded', 'clue-founded-value', cluesState.foundedMin, cluesState.foundedMax, cluesState.foundedConfirmed);
-    renderRange('clue-capacity', 'clue-capacity-value', cluesState.capacityMin, cluesState.capacityMax, cluesState.capacityConfirmed, v => GameUtils.formatNumber(v));
+    renderRange('clue-capacity', 'clue-capacity-value', cluesState.capacityMin, cluesState.capacityMax, cluesState.capacityConfirmed, formatCapacity, 1000);
 
     const countryItem = document.getElementById('clue-country');
     const countryValue = document.getElementById('clue-country-value');
@@ -478,7 +507,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
           <span class="property-feedback answer-reveal-feedback">Country: ${secret.country}</span>
           <span class="property-feedback answer-reveal-feedback">Founded: ${secret.foundedYear}</span>
-          <span class="property-feedback answer-reveal-feedback">Stadium: ${secret.stadium} (${GameUtils.formatNumber(secret.stadiumCapacity)})</span>
+          <span class="property-feedback answer-reveal-feedback">Stadium: ${secret.stadium} (${formatCapacity(secret.stadiumCapacity)})</span>
           <span class="property-feedback answer-reveal-feedback">Titles: ${titlesDisplay}</span>
         </div>
       </div>
@@ -629,6 +658,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       guesses: savedGuesses, displayGuess, updateCluesState, resetCluesState,
       guessesContainer, guessCountEl
     });
+    renderCluesPanel();
   }
 
   function saveProgress() {

@@ -187,6 +187,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       guessesContainer,
       guessCountEl
     });
+    renderCluesPanel();
   }
 
   function saveProgress() {
@@ -283,9 +284,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function getDailyPlayer() {
     const dateString = getDateString();
-    const date = new Date(dateString);
-    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-    const index = dayOfYear % DAILY_ELIGIBLE_PLAYERS.length;
+    const index = GameUtils.getDailyIndex(dateString, DAILY_ELIGIBLE_PLAYERS.length, 'fut');
     return DAILY_ELIGIBLE_PLAYERS[index];
   }
 

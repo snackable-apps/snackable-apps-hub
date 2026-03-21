@@ -316,10 +316,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function getDailySong() {
     const dateString = getDateString();
-    const date = new Date(dateString);
-    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-    
-    const index = dayOfYear % SECRET_POOL.length;
+    const index = GameUtils.getDailyIndex(dateString, SECRET_POOL.length, 'music');
     return SECRET_POOL[index];
   }
 

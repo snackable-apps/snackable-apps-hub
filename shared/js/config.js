@@ -24,13 +24,17 @@ const GameConfig = {
   GA_MEASUREMENT_IDS: {
     hub: 'G-Z9BWP9G3HS',
     blindtest: 'G-KW4DNXXF1X',
-    movies: 'G-Z9BWP9G3HS', // Uses hub ID
-    f1: 'G-Z9BWP9G3HS',
-    football: 'G-Z9BWP9G3HS',
-    tennis: 'G-Z9BWP9G3HS',
-    animals: 'G-Z9BWP9G3HS',
-    music: 'G-Z9BWP9G3HS',
-    books: 'G-Z9BWP9G3HS'
+    'blindtest-brasil': 'G-45G1KGZV9V',
+    'blindtest-sertanejo': 'G-7YX4QENTHT',
+    clubs: 'G-6S9JSMH30K',
+    movies: 'G-C4MDJKZPMC',
+    f1: 'G-DC68HTMMT2',
+    football: 'G-Z5XCYGGR6Y',
+    tennis: 'G-GTKZK6BGS2',
+    animals: 'G-EDNGW8M68P',
+    music: 'G-DCKR2HQ4K8',
+    books: 'G-FQHMLZW50Z',
+    sudoku: 'G-MKPC7JY0E7'
   },
   
   // Feature flags

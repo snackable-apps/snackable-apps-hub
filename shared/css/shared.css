@@ -425,17 +425,6 @@ header .header-controls {
   color: #fff;
 }
 
-/* ========== COMMON GAME CARD ========== */
-
-.game-card {
-  background: var(--card-bg, #1f1f2e);
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: var(--shadow, 0 4px 6px -1px rgba(0, 0, 0, 0.3));
-  border: 1px solid var(--border-color, #2d2d3d);
-  width: 100%;
-}
-
 /* ========== COMMON INPUT STYLES ========== */
 
 .game-input {

@@ -1,4 +1,19 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  // ========== CONFIG (must be first — used by storage init below) ==========
+  const _cfg = window.BLINDTEST_CONFIG || {};
+  const CATEGORY = _cfg.category || 'international';
+  const STORAGE_KEY = _cfg.storageKey || 'blindtest';
+  const GA4_ID = _cfg.ga4Id || 'G-KW4DNXXF1X';
+  const SHARE_EMOJI = _cfg.shareEmoji || '🎧';
+  const SHARE_TITLE = _cfg.shareTitle || 'Blind Test';
+  const SHARE_PATH = _cfg.sharePath || 'blind-test';
+  const FEEDBACK_LABEL = _cfg.feedbackLabel || 'Blind Test';
+
+  const SONGS_PER_MATCH = 5;
+  const MAX_POINTS_PER_SONG = 100;
+  const SONG_DURATION = 30;
+  const API_URL = `https://snackable-api.vercel.app/api/songs?category=${CATEGORY}`;
+
   // ========== SHARED UTILITIES ==========
   
   // Initialize i18n (internationalization)
@@ -69,22 +84,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Summary toggles (for settings before random match)
   const summaryEasyMode = document.getElementById("summary-easy-mode");
   const summaryMultipleChoice = document.getElementById("summary-multiple-choice");
-
-  // Configurable via window.BLINDTEST_CONFIG (set before loading this script)
-  const _cfg = window.BLINDTEST_CONFIG || {};
-  const CATEGORY = _cfg.category || 'international';
-  const STORAGE_KEY = _cfg.storageKey || 'blindtest';
-  const GA4_ID = _cfg.ga4Id || 'G-KW4DNXXF1X';
-  const SHARE_EMOJI = _cfg.shareEmoji || '🎧';
-  const SHARE_TITLE = _cfg.shareTitle || 'Blind Test';
-  const SHARE_PATH = _cfg.sharePath || 'blind-test';
-  const FEEDBACK_LABEL = _cfg.feedbackLabel || 'Blind Test';
-
-  // Constants
-  const SONGS_PER_MATCH = 5;
-  const MAX_POINTS_PER_SONG = 100;
-  const SONG_DURATION = 30; // 30 seconds max
-  const API_URL = `https://snackable-api.vercel.app/api/songs?category=${CATEGORY}`;
 
   // State
   let allSongs = [];

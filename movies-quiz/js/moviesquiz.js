@@ -330,6 +330,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       guessesContainer,
       guessCountEl
     });
+    renderCluesPanel();
   }
 
   function saveProgress() {

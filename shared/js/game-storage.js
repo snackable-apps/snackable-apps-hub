@@ -17,7 +17,7 @@ class GameStorage {
   // ========== DATE HELPERS ==========
   
   getDateString(date = new Date()) {
-    return date.toISOString().split('T')[0]; // YYYY-MM-DD in UTC
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   }
 
   getYesterday() {
@@ -287,7 +287,7 @@ class GameStorage {
     const today = new Date();
     const cutoff = new Date(today);
     cutoff.setDate(cutoff.getDate() - 7);
-    const cutoffStr = cutoff.toISOString().split('T')[0];
+    const cutoffStr = `${cutoff.getFullYear()}-${String(cutoff.getMonth() + 1).padStart(2, '0')}-${String(cutoff.getDate()).padStart(2, '0')}`;
 
     const keysToRemove = [];
     for (let i = 0; i < localStorage.length; i++) {
